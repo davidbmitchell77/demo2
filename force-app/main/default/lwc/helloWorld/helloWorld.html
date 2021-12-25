@@ -13,9 +13,9 @@
     </lightning-card>
     <lightning-card title="getter example">
         <div class="slds-var-m-around_medium">
-            <lightning-input type="number" label="Enter 1st number:" placeholder=0 onkeyup={num1Handler}></lightning-input>
-            <lightning-input type="number" label="Enter 2nd number:" placeholder=0 onkeyup={num2Handler}></lightning-input>
-            <div><strong>{num1} ** {num2} = {foobar}</strong></div>
+            <lightning-input type="number" label="Enter 1st number:" placeholder=0 step=1 onkeyup={num1Handler}></lightning-input>
+            <lightning-input type="number" label="Enter 2nd number:" placeholder=0 step=1 onkeyup={num2Handler}></lightning-input>
+            <div><strong>{num1} ** {num2} = {result}</strong></div>
         </div>
     </lightning-card>
 </template>

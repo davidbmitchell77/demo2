@@ -23,7 +23,15 @@ export default class HelloWorld extends LightningElement
         this.address.city = event.target.value;
     }
 
-    get foobar() {
+    num1Handler(event) {
+        this.num1 = ((event.target.value != null) ? event.target.value : 0);
+    }
+ 
+    num2Handler(event) {
+        this.num2 = ((event.target.value != null) ? event.target.value : 0);
+    }
+ 
+    get result() {
         return (this.num1 ** this.num2);
     }
 }
