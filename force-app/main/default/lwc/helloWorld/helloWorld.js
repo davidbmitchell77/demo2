@@ -11,7 +11,7 @@ export default class HelloWorld extends LightningElement
     {
         city: "Chula Vista",
         state: "California",
-        postalCode: "91913",
+        zip: "91913",
         country: "United States"
     }
 
