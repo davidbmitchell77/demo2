@@ -1,5 +1,5 @@
 <template>
-    <lightning-card title="for:each loop (array of strings)">
+    <lightning-card title="for:each loop (array of strings)" icon-name="utility:anywhere_alert">
     <div class="slds-var-m-around_medium">
         <template for:each={cars} for:item="car" for:index="i">
             <ul class="slds-list_dotted" key={car}>
@@ -8,7 +8,7 @@
         </template>
     </div>
     </lightning-card>
-    <lightning-card title="for:each loop (array of objects)">
+    <lightning-card title="for:each loop (array of objects)" icon-name="utility:rotate">
         <div class="slds-var-m-around_medium">
             <template for:each={ceoList} for:item="ceo">
                  <ul class="slds-has-dividers_around-space" key={ceo.id}>
@@ -17,7 +17,7 @@
             </template>
         </div>
     </lightning-card>
-    <lightning-card title="iterator loop (array of objects)">
+    <lightning-card title="iterator loop (array of objects)" icon-name="utility:skip_back">
         <div class="slds-var-m-around_medium">
             <template iterator:ceo={ceoList}>
                 <div key={ceo.value.id}>
