@@ -8,9 +8,9 @@
             <template if:false={isVisible}>
                 <div style="color:maroon"><strong>You cannot see the data.&nbsp;&nbsp;Please click the button.</strong></div>
             </template>
-            <lightning-input type="text" label="Type &quot;hello&quot; to see the data:" onkeyup={changeHandler}></lightning-input>
+            <lightning-input type="text" label="Type &ldquo;hello&rdquo; to see the data:" onkeyup={changeHandler}></lightning-input>
             <template if:true={helloMethod}>
-                <div><strong>Hurray!!!&nbsp;&nbsp;You have typed &quot;{name}&quot; correctly.</strong></div>
+                <div><strong>Hurray!!!&nbsp;&nbsp;You have typed &ldquo;{name}&rdquo; correctly.</strong></div>
             </template>
         </div>
     </lightning-card>
