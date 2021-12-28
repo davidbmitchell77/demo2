@@ -60,8 +60,8 @@ export default class QuizApp extends LightningElement
     {
         const {name, value} = event.target;
         this.selected = {...this.selected, [name]:value};
-      //console.log("name", event.target.name);
-      //console.log("value", event.target.value);
+      //console.log("name:",  event.target.name);
+      //console.log("value:", " event.target.value);
     }
  
     resetHandler()
