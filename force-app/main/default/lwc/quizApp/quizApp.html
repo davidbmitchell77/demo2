@@ -1,0 +1,24 @@
+<!-- sldsValidatorIgnore -->
+<template>
+    <lightning-card title="You People are Ignorant and Need to be Educated!" icon-name="utility:education">
+        <div class="slds-var-m-around_medium">
+            <template if:true={isSubmitted}>
+                <div class="slds-var-m-bottom_small">You have scored {correctAnswers} out of {questions.length} ({score}%).</div>
+            </template>
+            <form>
+                <template for:each={questions} for:item="q" for:index="i">
+                 <div key={q.id}>
+                        <strong>{q.id})</strong> {q.question}
+                        <div class="slds-grid slds-gutters slds-var-p-bottom_small">
+                            <div class="slds-col"><input type="radio" name={q.id} value="a" onchange={changeHandler} />&nbsp;{q.choices.a}</div>
+                            <div class="slds-col"><input type="radio" name={q.id} value="b" onchange={changeHandler} />&nbsp;{q.choices.b}</div>
+                            <div class="slds-col"><input type="radio" name={q.id} value="c" onchange={changeHandler} />&nbsp;{q.choices.c}</div>
+                        </div>
+                    </div>
+                </template>
+                <lightning-button class="slds-var-m-around_small" variant="brand" type="submit" label="Submit" title="Submit Quiz" onclick={submitHandler} disabled={notAllSelected}></lightning-button>
+                <lightning-button class="slds-var-m-around_small" variant="brand" type="reset" label="Reset" title="Reset Quiz" onclick={resetHandler} disabled={notAnySelected}></lightning-button>
+            </form>
+        </div>
+    </lightning-card>
+</template>
