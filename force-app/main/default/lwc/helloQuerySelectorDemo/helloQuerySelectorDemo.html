@@ -1,0 +1,11 @@
+<template>
+    <lightning-card title="querySelector" icon-name="utility:section">
+        <div class="slds-var-m-around_medium">
+            <h1>Hey!&nbsp;&nbsp;I am a heading.</h1>
+            <template for:each={users} for:item="u" for:index="i">
+                <div class="name" key={u}>{u}</div>
+            </template>
+            <button onclick={fetchDetailHandler}>Fetch Details</button>
+        </div>
+    </lightning-card>
+</template>

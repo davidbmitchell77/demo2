@@ -69,6 +69,10 @@ export default class QuizApp extends LightningElement
         this.selected = {};
         this.correctAnswers = 0;
         this.isSubmitted = false;
+        let radios = this.template.querySelectorAll("input[type='radio']");
+        Array.from(radios).forEach(element => {
+            element.checked = false;
+        });
     }
  
     submitHandler(event)
@@ -78,6 +82,5 @@ export default class QuizApp extends LightningElement
         this.correctAnswers = correct.length;
         this.score = (Math.round((correct.length / this.questions.length) * 1000) / 10);
         this.isSubmitted = true;
-      //console.log("this.correctAnswers", this.correctAnswers);
     }
 }
