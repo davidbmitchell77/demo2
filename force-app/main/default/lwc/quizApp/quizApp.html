@@ -3,7 +3,7 @@
     <lightning-card title="You People are Ignorant and Need to be Educated!" icon-name="utility:education">
         <div class="slds-var-m-around_medium">
             <template if:true={isSubmitted}>
-                <div class="slds-var-m-bottom_small">You have scored {correctAnswers} out of {questions.length} ({score}%).</div>
+                <div class={isScoredFull}>You have scored {correctAnswers} out of {questions.length} ({score}%).</div>
             </template>
             <form>
                 <template for:each={questions} for:item="q" for:index="i">

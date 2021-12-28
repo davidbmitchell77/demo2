@@ -42,6 +42,13 @@ export default class QuizApp extends LightningElement
         }
     ]
 
+    get isScoredFull()
+    {
+        let result = "slds-var-m-bottom_medium slds-text-heading_medium ";
+        result += ((this.correctAnswers === this.questions.length) ? "slds-text-color_success" : "slds-text-color_error");
+        return result;
+    }
+
     get notAllSelected() {
         return !(Object.keys(this.selected).length === this.questions.length);
     }
@@ -62,6 +69,7 @@ export default class QuizApp extends LightningElement
     {
         this.selected = {};
         this.correctAnswers = 0;
+        this.isSubmitted = false;
     }
  
     submitHandler(event)
@@ -71,6 +79,6 @@ export default class QuizApp extends LightningElement
         this.correctAnswers = correct.length;
         this.score = (Math.round((correct.length / this.questions.length) * 1000) / 10);
         this.isSubmitted = true;
-        console.log("this.correctAnswers", this.correctAnswers);
+      //console.log("this.correctAnswers", this.correctAnswers);
     }
 }
