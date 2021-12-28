@@ -6,7 +6,7 @@
             </template>
             <form>
                 <template for:each={questions} for:item="q" for:index="i">
-                 <div key={q.id}>
+                    <div key={q.id}>
                         <strong>{q.id})</strong> {q.question}
                         <div class="slds-grid slds-gutters slds-var-p-bottom_small">
                             <div class="slds-col"><input type="radio" name={q.id} value="a" onchange={changeHandler} />&nbsp;{q.choices.a}</div>
