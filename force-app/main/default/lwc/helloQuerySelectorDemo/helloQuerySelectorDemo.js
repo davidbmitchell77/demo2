@@ -1,16 +1,16 @@
-import { LightningElement, track } from 'lwc';
+import { LightningElement } from 'lwc';
 
 export default class HelloQuerySelectorDemo extends LightningElement
 {
-    @track isDisplayed = false;
+    isDisplayed = false;
     users = ["Gene", "Paul", "Ace", "Peter"];
  
     showDetailsHandler()
     {
         const h1 = this.template.querySelector("h1");
-        h1.style.border = "1px solid maroon";
+        h1.style.border = "2px solid maroon";
 
-      //lwc:dom="manual" example 1
+      //lwc:dom="manual" example
         const headerElement = this.template.querySelector(".header");
         headerElement.innerHTML = "<p>Hey!&nbsp;&nbsp;I am a header.</p>";
 
@@ -18,10 +18,6 @@ export default class HelloQuerySelectorDemo extends LightningElement
         Array.from(userElements).forEach(element => {
             element.setAttribute("title", element.innerText);
         });
-
-      //lwc:dom="manual" example 2
-        const footerElement = this.template.querySelector(".footer");
-        footerElement.innerHTML = "<p>Hey!&nbsp;&nbsp;I am a footer.</p>";
 
         this.isDisplayed = true;
     }
@@ -33,9 +29,6 @@ export default class HelloQuerySelectorDemo extends LightningElement
 
         const headerElement = this.template.querySelector(".header");
         headerElement.innerHTML = "";
-  
-        const footerElement = this.template.querySelector(".footer");
-        footerElement.innerHTML = "";
  
         this.isDisplayed = false;
     }
