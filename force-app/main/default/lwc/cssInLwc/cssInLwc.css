@@ -1,13 +1,13 @@
 p {
-    color:royalblue;
+    color: royalblue;
     font-size: 30px;
     border: 1px solid magenta;
 }
 .user {
-    color:indigo;
+    color: indigo;
     font-size: 20px;
 }
 .user:hover {
-    color:crimson;
+    color: crimson;
     font-size: 50px;
 }
