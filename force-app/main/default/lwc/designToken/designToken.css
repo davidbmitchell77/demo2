@@ -1,0 +1,6 @@
+div {
+    color: var(--lwc-brandAccessible);
+    background: var(--lwc-colorBackgroundAlt);
+    font-weight: bold;
+    margin-left: 20px;
+}
