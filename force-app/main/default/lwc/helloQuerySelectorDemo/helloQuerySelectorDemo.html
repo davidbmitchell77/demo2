@@ -2,12 +2,14 @@
     <lightning-card title="querySelector" icon-name="utility:section">
         <div class="slds-var-m-around_medium">
             <h1>Welcome to the query selector demo!</h1>
+            <template if:false={isDisplayed}><div class="slds-var-m-around_xx-small"><button onclick={showDetailsHandler}>Show Details</button></div></template>
+            <template if:true={isDisplayed}><div class="slds-var-m-around_xx-small"><button onclick={hideDetailsHandler}>Hide Details</button></div></template>
             <div class="header slds-var-m-around_x-small" lwc:dom="manual"></div>
-            <template if:true={isDisplayed} for:each={users} for:item="u" for:index="i">
-                <div class="name slds-var-m-around_x-small" key={u}>[{i}] {u}</div>
-            </template>
+            <ul class="slds-list_dotted slds-var-m-around_small">
+                <template if:true={isDisplayed} for:each={users} for:item="u" for:index="i">
+                    <li key={u}>{u}</li>
+                </template>
+            </ul>
         </div>
-       <template if:false={isDisplayed}><div class="slds-var-m-around_small"><button onclick={showDetailsHandler}>Show Details</button></div></template>
-       <template if:true={isDisplayed}><div class="slds-var-m-around_small"><button onclick={hideDetailsHandler}>Hide Details</button></div></template>
     </lightning-card>
 </template>
