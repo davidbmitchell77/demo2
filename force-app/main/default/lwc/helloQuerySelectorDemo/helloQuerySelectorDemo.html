@@ -2,8 +2,8 @@
     <lightning-card title="querySelector" icon-name="utility:section">
         <div class="slds-var-m-around_medium">
             <h1>Welcome to the query selector demo!</h1>
-            <template if:false={isDisplayed}><div class="slds-var-m-around_xx-small"><button onclick={showDetailsHandler}>Show Details</button></div></template>
-            <template if:true={isDisplayed}><div class="slds-var-m-around_xx-small"><button onclick={hideDetailsHandler}>Hide Details</button></div></template>
+            <template if:false={isDisplayed}><div class="slds-var-m-around_xx-small"><button title="Show details" onclick={showDetailsHandler}>Show Details</button></div></template>
+            <template if:true={isDisplayed}><div class="slds-var-m-around_xx-small"><button title="Hide details" onclick={hideDetailsHandler}>Hide Details</button></div></template>
             <div class="header slds-var-m-around_x-small" lwc:dom="manual"></div>
             <ul class="slds-list_dotted slds-var-m-around_small">
                 <template if:true={isDisplayed} for:each={users} for:item="u" for:index="i">
