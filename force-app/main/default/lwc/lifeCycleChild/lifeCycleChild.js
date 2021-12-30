@@ -20,7 +20,7 @@ export default class LifeCycleChild extends LightningElement
     }
 
     disconnectedCallback() {
-        console.log("Child disconnectedCallback called!");
+        console.log("Child disconnectedCallback called.");
         window.clearInterval(this.interval);
     }
 }
