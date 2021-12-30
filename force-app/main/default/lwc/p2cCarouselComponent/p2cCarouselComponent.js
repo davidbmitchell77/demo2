@@ -7,6 +7,6 @@ export default class P2cCarouselComponent extends LightningElement
     handleClick(event)
     {
         event.preventDefault();
-        window.open(event.target.href, event.target.dataset.target);
+        window.open(event.target.href, event.target.dataset.target, "popup");
     }
 }
