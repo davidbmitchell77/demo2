@@ -17,6 +17,12 @@ export default class LifeCycleParent extends LightningElement
         console.log("Parent renderedCallback called.")
     }
 
+    errorCallback(error, stack) {
+        console.log("Parent errorCallback called.")
+        console.log(error.message);
+        console.log(stack)
+    }
+
     handleClick() {
         this.isChildVisible = !(this.isChildVisible);
     }
