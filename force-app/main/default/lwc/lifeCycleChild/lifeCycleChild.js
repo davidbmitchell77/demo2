@@ -11,7 +11,7 @@ export default class LifeCycleChild extends LightningElement
  
     connectedCallback() {
         console.log("Child connectedCallback called.");
-        this.interval = window.setInterval(function() { console.log("Child 10 second interval.") }, (10 * 1000));
+        this.interval = window.setInterval(() => { console.log("Child 10 second interval.") }, (10 * 1000));
     }
  
     renderedCallback() {
