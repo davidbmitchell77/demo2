@@ -1,0 +1,9 @@
+<template>
+    <lightning-card title="Lifecycle Hook Parent" icon-name="utility:replace">
+        <div class="slds-var-m-around_medium">
+            <input type="text" label="Enter your name:" onkeyup={changeHandler}/>
+            {name}
+            <c-life-cycle-child></c-life-cycle-child>
+        </div>
+    </lightning-card>
+</template>
