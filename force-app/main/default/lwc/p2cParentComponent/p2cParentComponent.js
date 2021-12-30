@@ -4,6 +4,7 @@ export default class P2cParentComponent extends LightningElement
 {
     cardHeading = "Parent to Child primitive data communication";
     message = "Hurray!  I got the data.";
+    percentage = 10;
  
     carouselData =
     [
@@ -26,4 +27,8 @@ export default class P2cParentComponent extends LightningElement
             href: "https://www.cnn.com"
         }
     ];
+
+    changeHandler(event) {
+        this.percentage = event.target.value;
+    }
 }

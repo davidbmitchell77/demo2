@@ -5,4 +5,12 @@
     <div>
         <c-p2c-carousel-component carousel-data={carouselData}></c-p2c-carousel-component>
     </div>
+
+    <div class="slds-var-m-bottom_medium"></div>
+    <lightning-card title="Parent to Child communication on action" icon-name="">
+        <lightning-input class="slds-var-m-around_medium" type="number" onkeyup={changeHandler} label="Enter percentage:" value={percentage}></lightning-input>
+        <div class="slds-var-m-around_medium">
+            <c-p2c-progress-component progress={percentage}></c-p2c-progress-component>
+        </div>
+    </lightning-card>
 </template>
