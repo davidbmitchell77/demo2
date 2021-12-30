@@ -1,0 +1,9 @@
+import { LightningElement, api } from 'lwc';
+
+export default class P2cAlertComponent extends LightningElement
+{
+    @api cardHeading;
+    @api message;
+    @api number;
+    @api isValid;
+}
