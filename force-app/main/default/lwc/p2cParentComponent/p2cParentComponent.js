@@ -4,6 +4,7 @@ export default class P2cParentComponent extends LightningElement
 {
     cardHeading = "Parent to Child primitive data communication";
     message = "Hurray!  I got the data.";
+    n = 20;
     percentage = 10;
  
     carouselData =
