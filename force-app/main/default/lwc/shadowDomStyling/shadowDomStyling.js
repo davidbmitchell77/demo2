@@ -6,6 +6,7 @@ export default class ShadowDomStyling extends LightningElement
 
     renderedCallback()
     {
+        console.log("renderedCallback called.");
         if (this.isNotLoaded)
         {
             const style = document.createElement('style');
@@ -27,5 +28,9 @@ export default class ShadowDomStyling extends LightningElement
             this.template.querySelector('lightning-button').appendChild(style);
             this.isNotLoaded = false;
         }
+    }
+
+    disconnectedCallback() {
+        console.log("disconnectedCallback called.");
     }
 }
