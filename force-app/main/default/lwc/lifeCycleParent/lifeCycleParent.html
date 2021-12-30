@@ -1,9 +1,13 @@
 <template>
     <lightning-card title="Lifecycle Hook Parent" icon-name="utility:replace">
         <div class="slds-var-m-around_medium">
-            <input type="text" label="Enter your name:" onkeyup={changeHandler}/>
-            {name}
-            <c-life-cycle-child></c-life-cycle-child>
+            <template if:true={isChildVisible}>
+                <lightning-input variant="brand" label="Hide Child" title="Hide child" onclick={handleClick} class="slds-var-m-left_x-small"></lightning-input>
+            </template>
+            <template if:false={isChildVisible}>
+                <lightning-input variant="brand" label="Show Child" title="Show child" onclick={handleClick} class="slds-var-m-left_x-small"></lightning-input>
+                <c-life-cycle-child></c-life-cycle-child>
+            </template>
         </div>
     </lightning-card>
 </template>
