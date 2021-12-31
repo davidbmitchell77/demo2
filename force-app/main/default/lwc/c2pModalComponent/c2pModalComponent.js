@@ -7,6 +7,6 @@ export default class C2pModalComponent extends LightningElement
     }
 
     footerHandler() {
-        console.log("footer event called.");
+        console.log("Child footerHandler() called.");
     }
 }
