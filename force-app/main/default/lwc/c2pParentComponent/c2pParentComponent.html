@@ -2,6 +2,7 @@
     <lightning-card title="Child to Parent communication" icon-name="utility:arrow_bottom">
         <div class="slds-var-m-around_medium">
             <lightning-button variant="brand" label="Show Modal" title="Show modal popup window." onclick={clickHandler}></lightning-button>
+            <div class="slds-var-m-around_xx-small"><h1>{msg}</h1></div>
             <template if:true={showModal}>
                 <c-c2p-modal-component onclose={closeHandler}></c-c2p-modal-component>
             </template>
