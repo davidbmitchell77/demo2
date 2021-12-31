@@ -10,8 +10,10 @@ export default class C2pParentComponent extends LightningElement
         this.msg = "";
     }
 
-    closeHandler(event) {
+    closeHandler(event)
+    {
         this.msg = event.detail.msg;
         this.showModal = false;
+        console.log(JSON.stringify(event));
     }
 }
