@@ -37,9 +37,9 @@ export default class ReusableComponentDemo extends LightningElement
     renderedCallback()
     {
         const today = new Date();
-        this.year = today.getFullYear();
+        this.weekday = this.weekdays.get(today.getDay());
         this.month = this.months.get(today.getMonth());
         this.day = today.getDate();
-        this.weekday = this.weekdays.get(today.getDay());
+        this.year = today.getFullYear();
     }
 }
