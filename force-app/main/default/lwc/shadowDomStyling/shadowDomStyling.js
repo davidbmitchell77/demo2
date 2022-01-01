@@ -11,17 +11,17 @@ export default class ShadowDomStyling extends LightningElement
         {
             const style = document.createElement('style');
             style.innerText = `c-shadow-dom-styling .slds-button {
-                background: red;
+                background: #9b7653;
                 color: white;
                 font-weight: bold;
             }
             .slds-button:hover {
-                background: red;
+                background: #9b7653;
                 color: white;
                 font-weight: bold;
             }
             .slds-button:not(:hover) {
-                background: red;
+                background: #9b7653;
                 color: white;
                 font-weight: bold;
             }`;
