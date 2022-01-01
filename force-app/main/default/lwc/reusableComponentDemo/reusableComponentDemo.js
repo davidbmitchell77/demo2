@@ -6,7 +6,7 @@ export default class ReusableComponentDemo extends LightningElement
     month;
     day;
     year;
-    
+
     weekdays = new Map
     ([
         [0, 'Sunday'    ],
@@ -17,7 +17,7 @@ export default class ReusableComponentDemo extends LightningElement
         [5, 'Friday'    ],
         [6, 'Saturday'  ]
     ]);
-
+typo
     months = new Map
     ([
         [0, 'January'   ],
