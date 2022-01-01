@@ -1,0 +1,8 @@
+<template>
+    <slot></slot>
+    <slot name="s1"></slot>
+    <slot name="s2"></slot>
+    <footer class="slds-card__footer slds-hide">
+        <slot name="f1" onslotchange={footerHandler}></slot>
+    </footer>
+</template>
