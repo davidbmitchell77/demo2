@@ -43,6 +43,7 @@ export default class ReusableComponentDemo extends LightningElement
         this.weekdays.set(4, 'Thursday');
         this.weekdays.set(5, 'Friday');
         this.weekdays.set(6, 'Saturday');
+
         this.months.set(0, 'January');
         this.months.set(1, 'February');
         this.months.set(2, 'March');
