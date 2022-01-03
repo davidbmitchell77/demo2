@@ -31,5 +31,8 @@ export default class LmsComponentA extends LightningElement
         catch(e) {
             console.error(e);
         }
+
+        this.template.querySelector("lightning-input").value = null;
+        this.noInput = true;
     }
 }
