@@ -9,10 +9,13 @@ export default class LmsComponentA extends LightningElement
 
     inputValue;
     noInput = true;
+    status;
 
-    inputHandler(event) {
+    inputHandler(event)
+    {
         this.inputValue = event.target.value.trim();
         this.noInput = ((this.inputValue > "") ? false : true);
+        this.status = null;
     }
 
     publishMessage()
@@ -24,15 +27,9 @@ export default class LmsComponentA extends LightningElement
             }
         }
 
-        try
-        {
-            publish(this.context, SAMPLEMC, message);
-        }
-        catch(e) {
-            console.error(e);
-        }
-
+        publish(this.context, SAMPLEMC, message);
         this.template.querySelector("lightning-input").value = null;
         this.noInput = true;
+        this.status = "Your message has been published.";
     }
 }
