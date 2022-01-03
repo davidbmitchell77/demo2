@@ -1,7 +1,13 @@
-import { LightningElement } from 'lwc';
+import { LightningElement, wire } from "lwc";
+import { APPLICATION_SCOPE, MessageContext, subscribe } from "lightning/messageService";
+import SAMPLEMC from "@salesforce/messageChannel/SampleMessageChannel__c";
 
-export default class SlotParentDemo extends LightningElement
+export default class LmsComponentX extends LightningElement
 {
+    @wire(MessageContext)
+    context;
+
+    receivedMessage;
     today;
 
     months = new Map
@@ -30,8 +36,12 @@ export default class SlotParentDemo extends LightningElement
         [5, "Friday"    ],
         [6, "Saturday"  ]
     ]);
- 
-   renderedCallback()
+
+    connectedCallback() {
+        this.subscribeMessage();
+    }
+
+    renderedCallback()
     {
         let today = new Date();
         let month = this.months.get(today.getMonth());
@@ -39,5 +49,13 @@ export default class SlotParentDemo extends LightningElement
         let date = today.getDate();
         let year = today.getFullYear();
         this.today = `Today is ${day}, ${month} ${date}, ${year}.`;
+    }
+
+    subscribeMessage() {
+        subscribe(this.context, SAMPLEMC, (message)=>{ this.handleMessage(message); }, { scope: APPLICATION_SCOPE });
+    }
+
+    handleMessage(message) {
+        this.receivedMessage = (message.lmsData.value ? message.lmsData.value : "No message published.");
     }
 }
