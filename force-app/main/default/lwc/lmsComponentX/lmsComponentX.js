@@ -1,5 +1,5 @@
 import { LightningElement, wire } from "lwc";
-import { APPLICATION_SCOPE, MessageContext, subscribe } from "lightning/messageService";
+import { APPLICATION_SCOPE, MessageContext, subscribe, unsubscribe } from "lightning/messageService";
 import SAMPLEMC from "@salesforce/messageChannel/SampleMessageChannel__c";
 
 export default class LmsComponentX extends LightningElement
@@ -8,7 +8,9 @@ export default class LmsComponentX extends LightningElement
     context;
 
     receivedMessage;
+    subscription;
     today;
+    isListening = false;
 
     months = new Map
     ([
@@ -41,6 +43,13 @@ export default class LmsComponentX extends LightningElement
         this.subscribeMessage();
     }
 
+    disconnectedCallback()
+    {
+        if (this.subscription) {
+            unsubscribe(this.subscription);
+        }
+    }
+
     renderedCallback()
     {
         let today = new Date();
@@ -51,11 +60,38 @@ export default class LmsComponentX extends LightningElement
         this.today = `Today is ${day}, ${month} ${date}, ${year}.`;
     }
 
-    subscribeMessage() {
-        subscribe(this.context, SAMPLEMC, (message)=>{ this.handleMessage(message); }, { scope: APPLICATION_SCOPE });
+    disconnectedCallback()
+    {
+        unsubscribe(this.subscription);
+        this.subscription = null;
     }
 
-    handleMessage(message) {
-        this.receivedMessage = (message.lmsData.value ? message.lmsData.value : "No message published.");
+    subscribeMessage()
+    {
+        this.subscripion = subscribe(this.context, SAMPLEMC, (message)=>{ this.handleMessage(message); }, { scope: APPLICATION_SCOPE });
+        this.isListening = true;
+    }
+
+    handleMessage(message)
+    {
+        if (this.isListening) {
+            this.receivedMessage = (message.lmsData.value ? message.lmsData.value : "No message published.");
+        }
+    }
+
+    subscribeButtonHandler() {
+        this.isListening = true;
+    }
+
+    unsubscribeButtonHandler() {
+        this.isListening = false;
+    }
+
+    get isActive() {
+        return (this.isListening);
+    }
+
+    get isNotActive() {
+        return !(this.isListening);
     }
 }

@@ -3,6 +3,10 @@
         <div class="slds-var-m-around_medium">
             Message received: <span style="color: blue; font-style:italic;">{receivedMessage}</span>
         </div>
+        <div class="slds-var-m-around_medium">
+            <lightning-button class="slds-var-m-right_small" variant="Brand" label="Subscribe" onclick={subscribeButtonHandler} disabled={isActive}></lightning-button>
+            <lightning-button class="slds-var-m-right_small" variant="Brand" label="Unsubscribe" onclick={unsubscribeButtonHandler} disabled={isNotActive}></lightning-button>
+        </div>
         <footer class="slds-card__footer">
             <span style="font-size:x-small;">{today}</span>
         </footer>
