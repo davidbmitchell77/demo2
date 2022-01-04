@@ -7,7 +7,6 @@
     },
     inputHandler : function(component, event)
     {
-        console.log(event.target.value);
         component.set("v.messageValue", event.target.value);
     },
     publishMessage : function(component)
@@ -20,5 +19,11 @@
             }
         };
         component.find("SampleMessageChannel").publish(message);
+        component.set("v.messageValue", null);
+    },
+    initialize : function(component, event, helper)
+    {
+        component.set("v.noInput", false);
+        helper.getToday(component);
     }
 })
