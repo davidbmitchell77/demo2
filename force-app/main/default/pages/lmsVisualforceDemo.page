@@ -14,6 +14,9 @@
                 <input type="text" class="slds-input" id="receivedText"/>
             </div>
         </div>
+        <footer class="slds-card__footer">
+            <span style="font-size:x-small" id="status"></span>
+        </footer>
     </div>
     <script>
     let messageChannel = "{!$MessageChannel.SampleMessageChannel__c}";
