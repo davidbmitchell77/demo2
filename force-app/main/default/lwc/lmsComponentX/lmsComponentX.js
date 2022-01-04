@@ -10,7 +10,7 @@ export default class LmsComponentX extends LightningElement
     receivedMessage;
     subscription;
     today;
-    isListening = false;
+    isListening;
 
     months = new Map
     ([
@@ -74,8 +74,19 @@ export default class LmsComponentX extends LightningElement
 
     handleMessage(message)
     {
-        if (this.isListening) {
-            this.receivedMessage = (message.lmsData.value ? message.lmsData.value : "No message published.");
+        if (this.isListening)
+        {
+            this.receivedMessage = (message.lmsData.value ? message.lmsData.value : "Message is empty.");
+            let today = new Date();
+            let mm = this.months.get(today.getMonth());
+            let day = this.days.get(today.getDay());
+            let dd = today.getDate();
+            let yyyy = today.getFullYear();
+            let hr = this.right("0" + today.getHours(), 2);
+            let mi = this.right("0" + today.getMinutes(), 2);
+            let ss = this.right("0" + today.getSeconds(), 2);
+            let offset = this.right("0" + (today.getTimezoneOffset() / -60), 2);
+            this.status = `Message received on ${day}, ${mm} ${dd}, ${yyyy} at ${hr}:${mi}:${ss} (UTC ${offset}:00).`;
         }
     }
 
@@ -83,8 +94,15 @@ export default class LmsComponentX extends LightningElement
         this.isListening = true;
     }
 
-    unsubscribeButtonHandler() {
+    unsubscribeButtonHandler()
+    {
+        this.receivedMessage = " ";
+        this.status = null;
         this.isListening = false;
+    }
+
+    right(s, chars) {
+        return s.substr((s.length - chars), chars);
     }
 
     get isActive() {

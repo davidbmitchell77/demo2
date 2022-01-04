@@ -1,14 +1,14 @@
 <template>
-    <lightning-card title="LMS Component 'X'" icon-name="standard:campaign">
+    <lightning-card title="Subscriber" icon-name="utility:user">
         <div class="slds-var-m-around_medium">
-            Message received: <span style="color: blue; font-style:italic;">{receivedMessage}</span>
+            <lightning-input type="text" label="Message received:" value={receivedMessage} disabled="true"></lightning-input>
         </div>
-        <div class="slds-var-m-around_medium">
-            <lightning-button class="slds-var-m-right_small" variant="Brand" label="Subscribe" onclick={subscribeButtonHandler} disabled={isActive}></lightning-button>
-            <lightning-button class="slds-var-m-right_small" variant="Brand" label="Unsubscribe" onclick={unsubscribeButtonHandler} disabled={isNotActive}></lightning-button>
+        <div>
+            <lightning-button class="slds-var-m-left_medium" variant="brand" label="Subscribe" title="Subscribe to Lightning Messaging Service." onclick={subscribeButtonHandler} disabled={isActive}></lightning-button>
+            <lightning-button class="slds-var-m-left_small" variant="brand" label="Unsubscribe" title="Unsubscribe from Lightning Messaging Service." onclick={unsubscribeButtonHandler} disabled={isNotActive}></lightning-button>
         </div>
         <footer class="slds-card__footer">
-            <span style="font-size:x-small;">{today}</span>
+            <span style="font-size:x-small;">{status}</span>
         </footer>
     </lightning-card>
 </template>
