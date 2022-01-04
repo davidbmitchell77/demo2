@@ -5,7 +5,7 @@
         </div>
         <div class="slds-clearfix">
             <lightning-button class="slds-var-m-left_medium slds-float_none" variant="brand" label="Subscribe" title="Subscribe to Lightning Messaging Service." onclick={subscribeButtonHandler} disabled={isActive}></lightning-button>
-            <lightning-button class="slds-var-m-right_medium slds-float_right" variant="brand" label="Unsubscribe" title="Unsubscribe from Lightning Messaging Service." onclick={unsubscribeButtonHandler} disabled={isNotActive}></lightning-button>
+            <lightning-button class="slds-var-m-right_medium slds-float_right" variant="destructive" label="Unsubscribe" title="Unsubscribe from Lightning Messaging Service." onclick={unsubscribeButtonHandler} disabled={isNotActive}></lightning-button>
         </div>
         <footer class="slds-card__footer">
             <span style="font-size:x-small;">{status}</span>
