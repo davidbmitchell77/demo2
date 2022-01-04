@@ -1,0 +1,62 @@
+<apex:page lightningStylesheets="true">
+    <apex:slds />
+    <div class="slds-scope">
+        <div class="slds-p-around_small">
+            <h1>Enter publish message:</h1>
+            <input type="text" class="slds-input" id="messageField"/>
+            <div class="slds-p-top_small slds-p-bottom_small">
+                <button class="slds-button slds-button_neutral" onclick="publishHandler()">Publish</button>
+                <button class="slds-button slds-button_neutral" onclick="subscribeHandler()">Subscribe</button>
+                <button class="slds-button slds-button_neutral" onclick="unsubscribeHandler()">Unscubscribe</button>
+            </div>
+            <div class="slds-var-m-around_xxx-small">
+                <div id="h1">Message received:</div>
+                <input type="text" class="slds-input" id="receivedText"/>
+            </div>
+        </div>
+    </div>
+    <script>
+    let messageChannel = "{!$MessageChannel.SampleMessageChannel__c}";
+    let subscription;
+    let receivedMessage;
+
+    function publishHandler()
+    {
+        let data = document.getElementById("messageField").value;
+
+        const message =
+        {
+            lmsData: {
+                value: data
+            }
+        }
+
+        sforce.one.publish(messageChannel, message);
+    }
+
+    function subscribeHandler()
+    {
+        if (!subscription) {
+            subscrption = sforce.one.subscribe(messageChannel, msgHandler, { scope: "APPLICATION" });
+        }
+    }
+
+    function unsubscribeHandler()
+    {
+        if (subscription) {
+            sforce.one.unsubscribe(subscription);
+        }
+        subscription = null;
+    }
+
+    function msgHandler(message)
+    {
+        let h1 = document.getElementById("h1");
+        h1.style.color = 'green';
+        h1.style.fontWeight = 'bold';
+
+        let status = document.getElementById("receivedText");
+        status.value = ((message && message.lmsData) ? message.lmsData.value : "No data sent.");
+    }
+    </script>
+</apex:page>
