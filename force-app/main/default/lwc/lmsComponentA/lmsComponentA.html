@@ -4,7 +4,9 @@
             <lightning-input type="text" label="Enter message to publish:" onkeyup={inputHandler}></lightning-input>
         </div>
         <div>
-            <lightning-button class="slds-var-m-left_medium" variant="success" label="Publish" title="Publish message via the Lightning Messaging Service." onclick={publishMessage} disabled={noInput}></lightning-button>
+            <div class="slds-clearfix">
+                <lightning-button class="slds-var-m-left_medium slds-float_none" variant="success" label="Publish" title="Publish message via the Lightning Messaging Service." onclick={publishMessage} disabled={noInput}></lightning-button>
+            </div>
         </div>
         <footer class="slds-card__footer">
             <span style="font-size:x-small;">{status}</span>

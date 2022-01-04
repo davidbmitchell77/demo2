@@ -39,8 +39,15 @@ export default class LmsComponentX extends LightningElement
         [6, "Saturday"  ]
     ]);
 
-    connectedCallback() {
+    connectedCallback()
+    {
         this.subscribeMessage();
+        let today = new Date();
+        let month = this.months.get(today.getMonth());
+        let day = this.days.get(today.getDay());
+        let date = today.getDate();
+        let year = today.getFullYear();
+        this.status = `Today is ${day}, ${month} ${date}, ${year}.`;
     }
 
     disconnectedCallback()
@@ -48,21 +55,6 @@ export default class LmsComponentX extends LightningElement
         if (this.subscription) {
             unsubscribe(this.subscription);
         }
-    }
-
-    renderedCallback()
-    {
-        let today = new Date();
-        let month = this.months.get(today.getMonth());
-        let day = this.days.get(today.getDay());
-        let date = today.getDate();
-        let year = today.getFullYear();
-        this.today = `Today is ${day}, ${month} ${date}, ${year}.`;
-    }
-
-    disconnectedCallback()
-    {
-        unsubscribe(this.subscription);
         this.subscription = null;
     }
 
@@ -72,11 +64,14 @@ export default class LmsComponentX extends LightningElement
         this.isListening = true;
     }
 
+    unSubscribeMessage() {
+        this.isListening = true;
+    }
+
     handleMessage(message)
     {
         if (this.isListening)
         {
-            this.receivedMessage = (message.lmsData.value ? message.lmsData.value : "Message is empty.");
             let today = new Date();
             let mm = this.months.get(today.getMonth());
             let day = this.days.get(today.getDay());
@@ -86,19 +81,27 @@ export default class LmsComponentX extends LightningElement
             let mi = this.right("0" + today.getMinutes(), 2);
             let ss = this.right("0" + today.getSeconds(), 2);
             let offset = this.right("0" + (today.getTimezoneOffset() / -60), 2);
+
+            this.receivedMessage = (message.lmsData.value ? message.lmsData.value : "Message is empty.");
             this.status = `Message received on ${day}, ${mm} ${dd}, ${yyyy} at ${hr}:${mi}:${ss} (UTC ${offset}:00).`;
         }
     }
 
     subscribeButtonHandler() {
-        this.isListening = true;
+        this.unSubscribeMessage();
     }
 
     unsubscribeButtonHandler()
     {
         this.receivedMessage = " ";
-        this.status = null;
         this.isListening = false;
+
+        let today = new Date();
+        let month = this.months.get(today.getMonth());
+        let day = this.days.get(today.getDay());
+        let date = today.getDate();
+        let year = today.getFullYear();
+        this.status = `Today is ${day}, ${month} ${date}, ${year}.`;
     }
 
     right(s, chars) {

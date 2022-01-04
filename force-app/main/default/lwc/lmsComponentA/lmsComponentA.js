@@ -38,11 +38,27 @@ export default class LmsComponentA extends LightningElement
         [6, "Saturday"  ]
     ]);
 
+    connectedCallback()
+    {
+        let today = new Date();
+        let mm = this.months.get(today.getMonth());
+        let day = this.days.get(today.getDay());
+        let dd = today.getDate();
+        let yyyy = today.getFullYear();
+        this.status = `Today is ${day}, ${mm} ${dd}, ${yyyy}.`;
+    }
+
     inputHandler(event)
     {
         this.inputValue = event.target.value.trim();
         this.noInput = ((this.inputValue > "") ? false : true);
-        this.status = null;
+
+        let today = new Date();
+        let mm = this.months.get(today.getMonth());
+        let day = this.days.get(today.getDay());
+        let dd = today.getDate();
+        let yyyy = today.getFullYear();
+        this.status = `Today is ${day}, ${mm} ${dd}, ${yyyy}.`;
     }
 
     publishMessage()
