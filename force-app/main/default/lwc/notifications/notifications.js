@@ -11,9 +11,9 @@ export default class Notifications extends LightningElement
       let variant;
       let mode;
 
-      let buttonClicked = event.target.label;
+      let buttonLabel = event.target.label;
 
-      if (buttonClicked === "Info")
+      if (buttonLabel === "Info")
       {
           title = "Info";
           message = "You clicked the Info button.";
@@ -21,7 +21,7 @@ export default class Notifications extends LightningElement
           variant = "info";
           mode = "dismissible";
       }
-      else if (buttonClicked === "Success")
+      else if (buttonLabel === "Success")
       {
           title = "Success";
           message = "You clicked rhe Sucess button.";
@@ -29,7 +29,7 @@ export default class Notifications extends LightningElement
           variant = "success";
           mode = "dismissible";
       }
-      else if (buttonClicked === "Warning")
+      else if (buttonLabel === "Warning")
       {
           title = "Warning!";
           message = "You clicked the Warning button.";
@@ -37,7 +37,7 @@ export default class Notifications extends LightningElement
           variant = "warning";
           mode = "pester";
       }
-      else if (buttonClicked === "Error")
+      else if (buttonLabel === "Error")
       {
           title = "Error!!!";
           message = "You clicked the Error button.";
