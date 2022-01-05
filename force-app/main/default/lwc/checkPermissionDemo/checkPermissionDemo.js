@@ -11,8 +11,6 @@ export default class CheckPermissionDemo extends LightningElement
     manageEncyptionKeys = ManageEncyptionKeys;
     assignPermissionSets = AssignPermissionSets;
 
-    values = [ true ];
-
     get userPermissions()
     {
         let results = new Array();
