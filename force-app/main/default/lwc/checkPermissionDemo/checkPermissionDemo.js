@@ -19,8 +19,4 @@ export default class CheckPermissionDemo extends LightningElement
 
         return results;
     }
-
-    get hasViewAllData() {
-        return hasViewAllData;
-    }
 }
