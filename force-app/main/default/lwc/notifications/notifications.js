@@ -40,7 +40,7 @@ export default class Notifications extends LightningElement
       else if (buttonLabel === "Error")
       {
           title = "Error!!!";
-          message = "You clicked the Error button.  {0}    {1}";
+          message = "You clicked the Error button.  {0} {1}";
           messageData = [ "For more details:", { url: "https://infosys.com", label:  "Click here" } ];
           variant = "error";
           mode = "sticky";
