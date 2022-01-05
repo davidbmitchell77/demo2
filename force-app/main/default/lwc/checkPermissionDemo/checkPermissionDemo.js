@@ -13,9 +13,9 @@ export default class CheckPermissionDemo extends LightningElement
         let results = new Array();
 
         results.push({ label: "View All Data", value: HasViewAllData });
-        results.push({ label: 'Modify All Data', value: ModifyAllData });
-        results.push({ label: 'REST API Access', value: ManageEncyptionKeys });
-        results.push({ label: 'Assign Permission Sets', value: AssignPermissionSets });
+        results.push({ label: "Modify All Data", value: ModifyAllData });
+        results.push({ label: "REST API Access", value: ManageEncyptionKeys });
+        results.push({ label: "Assign Permission Sets", value: AssignPermissionSets });
 
         return results;
     }
