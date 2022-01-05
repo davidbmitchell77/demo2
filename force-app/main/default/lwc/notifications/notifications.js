@@ -24,7 +24,7 @@ export default class Notifications extends LightningElement
       else if (buttonLabel === "Success")
       {
           title = "Success";
-          message = "You clicked rhe Sucess button.";
+          message = "You clicked the Sucess button.";
           messageData = [];
           variant = "success";
           mode = "dismissible";
