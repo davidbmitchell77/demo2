@@ -17,15 +17,15 @@ export default class Notifications extends LightningElement
       {
           title = "Info";
           message = "You clicked the Info button.";
-          messageData = [];
+          messageData = null;
           variant = "info";
           mode = "dismissible";
       }
       else if (buttonLabel === "Success")
       {
           title = "Success";
-          message = "You clicked the Sucess button.";
-          messageData = [];
+          message = "You clicked the Success button.";
+          messageData = null;
           variant = "success";
           mode = "dismissible";
       }
@@ -33,15 +33,15 @@ export default class Notifications extends LightningElement
       {
           title = "Warning!";
           message = "You clicked the Warning button.";
-          messageData = [];
+          messageData = null;
           variant = "warning";
           mode = "pester";
       }
       else if (buttonLabel === "Error")
       {
           title = "Error!!!";
-          message = "You clicked the Error button.";
-          messageData = [];
+          message = "You clicked the Error button.  {0}    {1}";
+          messageData = [ "For more details:", { url: "https://infosys.com", label:  "Click here" } ];
           variant = "error";
           mode = "sticky";
       }
