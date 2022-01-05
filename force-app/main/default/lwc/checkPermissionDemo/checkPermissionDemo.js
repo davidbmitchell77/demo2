@@ -6,17 +6,32 @@ import AssignPermissionSets from "@salesforce/userPermission/AssignPermissionSet
 
 export default class CheckPermissionDemo extends LightningElement
 {
+    hasViewAllData = HasViewAllData;
+    modifyAllData = ModifyAllData;
+    manageEncyptionKeys = ManageEncyptionKeys;
+    assignPermissionSets = AssignPermissionSets;
+
     values = [ true ];
 
     get userPermissions()
     {
         let results = new Array();
 
-        results.push({ label: "View All Data", value: HasViewAllData });
-        results.push({ label: "Modify All Data", value: ModifyAllData });
-        results.push({ label: "REST API Access", value: ManageEncyptionKeys });
-        results.push({ label: "Assign Permission Sets", value: AssignPermissionSets });
+        results.push({ label: "View All Data", value: this.hasViewAllData });
+        results.push({ label: "Modify All Data", value: this.modifyAllData });
+        results.push({ label: "Manage Encryption Keys", value: this.manageEncyptionKeys });
+        results.push({ label: "Assign Permission Sets", value: this.assignPermissionSets });
 
         return results;
+    }
+
+    get checkedValues()
+    {
+        let results = new Array();
+
+        results.push(true);
+
+        return results;
+
     }
 }
