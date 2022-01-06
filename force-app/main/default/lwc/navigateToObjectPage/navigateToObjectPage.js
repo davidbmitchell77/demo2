@@ -29,6 +29,7 @@ export default class NavigateToObjectPage extends NavigationMixin(LightningEleme
             defaultFieldValues.FirstName = "Angus";
             defaultFieldValues.LastName = "Young";
             defaultFieldValues.Email = "angus.young@acdc.com";
+            defaultFieldValues.Phone = "5555555555";
             defaultFieldValues.Title = "Lead Guitar (Gibson SG)";
             defaultFieldValues.LeadSource = "Phone Inquiry";
             defaultFieldValues.Street = "1 Kings Cross";
