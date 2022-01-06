@@ -84,11 +84,11 @@ export default class NavigateToObjectPage extends NavigationMixin(LightningEleme
             state.defaultFieldValues = encodeDefaultFieldValues(values);
         }
 
-        let pageReference = {};
-        pageReference.type = pageType;
-        pageReference.attributes = attributes;
-        pageReference.state = state;
+        let pageRef = {};
+        pageRef.type = pageType;
+        pageRef.attributes = attributes;
+        pageRef.state = state;
 
-        this[NavigationMixin.Navigate](pageReference);
+        this[NavigationMixin.Navigate](pageRef);
     }
 }
