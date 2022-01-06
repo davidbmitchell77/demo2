@@ -4,8 +4,6 @@ import { encodeDefaultFieldValues } from 'lightning/pageReferenceUtils';
 
 export default class NavigateToObjectPage extends NavigationMixin(LightningElement)
 {
-    encode = encodeDefaultFieldValues;
-
     handleClick(event)
     {
         let pageType = "";
@@ -82,7 +80,9 @@ export default class NavigateToObjectPage extends NavigationMixin(LightningEleme
         attributes.actionName = actionName;
 
         let state = {};
-        state.defaultFieldValues = this.encode(values);
+        if (st === "defaultFieldValues") {
+            state.defaultFieldValues = encodeDefaultFieldValues(values);
+        }
 
         let pageReference = {};
         pageReference.type = pageType;
