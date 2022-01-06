@@ -1,0 +1,9 @@
+h1 {
+    font-size: 30px;
+    color: darkmagenta
+}
+c-css-child-demo {
+    display: block;
+    background-color: teal;
+    color: white;
+}
