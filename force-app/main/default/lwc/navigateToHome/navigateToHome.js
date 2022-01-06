@@ -8,10 +8,10 @@ export default class NavigateToHome extends NavigationMixin(LightningElement)
         let buttonLabel = event.target.label;
         let pageName = "";
 
-        if (buttonLabel === "Navigate to Home") {
+        if (buttonLabel === "Home") {
             pageName = "home";
         }
-        else if (buttonLabel === "Navigate to Chatter") {
+        else if (buttonLabel === "Chatter") {
             pageName = "chatter";
         }
 
