@@ -3,7 +3,7 @@ import { NavigationMixin  } from 'lightning/navigation';
 
 export default class NavigateToHome extends NavigationMixin(LightningElement)
 {
-    handleClick(event)
+    clickHandler(event)
     {
         let buttonLabel = event.target.label;
         let pageName = "";
