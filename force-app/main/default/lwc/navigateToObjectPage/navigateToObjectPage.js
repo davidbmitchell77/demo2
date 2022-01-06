@@ -69,6 +69,22 @@ export default class NavigateToObjectPage extends NavigationMixin(LightningEleme
             values.MailingPostalCode = "1340";
             values.MailingCountry = "Australia";
         }
+        else if (buttonLabel === "Account List View")
+        {
+            pageType = "standard__objectPage";
+            objectApiName = "Account";
+            actionName = "list";
+            state = "filterName";
+            values.filterName = "AllAccounts";
+        }
+        else if (buttonLabel === "Contact List View")
+        {
+            pageType = "standard__objectPage";
+            objectApiName = "Contact";
+            actionName = "list";
+            state = "filterName";
+            values.filterName = "AllContacts";
+        }
 
         this.navigate(pageType, objectApiName, actionName, state, values);
     }
@@ -82,6 +98,9 @@ export default class NavigateToObjectPage extends NavigationMixin(LightningEleme
         let state = {};
         if (st === "defaultFieldValues") {
             state.defaultFieldValues = encodeDefaultFieldValues(values);
+        }
+        else if (st === "filterName") {
+            state.filterName = values.filterName;
         }
 
         let pageRef = {};
