@@ -25,7 +25,7 @@ export default class ShadowDomStyling extends LightningElement
                 color: white;
                 font-weight: bold;
             }`;
-            this.template.querySelector('lightning-button').appendChild(style);
+          //this.template.querySelector('lightning-button').appendChild(style);
             this.isNotLoaded = false;
         }
     }
