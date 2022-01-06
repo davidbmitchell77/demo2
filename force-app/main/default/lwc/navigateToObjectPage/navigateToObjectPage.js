@@ -48,6 +48,7 @@ export default class NavigateToObjectPage extends NavigationMixin(LightningEleme
             defaultFieldValues.FirstName = "Malcolm";
             defaultFieldValues.LastName = "Young";
             defaultFieldValues.Title = "Rhythm Guitar (Gretsch)";
+            defaultFieldValues.LeadSource = "Web";
             defaultFieldValues.Email = "malcolm.young@acdc.com";
             defaultFieldValues.Phone = "5555555555";
             defaultFieldValues.Company = "AC/DC, Inc.";
