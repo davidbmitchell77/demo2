@@ -4,7 +4,7 @@ import { encodeDefaultFieldValues } from 'lightning/pageReferenceUtils';
 
 export default class NavigateToObjectPage extends NavigationMixin(LightningElement)
 {
-    handleClick(event)
+    clickHandler(event)
     {
         let pageType = "";
         let objectApiName = "";
