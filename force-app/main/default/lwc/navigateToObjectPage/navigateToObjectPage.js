@@ -4,82 +4,91 @@ import { encodeDefaultFieldValues } from 'lightning/pageReferenceUtils';
 
 export default class NavigateToObjectPage extends NavigationMixin(LightningElement)
 {
+    encode = encodeDefaultFieldValues;
+
     handleClick(event)
     {
-        let buttonLabel = event.target.label;
+        let pageType = "";
         let objectApiName = "";
         let actionName = "";
-        let defaultFieldValues = {};
+        let state = "";
+        let values = {};
+
+        let buttonLabel = event.target.label;
 
         if (buttonLabel === "New Lead")
         {
+            pageType = "standard__objectPage";
             objectApiName = "Lead";
             actionName = "new";
+            state = "defaultFieldValues";
         }
         else if (buttonLabel === "New Contact")
         {
+            pageType = "standard__objectPage";
             objectApiName = "Contact";
             actionName = "new";
+            state = "defaultFieldValues";
         }
         else if (buttonLabel === "New Lead (with default data)")
         {
+            pageType = "standard__objectPage";
             objectApiName = "Lead";
             actionName = "new";
-            defaultFieldValues.Salutation = "Prof.";
-            defaultFieldValues.FirstName = "Angus";
-            defaultFieldValues.LastName = "Young";
-            defaultFieldValues.Email = "angus.young@acdc.com";
-            defaultFieldValues.Phone = "5555555555";
-            defaultFieldValues.Title = "Lead Guitar (Gibson SG)";
-            defaultFieldValues.LeadSource = "Phone Inquiry";
-            defaultFieldValues.Street = "1 Kings Cross";
-            defaultFieldValues.Company = "AC/DC, Inc.";
-            defaultFieldValues.City = "Sydney";
-            defaultFieldValues.State = "New South Wales";
-            defaultFieldValues.PostalCode = "1340";
-            defaultFieldValues.Country = "Australia";
+            state = "defaultFieldValues";
+            values.Salutation = "Prof.";
+            values.FirstName = "Angus";
+            values.LastName = "Young";
+            values.Email = "angus.young@acdc.com";
+            values.Phone = "5555555555";
+            values.Title = "Lead Guitar (Gibson SG)";
+            values.LeadSource = "Phone Inquiry";
+            values.Street = "1 Kings Cross";
+            values.Company = "AC/DC, Inc.";
+            values.City = "Sydney";
+            values.State = "New South Wales";
+            values.PostalCode = "1340";
+            values.Country = "Australia";
 
         }
         else if (buttonLabel === "New Contact (with default data)")
         {
+            pageType = "standard__objectPage";
             objectApiName = "Contact";
             actionName = "new";
-            defaultFieldValues.Salutation = "Mr.";
-            defaultFieldValues.FirstName = "Malcolm";
-            defaultFieldValues.LastName = "Young";
-            defaultFieldValues.Title = "Rhythm Guitar (Gretsch)";
-            defaultFieldValues.LeadSource = "Web";
-            defaultFieldValues.Email = "malcolm.young@acdc.com";
-            defaultFieldValues.Phone = "5555555555";
-            defaultFieldValues.Company = "AC/DC, Inc.";
-            defaultFieldValues.MailingStreet = "1 Kings Cross";
-            defaultFieldValues.MailingCity = "Sydney";
-            defaultFieldValues.MailingState = "New South Wales";
-            defaultFieldValues.MailingPostalCode = "1340";
-            defaultFieldValues.MailingCountry = "Australia";
+            state = "defaultFieldValues";
+            values.Salutation = "Mr.";
+            values.FirstName = "Malcolm";
+            values.LastName = "Young";
+            values.Title = "Rhythm Guitar (Gretsch)";
+            values.LeadSource = "Web";
+            values.Email = "malcolm.young@acdc.com";
+            values.Phone = "5555555555";
+            values.Company = "AC/DC, Inc.";
+            values.MailingStreet = "1 Kings Cross";
+            values.MailingCity = "Sydney";
+            values.MailingState = "New South Wales";
+            values.MailingPostalCode = "1340";
+            values.MailingCountry = "Australia";
         }
 
-        this.navigate(objectApiName, actionName, defaultFieldValues);
+        this.navigate(pageType, objectApiName, actionName, state, values);
     }
 
-    navigate(objectApiName, actionName, defaultFieldValues)
+    navigate(pageType, objectApiName, actionName, st, values)
     {
-        try
-        {
-            this[NavigationMixin.Navigate]
-            ({
-                type: "standard__objectPage",
-                attributes: {
-                    objectApiName: objectApiName,
-                    actionName: actionName
-                },
-                state: {
-                    defaultFieldValues: encodeDefaultFieldValues(defaultFieldValues)
-                }
-            });
-        }
-        catch(e) {
-            console.error(e);
-        }
+        let attributes = {};
+        attributes.objectApiName = objectApiName;
+        attributes.actionName = actionName;
+
+        let state = {};
+        state.defaultFieldValues = this.encode(values);
+
+        let pageReference = {};
+        pageReference.type = pageType;
+        pageReference.attributes = attributes;
+        pageReference.state = state;
+
+        this[NavigationMixin.Navigate](pageReference);
     }
 }
