@@ -30,8 +30,11 @@ export default class NavigateToObjectPage extends NavigationMixin(LightningEleme
             defaultFieldValues.Email = "angus.young@acdc.com";
             defaultFieldValues.Title = "Lead Guitar (Gibson SG)";
             defaultFieldValues.LeadSource = "Phone Inquiry";
+            defaultFieldValues.Street = "1 Kings Cross";
+            defaultFieldValues.Company = "AC/DC, Inc.";
             defaultFieldValues.City = "Sydney";
             defaultFieldValues.State = "New South Wales";
+            defaultFieldValues.PostalCode = "1340";
             defaultFieldValues.Country = "Australia";
 
         }
@@ -44,8 +47,11 @@ export default class NavigateToObjectPage extends NavigationMixin(LightningEleme
             defaultFieldValues.Title = "Rhythm Guitar (Gretsch)";
             defaultFieldValues.Email = "malcolm.young@acdc.com";
             defaultFieldValues.Phone = "5555555555";
+            defaultFieldValues.Company = "AC/DC, Inc.";
+            defaultFieldValues.MailingStreet = "1 Kings Cross";
             defaultFieldValues.MailingCity = "Sydney";
             defaultFieldValues.MailingState = "New South Wales";
+            defaultFieldValues.MailingPostalCode = "1340";
             defaultFieldValues.MailingCountry = "Australia";
         }
 
