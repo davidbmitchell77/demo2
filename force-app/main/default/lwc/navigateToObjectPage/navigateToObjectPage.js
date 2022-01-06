@@ -25,6 +25,7 @@ export default class NavigateToObjectPage extends NavigationMixin(LightningEleme
         {
             objectApiName = "Lead";
             actionName = "new";
+            defaultFieldValues.Salutation = "Prof.";
             defaultFieldValues.FirstName = "Angus";
             defaultFieldValues.LastName = "Young";
             defaultFieldValues.Email = "angus.young@acdc.com";
@@ -42,6 +43,7 @@ export default class NavigateToObjectPage extends NavigationMixin(LightningEleme
         {
             objectApiName = "Contact";
             actionName = "new";
+            defaultFieldValues.Salutation = "Mr.";
             defaultFieldValues.FirstName = "Malcolm";
             defaultFieldValues.LastName = "Young";
             defaultFieldValues.Title = "Rhythm Guitar (Gretsch)";
