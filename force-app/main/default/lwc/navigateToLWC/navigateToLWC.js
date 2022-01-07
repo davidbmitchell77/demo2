@@ -33,7 +33,7 @@ export default class NavigateToLWC extends NavigationMixin(LightningElement)
         lwcDefinition.attributes = attributes;
 
         attributes = {};
-        attributes.url = url + btoa(JSON.stringify(lwcDefinition));
+        attributes.url = url + (window.btoa(JSON.stringify(lwcDefinition)));
 
         let pageRef = {};
         pageRef.type = pageType;
