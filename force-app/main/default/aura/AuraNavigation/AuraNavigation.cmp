@@ -1,0 +1,10 @@
+<aura:component implements="flexipage:availableForAllPageTypes" access="global">
+    <aura:attribute name="id" type="String" />
+    <aura:handler name="init" value="{!this}" action="{!c.initialize}" />
+    <div class="slds-card">
+        <div class="slds-var-m-around_medium">
+            <p>Hey!  I am coming from lwc.</p>
+            <p>My record id is: {!v.id}.</p>
+        </div>
+    </div>
+</aura:component>	
