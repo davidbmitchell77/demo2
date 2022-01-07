@@ -10,22 +10,27 @@ export default class NavigateToExternalWebPage extends NavigationMixin(Lightning
 
         let buttonLabel = event.target.label;
 
-        if (buttonLabel === "MSNBC")
+        if (buttonLabel === "Al-Jazeera")
         {
             pageType = "standard__webPage";
-            url = "https://www.msnbc.com";
+            url = "https://www.aljazeera.com";
+        }
+        else if (buttonLabel === "CNN ws")
+        {
+            pageType = "standard__webPage";
+            url = "https://www.cnn.com";
         }
         else if (buttonLabel === "FOX News")
         {
             pageType = "standard__webPage";
             url = "https://www.foxnews.com";
         }
-        else if (buttonLabel === "Al-Jazeera")
+        else if (buttonLabel === "MSNBC")
         {
             pageType = "standard__webPage";
-            url = "https://www.aljazeera.com";
+            url = "https://www.msnbc.com";
         }
-
+ 
         this.navigate(pageType, url);
     }
 
