@@ -37,9 +37,9 @@ export default class NavigateToVfPage extends NavigationMixin(LightningElement)
 
         console.clear();
 
-        console.log(`this[NavigationMixin.Navigate](${JSON.stringify(pageRef)});`);
+        console.info(`this[NavigationMixin.Navigate](${JSON.stringify(pageRef)});`);
         this[NavigationMixin.Navigate](pageRef);
-        /* Promise does not work!!!
+        /* Promise DOES NOT WORK!!!
         .then(generatedUrl=>{
             console.log(`window.open(${generatedUrl}, "${target}");`);
             window.open(generatedUrl, "_blank");
@@ -54,7 +54,7 @@ export default class NavigateToVfPage extends NavigationMixin(LightningElement)
         let port = ((window.location.port) ? (":" + window.location.port) : "");
         let s = protocol + hostname + path;
 
-        console.log(`window.open(${s}, "${target}");`);
+        console.info(`window.open(${s}, "${target}");`);
         window.open(s, target).focus();
     }
 }
