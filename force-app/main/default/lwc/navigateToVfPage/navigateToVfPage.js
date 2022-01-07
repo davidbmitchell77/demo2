@@ -16,12 +16,10 @@ export default class NavigateToVfPage extends NavigationMixin(LightningElement)
             pageType = "standard__webPage";
             path = "/apex/navigateVfPage";
             target = "_blank";
-            try
-            {
+            try {
                 this.navigate(pageType, path, target);
             }
-            catch(e)
-            {
+            catch(e) {
                 console.error(e);
                 this.open(path, target);
             }
@@ -40,10 +38,13 @@ export default class NavigateToVfPage extends NavigationMixin(LightningElement)
         console.clear();
 
         console.log(`this[NavigationMixin.Navigate](${JSON.stringify(pageRef)});`);
-        this[NavigationMixin.Navigate](pageRef).then(generatedUrl=>{
+        this[NavigationMixin.Navigate](pageRef);
+        /* Promise does not work!!!
+        .then(generatedUrl=>{
             console.log(`window.open(${generatedUrl}, "${target}");`);
             window.open(generatedUrl, "_blank");
         });
+        */
     }
 
     open(path, target)
@@ -52,8 +53,8 @@ export default class NavigateToVfPage extends NavigationMixin(LightningElement)
         let hostname = window.location.host;
         let port = ((window.location.port) ? (":" + window.location.port) : "");
         let s = protocol + hostname + path;
-        console.log(`window.open(${s}, "${target}");`);
 
+        console.log(`window.open(${s}, "${target}");`);
         window.open(s, target).focus();
     }
 }
