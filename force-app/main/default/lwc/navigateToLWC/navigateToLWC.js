@@ -8,6 +8,7 @@ export default class NavigateToLWC extends NavigationMixin(LightningElement)
         let pageType = "";
         let lwcPath = "";
         let url = "";
+        let recordId = "";
 
         let buttonLabel = event.target.label;
 
@@ -16,17 +17,22 @@ export default class NavigateToLWC extends NavigationMixin(LightningElement)
             pageType = "standard__webPage";
             lwcPath = "c:navigationLwcTarget";
             url = "/one/one.app#";
+            recordId = "ad588b2f-b7e2-4448-a961-df2ddf10d161";
         }
  
-        this.navigate(pageType, lwcPath, url);
+        this.navigate(pageType, lwcPath, url, recordId);
     }
 
-    navigate(pageType, lwcPath, url)
+    navigate(pageType, lwcPath, url, recordId)
     {
+        let attributes = {};
+        attributes.recordId = recordId;
+    
         let lwcDefinition = {};
         lwcDefinition.componentDef = lwcPath;
+        lwcDefinition.attributes = attributes;
 
-        let attributes = {};
+        attributes = {};
         attributes.url = url + btoa(JSON.stringify(lwcDefinition));
 
         let pageRef = {};
