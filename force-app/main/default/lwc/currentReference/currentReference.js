@@ -4,9 +4,9 @@ import { CurrentPageReference   } from 'lightning/navigation';
 export default class CurrentReference extends LightningElement
 {
     @wire(CurrentPageReference)
-    psgeRef;
+    pageRef;
 
     get pageReference() {
-        return ((this.pageRef) ? JSON.stringify(pageRef, null, 2) : "");
+        return ((this.pageRef) ? JSON.stringify(this.pageRef) : "");
     }
 }
