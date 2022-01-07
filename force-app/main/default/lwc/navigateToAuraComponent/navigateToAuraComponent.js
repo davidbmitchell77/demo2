@@ -13,7 +13,7 @@ export default class NavigateToAuraComponent extends NavigationMixin(LightningEl
 
         if (buttonLabel === "Aura Component")
         {
-            pageType = "standard_component";
+            pageType = "standard__component";
             componentName = "c__AuraNavigation";
             id = "8af7d5c9-76e7-4d48-afed-6032b0e64cb3";
  
