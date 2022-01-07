@@ -2,6 +2,7 @@
 <Package xmlns="http://soap.sforce.com/2006/04/metadata">
     <types>
         <members>AuraLwcCommunication</members>
+        <members>AuraNavigation</members>
         <members>lmsAuraComponent</members>
         <name>AuraDefinitionBundle</name>
     </types>
@@ -29,8 +30,16 @@
         <members>lmsComponentX</members>
         <members>looping</members>
         <members>lwcAuraCommunication</members>
+        <members>navigateToAuraComponent</members>
+        <members>navigateToExternalWebPage</members>
         <members>navigateToHome</members>
+        <members>navigateToLWC</members>
         <members>navigateToObjectPage</members>
+        <members>navigateToRecordPage</members>
+        <members>navigateToRelationship</members>
+        <members>navigateToTabPage</members>
+        <members>navigateToVfPage</members>
+        <members>navigationLwcTarget</members>
         <members>notifications</members>
         <members>p2cAlertComponent</members>
         <members>p2cCarouselComponent</members>
@@ -57,6 +66,7 @@
     </types>
     <types>
         <members>lmsVisualforceDemo</members>
+        <members>navigateVfPage</members>
         <name>ApexPage</name>
     </types>
     <version>52.0</version>
