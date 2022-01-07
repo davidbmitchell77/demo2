@@ -14,7 +14,6 @@ export default class NavigateToVfPage extends NavigationMixin(LightningElement)
         {
             pageType = "standard__webPage ";
             url = "/apex/navigateVfPage";
-
             this.navigate(pageType, url);
         }
     }
@@ -26,9 +25,10 @@ export default class NavigateToVfPage extends NavigationMixin(LightningElement)
 
         let pageRef = {};
         pageRef.type = pageType;
+        pageRef.attributes = attributes;
 
-        this[NavigationMixin.Navigate](pageRef).then((generatedUrl)=>{
-            window.open(generatedUrl, "_blank")
+        this[NavigationMixin.Navigate](pageRef).then(generatedUrl=>{
+            window.open(generatedUrl, "_blank");
         });
     }
 }
