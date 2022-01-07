@@ -15,6 +15,7 @@
         <members>cssLibrary</members>
         <members>cssParentDemo</members>
         <members>currentRecordInformation</members>
+        <members>currentReference</members>
         <members>customLightningCard</members>
         <members>designSystemDemo</members>
         <members>designToken</members>
