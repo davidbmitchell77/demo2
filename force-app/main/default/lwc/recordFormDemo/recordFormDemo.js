@@ -23,13 +23,13 @@ export default class RecordFormDemo extends LightningElement
         console.clear();
         console.info(`event.detail.id: ${event.detail.id}`);
 
-        let toastEvent = new ShowToastEvent
+        let success = new ShowToastEvent
         ({
             title: "Account created",
             message: "Record Id: " + event.detail.id,
             variant: "success"
         });
 
-        this.dispatchEvent(toastEvent);
+        this.dispatchEvent(success);
     }
 }
