@@ -1,24 +1,12 @@
 import { LightningElement } from 'lwc';
 import { ShowToastEvent   } from 'lightning/platformShowToastEvent';
 
-import Account       from '@salesforce/schema/Account';
-import Name          from '@salesforce/schema/Account.Name';
-import Type          from '@salesforce/schema/Account.Type';
-import Industry      from '@salesforce/schema/Account.Industry';
-import AnnualRevenue from '@salesforce/schema/Account.AnnualRevenue';
+import Account from '@salesforce/schema/Account';
 
 export default class RecordFormDemo extends LightningElement
 {
     objectName = Account;
     recordId = "0010R00001NYNimQAH";
-
-    fieldNames =
-    [
-        Name,
-        Type,
-        Industry,
-        AnnualRevenue
-    ];
 
     successHandler(event)
     {
