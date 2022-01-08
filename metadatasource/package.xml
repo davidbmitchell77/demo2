@@ -48,6 +48,9 @@
         <members>p2cProgressComponent</members>
         <members>p2cSliderComponent</members>
         <members>quizApp</members>
+        <members>recordFormDemo</members>
+        <members>recordFormEditDemo</members>
+        <members>recordFormViewDemo</members>
         <members>renderMethod</members>
         <members>reusableComponentDemo</members>
         <members>setterDemoChild</members>
