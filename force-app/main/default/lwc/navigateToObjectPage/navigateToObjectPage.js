@@ -85,6 +85,14 @@ export default class NavigateToObjectPage extends NavigationMixin(LightningEleme
             state = "filterName";
             values.filterName = "AllContacts";
         }
+        else if (buttonLabel === "Opportunity List View")
+        {
+            pageType = "standard__objectPage";
+            objectApiName = "Opportunity";
+            actionName = "list";
+            state = "filterName";
+            values.filterName = "AllOpportunities";
+        }
         else if (buttonLabel === "Files")
         {
             pageType = "standard__objectPage";
