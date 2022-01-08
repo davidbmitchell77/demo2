@@ -1,15 +1,15 @@
 <template>
-    <lightning-card title="Lightning Record Form" icon-name="standard:account">
+    <lightning-card title='lightning-record-form' icon-name="standard:account">
         <div class="slds-var-m-around_medium">
             <lightning-record-form object-api-name={objectName} fields={fieldNames} onsuccess={successHandler}></lightning-record-form>
         </div>
     </lightning-card>
-    <lightning-card title="Display Record in View Mode" icon-name="standard:account">
+    <lightning-card title='lightning-record-form (mode="view")' icon-name="standard:account">
         <div class="slds-var-m-around_medium">
             <lightning-record-form object-api-name={objectName} record-id={recordId} fields={fieldNames}  onsuccess={successHandler} mode="view"></lightning-record-form>
         </div>
     </lightning-card>
-    <lightning-card title="Display Record in Read-Only Mode" icon-name="standard:account">
+    <lightning-card title='lightning-record-form (mode=readonly)' icon-name="standard:account">
         <div class="slds-var-m-around_medium">
             <lightning-record-form object-api-name={objectName} record-id={recordId} fields={fieldNames} mode="readonly">
             </lightning-record-form>
