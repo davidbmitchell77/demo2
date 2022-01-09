@@ -1,11 +1,11 @@
 import { LightningElement, api } from 'lwc';
 
-import Contact   from '@salesforce/schema/Contact';
-import Name      from '@salesforce/schema/Contact.Name';
-import Title     from '@salesforce/schema/Contact.Title';
-import Phone     from '@salesforce/schema/Contact.Phone';
-import Email     from '@salesforce/schema/Contact.Email';
-import AccountId from '@salesforce/schema/Contact.AccountId';
+import Contact from '@salesforce/schema/Contact';
+import Name    from '@salesforce/schema/Contact.Name';
+import Title   from '@salesforce/schema/Contact.Title';
+import Phone   from '@salesforce/schema/Contact.Phone';
+import Email   from '@salesforce/schema/Contact.Email';
+import Account from '@salesforce/schema/Contact.AccountId';
 
 export default class RecordEditForm extends LightningElement
 {
@@ -18,7 +18,7 @@ export default class RecordEditForm extends LightningElement
         title: Title,
         phone: Phone,
         email: Email,
-        AccountId: AccountId
+        account: Account
     };
 
     reset()
