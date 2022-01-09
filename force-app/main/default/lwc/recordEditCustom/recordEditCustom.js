@@ -38,7 +38,7 @@ export default class RecordEditCustom extends LightningElement
         let successMsg = new ShowToastEvent
         ({
             title: "Account created.",
-            message: `Record Id: ${event.target.id}`,
+            message: `Record Id: ${event.detail.id}`,
             variant: "success"
         })
         this.dispatchEvent(successMsg);
