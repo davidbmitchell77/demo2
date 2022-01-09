@@ -1,3 +1,12 @@
 <template>
-    
+    <lightning-card title="lightning-record-edit-form (custom validation)" icon-name="standard:account">
+        <div class="slds-var-m-around_medium">
+            <lightning-record-edit-form object-api-name={objectApiName} onsubmit={submitHandler} onsuccess={successHandler}>
+                <lightning-input class="slds-var-m-bottom_large" label="Name" value={inputValue} onkeyup={keyupHandler}></lightning-input>
+                <div class="slds-var-m-top_medium">
+                    <lightning-button class="slds-m-var-right_x-small" label="Create Account" title="Create the Account record." type="submit"></lightning-button>
+                </div>
+            </lightning-record-edit-form>
+        </div>
+    </lightning-card>
 </template>
