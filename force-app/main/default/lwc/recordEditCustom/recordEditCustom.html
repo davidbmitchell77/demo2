@@ -1,5 +1,6 @@
 <template>
     <lightning-card title="lightning-record-edit-form (custom validation)" icon-name="standard:account">
+        <lightning-messages></lightning-messages>
         <div class="slds-var-m-around_medium">
             <lightning-record-edit-form object-api-name={objectApiName} onsubmit={submitHandler} onsuccess={successHandler}>
                 <lightning-input class="slds-var-m-bottom_large" label="Name" value={inputValue} onkeyup={keyupHandler}></lightning-input>
