@@ -7,7 +7,8 @@
                 <lightning-input-field field-name={fields.name}></lightning-input-field>
                 <lightning-input-field field-name={fields.title}></lightning-input-field>
                 <lightning-input-field field-name={fields.phone}></lightning-input-field>
-                <lightning-input-field field-name={fields.email}></lightning-input-field>
+                <label>Enter the contact&apos;s Email Address</label>
+                <lightning-input-field field-name={fields.email} variant="label-hidden"></lightning-input-field>
                 <div class="slds-var-m-top_medium slds-align_absolute-center">
                     <lightning-button class="slds-var-m-right_xx-small" variant="neutral" label="Reset" title="Reset field values." onclick={reset}></lightning-button>
                     <lightning-button class="slds-var-m-right_xx-small" variant="brand" label="Save" title="Save the new record." type="submit"></lightning-button>
