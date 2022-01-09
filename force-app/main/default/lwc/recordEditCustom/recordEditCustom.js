@@ -19,7 +19,7 @@ export default class RecordEditCustom extends LightningElement
 
         let lightningInput = this.template.querySelector("lightning-input");
 
-        if (!lightningInput.value.toLowerCase().includes("LLC")) {
+        if (!lightningInput.value.toLowerCase().includes("llc")) {
             lightningInput.setCustomValidity(`Account name must include "LLC."`);
         }
         else
