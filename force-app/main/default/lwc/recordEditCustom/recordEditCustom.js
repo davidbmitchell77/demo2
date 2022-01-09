@@ -2,6 +2,7 @@ import { LightningElement } from 'lwc';
 import { ShowToastEvent   } from 'lightning/platformShowToastEvent';
 
 import Account from '@salesforce/schema/Account';
+import { getDataConnectorSourceFields } from 'lightning/analyticsWaveApi';
 
 export default class RecordEditCustom extends LightningElement
 {
@@ -20,7 +21,7 @@ export default class RecordEditCustom extends LightningElement
         let lightningInput = this.template.querySelector("lightning-input");
 
         if (!lightningInput.value.toLowerCase().includes("llc")) {
-            lightningInput.setCustomValidity(`Account name must include "LLC."`);
+            lightningInput.setCustomValidity(`Account name must include "llc."`);
         }
         else
         {
@@ -31,6 +32,18 @@ export default class RecordEditCustom extends LightningElement
         }
 
         lightningInput.reportValidity();
+    }
+
+    errorHandler(event)
+    {
+        let errorMsg = new ShowToastEvent
+        ({
+            title: "Error!",
+            message: `Error creating account:  ${((event.message) ? event.message : "No internet.")}`,
+            variant: "error"
+        })
+
+        this.dispatchEvent(errorMsg);
     }
 
     successHandler(event)
