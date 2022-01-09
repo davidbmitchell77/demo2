@@ -15,28 +15,27 @@ export default class RecordEditCustom extends LightningElement
 
     submitHandler(event)
     {
-        event.prevetDefault();
+        event.preventDefault();
 
         let lightningInput = this.template.querySelector("lightning-input");
-        if (lightningInput)
-        {
-            if (!lightningInput.value.toLowerCase().contains("LLC")) {
-                lightningInput.setCustomValidity(`Account name must include "LLC."`);
-            }
+
+        if (!lightningInput.value.toLowerCase().includes("LLC")) {
+            lightningInput.setCustomValidity(`Account name must include "LLC."`);
         }
         else
         {
-            lightningInput.setCustomValidity(`Account name must include "LLC."`);
+            lightningInput.setCustomValidity("");
             let fields = event.detail.fields;
             fields.Name = this.inputValue;
             this.template.querySelector("lightning-record-edit-form").submit(fields);
         }
+
         lightningInput.reportValidity();
     }
 
     successHandler(event)
     {
-        successMsg = new ShowToastEvent
+        let successMsg = new ShowToastEvent
         ({
             title: "Account created.",
             message: `Record Id: ${event.target.id}`,
