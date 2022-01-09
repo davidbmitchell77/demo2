@@ -41,6 +41,12 @@ export default class RecordEditCustom extends LightningElement
             message: `Record Id: ${event.detail.id}`,
             variant: "success"
         })
+
         this.dispatchEvent(successMsg);
+        this.reset(this.template.querySelectorAll("lightning-input"));
+    }
+
+    reset(fields) {
+        Array.from(fields).forEach(field => { field.value = null; });
     }
 }
