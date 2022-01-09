@@ -21,13 +21,13 @@ export default class RecordEditForm extends LightningElement
         AccountId: AccountId
     };
 
-    reset(event)
+    reset()
     {
-        const fields = this.template.querySelectorAll("lightning-input-field");
+        let inputFields = this.template.querySelectorAll("lightning-input-field");
 
-        if (fields)
+        if (inputFields)
         {
-            Array.from(fields).forEach(field => { field.reset(); });
+            Array.from(inputFields).forEach(inputField => { inputField.reset(); });
         }
     }
 }
