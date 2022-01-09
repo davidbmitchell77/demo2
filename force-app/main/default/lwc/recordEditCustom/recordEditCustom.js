@@ -1,11 +1,11 @@
-import { LightningElement, api } from 'lwc';
-import { ShowToastEvent        } from 'lightning/platformShowToastEvent'
+import { LightningElement } from 'lwc';
+import { ShowToastEvent   } from 'lightning/platformShowToastEvent';
 
 import Account from '@salesforce/schema/Account';
 
 export default class RecordEditCustom extends LightningElement
 {
-    @api objectApiName = Account;
+    objectApiName = Account;
     inputValue = null;
 
     keyupHandler(event)
