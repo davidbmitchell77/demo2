@@ -25,10 +25,10 @@ export default class WireDemoUserDetail extends LightningElement
     {
         if (response)
         {
-            if(response.data) {
+            if (response.data) {
                 console.info(response.data);
             }
-            if  (response.error) {
+            if (response.error) {
                 console.error(response.error.body.message);
             }
         }
