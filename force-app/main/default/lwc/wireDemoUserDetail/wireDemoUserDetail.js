@@ -19,7 +19,7 @@ export default class WireDemoUserDetail extends LightningElement
                 "User.Name",
                 "User.Title",
                 "User.Email",
-                "User.Phone_sss"
+                "User.Phone"
             ]
         }
     )
