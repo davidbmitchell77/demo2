@@ -6,6 +6,8 @@ import Id from '@salesforce/user/Id';
 export default class WireDemoUserDetail extends LightningElement
 {
     userId = Id;
+    userDetails;
+    errMsg = "";
 
     @wire
     (
@@ -17,20 +19,18 @@ export default class WireDemoUserDetail extends LightningElement
                 "User.Name",
                 "User.Title",
                 "User.Email",
-                "User.Phone"
+                "User.Phone_sss"
             ]
         }
     )
     userDetailHandler(response)
     {
-        if (response)
-        {
-            if (response.data) {
-                console.info(response.data);
-            }
-            if (response.error) {
-                console.error(response.error.body.message);
-            }
+        if (response.data) {
+            this.userDetails = response.data.fields;
+        }
+        if (response.error) {
+            this.errMsg = response.error.body.message;
+            console.error(this.errMsg);
         }
     };
 }
