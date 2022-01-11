@@ -6,7 +6,7 @@ import Account from '@salesforce/schema/Account';
 export default class GetObjectInfoDemo extends LightningElement
 {
     objectApiName = "";
-    message = "";
+    fieldApiNames = "";
 
     @wire(getObjectInfo, { objectApiName: Account })
     objectInfo(response)
@@ -14,9 +14,10 @@ export default class GetObjectInfoDemo extends LightningElement
         let data = response.data;
         let error = response.error;
 
-        if (data) {
-            this.objectApiName += `apiName: ${data.apiName}`;
-            this.message += `childRelationships: + ${JSON.stringify(data.childRelationships)}`;
+        if (data)
+        {
+            this.objectApiName = `apiName: ${data.apiName}`;
+            this.fieldApiNames = `fields: ${JSON.stringify(data.fields).substring(0,50)}`;
             console.log(data);
         }
 
