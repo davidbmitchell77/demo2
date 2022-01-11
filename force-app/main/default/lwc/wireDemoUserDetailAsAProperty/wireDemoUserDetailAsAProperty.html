@@ -2,7 +2,7 @@
     <lightning-card title="User Detail using @wire as a property" icon-name="utility:wifi">
         <div class="slds-var-p-around_medium">
             <template if:true={userDetailsProperty.data}>
-                <p>Id: {userDetailsProperty.data.fields.Id.value}</p>
+                <p>Id: {userId}</p>
                 <p>Name: {userDetailsProperty.data.fields.Name.value}</p>
                 <p>Title: {userDetailsProperty.data.fields.Title.value}</p>
                 <p>Email: {userDetailsProperty.data.fields.Email.value}</p>
