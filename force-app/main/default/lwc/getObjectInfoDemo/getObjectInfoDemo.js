@@ -9,19 +9,24 @@ export default class GetObjectInfoDemo extends LightningElement
     objectName = "";
     defaultRecordTypeId = "";
 
+    apiName;
+    defaultRecordTypeId;
+    childRelationships;
+
     @wire(getObjectInfo, { objectApiName: "$objectApiName" })
-    objectInfo(response)
+    objectInfo({ data, error })
     {
-        if (response.data)
+        if (data)
         {
-            this.data = response.data;
-            this.template.querySelector("textarea").value = JSON.stringify(data.fields, null, 2);
-            console.log(data);
+            this.apiName = data.apiName;
+            this.defaultRecordTypeId = data.defaultRecordTypeId;
+            this.childRelationships = data.childRelationships.length;
+            this.template.querySelector("textarea").value = JSON.stringify(data, null, 2);
+            console.info(data);
         }
 
-        if (response.error)
+        if (error)
         {
-            this.error = response.error;
             this.template.querySelector("textarea").value = JSON.stringify(error, null, 2);
             console.error(error);
         }

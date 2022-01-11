@@ -3,11 +3,12 @@
         <div class="slds-var-m-around_medium">
             <label for="textarea">results:</label>
             <textarea cols="90" rows="13" disabled>{objectInfosStr}></textarea>
-            <template for:each={objInfo.results} for:item="obj">
+            <template for:each={objectData.results} for:item="obj">
                 <div key={obj.result.apiName}>
                     <br />
                     <div><strong>apiName:&nbsp;</strong>{obj.result.apiName}</div>
                     <div><strong>defaultRecordTypeId:&nbsp;</strong>{obj.result.defaultRecordTypeId}</div>
+                    <div><strong>childRelationships:&nbsp;</strong>{obj.result.childRelationships.length}</div>
                 </div>
             </template>
         </div>

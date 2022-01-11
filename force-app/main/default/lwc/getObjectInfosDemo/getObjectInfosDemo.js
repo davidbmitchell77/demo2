@@ -13,10 +13,10 @@ export default class WireGetObjectInfo extends LightningElement
     objectInfos;
 
     get objectInfosStr() {
-        return ((this.objectInfos) ? JSON.stringify(this.objectInfos.data, null, 2) : "");
+        return ((this.objectInfos.data) ? JSON.stringify(this.objectInfos.data, null, 2) : "");
     }
 
-    get objInfo() {
+    get objectData() {
         return ((this.objectInfos.data) ? this.objectInfos.data : {});
     }
 }
