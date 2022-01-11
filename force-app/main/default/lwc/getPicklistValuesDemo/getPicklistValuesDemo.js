@@ -1,5 +1,5 @@
-import { LightningElement, wire          } from 'lwc';
-import { getObjectInfo, getPicklistValues} from 'lightning/uiObjectInfoApi';
+import { LightningElement, wire           } from 'lwc';
+import { getObjectInfo, getPicklistValues } from 'lightning/uiObjectInfoApi';
 
 import ACCOUNT_OBJECT from '@salesforce/schema/Account';
 import INDUSTRY_FIELD from '@salesforce/schema/Account.Industry';
@@ -7,20 +7,20 @@ import TYPE_FIELD     from '@salesforce/schema/Account.Type';
 
 export default class GetPIcklistValuesDemo extends LightningElement
 {
-    selectedIndustry = '';
-    selectedType = '';
+    selectedIndustry = "";
+    selectedType = "";
     industryOptions = [];
-    typeOptions= [];
+    typeOptions = [];
 
     @wire(getObjectInfo, { objectApiName: ACCOUNT_OBJECT })
-    objectInfo
+    objectInfo;
 
     @wire(getPicklistValues, { recordTypeId: "$objectInfo.data.defaultRecordTypeId", fieldApiName: INDUSTRY_FIELD })
     industryPicklist({data, error})
     {
         if (data) {
             console.log(data);
-            this.industryOptions = [...this.generatePicklist(data)];
+            this.industryOptions = [ ...this.generatePicklist(data) ];
         }
         if (error) {
             console.error(error);
@@ -41,12 +41,13 @@ export default class GetPIcklistValuesDemo extends LightningElement
     {
         if (data) {
             console.log(data);
-            this.typeOptions = [...this.generatePicklist(data)];
+            this.typeOptions = [ ...this.generatePicklist(data) ];
         }
         if (error) {
             console.error(error);
         }
     }
+
     handleTypeChange(event) {
         this.selectedType = event.detail.value;
     }
