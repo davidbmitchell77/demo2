@@ -1,0 +1,18 @@
+<template>
+    <lightning-card title="getPicklistValuesByRecordType Demo" icon-name="standard:Account">
+        <div class="slds-var-m-around_medium">
+            <div class="slds-var-m-around_medium">
+                <p>data:</p>
+                <textarea cols="140" rows="13" disabled>{dataStr}</textarea>
+            </div>
+            <div class="slds-var-m-around_medium">
+                <p><strong>Account Sources:</strong></p>
+                <template for:each={values} for:item="obj">
+                    <ul class="slds-list_dotted" key={obj.value}>
+                        <li class="slds-item">{obj.value}</li>
+                    </ul>
+                </template>
+            </div>
+        </div>
+    </lightning-card>
+</template>

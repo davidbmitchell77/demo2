@@ -22,6 +22,7 @@
         <members>dynamicCss</members>
         <members>getObjectInfoDemo</members>
         <members>getObjectInfosDemo</members>
+        <members>getPicklistValuesByRecordTypeDemo</members>
         <members>getPicklistValuesDemo</members>
         <members>helloChildComponent</members>
         <members>helloConditionalRendering</members>
