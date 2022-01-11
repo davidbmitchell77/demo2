@@ -16,7 +16,7 @@ export default class GetPIcklistValuesDemo extends LightningElement
     objectInfo;
 
     @wire(getPicklistValues, { recordTypeId: "$objectInfo.data.defaultRecordTypeId", fieldApiName: INDUSTRY_FIELD })
-    industryPicklist({data, error})
+    industryPicklist({ data, error })
     {
         if (data) {
             console.log(data);
@@ -36,8 +36,8 @@ export default class GetPIcklistValuesDemo extends LightningElement
     }
 
   //second picklist for type
-    @wire(getPicklistValues, { recordTypeId: '$objectInfo.data.defaultRecordTypeId', fieldApiName:TYPE_FIELD })
-    typePicklist({data, error})
+    @wire(getPicklistValues, { recordTypeId: '$objectInfo.data.defaultRecordTypeId', fieldApiName: TYPE_FIELD })
+    typePicklist({ data, error })
     {
         if (data) {
             console.log(data);
