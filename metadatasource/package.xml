@@ -20,6 +20,8 @@
         <members>designSystemDemo</members>
         <members>designToken</members>
         <members>dynamicCss</members>
+        <members>getObjectInfoDemo</members>
+        <members>getObjectInfosDemo</members>
         <members>helloChildComponent</members>
         <members>helloConditionalRendering</members>
         <members>helloParentComponent</members>
@@ -48,6 +50,8 @@
         <members>p2cProgressComponent</members>
         <members>p2cSliderComponent</members>
         <members>quizApp</members>
+        <members>recordEditCustom</members>
+        <members>recordEditForm</members>
         <members>recordFormDemo</members>
         <members>recordFormEditDemo</members>
         <members>recordFormViewDemo</members>
@@ -62,6 +66,8 @@
         <members>styling1</members>
         <members>styling2</members>
         <members>userInformation</members>
+        <members>wireDemoUserDetailAsAFunction</members>
+        <members>wireDemoUserDetailAsAProperty</members>
         <name>LightningComponentBundle</name>
     </types>
     <types>
