@@ -1,9 +1,9 @@
-import { LightningElement, wire           } from 'lwc';
-import { getObjectInfo, getPicklistValues } from 'lightning/uiObjectInfoApi';
+import { LightningElement, wire           } from "lwc";
+import { getObjectInfo, getPicklistValues } from "lightning/uiObjectInfoApi";
 
-import ACCOUNT_OBJECT from '@salesforce/schema/Account';
-import INDUSTRY_FIELD from '@salesforce/schema/Account.Industry';
-import TYPE_FIELD     from '@salesforce/schema/Account.Type';
+import Account  from "@salesforce/schema/Account";
+import Industry from "@salesforce/schema/Account.Industry";
+import Type     from "@salesforce/schema/Account.Type";
 
 export default class GetPIcklistValuesDemo extends LightningElement
 {
@@ -12,16 +12,30 @@ export default class GetPIcklistValuesDemo extends LightningElement
     industryOptions = [];
     typeOptions = [];
 
-    @wire(getObjectInfo, { objectApiName: ACCOUNT_OBJECT })
+    @wire(getObjectInfo, { objectApiName: Account })
     objectInfo;
 
-    @wire(getPicklistValues, { recordTypeId: "$objectInfo.data.defaultRecordTypeId", fieldApiName: INDUSTRY_FIELD })
+    @wire(getPicklistValues, { recordTypeId: "$objectInfo.data.defaultRecordTypeId", fieldApiName: Industry })
     industryPicklist({ data, error })
     {
         if (data) {
-            console.log(data);
             this.industryOptions = [ ...this.generatePicklist(data) ];
+            console.log(data);
         }
+
+        if (error) {
+            console.error(error);
+        }
+    }
+
+    @wire(getPicklistValues, { recordTypeId: '$objectInfo.data.defaultRecordTypeId', fieldApiName: Type })
+    typePicklist({ data, error })
+    {
+        if (data) {
+            this.typeOptions = [ ...this.generatePicklist(data) ];
+            console.log(data);
+        }
+
         if (error) {
             console.error(error);
         }
@@ -31,24 +45,14 @@ export default class GetPIcklistValuesDemo extends LightningElement
         return data.values.map(item=>({ label: item.label, value: item.value }));
     }
 
-    handleChange(event) {
-        this.selectedIndustry = event.detail.value;
-    }
-
-  //second picklist for type
-    @wire(getPicklistValues, { recordTypeId: '$objectInfo.data.defaultRecordTypeId', fieldApiName: TYPE_FIELD })
-    typePicklist({ data, error })
+    changeHandler(event)
     {
-        if (data) {
-            console.log(data);
-            this.typeOptions = [ ...this.generatePicklist(data) ];
+        if (event.target.name === "Industry") {
+            this.selectedIndustry = event.detail.value;
         }
-        if (error) {
-            console.error(error);
-        }
-    }
 
-    handleTypeChange(event) {
-        this.selectedType = event.detail.value;
+        if (event.target.name === "Type") {
+            this.selectedType = event.detail.value;
+        }
     }
 }
