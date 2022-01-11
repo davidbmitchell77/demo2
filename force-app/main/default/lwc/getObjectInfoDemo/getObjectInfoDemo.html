@@ -1,11 +1,13 @@
 <template>
     <lightning-card title="getObjectInfo Adapter" icon-name="standard:account">
         <div class="slds-var-m-around_medium">
-            <p>{objectApiName}</p>
             <div>
                 <label for="textarea">fields:</label>
-                <textarea class="slds-textarea" cols="90" rows="13" value={fieldApiNames} disabled></textarea>
+                <textarea cols="90" rows="13" value={fieldApiNames} disabled></textarea>
             </div>
+            <br />
+            <div><strong>apiName:&nbsp;</strong>{objectApiName}</div>
+            <div><strong>defaultRecordTypeId:&nbsp;</strong>{defaultRecordTypeId}</div>
         </div>
     </lightning-card>
 </template>
