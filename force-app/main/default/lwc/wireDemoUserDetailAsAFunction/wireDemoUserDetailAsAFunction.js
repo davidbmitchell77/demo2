@@ -13,7 +13,7 @@ export default class WireDemoUserDetail extends LightningElement
     (
         getRecord,
         {
-            recordId: Id,
+            recordId: "$userId",
             fields:
             [
                 "User.Name",

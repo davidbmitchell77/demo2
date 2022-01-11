@@ -13,6 +13,6 @@ export default class WireDemoUserDetail extends LightningElement
 {
     userId = Id;
 
-    @wire(getRecord, { recordId: Id, fields })
+    @wire(getRecord, { recordId: "$userId", fields })
     userDetailsProperty;
 }
