@@ -32,8 +32,8 @@ export default class GetPIcklistValuesDemo extends LightningElement
     typePicklist({ data, error })
     {
         if (data) {
-            console.log(data);
             this.typeOptions = [ ...this.generatePicklist(data) ];
+            console.log(data);
         }
 
         if (error) {
