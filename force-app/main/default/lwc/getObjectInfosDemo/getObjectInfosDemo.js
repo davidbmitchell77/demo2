@@ -12,11 +12,11 @@ export default class WireGetObjectInfo extends LightningElement
     @wire(getObjectInfos, { objectApiNames: '$objectApiNames' })
     objectInfos;
 
-    get objectInfosStr() {
+    get objectsStr() {
         return ((this.objectInfos.data) ? JSON.stringify(this.objectInfos.data, null, 2) : "");
     }
 
-    get objectData() {
+    get objects() {
         return ((this.objectInfos.data) ? this.objectInfos.data : {});
     }
 }

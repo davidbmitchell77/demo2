@@ -2,8 +2,8 @@
     <lightning-card title="getObjectInfos Adapter" icon-name="standard:opportunity">
         <div class="slds-var-m-around_medium">
             <label for="textarea">results:</label>
-            <textarea cols="90" rows="13" disabled>{objectInfosStr}></textarea>
-            <template for:each={objectData.results} for:item="obj">
+            <textarea cols="90" rows="13" disabled>{objectsStr}></textarea>
+            <template for:each={objects.results} for:item="obj">
                 <div key={obj.result.apiName}>
                     <br />
                     <div><strong>apiName:&nbsp;</strong>{obj.result.apiName}</div>
