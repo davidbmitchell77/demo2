@@ -1,5 +1,5 @@
-import { LightningElement, wire } from 'lwc';
-import { getObjectInfos         } from 'lightning/uiObjectInfoApi';
+import { LightningElement, wire } from "lwc";
+import { getObjectInfos         } from "lightning/uiObjectInfoApi";
 
 import Account     from "@salesforce/schema/Account";
 import Contact     from "@salesforce/schema/Contact";
@@ -12,8 +12,19 @@ export default class WireGetObjectInfo extends LightningElement
     @wire(getObjectInfos, { objectApiNames: "$objectApiNames" })
     objectInfos;
 
-    get objectsStr() {
-        return ((this.objectInfos.data) ? JSON.stringify(this.objectInfos.data, null, 2) : "");
+    get objectsStr()
+    {
+        let result;
+
+        if (this.objectInfos.data) {
+            result = JSON.stringify(this.objectInfos.data, null, 2);
+        }
+
+        if (this.objectInfos.error) {
+            result = JSON.stringify(this.objectInfos.error, null, 2);
+        }
+
+        return result;
     }
 
     get objects() {
