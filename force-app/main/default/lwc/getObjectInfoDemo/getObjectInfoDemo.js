@@ -21,7 +21,7 @@ export default class GetObjectInfoDemo extends LightningElement
 
         if (response.error) {
             this.error = response.error;
-            this.template.querySelector("textarea").value = JSON.stringify(error.fields, null, 2);
+            this.template.querySelector("textarea").value = JSON.stringify(error, null, 2);
             console.error(error);
         }
     }
