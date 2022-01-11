@@ -5,10 +5,11 @@ import Account from '@salesforce/schema/Account';
 
 export default class GetObjectInfoDemo extends LightningElement
 {
-    objectApiName = "";
+    objectApiName = Account;
+    objectName = "";
     defaultRecordTypeId = "";
 
-    @wire(getObjectInfo, { objectApiName: Account })
+    @wire(getObjectInfo, { objectApiName: "$objectApiName" })
     objectInfo(response)
     {
         let data = response.data;
@@ -16,7 +17,7 @@ export default class GetObjectInfoDemo extends LightningElement
 
         if (data)
         {
-            this.objectApiName = data.apiName;
+            this.objectName = data.apiName;
             this.defaultRecordTypeId = data.defaultRecordTypeId;
             this.template.querySelector("textarea").value = JSON.stringify(data.fields, null, 2);
             console.log(data);

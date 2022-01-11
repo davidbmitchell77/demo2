@@ -2,12 +2,12 @@ import { LightningElement, wire } from 'lwc';
 import { getObjectInfos         } from 'lightning/uiObjectInfoApi';
 
 import Account     from '@salesforce/schema/Account';
-import Opportunity from '@salesforce/schema/Opportunity';
 import Contact     from '@salesforce/schema/Contact';
+import Opportunity from '@salesforce/schema/Opportunity';
 
 export default class WireGetObjectInfo extends LightningElement
 {
-    objectApiNames = [ Opportunity, Account, Contact ];
+    objectApiNames = [ Account, Contact, Opportunity ];
 
     @wire(getObjectInfos, { objectApiNames: '$objectApiNames' })
     objectInfos;
