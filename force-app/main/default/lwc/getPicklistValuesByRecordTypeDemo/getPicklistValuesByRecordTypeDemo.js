@@ -7,9 +7,7 @@ import Account from "@salesforce/schema/Account";
 export default class GetPicklistValuesByRecordTypeDemo extends LightningElement
 {
     dataStr = "";
-    errorStr = "";
     data = undefined;
-    error = undefined;
     accountSources = undefined;
     industries = undefined;
     isActive = undefined;
@@ -32,10 +30,7 @@ export default class GetPicklistValuesByRecordTypeDemo extends LightningElement
             console.info(data);
         }
 
-        if (error)
-        {
-            this.error = error;
-            this.errorStr = JSON.stringify(error, null, 2);
+        if (error) {
             console.error(error);
         }
     };
