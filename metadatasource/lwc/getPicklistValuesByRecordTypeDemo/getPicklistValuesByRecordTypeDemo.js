@@ -10,6 +10,10 @@ export default class GetPicklistValuesByRecordTypeDemo extends LightningElement
     errorStr = "";
     data = undefined;
     error = undefined;
+    accountSources = undefined;
+    industries = undefined;
+    isActive = undefined;
+    serviceLevelAgreements = undefined;
 
     @wire(getObjectInfo, { objectApiName: Account })
     objectInfo;
@@ -21,6 +25,10 @@ export default class GetPicklistValuesByRecordTypeDemo extends LightningElement
         {
             this.data = data;
             this.dataStr = JSON.stringify(this.data, null, 2);
+            this.accountSources = data.picklistFieldValues.AccountSource.values;
+            this.industries = data.picklistFieldValues.Industry.values;
+            this.isActive = data.picklistFieldValues.Active__c.values;
+            this.serviceLevelAgreements = data.picklistFieldValues.SLA__c.values;
             console.info(data);
         }
 
@@ -31,25 +39,4 @@ export default class GetPicklistValuesByRecordTypeDemo extends LightningElement
             console.error(error);
         }
     };
-
-    get values()
-    {
-        let results = undefined;
-
-        if (this.data)
-        {
-            if (this.data.picklistFieldValues)
-            {
-                if (this.data.picklistFieldValues.AccountSource)
-                {
-                    if (this.data.picklistFieldValues.AccountSource.values)
-                    {
-                        results = this.data.picklistFieldValues.AccountSource.values;
-                    }
-                }
-            }
-        }
-
-        return results;
-    }
 }

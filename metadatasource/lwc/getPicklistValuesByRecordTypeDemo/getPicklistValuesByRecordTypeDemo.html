@@ -1,17 +1,45 @@
 <template>
-    <lightning-card title="getPicklistValuesByRecordType Demo" icon-name="standard:Account">
+    <lightning-card title="getPicklistValuesByRecordType Demo" icon-name="standard:account">
         <div class="slds-var-m-around_medium">
             <div class="slds-var-m-around_medium">
                 <p>data:</p>
                 <textarea cols="140" rows="13" disabled>{dataStr}</textarea>
             </div>
             <div class="slds-var-m-around_medium">
-                <p><strong>Account Sources:</strong></p>
-                <template for:each={values} for:item="obj">
-                    <ul class="slds-list_dotted" key={obj.value}>
-                        <li class="slds-item">{obj.value}</li>
-                    </ul>
-                </template>
+                <div class="slds-grid slds-gutters">
+                    <div class="slds-col slds-size_3-of-12">
+                        <p><strong>Account Sources:</strong></p>
+                        <template for:each={accountSources} for:item="obj">
+                            <ul class="slds-list_dotted" key={obj.value}>
+                                <li class="slds-item">{obj.value}</li>
+                            </ul>
+                        </template>
+                    </div>
+                    <div class="slds-col slds-size_3-of-12">
+                        <p><strong>Industries:</strong></p>
+                        <template for:each={industries} for:item="obj">
+                            <ul class="slds-list_dotted" key={obj.value}>
+                                <li class="slds-item">{obj.value}</li>
+                            </ul>
+                        </template>
+                    </div>
+                    <div class="slds-col slds-size_3-of-12">
+                        <p><strong>Is Active:</strong></p>
+                        <template for:each={isActive} for:item="obj">
+                            <ul class="slds-list_dotted" key={obj.value}>
+                                <li class="slds-item">{obj.value}</li>
+                            </ul>
+                        </template>
+                    </div>
+                    <div class="slds-col slds-size_3-of-12">
+                        <p><strong>Service Level Agreements:</strong></p>
+                        <template for:each={serviceLevelAgreements} for:item="obj">
+                            <ul class="slds-list_dotted" key={obj.value}>
+                                <li class="slds-item">{obj.value}</li>
+                            </ul>
+                        </template>
+                    </div>
+                </div>
             </div>
         </div>
     </lightning-card>
