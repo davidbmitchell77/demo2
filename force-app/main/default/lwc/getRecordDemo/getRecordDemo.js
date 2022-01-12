@@ -1,5 +1,7 @@
 import { LightningElement, api, wire } from 'lwc';
-import { getRecord } from 'lightning/uiRecordApi';
+import { getRecord                   } from 'lightning/uiRecordApi';
+import { getFieldValue               } from 'lightning/uiRecordApi';
+import { getFieldDisplayValue        } from 'lightning/uiRecordApi';
 
 import Name          from '@salesforce/schema/Lead.Name';
 import City          from '@salesforce/schema/Lead.City';
@@ -24,12 +26,12 @@ export default class GetRecordDemo extends LightningElement
     {
         if (data)
         {
+            this.name = getFieldValue(data, Name);
+            this.city = getFieldValue(data, City);
+            this.state = getFieldValue(data, State);
+            this.postalCode = getFieldValue(data, PostalCode);
+            this.annualRevenue = getFieldDisplayValue(data, AnnualRevenue);
             this.data = JSON.stringify(data, null, 2);
-            this.name = (data.fields.Name.displayValue ? data.fields.Name.displayValue : data.fields.Name.value);
-            this.city = (data.fields.City.displayValue ? data.fields.City.displayValue : data.fields.City.value);
-            this.state = (data.fields.State.displayValue ? data.fields.State.displayValue : data.fields.State.value);
-            this.postalCode = (data.fields.PostalCode.displayValue ? data.fields.PostalCode.displayValue : data.fields.PostalCode.value);
-            this.annualRevenue = (data.fields.AnnualRevenue.displayValue ? data.fields.AnnualRevenue.displayValue : data.fields.AnnualRevenue.value);
             console.info(data);
         }
 
