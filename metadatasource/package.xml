@@ -20,6 +20,7 @@
         <members>designSystemDemo</members>
         <members>designToken</members>
         <members>dynamicCss</members>
+        <members>getListUiDemoLwc</members>
         <members>getObjectInfoDemo</members>
         <members>getObjectInfosDemo</members>
         <members>getPicklistValuesByRecordTypeDemo</members>
