@@ -24,6 +24,8 @@
         <members>getObjectInfosDemo</members>
         <members>getPicklistValuesByRecordTypeDemo</members>
         <members>getPicklistValuesDemo</members>
+        <members>getRecordByLayoutTypeDemo</members>
+        <members>getRecordDemo</members>
         <members>helloChildComponent</members>
         <members>helloConditionalRendering</members>
         <members>helloParentComponent</members>
