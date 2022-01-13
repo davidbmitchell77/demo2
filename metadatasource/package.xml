@@ -10,6 +10,7 @@
         <members>c2pModalComponent</members>
         <members>c2pParentComponent</members>
         <members>checkPermissionDemo</members>
+        <members>createRecordDemo</members>
         <members>cssChildDemo</members>
         <members>cssInLwc</members>
         <members>cssLibrary</members>
@@ -70,6 +71,7 @@
         <members>staticImages</members>
         <members>styling1</members>
         <members>styling2</members>
+        <members>updateRecordDemo</members>
         <members>userInformation</members>
         <members>wireDemoUserDetailAsAFunction</members>
         <members>wireDemoUserDetailAsAProperty</members>
