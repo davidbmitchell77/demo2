@@ -10,17 +10,21 @@ export default class DeleteRecordDemo extends LightningElement
        this.recordId = event.target.value;
     }
 
+    reset() {
+        this.template.querySelector("form").reset();
+    }
+
     deleteHandler()
     {
         deleteRecord(this.recordId).then
         (
             () => {
-                this.showToast("Sucess!!", "Deleted Successfully!!", "success");
+                this.showToast("Success", "Rwcord deleted.", "success");
             }
         ).catch
         (
             error => {
-                this.showToast("Error!!", "Error Occurred!!", "error");
+                this.showToast("Error!!!", "An error occurred.", "error");
                 console.error(error);
             }
         )

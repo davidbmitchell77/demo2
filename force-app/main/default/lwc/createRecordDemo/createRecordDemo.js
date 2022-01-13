@@ -35,7 +35,7 @@ export default class CreateRecordDemo extends LightningElement
         (
             result =>
             {
-                this.showMsg("Success", `Contact created with Id ${result.id}.`);
+                this.showMsg("Success", `Contact created with Id ${result.id}.`, "success");
                 this.template.querySelector("form.createForm").reset();
                 this.formFields = {};
             }
