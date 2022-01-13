@@ -1,18 +1,13 @@
 <template>
-    <lightning-card title="create record form demo">
-        <div class="slds-p-around_medium">
+    <lightning-card title="create record form demo" icon-name="standard:contact">
+        <div class="slds-var-m-around_medium">
             <form class="createForm">
-                <lightning-input label="First Name" name="FirstName"
-                 onchange={changeHandler} class="slds-m-bottom_x-small"></lightning-input>
-                 <lightning-input label="Last Name" name="LastName"
-                 onchange={changeHandler} class="slds-m-bottom_x-small"></lightning-input>
-                 <lightning-input label="Title" name="Title"
-                 onchange={changeHandler} class="slds-m-bottom_x-small"></lightning-input>
-                 <lightning-input type="tel" label="Phone" name="Phone"
-                 onchange={changeHandler} class="slds-m-bottom_x-small"></lightning-input>
-                 <lightning-input type="email" label="Email" name="Email"
-                 onchange={changeHandler} class="slds-m-bottom_x-small"></lightning-input>
-                 <lightning-button label="Create Contact" variant="brand" onclick={createContact}></lightning-button>
+                <lightning-input class=">slds-var-m-bottom_x-small" label="First Name" name="FirstName" onchange={changeHandler}></lightning-input>
+                <lightning-input class=">slds-var-m-bottom_x-small" label="Last Name" name="LastName" onchange={changeHandler}></lightning-input>
+                <lightning-input class=">slds-var-m-bottom_x-small" label="Title" name="Title" onchange={changeHandler}></lightning-input>
+                <lightning-input class=">slds-var-m-bottom_x-small" type="tel" label="Phone" name="Phone" onchange={changeHandler}></lightning-input>
+                <lightning-input class=">slds-var-m-bottom_x-small" type="email" label="Email" name="Email" onchange={changeHandler}></lightning-input>
+                <lightning-button variant="brand" label="Create Contact" onclick={createContact}></lightning-button>
             </form>
         </div>
     </lightning-card>
