@@ -10,8 +10,22 @@ export default class CreateRecordDemo extends LightningElement
 
     changeHandler(event)
     {
-        const { name, value } = event.target;
+        let { name, value } = event.target;
         this.formFields[name] = value;
+    }
+
+    reset()
+    {
+        let theForm = this.template.querySelector("form");
+        theForm.reset();
+
+        let inputs = this.template.querySelectorAll("lightning-input");
+        inputs.forEach
+        (
+            input => {
+                input.value = null;
+            }
+        );
     }
 
     createContact()
