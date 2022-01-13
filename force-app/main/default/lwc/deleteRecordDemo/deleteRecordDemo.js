@@ -19,7 +19,8 @@ export default class DeleteRecordDemo extends LightningElement
         deleteRecord(this.recordId).then
         (
             () => {
-                this.showToast("Success", "Rwcord deleted.", "success");
+                this.reset();
+                this.showToast("Success", "Record deleted.", "success");
             }
         ).catch
         (
