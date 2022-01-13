@@ -18,6 +18,7 @@
         <members>currentRecordInformation</members>
         <members>currentReference</members>
         <members>customLightningCard</members>
+        <members>deleteRecordDemo</members>
         <members>designSystemDemo</members>
         <members>designToken</members>
         <members>dynamicCss</members>
