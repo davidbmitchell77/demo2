@@ -6,11 +6,11 @@ import Contact from "@salesforce/schema/Contact";
 
 const cols =
 [
-    { type: "text",  label: "Id",    fieldName: "Id",    editable: false },
-    { type: "text",  label: "Name",  fieldName: "Name",  editable: false },
-    { type: "text",  label: "Title", fieldName: "Title", editable: false },
-    { type: "tel",   label: "Phone", fieldName: "Phone", editable: true  },
-    { type: "email", label: "Email", fieldName: "Email", editable: true  }
+    { type: "text",  label: "Account", fieldName: "Account", editable: false },
+    { type: "text",  label: "Name",    fieldName: "Name",    editable: false },
+    { type: "text",  label: "Title",   fieldName: "Title",   editable: false },
+    { type: "tel",   label: "Phone",   fieldName: "Phone",   editable: true  },
+    { type: "email", label: "Email",   fieldName: "Email",   editable: true  }
 ];
 
 export default class UpdateRecordDemo extends LightningElement
@@ -33,19 +33,20 @@ export default class UpdateRecordDemo extends LightningElement
         {
             this.contacts = data.records.records.map
             (
-                item =>
+                record =>
                 {
-                    return
-                    ({
-                        "Id":    this.getValue(item, "Id"),
-                        "Name":  this.getValue(item, "Name"),
-                        "Title": this.getValue(item, "Title"),
-                        "Phone": this.getValue(item, "Phone"),
-                        "Email": this.getValue(item, "Email")
-                    });
+                    let contact =
+                    {
+                        "Id":      this.getValue(record, "Id"      ),
+                        "Account": this.getValue(record, "Account" ),
+                        "Name"   : this.getValue(record, "Name"    ),
+                        "Title"  : this.getValue(record, "Title"   ),
+                        "Phone"  : this.getValue(record, "Phone"   ),
+                        "Email"  : this.getValue(record, "Email"   )
+                    };
+                    return contact;
                 }
             );
-            console.log(data);
         }
 
         if (error) {
@@ -53,36 +54,44 @@ export default class UpdateRecordDemo extends LightningElement
         }
     }
 
-    getValue(data, field) {
-        return data.fields[field].value;
+    getValue(data, field)
+    {
+        let value = data.fields[field].value;
+        let displayValue = data.fields[field].displayValue;
+
+        return ((displayValue) ? displayValue : value);
     }
 
     handleSave(event)
     {
-        console.log(JSON.stringify(event.detail.draftValues, null, 2));
-
         let recordInputs = event.detail.draftValues.map
         (
-            draft =>
+            draftValue =>
             {
-                const fields = { ...draft };
+                let fields = { ...draftValue };
                 return { fields: fields };
             }
         );
 
-        let promises = recordInputs.map(recordInput => updateRecord(recordInput));
+        let promises = recordInputs.map
+        (
+            recordInput =>
+            {
+                let promise = updateRecord(recordInput);
+                return promise;
+            }
+        );
 
         Promise.all(promises).then
         (
-            () =>
-            {
-                console.log("Contact updated successfully.");
+            () => {
                 this.draftValues = [];
+                console.log("Contact record updated.");
             }
         ).catch
         (
             error => {
-                console.error("Error updating the record", error);
+                console.error(error);
             }
         );
     }
