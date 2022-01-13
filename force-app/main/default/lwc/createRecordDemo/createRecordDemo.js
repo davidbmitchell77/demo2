@@ -28,7 +28,7 @@ export default class CreateRecordDemo extends LightningElement
         ).catch
         (
             error => {
-                this.showToast("Error Creating record", error.body.message, "error");
+                this.showMsg("Error Creating record", error.body.message, "error");
             }
         );
     }
