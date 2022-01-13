@@ -42,7 +42,7 @@ export default class UpdateRecordDemo extends LightningElement
                         "Title": this.getValue(item, "Title"),
                         "Phone": this.getValue(item, "Phone"),
                         "Email": this.getValue(item, "Email")
-                    })
+                    });
                 }
             );
             console.log(data);
@@ -61,7 +61,7 @@ export default class UpdateRecordDemo extends LightningElement
     {
         console.log(JSON.stringify(event.detail.draftValues, null, 2));
 
-        const recordInputs = event.detail.draftValues.map
+        let recordInputs = event.detail.draftValues.map
         (
             draft =>
             {
@@ -70,7 +70,7 @@ export default class UpdateRecordDemo extends LightningElement
             }
         );
 
-        const promises = recordInputs.map(recordInput => updateRecord(recordInput));
+        let promises = recordInputs.map(recordInput => updateRecord(recordInput));
 
         Promise.all(promises).then
         (
@@ -84,6 +84,6 @@ export default class UpdateRecordDemo extends LightningElement
             error => {
                 console.error("Error updating the record", error);
             }
-        )
+        );
     }
 }
