@@ -2,7 +2,7 @@ import { LightningElement, wire } from "lwc";
 
 import getAccountList from "@salesforce/apex/AccountController.getAccountList";
 
-export default class ApexWireDemo extends LightningElement
+export default class ApexWireAsFunctionDemo extends LightningElement
 {
     accounts;
 
@@ -15,10 +15,10 @@ export default class ApexWireDemo extends LightningElement
             (
                 account =>
                 {
-                    let newType = account.Type;
-                    if (newType === "Customer - Channel") { newType = "Channel"; }
-                    if (newType === "Customer - Direct" ) { newType = "Direct";  }
-                    return { ...account, Type: newType };
+                    let accountType = account.Type;
+                    if (accountType === "Customer - Channel") { accountType = "Channel"; }
+                    if (accountType === "Customer - Direct" ) { accountType = "Direct";  }
+                    return { ...account, Type: accountType };
                 }
             );
         }
