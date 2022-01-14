@@ -10,11 +10,12 @@ export default class ApexImperativeDemo extends LightningElement
     {
         getAccountList().then
         (
-            result => {
+            result =>
+            {
                 this.accounts = result;
                 console.info(this.accounts);
             }
-        ).catch (
+        ).catch(
             error => {
                 console.error(error);
             }

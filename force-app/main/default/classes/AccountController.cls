@@ -49,4 +49,29 @@ public with sharing class AccountController
 
         return results;
     }
+
+    @AuraEnabled(cacheable=true)
+    public static List<Account> methodName(String searchKey)
+    {
+        List<Account> results = new List<Account>();
+
+        try
+        {
+            results =
+            [
+                SELECT Id,
+                       Name,
+                       Type,
+                       Industry
+                  FROM Account
+                 WHERE Name = :('%' + searchKey + '%')
+                 LIMIT 5
+            ];
+        }
+        catch (Exception e) {
+            throw new AuraHandledException(e.getMessage());
+        }
+
+        return results;
+    }
 }
