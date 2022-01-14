@@ -5,6 +5,7 @@
             <template if:true={filteredAccounts.data}>
                 <template for:each={filteredAccounts.data} for:item="account">
                     <div class="slds-box slds-box_xx-small" key={account.Id}>
+                        <p><strong>Id: </strong>{account.Id}</p>
                         <p><strong>Name: </strong>{account.Name}</p>
                         <p><strong>Type: </strong>{account.Type}</p>
                         <p><strong>Industry: </strong>{account.Industry}</p>
