@@ -4,14 +4,22 @@ const url = "https://www.googleapis.com/books/v1/volumes?q=";
 
 export default class GoogleBooks extends LightningElement
 {
-    query = "robespierre";
+    query = "William The Conqueror";
     books = [];
+    timer;
 
     connectedCallback() {
-        this.fetchBookData(url + this.query);
+        this.findBooks(url + this.query);
     }
 
-    fetchBookData(s)
+    disconnectedCallback()
+    {
+        if (this.timer) {
+            this.timer = null;
+        }
+    }
+
+    findBooks(s)
     {
       //fetch(s).then(response=>response.json()).then(data=>{ this.books = data; console.info(data); }).catch(error=>console.error(error));
         fetch(s)
@@ -20,7 +28,10 @@ export default class GoogleBooks extends LightningElement
        .catch(error   => { console.error(error); });
     }
 
-    changeHandler(event) {
-        this.searchKey = event.target.value;
+    changeHandler(event)
+    {
+        this.query = event.target.value;
+        window.clearTimeout(this.timer);
+        this.timer = setTimeout(() => { this.findBooks(url + this.query) }, 750);
     }
 }
