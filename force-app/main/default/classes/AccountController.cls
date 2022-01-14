@@ -51,7 +51,7 @@ public with sharing class AccountController
     }
 
     @AuraEnabled(cacheable=true)
-    public static List<Account> methodName(String searchKey)
+    public static List<Account> getAccountListBySearchKey(String searchKey)
     {
         List<Account> results = new List<Account>();
 
@@ -64,7 +64,7 @@ public with sharing class AccountController
                        Type,
                        Industry
                   FROM Account
-                 WHERE Name = :('%' + searchKey + '%')
+                 WHERE Name LIKE :('%' + searchKey + '%')
                  LIMIT 5
             ];
         }
