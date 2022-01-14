@@ -13,14 +13,17 @@ export default class ApexWireWithParams extends LightningElement
         this.selectedType = event.target.value;
     }
 
-    get typeOptions()
+    get accountTypeOptions()
     {
-        let results = [];
+        let options = [];
 
-        results.push({ label: "--None--", value: null });
-        results.push({ label: "Customer - Channel", value: "Customer - Channel" });
-        results.push({ label: "Customer - Direct", value: "Customer - Direct" });
+        options.push({ label: "--None--"             , value: null                   });
+        options.push({ label: "Customer - Channel"   , value: "Customer - Channel"   });
+        options.push({ label: "Customer - Direct"    , value: "Customer - Direct"    });
+        options.push({ label: "Installation Partner" , value: "Installation Partner" });
+        options.push({ label: "Prospect"             , value: "Prospect"             });
+        options.push({ label: "Technology Partner"   , value: "Technology Partner"   });
 
-        return results;
+        return options;
     }
 }
