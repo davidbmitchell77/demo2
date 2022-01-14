@@ -7,6 +7,15 @@
         <name>AuraDefinitionBundle</name>
     </types>
     <types>
+        <members>AccountController</members>
+        <name>ApexClass</name>
+    </types>
+    <types>
+        <members>apexImperativeDemo</members>
+        <members>apexImperativeWithParamsDemo</members>
+        <members>apexWireAsFunctionDemo</members>
+        <members>apexWireAsPropertyDemo</members>
+        <members>apexWireWithParams</members>
         <members>c2pModalComponent</members>
         <members>c2pParentComponent</members>
         <members>checkPermissionDemo</members>

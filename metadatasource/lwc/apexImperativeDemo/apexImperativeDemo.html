@@ -1,0 +1,17 @@
+<template>
+    <lightning-card title="Apex Imperative Demo" icon-name="standard:account">
+        <div class="slds-var-m-around_medium">
+            <lightning-button variant="brand" label="Call Account method" title="Call the apex class AccountController.getAccountList method." onclick={clickHandler}></lightning-button>
+            <template if:true={accounts}>
+                <template for:each={accounts} for:item="account">
+                    <div class="slds-box slds-box_xx-small slds-var-m-top_small" key={account.Id}>
+                        <p><strong>Id: </strong>{account.Id}</p>
+                        <p><strong>Name: </strong>{account.Name}</p>
+                        <p><strong>Type: </strong>{account.Type}</p>
+                        <p><strong>Industry: </strong>{account.Industry}</p>
+                    </div>
+                </template>
+            </template>
+        </div>
+    </lightning-card>
+</template>

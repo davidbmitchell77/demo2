@@ -1,0 +1,15 @@
+<template>
+    <lightning-card title="Apex Wire as Property Demo" icon-name="standard:account">
+        <div class="slds-var-m-around_medium">
+            <template if:true={accounts.data}>
+                <template for:each={accounts.data} for:item="account">
+                    <div class="slds-box slds-box_xx-small slds-var-m-top_x-small" key={account.Id}>
+                        <p><strong>Account: </strong>{account.Name}</p>
+                        <p><strong>Type: </strong>{account.Type}</p>
+                        <p><strong>Industry: </strong>{account.Industry}</p>
+                    </div>
+                </template>
+            </template>
+        </div>
+    </lightning-card>
+</template>
