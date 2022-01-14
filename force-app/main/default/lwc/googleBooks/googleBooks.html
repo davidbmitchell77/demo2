@@ -1,0 +1,15 @@
+<template>
+    <lightning-card title="Google Books" icon-name="utility:knowledge_base">
+        <div class="slds-var-m-around_medium">
+            <!-- lightning-layout multiple-rows="true" -->
+                <template if:true={books} for:each={books} for:item="book">
+                    <div class= slds-var-m-top_xx-small key={book.id}>
+                        <p><strong>Title: </strong>{book.volumeInfo.title}</p>
+                        <p><strong>Author(s): </strong>{book.volumeInfo.authors}</p>
+                        <p><strong>Pages: </strong>{book.volumeInfo.pageCount}</p>
+                    </div>
+                </template>
+            <!-- /lightning-layout -->
+        </div>
+    </lightning-card>
+</template>
