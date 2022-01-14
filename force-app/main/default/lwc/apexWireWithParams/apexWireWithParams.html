@@ -4,7 +4,7 @@
             <lightning-combobox class="slds-var-m-bottom_x-small" name="type" label="Account Type:" options={accountTypeOptions} onchange={typeHandler}></lightning-combobox>
             <template if:true={filteredAccounts.data}>
                 <template for:each={filteredAccounts.data} for:item="account">
-                    <div class="slds-box slds-box_xx-small" key={account.Id}>
+                    <div class="slds-box slds-box_xx-small slds-var-m-top_x-small" key={account.Id}>
                         <p><strong>Id: </strong>{account.Id}</p>
                         <p><strong>Name: </strong>{account.Name}</p>
                         <p><strong>Type: </strong>{account.Type}</p>
