@@ -4,6 +4,6 @@ import getAccountList from "@salesforce/apex/AccountController.getAccountList";
 
 export default class ApexWireDemo extends LightningElement
 {
-    @wire(getAccountList, { })
+    @wire(getAccountList, {})
     accounts;
 }

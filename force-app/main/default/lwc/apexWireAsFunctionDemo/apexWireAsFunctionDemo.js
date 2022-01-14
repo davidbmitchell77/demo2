@@ -6,7 +6,7 @@ export default class ApexWireDemo extends LightningElement
 {
     accounts;
 
-    @wire(getAccountList)
+    @wire(getAccountList, {})
     getAccounts({ data, error })
     {
         if (data)

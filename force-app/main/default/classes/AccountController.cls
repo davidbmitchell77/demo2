@@ -14,7 +14,6 @@ public with sharing class AccountController
                        Type,
                        Industry
                   FROM Account
-                 WHERE Type != null
                  ORDER BY Name ASC
                  LIMIT 5
             ];
