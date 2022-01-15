@@ -37,7 +37,10 @@ export default class ApexImperativeWithParamsDemo extends LightningElement
         )
     }
 
-    disconnectedCallback() {
-        this.timer = null;
+    disconnectedCallback()
+    {
+        if (this.timer) {
+            this.timer = null;
+        }
     }
 }
