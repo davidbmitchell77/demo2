@@ -21,7 +21,6 @@ export default class GoogleBooks extends LightningElement
 
     findBooks(s)
     {
-      //fetch(s).then(response=>response.json()).then(data=>{ this.books = data; console.info(data); }).catch(error=>console.error(error));
         fetch(s)
        .then(response => response.json()
        .then(data     => { this.books = data.items; console.info(data.items); }))
