@@ -8,7 +8,13 @@
                 <template if:true={books} for:each={books} for:item="book">
                     <lightning-layout-item class="slds-var-m-around_small" size="3" key={book.id}>
                         <div class="slds-box slds-var-p-around_medium slds-text-align_center">
-                            <img src={book.volumeInfo.imageLinks.smallThumbnail} height="200px"></img>
+                            <template if:true={book.volumeInfo.imageLinks}>
+                                <template if:true={book.volumeInfo.imageLinks.smallThumbnail}>
+                                    <div>
+                                        <img src={book.volumeInfo.imageLinks.smallThumbnail} height="200px"></img>
+                                    </div>
+                                </template>
+                            </template>
                             <div class="slds-text-heading_small slds-var-p-vertical_medium"><strong>Title: </strong>{book.volumeInfo.title}</div>
                             <p><strong>Author(s): </strong>{book.volumeInfo.authors}</p>
                             <p><strong>Published: </strong>{book.volumeInfo.publishedDate}</p>
