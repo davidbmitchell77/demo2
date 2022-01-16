@@ -11,11 +11,13 @@
                             <template if:true={book.volumeInfo.imageLinks}>
                                 <template if:true={book.volumeInfo.imageLinks.smallThumbnail}>
                                     <div>
-                                        <img src={book.volumeInfo.imageLinks.smallThumbnail} height="200px"></img>
+                                        <img src={book.volumeInfo.imageLinks.smallThumbnail}  alt="image not available" title={book.volumeInfo.description} height="200px"/>
                                     </div>
                                 </template>
                             </template>
-                            <div class="slds-text-heading_small slds-var-p-vertical_medium"><strong>Title: </strong>{book.volumeInfo.title}</div>
+                            <div class="slds-text-heading_small slds-var-p-vertical_medium">
+                                <strong>Title: </strong>{book.volumeInfo.title}
+                            </div>
                             <p><strong>Author(s): </strong>{book.volumeInfo.authors}</p>
                             <p><strong>Published: </strong>{book.volumeInfo.publishedDate}</p>
                             <p><strong>Rating: </strong>{book.volumeInfo.averageRating}</p>
