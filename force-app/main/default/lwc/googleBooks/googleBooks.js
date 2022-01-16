@@ -23,14 +23,27 @@ export default class GoogleBooks extends LightningElement
     {
         fetch(s)
        .then(response => response.json()
-       .then(data     => { this.books = data.items; console.info(data.items); }))
-      .catch(error   =>  { console.error(error); });
+       .then(data     => { this.books = data.items; }))
+      .catch(error    => { this.log(error); });
     }
 
     changeHandler(event)
     {
         this.query = event.target.value;
         window.clearTimeout(this.timer);
-        this.timer = setTimeout(() => { this.findBooks(url + this.query) }, 750);
+        this.timer = setTimeout(
+            () => { this.findBooks(url + this.query); },
+            (0.75 * 1000)
+        );
+    }
+
+    log(message)
+    {
+        let messageType = Object.prototype.toString.call(message);
+
+        if (messageType === "[object String]") { console.log(message);   }
+        if (messageType === "[object Array]" ) { console.info(message);  }
+        if (messageType === "[object Object]") { console.info(message);  }
+        if (messageType === "[object Error]" ) { console.error(message); }
     }
 }
