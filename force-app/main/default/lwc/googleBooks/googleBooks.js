@@ -29,10 +29,10 @@ export default class GoogleBooks extends LightningElement
 
     changeHandler(event)
     {
-        this.query = url + event.target.value;
+        this.query = event.target.value;
         window.clearTimeout(this.timer);
         this.timer = setTimeout(
-            () => { this.findBooks(this.query); },
+            () => { this.findBooks(url + this.query); },
             (0.75 * 1000)
         );
     }
