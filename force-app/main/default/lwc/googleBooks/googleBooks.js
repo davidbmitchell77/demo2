@@ -81,7 +81,7 @@ export default class GoogleBooks extends LightningElement
             url,
             title,
             `
-            scrollbars=yes,
+            scrollbars=no,
             width=${w / systemZoom},
             height=${h / systemZoom},
             top=${top},
