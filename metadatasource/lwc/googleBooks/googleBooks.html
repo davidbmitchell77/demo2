@@ -1,7 +1,8 @@
 <template>
     <lightning-card title="Google Books" icon-name="utility:knowledge_base">
         <div class="slds-var-p-around_medium">
-            <lightning-input type="search" label="Search titles" value={query} onchange={changeHandler}></lightning-input>
+            <lightning-input type="search" label="Search titles" value={query} onchange={changeHandler}>
+            </lightning-input>
         </div>
         <div class="slds-var-m-around_medium">
             <lightning-layout multiple-rows="true">
@@ -11,9 +12,24 @@
                             <template if:true={book.volumeInfo.imageLinks}>
                                 <template if:true={book.volumeInfo.imageLinks.smallThumbnail}>
                                     <div>
-                                        <img name={book.volumeInfo.canonicalVolumeLink} src={book.volumeInfo.imageLinks.smallThumbnail}  alt="image not available" title={book.volumeInfo.description} height="200px" onclick={clickHandler}/>
+                                        <img name={book.volumeInfo.canonicalVolumeLink} src={book.volumeInfo.imageLinks.smallThumbnail} alt="image not available" title={book.volumeInfo.description} height="200px" onclick={clickHandler} />
                                     </div>
                                 </template>
+                                <template if:false={book.volumeInfo.imageLinks.smallThumbnail}>
+                                    <div>
+                                        <img name={noImageAvailable} src={noImageAvailable} alt="No image available." title={book.volumeInfo.description} height="200px" onclick={clickHandler} />
+                                    </div>
+                                </template>
+                            </template>
+                            <template if:false={book.volumeInfo.imageLinks}>
+                                <div>
+                                    <img name={book.volumeInfo.canonicalVolumeLink} src={noImageAvailable} alt="No image available." title={book.volumeInfo.description} height="200px" onclick={clickHandler} />
+                                    <br />
+                                    <br />
+                                    <br />
+                                    <br />
+                                    <br />
+                                </div>
                             </template>
                             <div class="slds-text-heading_small slds-var-p-vertical_medium">
                                 <strong>Title: </strong>{book.volumeInfo.title}

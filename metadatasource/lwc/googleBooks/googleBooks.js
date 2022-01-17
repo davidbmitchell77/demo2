@@ -1,9 +1,12 @@
 import { LightningElement } from "lwc";
 
+import noBookImageAvailable from "@salesforce/resourceUrl/noBookImageAvailable";
+
 const url = "https://www.googleapis.com/books/v1/volumes?q=";
 
 export default class GoogleBooks extends LightningElement
 {
+    noImageAvailable = noBookImageAvailable;
     query = "William The Conqueror";
     books = [];
     timer;
@@ -41,7 +44,7 @@ export default class GoogleBooks extends LightningElement
     {
         let name = event.target.name;
 
-        if (name.toLowerCase().includes("https://"))
+        if (name.toLowerCase().startsWith("https://") || name.toLowerCase().startsWith("/resource/"))
         {
             this.popupCenter
             (
