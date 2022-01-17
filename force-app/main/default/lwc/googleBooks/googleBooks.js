@@ -41,7 +41,7 @@ export default class GoogleBooks extends LightningElement
     {
         let name = event.target.name;
 
-        if (name.includes("https://"))
+        if (name.toLowerCase().includes("https://"))
         {
             this.popupCenter
             (

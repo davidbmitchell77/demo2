@@ -11,9 +11,7 @@
                             <template if:true={book.volumeInfo.imageLinks}>
                                 <template if:true={book.volumeInfo.imageLinks.smallThumbnail}>
                                     <div>
-                                        <!--a href={book.volumeInfo.canonicalVolumeLink} target="_blank" rel="search" -->
-                                            <img name={book.volumeInfo.canonicalVolumeLink} src={book.volumeInfo.imageLinks.smallThumbnail}  alt="image not available" title={book.volumeInfo.description} height="200px" onclick={clickHandler}/>
-                                        <!--/a -->
+                                        <img name={book.volumeInfo.canonicalVolumeLink} src={book.volumeInfo.imageLinks.smallThumbnail}  alt="image not available" title={book.volumeInfo.description} height="200px" onclick={clickHandler}/>
                                     </div>
                                 </template>
                             </template>
