@@ -11,7 +11,7 @@
                             <template if:true={book.volumeInfo.imageLinks}>
                                 <template if:true={book.volumeInfo.imageLinks.smallThumbnail}>
                                     <div>
-                                        <a href={book.selfLink} target="_blank"><img src={book.volumeInfo.imageLinks.smallThumbnail}  alt="image not available" title={book.volumeInfo.description} height="200px"/></a>
+                                        <img name={book.volumeInfo.canonicalVolumeLink} src={book.volumeInfo.imageLinks.smallThumbnail}  alt="image not available" title={book.volumeInfo.description} height="200px" onclick={clickHandler}/>
                                     </div>
                                 </template>
                             </template>
