@@ -7,10 +7,13 @@ import Type          from '@salesforce/schema/Account.Type';
 import Industry      from '@salesforce/schema/Account.Industry';
 import AnnualRevenue from '@salesforce/schema/Account.AnnualRevenue';
 
+//                                                                                 developer edition      scratch org
+const AccountId = location.host.toLowerCase().startsWith("dbmlightning-dev-ed") ? "0016g000004Gt0oAAC" : "0010R00001NYNimQAH";
+
 export default class RecordFormDemo extends LightningElement
 {
-    objectName = Account;
-    recordId = "0010R00001NYNimQAH";
+    objectApiName = Account;
+    recordId = AccountId;
 
     fieldNames =
     [
