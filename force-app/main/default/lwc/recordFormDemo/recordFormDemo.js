@@ -29,7 +29,7 @@ export default class RecordFormDemo extends LightningElement
 
         let successMsg = new ShowToastEvent
         ({
-            title: `Account ${(mode=="view") ? "updated" : "created"}`,
+            title: `Account ${(mode==="view") ? "updated" : "created"}`,
             message: "Record Id: " + event.detail.id,
             variant: "success"
         });
