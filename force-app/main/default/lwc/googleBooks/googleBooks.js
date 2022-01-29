@@ -4,6 +4,8 @@ import noBookImageAvailable from "@salesforce/resourceUrl/noBookImageAvailable";
 
 const url = "https://www.googleapis.com/books/v1/volumes?q=";
 
+let isLoading = false;
+
 export default class GoogleBooks extends LightningElement
 {
     noImageAvailable = noBookImageAvailable;
@@ -24,9 +26,12 @@ export default class GoogleBooks extends LightningElement
 
     findBooks(s)
     {
+        this.isLoading = true;
+
+
         fetch(s)
        .then(response => response.json()
-       .then(data     => { this.books = data.items; }))
+       .then(data     => { this.books = data.items; this.isLoading = false; }))
       .catch(error    => { this.log(error); });
     }
 
@@ -61,9 +66,10 @@ export default class GoogleBooks extends LightningElement
     {
         let messageType = Object.prototype.toString.call(message);
 
-        if (messageType === "[object String]") { console.log(message);   }
-        if (messageType === "[object Array]" ) { console.info(message);  }
-        if (messageType === "[object Object]") { console.info(message);  }
+        if (messageType === "[object String]") { console.log(message);   } else
+        if (messageType === "[object Number]") { console.log(message);   } else
+        if (messageType === "[object Array]" ) { console.info(message);  } else
+        if (messageType === "[object Object]") { console.info(message);  } else
         if (messageType === "[object Error]" ) { console.error(message); }
     }
 

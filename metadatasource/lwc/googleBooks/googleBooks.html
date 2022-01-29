@@ -44,4 +44,7 @@
             </lightning-layout>
         </div>
     </lightning-card>
+    <div class="loader" if:true={isLoading}>
+        <lightning-spinner variant="brand" alternative-text="Loading..." size="large"></lightning-spinner>
+    </div>
 </template>
