@@ -50,6 +50,7 @@
         <members>lmsComponentX</members>
         <members>looping</members>
         <members>lwcAuraCommunication</members>
+        <members>lwcConfigDemo</members>
         <members>navigateToAuraComponent</members>
         <members>navigateToExternalWebPage</members>
         <members>navigateToHome</members>
