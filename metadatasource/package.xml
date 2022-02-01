@@ -8,6 +8,8 @@
     </types>
     <types>
         <members>AccountController</members>
+        <members>pdfController</members>
+        <members>pdfPageController</members>
         <name>ApexClass</name>
     </types>
     <types>
@@ -69,6 +71,7 @@
         <members>p2cParentComponent</members>
         <members>p2cProgressComponent</members>
         <members>p2cSliderComponent</members>
+        <members>pdfGenerationDemo</members>
         <members>quizApp</members>
         <members>recordEditCustom</members>
         <members>recordEditForm</members>
@@ -98,6 +101,7 @@
     <types>
         <members>lmsVisualforceDemo</members>
         <members>navigateVfPage</members>
+        <members>renderAsPDF</members>
         <name>ApexPage</name>
     </types>
     <version>52.0</version>
