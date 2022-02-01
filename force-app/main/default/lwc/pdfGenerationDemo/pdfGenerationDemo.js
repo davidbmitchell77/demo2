@@ -32,7 +32,7 @@ export default class PdfGenerationDemo extends LightningElement
         return this.services.reduce
         (
             (total, service) => {
-                return total = total+service.amount;
+                return total = (total + service.amount);
             },
             0
         );
@@ -47,7 +47,7 @@ export default class PdfGenerationDemo extends LightningElement
         (
             result => {
                 console.log("attachment id", result);
-                window.open(`https://agility-fun-2547-dev-ed--c.documentforce.com/servlet/servlet.FileDownload?file=${result.Id}`);
+                window.open(`https://${window.location.hostname}/servlet/servlet.FileDownload?file=${result.Id}`);
             }
         ).catch
         (
