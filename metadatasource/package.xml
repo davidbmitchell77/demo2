@@ -8,6 +8,7 @@
     </types>
     <types>
         <members>AccountController</members>
+        <members>OpportunityController</members>
         <members>pdfController</members>
         <members>pdfPageController</members>
         <name>ApexClass</name>
@@ -20,6 +21,8 @@
         <members>apexWireWithParams</members>
         <members>c2pModalComponent</members>
         <members>c2pParentComponent</members>
+        <members>chartJs</members>
+        <members>chartsDemo</members>
         <members>checkPermissionDemo</members>
         <members>createRecordDemo</members>
         <members>cssChildDemo</members>
