@@ -43,7 +43,8 @@ export default class Charts extends LightningElement
         this.chart = new window.Chart(ctx, this.config());
     }
 
-    config() {
+    config()
+    {
         return {
             type: this.type,
             data: {
