@@ -8,6 +8,7 @@
     </types>
     <types>
         <members>AccountController</members>
+        <members>MapControllerLwc</members>
         <members>OpportunityController</members>
         <members>pdfController</members>
         <members>pdfPageController</members>
@@ -58,6 +59,7 @@
         <members>lwcConfigDemo</members>
         <members>lwcInTab</members>
         <members>lwcUtilityBar</members>
+        <members>mapsInLwcDemo</members>
         <members>navigateToAuraComponent</members>
         <members>navigateToExternalWebPage</members>
         <members>navigateToHome</members>
