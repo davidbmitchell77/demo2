@@ -8,6 +8,7 @@
     </types>
     <types>
         <members>AccountController</members>
+        <members>ContactController</members>
         <members>MapControllerLwc</members>
         <members>OpportunityController</members>
         <members>pdfController</members>
@@ -37,6 +38,7 @@
         <members>designSystemDemo</members>
         <members>designToken</members>
         <members>dynamicCss</members>
+        <members>filteringAndsortingDemo</members>
         <members>getListUiDemoLwc</members>
         <members>getObjectInfoDemo</members>
         <members>getObjectInfosDemo</members>
