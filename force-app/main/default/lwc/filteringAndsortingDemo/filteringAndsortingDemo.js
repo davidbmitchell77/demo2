@@ -26,7 +26,7 @@ export default class FilteringAndSortingDemo extends LightningElement
         }
     }
 
-    get FilterByOptions()
+    get filterByOptions()
     {
         return [
             { label: "All",   value: "All"   },

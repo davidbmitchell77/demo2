@@ -3,7 +3,7 @@
         <div class="slds-var-p-around_medium">
             <lightning-layout>
                 <lightning-layout-item size="2" padding="around-small">
-                    <lightning-combobox name="filterBy" value={filterBy} label="Filter By" options={FilterByOptions} onchange={filterbyHandler}></lightning-combobox>
+                    <lightning-combobox name="filterBy" value={filterBy} label="Filter By" options={filterByOptions} onchange={filterbyHandler}></lightning-combobox>
                 </lightning-layout-item>
                 <lightning-layout-item size="4" padding="around-small">
                     <lightning-input type="text" label="Filter" onkeyup={filterHandler}></lightning-input>
@@ -30,7 +30,6 @@
                             <td>{data.Email}</td>
                         </tr>
                     </template>
-
                 </tbody>
             </table>
         </div>
