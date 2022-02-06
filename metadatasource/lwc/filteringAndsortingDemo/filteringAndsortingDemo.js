@@ -18,7 +18,7 @@ export default class FilteringAndSortingDemo extends LightningElement
         if (data)
         {
             this.fullTableData = data;
-            this.filteredData = [ ...this.sortBy(data) ];
+            this.filteredData = [ ...this.sortBy(data) ];;
             console.info(data);
         }
         if (error) {
