@@ -2,7 +2,7 @@ import { LightningElement, wire } from "lwc";
 
 import getContactList from "@salesforce/apex/ContactController.getContactList";
 
-export default class FilteringAndSortingDemo extends LightningElement
+export default class FilteringAndsortingDemo extends LightningElement
 {
     headings = [ "Id", "Name", "Title", "Email" ];
     fullTableData = [];

@@ -39,6 +39,7 @@
         <members>designToken</members>
         <members>dynamicCss</members>
         <members>filteringAndsortingDemo</members>
+        <members>filteringAndSortingDemo2</members>
         <members>getListUiDemoLwc</members>
         <members>getObjectInfoDemo</members>
         <members>getObjectInfosDemo</members>
