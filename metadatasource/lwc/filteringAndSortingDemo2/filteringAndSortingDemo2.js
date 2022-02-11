@@ -113,4 +113,11 @@ export default class FilteringAndSortingDemo2 extends LightningElement
 
         return cloneData;
     }
+
+    disconnectedCallback()
+    {
+        if (this.timer) {
+            window.clearTimeout(this.timer);
+        }
+    }
 }

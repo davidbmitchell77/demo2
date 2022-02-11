@@ -34,6 +34,7 @@
         <members>currentRecordInformation</members>
         <members>currentReference</members>
         <members>customLightningCard</members>
+        <members>dateValidation</members>
         <members>deleteRecordDemo</members>
         <members>designSystemDemo</members>
         <members>designToken</members>
@@ -63,6 +64,8 @@
         <members>lwcInTab</members>
         <members>lwcUtilityBar</members>
         <members>mapsInLwcDemo</members>
+        <members>modal</members>
+        <members>modalWrapper</members>
         <members>navigateToAuraComponent</members>
         <members>navigateToExternalWebPage</members>
         <members>navigateToHome</members>
