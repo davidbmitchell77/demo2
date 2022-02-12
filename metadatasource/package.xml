@@ -9,6 +9,7 @@
     <types>
         <members>AccountController</members>
         <members>ContactController</members>
+        <members>CsvController</members>
         <members>MapControllerLwc</members>
         <members>OpportunityController</members>
         <members>pdfController</members>
@@ -31,6 +32,7 @@
         <members>cssInLwc</members>
         <members>cssLibrary</members>
         <members>cssParentDemo</members>
+        <members>csvDemo</members>
         <members>currentRecordInformation</members>
         <members>currentReference</members>
         <members>customLightningCard</members>
@@ -101,6 +103,7 @@
         <members>styling2</members>
         <members>updateRecordDemo</members>
         <members>userInformation</members>
+        <members>utils</members>
         <members>wireDemoUserDetailAsAFunction</members>
         <members>wireDemoUserDetailAsAProperty</members>
         <name>LightningComponentBundle</name>
