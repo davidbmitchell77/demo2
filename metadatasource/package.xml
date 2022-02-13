@@ -36,6 +36,7 @@
         <members>currentRecordInformation</members>
         <members>currentReference</members>
         <members>customCarousel</members>
+        <members>customCarouselWrapper</members>
         <members>customLightningCard</members>
         <members>dateValidation</members>
         <members>deleteRecordDemo</members>

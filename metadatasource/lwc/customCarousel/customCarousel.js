@@ -1,7 +1,7 @@
 /***********
  * enable-auto-scroll for autoScroll to enable
- * slide-timer for controlling the slider speed default is 3000
- * slides-data is the data and data should be in this format {image:'',heading:'',description:''}
+ * slide-timer for controlling the slider speed default is 3000ms
+ * slides-data is the data and data should be in this format { image: "", heading: "", description: "" }
  * show-full is for 100% width other wise use customWidth
  * custom-width is use for controlling the width of the slider manually
  *
@@ -47,14 +47,21 @@ export default class CustomCarousel extends LightningElement
 
     connectedCallback()
     {
-        if (this.enableAutoScroll) {
-            this.timer = window.setInterval(()=>{ this.slideSelectionHandler(this.slideIndex + 1) }, Number(this.slideTimer));
+        if (this.enableAutoScroll)
+        {
+            this.timer = window.setInterval
+            (
+                () => {
+                    this.slideSelectionHandler(this.slideIndex + 1);
+                },
+                Number(this.slideTimer)
+            );
         }
     }
 
     disconnectedCallback()
     {
-        if (this.enableAutoScroll) {
+        if (this.enableAutoScroll || this.timer) {
             window.clearInterval(this.timer);
         }
     }
@@ -85,11 +92,20 @@ export default class CustomCarousel extends LightningElement
         else {
             this.slideIndex = id;
         }
+
         this.slides = this.slides.map
         (
             (item) => {
                 return ((this.slideIndex === item.slideIndex) ? { ...item, cardClasses: card_visible_classes, dotClases: dot_visible_classes } : { ...item, cardClasses: card_hidden_classes, dotClases: dot_hidden_classes });
             }
         );
+    }
+
+    visible(item) {
+        return { ...item, cardClasses: card_visible_classes, dotClases: dot_visible_classes };
+    }
+
+    hidden(item) {
+        return { ...item, cardClasses: card_hidden_classes, dotClases: dot_hidden_classes };
     }
 }
