@@ -58,6 +58,7 @@
         <members>getPicklistValuesDemo</members>
         <members>getRecordByLayoutTypeDemo</members>
         <members>getRecordDemo</members>
+        <members>googleAction</members>
         <members>googleBooks</members>
         <members>helloChildComponent</members>
         <members>helloConditionalRendering</members>
