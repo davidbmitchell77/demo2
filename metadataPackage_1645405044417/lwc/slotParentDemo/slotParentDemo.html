@@ -1,0 +1,14 @@
+<template>
+    <lightning-card title="Slot Demo" icon-name="utility:graph">
+        <div class="slds-var-m-around_medium">
+            <c-slot-child-demo>
+                <slot>
+                    <h1 class="slds-text-heading_medium"><strong>{happyNewYear}</strong></h1>
+                </slot>
+                <p class="slds-text-heading_small slds-text-color_weak" slot="s1">Hello from parent <span style="color: royalblue;"><strong>&lt;slot&gt;</strong></span> tag!</p>
+                <p class="slds-text-heading_small slds-text-color_weak" slot="s2">How are you feeling today?</p>
+                <p slot="f1">{today}</p>
+            </c-slot-child-demo>
+        </div>
+    </lightning-card>
+</template>

@@ -1,0 +1,16 @@
+<template>
+    <lightning-card title="User Detail using @wire as a function" icon-name="utility:wifi">
+        <div class="slds-var-p-around_medium">
+            <template if:true={userDetails}>
+                <p>Id: {userId}</p>
+                <p>Name: {userDetails.Name.value}</p>
+                <p>Title: {userDetails.Title.value}</p>
+                <p>Email: {userDetails.Email.value}</p>
+                <p>Phone: {userDetails.Phone.value}</p>
+            </template>
+            <template if:false={userDetails}>
+                <p>{errMsg}</p>
+            </template>
+        </div>
+    </lightning-card>
+</template>

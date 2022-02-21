@@ -1,0 +1,26 @@
+<template>
+    <lightning-card title="Create a New Record" icon-name="utility:database">
+        <div class="slds-var-m-around_medium">
+            <lightning-button class="slds-var-m-right_x-small" variant="brand" label="New Lead" title="Create a new lead record." onclick={clickHandler}></lightning-button>
+            <lightning-button class="slds-var-m-right_x-small" variant="brand" label="New Contact" title="Create a new contact record." onclick={clickHandler}></lightning-button>
+        </div>
+    </lightning-card>
+    <lightning-card title="Create a New Record (with default data)" icon-name="utility:data_mapping">
+        <div class="slds-var-m-around_medium">
+            <lightning-button class="slds-var-m-right_x-small" variant="brand" label="New Lead (with default data)" title="Create a new lead record (with default data)." onclick={clickHandler}></lightning-button>
+            <lightning-button class="slds-var-m-right_x-small" variant="brand" label="New Contact (with default data)" title="Create a new contact record (with default data)." onclick={clickHandler}></lightning-button>
+        </div>
+    </lightning-card>
+    <lightning-card title="Navigate to List View" icon-name="standard:contact_list">
+        <div class="slds-var-m-around_medium">
+            <lightning-button class="slds-var-m-right_x-small" variant="brand" label="Account List View" title="Go the the All Accounts list view." onclick={clickHandler}></lightning-button>
+            <lightning-button class="slds-var-m-right_x-small" variant="brand" label="Contact List View" title="Go the the All Contacts list view." onclick={clickHandler}></lightning-button>
+            <lightning-button class="slds-var-m-right_x-small" variant="brand" label="Opportunity List View" title="Go to the All Opportunities list View" onclick={clickHandler}></lightning-button>"
+        </div>
+    </lightning-card>
+    <lightning-card title="Navigate to Files" icon-name="utility:file">
+        <div class="slds-var-m-around_medium">
+            <lightning-button class="slds-var-m-right_x-small" variant="brand" label="Files" title="Go the the Files page." onclick={clickHandler}></lightning-button>
+        </div>
+    </lightning-card>
+</template>

@@ -1,0 +1,15 @@
+:host:hover {
+    display: block;
+    background-color: rgb(56, 56, 241);
+    color: white;
+}
+:host(.purple) {
+    display: block;
+    background-color: rgb(70, 0, 128);
+    color: white;
+}
+:host(.purple):hover {
+    display: block;
+    background-color: rgb(128, 77, 0);
+    color: white;
+}

@@ -1,0 +1,23 @@
+<aura:component implements="flexipage:availableForAllPageTypes" access="global">
+    <aura:attribute name="messageValue" type="String"/>
+    <aura:attribute name="messageReceived" type="String"/>
+    <aura:attribute name="status" type="String"/>
+    <aura:attribute name="noInput" type="Boolean" />
+    <aura:handler name="init" value="{!this}" action="{!c.initialize}"/>
+    <lightning:messageChannel type="SampleMessageChannel__c" aura:id="SampleMessageChannel" onMessage="{!c.handleMessage}" scope="APPLICATION" />
+    <lightning:card title="Publisher / Subscriber (Aura)" iconName="utility:system_and_global_variable">
+        <div class="slds-var-m-around_medium">
+            <lightning:input type="text" label="Enter message to publish:" value="{!v.messageValue}" onkeyup="{!c.inputHandler}"></lightning:input>
+        </div>
+        <div class="slds-clearfix">
+            <lightning:button class="slds-var-m-left_medium slds-float_none" variant="brand" label="Publish" title="Publish message via the Lightning Messaging Service." onclick="{!c.publishMessage}" disabled="{!v.noInput}"></lightning:button>
+        </div>
+        <div class="slds-var-p-around_medium">
+            <h1 onclick="{!c.publishMessage}"><strong>Message Received:</strong></h1>
+            <lightning:formattedText value="{!v.messageReceived}"></lightning:formattedText>
+        </div>
+        <footer class="slds-card__footer">
+            <span style="font-size:x-small;">{!v.status}</span>
+        </footer>
+    </lightning:card>
+</aura:component>

@@ -1,0 +1,16 @@
+<template>
+    <lightning-card title="getObjectInfos Adapter" icon-name="standard:opportunity">
+        <div class="slds-var-m-around_medium">
+            <label for="textarea">results:</label>
+            <textarea cols="90" rows="13" disabled>{objectsStr}></textarea>
+            <template for:each={objects.results} for:item="obj">
+                <div key={obj.result.apiName}>
+                    <br />
+                    <div><strong>apiName:&nbsp;</strong>{obj.result.apiName}</div>
+                    <div><strong>defaultRecordTypeId:&nbsp;</strong>{obj.result.defaultRecordTypeId}</div>
+                    <div><strong>childRelationships:&nbsp;</strong>{obj.result.childRelationships.length}</div>
+                </div>
+            </template>
+        </div>
+    </lightning-card>
+</template>
