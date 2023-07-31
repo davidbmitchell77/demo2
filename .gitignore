@@ -40,4 +40,4 @@ $RECYCLE.BIN/
 .env
 
 # sfdx ignore files
-sfdx-project-json
+sfdx-project.json
