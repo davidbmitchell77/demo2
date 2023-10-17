@@ -11,8 +11,7 @@ export default class GetListUiDemoLwc extends LightningElement
     nextPageToken = null;
     previousPageToken = null;
 
-    @wire
-    (
+    @wire (
         getListUi,
         {
             objectApiName: Contact,
@@ -35,7 +34,7 @@ export default class GetListUiDemoLwc extends LightningElement
         if (error) {
             console.error(error)
         }
-    };
+    }
 
     handlePreviousPage() {
         this.pageToken = this.previousPageToken;
