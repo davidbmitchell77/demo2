@@ -1,5 +1,5 @@
 {
-  "orgName": "Demo company",
+  "orgName": "David B. Mitchell & Associates, Inc.",
   "edition": "Developer",
   "features": ["EnableSetPasswordInApi", "ServiceCloud", "ServiceUser", "SalesUser" ],
   "hasSampleData": true,
