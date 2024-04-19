@@ -21,29 +21,30 @@ public with sharing class Contact_Trigger_Handler {
 
     public void createRelatedRecords(List<Contact> oldContacts, List<Contact> newContacts, Map<Id,Contact> oldMap, Map<Id,Contact> newMap) {
 
+        Boolean createNote = false;
         List<Note> notes = new List<Note>();
 
         for (Contact contact : newContacts) {
             if (contact.Phone > '') {
                 if (String.valueOf(operationType) == 'AFTER_INSERT') {
-                    Note n = new Note();
-                    n.ParentId = contact.Id;
-                    n.Title = 'Synchronization Note';
-                    n.Body = 'This contact\'s account information has been synchronized by phone number.';
-                    notes.add(n);
+                    createNote = true;
                 }
                 if (String.valueOf(operationType) == 'AFTER_UPDATE') {
                     if (newMap.get(contact.Id).Account.Phone == oldMap.get(contact.Id).Account.Phone) {
-                        Note n = new Note();
-                        n.ParentId = contact.Id;
-                        n.Title = 'Synchronization Note';
-                        n.Body = 'This contact\'s account information has been synchronized by phone number.';
-                        notes.add(n);
+                        createNote = true;
                     }
                 }
             }
         }
- 
+
+        if (createNote == true) {
+            Note n = new Note();
+            n.ParentId = contact.Id;
+            n.Title = 'Synchronization Note';
+            n.Body = 'This contact\'s account information has been synchronized by phone number.';
+            notes.add(n);
+        }
+
         if (!notes.isEmpty()) {
             insert notes;
         }
