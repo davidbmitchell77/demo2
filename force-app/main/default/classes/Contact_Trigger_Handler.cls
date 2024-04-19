@@ -35,14 +35,13 @@ public with sharing class Contact_Trigger_Handler {
                     }
                 }
             }
-        }
-
-        if (createNote == true) {
-            Note n = new Note();
-            n.ParentId = contact.Id;
-            n.Title = 'Synchronization Note';
-            n.Body = 'This contact\'s account information has been synchronized by phone number.';
-            notes.add(n);
+            if (createNote == true) {
+                Note n = new Note();
+                n.ParentId = contact.Id;
+                n.Title = 'Synchronization Note';
+                n.Body = 'This contact\'s account information has been synchronized by phone number.';
+                notes.add(n);
+            }
         }
 
         if (!notes.isEmpty()) {
