@@ -41,6 +41,7 @@ public with sharing class Contact_Trigger_Handler {
                 n.Title = 'Synchronization Note';
                 n.Body = 'This contact\'s account information has been synchronized by phone number.';
                 notes.add(n);
+                createNote = false;
             }
         }
 
