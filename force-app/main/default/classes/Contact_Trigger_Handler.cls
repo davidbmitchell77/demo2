@@ -80,7 +80,7 @@ public with sharing class Contact_Trigger_Handler {
         for (Contact c : newContacts) {
             switch on ((c.Phone == null) ? null : c.Phone.trim()) {
                 when null {
-                    c.addError('Phone', 'Phone number is required.');
+                    c.addError('Phone', 'Contact.Phone number is required.');
                     result = false;
                 }
             }

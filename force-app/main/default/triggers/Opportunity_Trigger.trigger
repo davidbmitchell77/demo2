@@ -3,11 +3,23 @@ trigger Opportunity_Trigger on Opportunity (before insert, before update, after 
     private Boolean runTriggerHandler = false;
 
     switch on Trigger.operationType {
-        when BEFORE_INSERT, BEFORE_UPDATE {
-            runTriggerHandler = true;
+        when BEFORE_INSERT {
+            if (!Opportunity_Trigger_Recursion.BEFORE_INSERT_ALREADY_INVOKED) {
+                Opportunity_Trigger_Recursion.BEFORE_INSERT_ALREADY_INVOKED = true;
+                runTriggerHandler = true;
+            }
+        }
+        when BEFORE_UPDATE {
+            if (!Opportunity_Trigger_Recursion.BEFORE_UPDATE_ALREADY_INVOKED) {
+                Opportunity_Trigger_Recursion.BEFORE_UPDATE_ALREADY_INVOKED = true;
+                runTriggerHandler = true;
+            }
         }
         when AFTER_INSERT {
-            runTriggerHandler = true;
+            if (!Opportunity_Trigger_Recursion.AFTER_INSERT_ALREADY_INVOKED) {
+                Opportunity_Trigger_Recursion.AFTER_INSERT_ALREADY_INVOKED = true;
+                runTriggerHandler = true;
+            }
         }
         when AFTER_UPDATE {
             if (!Opportunity_Trigger_Recursion.AFTER_UPDATE_ALREADY_INVOKED) {
