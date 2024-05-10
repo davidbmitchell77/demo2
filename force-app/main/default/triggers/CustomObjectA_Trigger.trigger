@@ -17,7 +17,7 @@ trigger CustomObjectA_Trigger on CustomObjectA__c(after insert, after update) {
         }
     }
 
-    if (runtriggerHandler == true) {
+    if (runTriggerHandler == true) {
         CustomObjectA_Trigger_Handler handler = new CustomObjectA_Trigger_Handler(Trigger.operationType);
         if (handler.isValid(Trigger.new)) {
             handler.run(Trigger.old, Trigger.new, Trigger.oldMap, Trigger.newMap);
