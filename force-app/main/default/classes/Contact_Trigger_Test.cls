@@ -2,80 +2,137 @@
 private class Contact_Trigger_Test {
 
     @isTest
-    private static void testMethod01()
-    {
-        Contact contact = new Contact(
-        FirstName = 'testMethod01',
-        LastName = 'Contact_Trigger_Test',
-        Phone = null,
-        HomePhone = null
+    private static void TestMethod01() {
+        Account a = new Account(
+          Name = 'Contact_Trigger_Test.TestMethod01',
+          Phone = '(111) 111-1111',
+          Description = null
         );
-        Test.startTest();
-        try {
-            insert contact;
-        } catch(Exception e) {
-        }
-        Test.stopTest();
-        System.assertEquals(0, [SELECT Id FROM Contact LIMIT 200].size());
+        insert a;
+
+       Contact c = new Contact(
+           FirstName = 'TestMethod01',
+           LastName = 'Contact_Trigger_Test',
+           Phone = '(111) 111-1111 x111',
+           Email = 'TestMethod01@ContactTriggerTest.com',
+           Description = 'Hello from Contact_Trigger_Test.TestMethod01()!',
+           AccountId = a.Id
+       );
+
+       Test.startTest();
+       insert c;
+       Test.stopTest();
+
+       System.assertEquals('Hello from Contact_Trigger_Test.TestMethod01()!', [SELECT Id, Description FROM Account LIMIT 1].Description);
     }
 
     @isTest
-    private static void testMethod02()
-    {
-        Contact contact = new Contact(
-        FirstName = 'testMethod02',
-        LastName = 'Contact_Trigger_Test',
-        Phone = '5555555555',
-        HomePhone = null
+    private static void TestMethod02() {
+        Account a = new Account(
+          Name = 'Contact_Trigger_Test.TestMethod02',
+          Phone = '(222) 222-2222',
+          Description = null
         );
-        Test.startTest();
-        insert contact;
-        Test.stopTest();
-        System.assertEquals(1, [SELECT Id FROM Contact LIMIT 200].size());
+        insert a;
+
+       Contact c = new Contact(
+           FirstName = 'TestMethod02',
+           LastName = 'Contact_Trigger_Test',
+           Phone = '(222) 222-2222 x222',
+           Email = 'TestMethod02@ContactTriggerTest.com',
+           Description = 'Hello from Contact_Trigger_Test.TestMethod02()!',
+           AccountId = a.Id
+       );
+
+       Test.startTest();
+       insert c;
+       c.LastName = null;
+       c.Phone = null;
+       try {
+           update c;
+       } catch(DMLException e) {
+           System.debug(LoggingLevel.ERROR, e.getMessage());
+       }
+       Test.stopTest();
+
+       System.assertEquals('(222) 222-2222 x222', [SELECT Id, Phone FROM Contact LIMIT 1].Phone);
     }
 
     @isTest
-    private static void testMethod03()
-    {
-        Contact contact = new Contact(
-        FirstName = 'testMethod03',
-        LastName = 'Contact_Trigger_Test',
-        Phone = '5555555555',
-        HomePhone = null
+    private static void TestMethod03() {
+        Account a = new Account(
+          Name = 'Contact_Trigger_Test.TestMethod03',
+          Phone = '(333) 333-3333',
+          Description = null
         );
-        Test.startTest();
-        insert contact;
-        System.assertEquals(1, [SELECT Id FROM Contact LIMIT 200].size());
-        contact.HomePhone = '5555555555';
-        update contact;
-        Test.stopTest();
-        System.assertEquals('5555555555', [SELECT Id, HomePhone FROM Contact LIMIT 200][0].HomePhone);
+        insert a;
+
+       Contact c = new Contact(
+           FirstName = 'TestMethod03',
+           LastName = 'Contact_Trigger_Test',
+           Phone = '(333) 333-3333 333',
+           Email = 'TestMethod03@ContactTriggerTest.com',
+           Description = 'Hello from Contact_Trigger_Test.TestMethod03()!',
+           AccountId = a.Id
+       );
+       insert c;
+
+       Test.startTest();
+       System.assertEquals(1, [SELECT Id, Phone FROM Contact].size());
+       delete c;
+       System.assertEquals(0, [SELECT Id, Phone FROM Contact].size());
+       undelete [SELECT Id FROm Contact WHERE IsDeleted = true ALL ROWS];
+       Test.stopTest();
+
+       System.assertEquals(1, [SELECT Id, Phone FROM Contact].size());
     }
 
     @isTest
-    private static void testMethod04()
-    {
-        Contact contact = new Contact(
-        FirstName = 'testMethod04',
-        LastName = 'Contact_Trigger_Test',
-        Phone = '555-TST-0004'
+    private static void TestMethod04() {
+        Account a = new Account(
+          Name = 'Contact_Trigger_Test.TestMethod04',
+          Phone = '(444) 444-4444',
+          Description = null
         );
-        Test.startTest();
-        insert contact;
-        System.assertEquals(1, [SELECT Id FROM Contact LIMIT 1].size());
+        insert a;
 
-        Account account = new Account(
-        Name = 'testMethod04',
-        Phone = '5555555555'
-        );
-        insert account;
-        System.assertEquals(1, [SELECT Id FROM Account LIMIT 1].size());
+       Contact c = new Contact(
+           FirstName = 'TestMethod04',
+           LastName = 'Contact_Trigger_Test',
+           Phone = '(111) 111-1111 x111',
+           Email = 'TestMethod04@ContactTriggerTest.com',
+           Description = 'Hello from Contact_Trigger_Test.TestMethod04()!',
+           AccountId = a.Id
+       );
 
-        contact.Phone = '5555555555';
-        update contact;
-        Test.stopTest();
+       Test.startTest();
+       insert c;
+       System.assertEquals('Hello from Contact_Trigger_Test.TestMethod04()!', [SELECT Id, Description FROM Account LIMIT 1].Description);
+       c.Description = 'Goodbye from Contact_Trigger_Test.TestMethod04()!';
+       update c;
+       Test.stopTest();
 
-        System.assertEquals(account.Id, [SELECT Id, Name, AccountId FROM Contact LIMIT 1][0].AccountId);
-        System.assertEquals(account.Name, [SELECT Id, Name, AccountId, Account.Name FROM Contact LIMIT 1][0].Account.Name);
+       System.assertEquals('Goodbye from Contact_Trigger_Test.TestMethod04()!', [SELECT Id, Description FROM Account LIMIT 1].Description);
+    }
+
+    @isTest
+    private static void TestMethod05() {
+       Contact c = new Contact(
+           FirstName = 'TestMethod05',
+           LastName = 'Contact_Trigger_Test',
+           Phone = '(555) 555-555 x555',
+           Email = 'TestMethod05@ContactTriggerTest.com',
+           Description = 'Hello from Contact_Trigger_Test.TestMethod05()!'
+       );
+
+       Test.startTest();
+       insert c;
+       System.assertEquals(1, [SELECT Id, Name FROM Contact].size());
+       delete c;
+       System.assertEquals(0, [SELECT Id, Name FROM Contact].size());
+       undelete [SELECT Id FROM Contact WHERE IsDeleted = true ALL ROWS];
+       Test.stopTest();
+
+       System.assertEquals(1, [SELECT Id, Name FROM Contact].size());
     }
 }
