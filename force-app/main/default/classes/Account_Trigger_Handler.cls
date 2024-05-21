@@ -57,7 +57,7 @@ public with sharing class Account_Trigger_Handler {
 
         List<Contact> contacts = new List<Contact>();
 
-        for (Contact c : [SELECT Id, Description, AccountId FROM Contact WHERE AccountId IN :accountIds(newAccounts)]) {
+        for (Contact c : [SELECT Id, AccountId FROM Contact WHERE AccountId IN :accountIds(newAccounts)]) {
             if (newMap.get(c.AccountId).Phone != oldMap.get(c.AccountId).Phone) {
                 c.Phone = newMap.get(c.AccountId).Phone;
                 contacts.add(c);
