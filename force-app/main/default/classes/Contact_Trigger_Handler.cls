@@ -39,11 +39,11 @@ public with sharing class Contact_Trigger_Handler {
 
             }
             when AFTER_INSERT {
-                updateParentAccounts(oldContacts, newContacts, oldMap, newMap);
+                updateParentAccountDescriptions(oldContacts, newContacts, oldMap, newMap);
                 updateParentAccountSummaryFields(oldContacts, newContacts, oldMap, newMap);
             }
             when AFTER_UPDATE {
-                updateParentAccounts(oldContacts, newContacts, oldMap, newMap);
+                updateParentAccountDescriptions(oldContacts, newContacts, oldMap, newMap);
                 updateParentAccountSummaryFields(oldContacts, newContacts, oldMap, newMap);
             }
             when AFTER_DELETE {
@@ -55,7 +55,7 @@ public with sharing class Contact_Trigger_Handler {
         }
     }
 
-    private void updateParentAccounts(List<Contact> oldContacts, List<Contact> newContacts, Map<Id,Contact> oldMap, Map<Id,Contact> newMap) {
+    private void updateParentAccountDescriptions(List<Contact> oldContacts, List<Contact> newContacts, Map<Id,Contact> oldMap, Map<Id,Contact> newMap) {
 
         List<Account> accounts = new List<Account>();
 
