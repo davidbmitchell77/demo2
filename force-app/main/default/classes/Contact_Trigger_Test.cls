@@ -99,7 +99,7 @@ private class Contact_Trigger_Test {
        Contact c = new Contact(
            FirstName = 'TestMethod04',
            LastName = 'Contact_Trigger_Test',
-           Phone = '(111) 111-1111 x111',
+           Phone = '(444) 444-1111 x444',
            Email = 'TestMethod04@ContactTriggerTest.com',
            Description = 'Hello from Contact_Trigger_Test.TestMethod04()!',
            AccountId = a.Id
@@ -120,7 +120,7 @@ private class Contact_Trigger_Test {
        Contact c = new Contact(
            FirstName = 'TestMethod05',
            LastName = 'Contact_Trigger_Test',
-           Phone = '(555) 555-555 x555',
+           Phone = '(555) 555-5555 x555',
            Email = 'TestMethod05@ContactTriggerTest.com',
            Description = 'Hello from Contact_Trigger_Test.TestMethod05()!'
        );
@@ -134,5 +134,34 @@ private class Contact_Trigger_Test {
        Test.stopTest();
 
        System.assertEquals(1, [SELECT Id, Name FROM Contact].size());
+    }
+
+    @isTest
+    private static void TestMethod06() {
+        Account a = new Account(
+          Name = 'Contact_Trigger_Test.TestMethod04',
+          Phone = '(666) 666-6666',
+          Description = null
+        );
+        insert a;
+
+       Contact c = new Contact(
+           FirstName = 'TestMethod06',
+           LastName = 'Contact_Trigger_Test',
+           Phone = '(666) 666-6666 x666',
+           Email = 'TestMethod06@ContactTriggerTest.com',
+           Description = 'Hello from Contact_Trigger_Test.TestMethod06()!',
+           AccountId = a.Id
+       );
+
+       Test.startTest();
+       insert c;
+       System.assertEquals(1, [SELECT Id, TotalContacts__c FROM Account LIMIT 1].TotalContacts__c);
+       delete c;
+       System.assertEquals(0, [SELECT Id, TotalContacts__c FROM Account LIMIT 1].TotalContacts__c);
+       undelete [SELECT Id FROM Contact WHERE IsDeleted = true ALL ROWS];
+       Test.stopTest();
+
+       System.assertEquals(1, [SELECT Id, TotalContacts__c FROM Account LIMIT 1].TotalContacts__c);
     }
 }

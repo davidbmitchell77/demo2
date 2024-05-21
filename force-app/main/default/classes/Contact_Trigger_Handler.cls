@@ -40,15 +40,17 @@ public with sharing class Contact_Trigger_Handler {
             }
             when AFTER_INSERT {
                 updateParentAccounts(oldContacts, newContacts, oldMap, newMap);
+                updateParentAccountSummaryFields(oldContacts, newContacts, oldMap, newMap);
             }
             when AFTER_UPDATE {
                 updateParentAccounts(oldContacts, newContacts, oldMap, newMap);
+                updateParentAccountSummaryFields(oldContacts, newContacts, oldMap, newMap);
             }
             when AFTER_DELETE {
-
+                updateParentAccountSummaryFields(oldContacts, newContacts, oldMap, newMap);
             }
             when AFTER_UNDELETE {
-
+                updateParentAccountSummaryFields(oldContacts, newContacts, oldMap, newMap);
             }
         }
     }
@@ -81,6 +83,44 @@ public with sharing class Contact_Trigger_Handler {
         }
     }
 
+    private void updateParentAccountSummaryFields(List<Contact> oldContacts, List<Contact> newContacts, Map<Id,Contact> oldMap, Map<Id,Contact> newMap) {
+
+        List<Account> accounts = new List<Account>();
+
+        List<Contact> contacts = ((String.valueOf(this.operationType) == 'AFTER_DELETE') ? oldContacts.clone() : newContacts.clone());
+        Map<Id,Account> accountsMap = new Map<Id,Account>([SELECT Id,
+                                                                  Name,
+                                                                  TotalContacts__c
+                                                             FROM Account
+                                                            WHERE ID IN :accountIds(contacts)
+        ]);
+
+        if (contacts != null) {
+            for (Contact c : contacts) {
+                if (c.AccountId != null) {
+                    Account a = accountsMap.get(c.AccountId);
+                    switch on this.operationType {
+                        when AFTER_INSERT {
+                            a.TotalContacts__c = nvl(accountsMap.get(c.AccountId).TotalContacts__c, 0) + 1;
+                        }
+                        when AFTER_DELETE {
+                            a.TotalContacts__c = nvl(accountsMap.get(c.AccountId).TotalContacts__c, 0) - 1;
+                        }
+                        when AFTER_UNDELETE {
+                            a.TotalContacts__c = nvl(accountsMap.get(c.AccountId).TotalContacts__c, 0) + 1;
+                        }
+                    }
+                    a.TotalContacts__c = ((nvl(a.TotalContacts__c, 0) < 0) ? 0 : a.TotalContacts__c);
+                    accounts.add(a);
+                }
+            }
+        }
+
+        if (!accounts.isEmpty()) {
+            update accounts;
+        }
+    }
+
     private Set<Id> accountIds(List<Contact> contacts) {
 
         Set<Id> results = new Set<Id>();
@@ -96,5 +136,9 @@ public with sharing class Contact_Trigger_Handler {
         }
 
         return results;
+    }
+
+    private Decimal nvl(Decimal n, Integer defaultValue) {
+        return ((n == null) ? defaultValue : n);
     }
 }
