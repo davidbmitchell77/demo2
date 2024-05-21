@@ -23,7 +23,7 @@ public with sharing class Account_Trigger_Handler {
             }
         }
 
-        return true;
+        return result;
     }
 
     public void run(List<Account> oldAccounts, List<Account> newAccounts, Map<Id,Account> oldMap, Map<Id,Account> newMap) {
