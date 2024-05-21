@@ -19,12 +19,12 @@ private class Account_Trigger_Test {
         );
         insert c;
 
-        test.startTest();
-        a.Description = 'Hello from Account_Trigger_Test.TestMethod01()!';
+        Test.startTest();
+        a.Phone = '(000) 000-0000';
         update a;
-        test.stopTest();
+        Test.stopTest();
 
-        System.assertEquals('Hello from Account_Trigger_Test.TestMethod01()!', [SELECT Id, Description FROM Contact LIMIT 1].Description);
+        System.assertEquals('(000) 000-0000', [SELECT Id, Phone FROM Contact LIMIT 1].Phone);
     }
 
     @isTest
@@ -34,15 +34,16 @@ private class Account_Trigger_Test {
             Phone = '(222) 222-2222'
         );
         
-        test.startTest();
+        Test.startTest();
         insert a;
         a.Name = null;
+        a.Phone = null;
         try {
             update a;
         } catch(DMLException e) {
             System.debug(LoggingLevel.ERROR, e.getMessage());
         }
-        test.stopTest();
+        Test.stopTest();
 
         System.assertEquals('Account_Trigger_Test.TestMethod02', [SELECT Id, Name FROM Account LIMIT 1].Name);
     }
@@ -54,13 +55,13 @@ private class Account_Trigger_Test {
             Phone = '(333) 333-3333'
         );
 
-        test.startTest();
+        Test.startTest();
         insert a;
         System.assertEquals(1, [SELECT Id, Name FROM Account].size());
         delete a;
         System.assertEquals(0, [SELECT Id, Name FROM Account].size());
         undelete [SELECT Id FROM Account WHERE IsDeleted = true ALL ROWS];
-        test.stopTest();
+        Test.stopTest();
 
         System.assertEquals(1, [SELECT Id, Name FROM Account].size());
     }

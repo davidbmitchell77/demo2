@@ -16,6 +16,10 @@ public with sharing class Account_Trigger_Handler {
                     a.Name.addError(System.Label.ACCOUNT_NAME_IS_REQUIRED);
                     result = false;
                 }
+                if (a.Phone == null) {
+                    a.Phone.addError(System.Label.ACCOUNT_PHONE_NUMBER_IS_REQUIRED);
+                    result = false;
+                }
             }
         }
 
@@ -35,7 +39,7 @@ public with sharing class Account_Trigger_Handler {
 
             }
             when AFTER_INSERT {
-                updateChildContacts(oldAccounts, newAccounts, oldMap, newMap);
+
             }
             when AFTER_UPDATE {
                 updateChildContacts(oldAccounts, newAccounts, oldMap, newMap);
@@ -54,8 +58,8 @@ public with sharing class Account_Trigger_Handler {
         List<Contact> contacts = new List<Contact>();
 
         for (Contact c : [SELECT Id, Description, AccountId FROM Contact WHERE AccountId IN :accountIds(newAccounts)]) {
-            if (newMap.get(c.AccountId).Description != getDescription(oldMap, c.AccountId)) {
-                c.Description = newMap.get(c.AccountId).Description;
+            if (newMap.get(c.AccountId).Phone != oldMap.get(c.AccountId).Phone) {
+                c.Phone = newMap.get(c.AccountId).Phone;
                 contacts.add(c);
             }
         }
@@ -78,18 +82,5 @@ public with sharing class Account_Trigger_Handler {
         }
 
         return results;
-    }
-
-    private String getDescription(Map<Id,Account> accountsMap, Id accountId) {
-
-        String result = null;
-
-        if (accountsMap != null) {
-            if (accountsMap.containsKey(accountId)) {
-                result = accountsMap.get(accountId).Description;
-            }
-        }
-
-        return result;
     }
 }
