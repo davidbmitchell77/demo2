@@ -95,12 +95,17 @@ public with sharing class Contact_Trigger_Handler {
                                                             WHERE ID IN :accountIds(contacts)
         ]);
 
+        Set<Id> duplicateAccountIds = new Set<Id>();
         if (contacts != null) {
             for (Contact c : contacts) {
-                if (c.AccountId != null) {
+                if (c.AccountId != null && !duplicateAccountIds.contains(c.AccountId)) {
+                    duplicateAccountIds.add(c.AccountId);
                     Account a = accountsMap.get(c.AccountId);
                     switch on this.operationType {
                         when AFTER_INSERT {
+                            a.TotalContacts__c = nvl(accountsMap.get(c.AccountId).TotalContacts__c, 0) + 1;
+                        }
+                        when AFTER_UPDATE {
                             a.TotalContacts__c = nvl(accountsMap.get(c.AccountId).TotalContacts__c, 0) + 1;
                         }
                         when AFTER_DELETE {
