@@ -44,7 +44,6 @@ public with sharing class Contact_Trigger_Handler {
             }
             when AFTER_UPDATE {
                 updateParentAccountDescriptions(oldContacts, newContacts, oldMap, newMap);
-                updateParentAccountSummaryFields(oldContacts, newContacts, oldMap, newMap);
             }
             when AFTER_DELETE {
                 updateParentAccountSummaryFields(oldContacts, newContacts, oldMap, newMap);
@@ -103,9 +102,6 @@ public with sharing class Contact_Trigger_Handler {
                     Account a = accountsMap.get(c.AccountId);
                     switch on this.operationType {
                         when AFTER_INSERT {
-                            a.TotalContacts__c = nvl(accountsMap.get(c.AccountId).TotalContacts__c, 0) + 1;
-                        }
-                        when AFTER_UPDATE {
                             a.TotalContacts__c = nvl(accountsMap.get(c.AccountId).TotalContacts__c, 0) + 1;
                         }
                         when AFTER_DELETE {
