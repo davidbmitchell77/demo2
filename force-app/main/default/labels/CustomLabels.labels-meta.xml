@@ -35,11 +35,4 @@
         <shortDescription>Opportunity name is required.</shortDescription>
         <value>Opportunity name is required.</value>
     </labels>
-    <labels>
-        <fullName>foobar</fullName>
-        <language>en_US</language>
-        <protected>false</protected>
-        <shortDescription>foobar</shortDescription>
-        <value>foobar</value>
-    </labels>
 </CustomLabels>
