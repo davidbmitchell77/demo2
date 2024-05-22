@@ -8,6 +8,34 @@
         <value>Account name is required.</value>
     </labels>
     <labels>
+        <fullName>ACCOUNT_PHONE_NUMBER_IS_REQUIRED</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>Account phone number is required.</shortDescription>
+        <value>Account phone number is required.</value>
+    </labels>
+    <labels>
+        <fullName>CONTACT_LAST_NAME_IS_REQUIRED</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>Contact last name is required.</shortDescription>
+        <value>Contact last name is required.</value>
+    </labels>
+    <labels>
+        <fullName>CONTACT_PHONE_NUMBER_IS_REQUIRED</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>Contact phone number is required.</shortDescription>
+        <value>Contact phone number is required.</value>
+    </labels>
+    <labels>
+        <fullName>OPPORTUNITY_NAME_IS_REQUIRED</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>Opportunity name is required.</shortDescription>
+        <value>Opportunity name is required.</value>
+    </labels>
+    <labels>
         <fullName>foobar</fullName>
         <language>en_US</language>
         <protected>false</protected>
