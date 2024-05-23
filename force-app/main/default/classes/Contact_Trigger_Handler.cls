@@ -117,6 +117,16 @@ public with sharing class Contact_Trigger_Handler {
         return results;
     }
 
+
+    private summarize(Account a) {
+        Account result = new Account();
+        result.Id = a.Id;
+        result.TotalContacts__c = nvl(a.TotalContacts__c, 0);
+        result.TotalContacts__c = (result.TotalContacts__c + ((this.operationType == TriggerOperation.AFTER_DELETE) ? -1 : 1);
+        result.TotalContacts__c = (nvl(result.TotalContacts__c, 0) < 0 ? 0 : nvl(result.TotalContacts__c, 0));
+        return result;
+    }
+
     private List<Contact> contacts(List<Contact> oldContacts, List<Contact> newContacts) {
         return ((this.operationType == TriggerOperation.AFTER_DELETE) ? oldContacts : newContacts);
     }
