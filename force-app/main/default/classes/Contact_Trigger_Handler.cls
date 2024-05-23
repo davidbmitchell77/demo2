@@ -84,17 +84,17 @@ public with sharing class Contact_Trigger_Handler {
 
     private void updateParentAccountSummaryFields(List<Contact> oldContacts, List<Contact> newContacts, Map<Id,Contact> oldMap, Map<Id,Contact> newMap) {
 
-        Map<Id,Account> accounts = new Map<Id,Account>();
+        Map<Id,Account> accountsMap = new Map<Id,Account>();
 
         for (Contact c : contacts(oldContacts, newContacts)) {
             if (c.AccountId != null) {
-                Account a = (accounts.containsKey(c.accountId) ? accounts.get(c.AccountId) : new Account(Id=c.AccountId, TotalContacts__c=0));
-                accounts.put(c.AccountId, summarize(a));
+                Account a = (accountsMap.containsKey(c.accountId) ? accountsMap.get(c.AccountId) : new Account(Id=c.AccountId, TotalContacts__c=0));
+                accountsMap.put(c.AccountId, summarize(a));
             }
         }
 
-        if (accounts != null) {
-            update accounts.values();
+        if (accountsMap != null) {
+            update accountsMap.values();
         }
     }
 
