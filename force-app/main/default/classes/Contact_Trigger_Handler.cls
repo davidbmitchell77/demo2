@@ -84,29 +84,19 @@ public with sharing class Contact_Trigger_Handler {
 
     private void updateParentAccountSummaryFields(List<Contact> oldContacts, List<Contact> newContacts, Map<Id,Contact> oldMap, Map<Id,Contact> newMap) {
 
-        List<Account> accounts = new List<Account>();
         Map<Id,Account> accountsMap = new Map<Id,Account>();
 
-        List<Contact> contacts = ((this.operationType == TriggerOperation.AFTER_DELETE) ? oldContacts.clone() : newContacts.clone());
-        if (contacts != null) {
-            for (Contact c : contacts) {
-                if (c.AccountId != null) {
-                    Integer i = ((this.operationType == TriggerOperation.AFTER_DELETE) ? -1 : 1);
-                    Account a = ((accountsMap.containsKey(c.AccountId)) ? accountsMap.get(c.AccountId) : new Account(Id = c.AccountId, TotalContacts__c = 0));
-                    a.TotalContacts__c = ((nvl(a.TotalContacts__c, 0) + i) < 0 ? 0 : (nvl(a.TotalContacts__c, 0) + i));
-                    accountsMap.put(c.AccountId, a);
-                }
+        for (Contact c : contacts(oldContacts, newContacts)) {
+            if (c.AccountId != null) {
+                Integer i = ((this.operationType == TriggerOperation.AFTER_DELETE) ? -1 : 1);
+                Account a = ((accountsMap.containsKey(c.AccountId)) ? accountsMap.get(c.AccountId) : new Account(Id = c.AccountId, TotalContacts__c = 0));
+                a.TotalContacts__c = ((nvl(a.TotalContacts__c, 0) + i) < 0 ? 0 : (nvl(a.TotalContacts__c, 0) + i));
+                accountsMap.put(c.AccountId, a);
             }
         }
 
         if (accountsMap != null) {
-            for (Account a : accountsMap.values()) {
-                accounts.add(a);
-            }
-        }
-
-        if (!accounts.isEmpty()) {
-            update accounts;
+            update accountsMap.values();
         }
     }
 
@@ -125,6 +115,10 @@ public with sharing class Contact_Trigger_Handler {
         }
 
         return results;
+    }
+
+    private List<Contact> contacts(List<Contact> oldContacts, List<Contact> newContacts) {
+        return ((this.operationType == TriggerOperation.AFTER_DELETE) ? oldContacts : newContacts);
     }
 
     private Decimal nvl(Decimal n, Integer defaultValue) {
