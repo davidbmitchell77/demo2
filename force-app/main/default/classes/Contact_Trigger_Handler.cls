@@ -85,19 +85,9 @@ public with sharing class Contact_Trigger_Handler {
     private void updateParentAccountSummaryFields(List<Contact> oldContacts, List<Contact> newContacts, Map<Id,Contact> oldMap, Map<Id,Contact> newMap) {
 
         List<Account> accounts = new List<Account>();
-
-        List<Contact> contacts = new List<Contact>();
-        switch on this.operationType {
-            when AFTER_DELETE {
-                contacts = oldContacts.clone();
-            }
-            when else {
-                contacts = newContacts.clone();
-            }
-        }
-
         Map<Id,Account> accountsMap = new Map<Id,Account>();
 
+        List<Contact> contacts = ((this.operationType == TriggerOperation.AFTER_DELETE) ? oldContacts.clone() : newContacts.clone());
         if (contacts != null) {
             for (Contact c : contacts) {
                 if (c.AccountId != null) {
