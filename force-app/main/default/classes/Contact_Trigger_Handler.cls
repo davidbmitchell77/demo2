@@ -40,16 +40,16 @@ public with sharing class Contact_Trigger_Handler {
             }
             when AFTER_INSERT {
                 updateParentAccountDescriptions(oldContacts, newContacts, oldMap, newMap);
-                updateParentAccountSummaryFields(oldContacts, newContacts, oldMap, newMap);
+                summarizeParentAccountFields(oldContacts, newContacts, oldMap, newMap);
             }
             when AFTER_UPDATE {
                 updateParentAccountDescriptions(oldContacts, newContacts, oldMap, newMap);
             }
             when AFTER_DELETE {
-                updateParentAccountSummaryFields(oldContacts, newContacts, oldMap, newMap);
+                summarizeParentAccountFields(oldContacts, newContacts, oldMap, newMap);
             }
             when AFTER_UNDELETE {
-                updateParentAccountSummaryFields(oldContacts, newContacts, oldMap, newMap);
+                summarizeParentAccountFields(oldContacts, newContacts, oldMap, newMap);
             }
         }
     }
@@ -82,7 +82,7 @@ public with sharing class Contact_Trigger_Handler {
         }
     }
 
-    private void updateParentAccountSummaryFields(List<Contact> oldContacts, List<Contact> newContacts, Map<Id,Contact> oldMap, Map<Id,Contact> newMap) {
+    private void summarizeParentAccountFields(List<Contact> oldContacts, List<Contact> newContacts, Map<Id,Contact> oldMap, Map<Id,Contact> newMap) {
 
         Map<Id,Account> accountsMap = new Map<Id,Account>([SELECT Id,
                                                                   TotalContacts__c
