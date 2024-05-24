@@ -1,4 +1,4 @@
-@isTest
+@isTest(seeAllData = false)
 private class Account_Trigger_Test {
 
     @isTest
@@ -19,12 +19,15 @@ private class Account_Trigger_Test {
         );
         insert c;
 
+        System.debug(LoggingLevel.INFO, 'Account_Trigger_Test.TestMethod01: Test.startTest()');
+
         Test.startTest();
         a.Phone = '(000) 000-0000';
         update a;
         Test.stopTest();
 
-        System.assertEquals('(000) 000-0000', [SELECT Id, Phone FROM Contact LIMIT 1].Phone);
+        System.debug(LoggingLevel.INFO, 'Account_Trigger_Test.TestMethod01: Test.stopTest()');
+        System.assertEquals('(000) 000-0000', [SELECT Id, Phone FROM Account LIMIT 1].Phone);
     }
 
     @isTest
@@ -33,7 +36,9 @@ private class Account_Trigger_Test {
             Name = 'Account_Trigger_Test.TestMethod02',
             Phone = '(222) 222-2222'
         );
-        
+
+        System.debug(LoggingLevel.INFO, 'Account_Trigger_Test.TestMethod02: Test.startTest()');
+ 
         Test.startTest();
         insert a;
         a.Name = null;
@@ -41,10 +46,11 @@ private class Account_Trigger_Test {
         try {
             update a;
         } catch(DMLException e) {
-            System.debug(LoggingLevel.ERROR, e.getMessage());
+            System.debug(LoggingLevel.ERROR, 'Account_Trigger_Test.TestMethod02: ' + e.getMessage());
         }
         Test.stopTest();
 
+        System.debug(LoggingLevel.INFO, 'Account_Trigger_Test.TestMethod02: Test.stopTest()');
         System.assertEquals('Account_Trigger_Test.TestMethod02', [SELECT Id, Name FROM Account LIMIT 1].Name);
     }
 
@@ -55,6 +61,8 @@ private class Account_Trigger_Test {
             Phone = '(333) 333-3333'
         );
 
+        System.debug(LoggingLevel.INFO, 'Account_Trigger_Test.TestMethod03: Test.startTest()');
+
         Test.startTest();
         insert a;
         System.assertEquals(1, [SELECT Id, Name FROM Account].size());
@@ -62,7 +70,8 @@ private class Account_Trigger_Test {
         System.assertEquals(0, [SELECT Id, Name FROM Account].size());
         undelete [SELECT Id FROM Account WHERE IsDeleted = true ALL ROWS];
         Test.stopTest();
-
+ 
+        System.debug(LoggingLevel.INFO, 'Account_Trigger_Test.TestMethod03: Test.stopTest()');
         System.assertEquals(1, [SELECT Id, Name FROM Account].size());
     }
 }

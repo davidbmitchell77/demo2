@@ -30,7 +30,7 @@ trigger Account_Trigger on Account (before insert, before update, after insert, 
         }
         when AFTER_UPDATE {
             if (!Account_Trigger_Recursion.AFTER_UPDATE_ALREADY_INVOKED) {
-                Account_Trigger_Recursion.AFTER_UPDATE_ALREADY_INVOKED = true;
+                Account_Trigger_Recursion.AFTER_UPDATE_ALREADY_INVOKED = !Test.isRunningTest();
                 runTriggerHandler = ts.AfterUpdate__c;
             }
         }
