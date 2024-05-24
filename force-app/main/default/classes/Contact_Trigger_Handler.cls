@@ -56,10 +56,7 @@ public with sharing class Contact_Trigger_Handler {
 
     private void updateParentAccountDescriptions(List<Contact> oldContacts, List<Contact> newContacts, Map<Id,Contact> oldMap, Map<Id,Contact> newMap) {
 
-        List<Account> accounts = new List<Account>();
-
         Map<Id,Account> accountsMap = new Map<Id,Account>([SELECT Id,
-                                                                  Name,
                                                                   Description
                                                              FROM Account
                                                             WHERE Id IN :accountIds(newContacts)
@@ -70,15 +67,15 @@ public with sharing class Contact_Trigger_Handler {
                 if (newMap.get(c.Id).Description != ((oldMap != null) ? oldMap.get(c.Id).Description : null)) {
                     if (c.AccountId != null) {
                         if (newMap.get(c.Id).Description != accountsMap.get(c.AccountId).Description) {
-                            accounts.add(new Account(Id = c.AccountId, Description = c.Description));
+                            accountsMap.put(c.AccountId, new Account(Id=c.AccountId, Description=c.Description));
                         }
                     }
                 }
             }
         }
 
-        if (!accounts.isEmpty()) {
-            update accounts;
+        if (!accountsMap.isEmpty()) {
+            update accountsMap.values();
         }
     }
 
@@ -98,7 +95,7 @@ public with sharing class Contact_Trigger_Handler {
             }
         }
 
-        if (accountsMap != null) {
+        if (!accountsMap.isEmpty()) {
             update accountsMap.values();
         }
     }
