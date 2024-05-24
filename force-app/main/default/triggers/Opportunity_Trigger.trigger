@@ -51,7 +51,7 @@ trigger Opportunity_Trigger on Opportunity (before insert, before update, after 
     if (runTriggerHandler == true) {
         Opportunity_Trigger_Handler handler = new Opportunity_Trigger_Handler(Trigger.operationType);
         if (handler.isValid(Trigger.new)) {
-            handler.run(Trigger.new, Trigger.old, Trigger.newMap, Trigger.oldMap);
+            handler.run(Trigger.old, Trigger.new, Trigger.oldMap, Trigger.newMap);
         }
     }
 }

@@ -1,8 +1,8 @@
 public with sharing class Opportunity_Trigger_Handler {
 
-    private System.TriggerOperation operationType;
+    private TriggerOperation operationType;
 
-    public Opportunity_Trigger_Handler(System.TriggerOperation to) {
+    public Opportunity_Trigger_Handler(TriggerOperation to) {
         this.operationType = to;
     }
 
@@ -11,7 +11,7 @@ public with sharing class Opportunity_Trigger_Handler {
         Boolean result = true;
 
         if (opportunities != null) {
-            for (Opportunity o : opportunities) {
+            for (Opportunity o : opportunities)  {
                 if (o.Name == null) {
                     o.Name.addError(System.Label.OPPORTUNITY_NAME_IS_REQUIRED);
                     result = false;
@@ -22,8 +22,9 @@ public with sharing class Opportunity_Trigger_Handler {
         return result;
     }
 
-    public void run (List<Opportunity> newOpportunities, List<Opportunity> oldOpportunities, Map<Id,Opportunity> oldMap, Map<Id,Opportunity> newMap) {
-        switch on operationType {
+    public void run(List<Opportunity> oldOpportunities, List<Opportunity> newOpportunities, Map<Id,Opportunity> oldMap, Map<Id,Opportunity> newMap) {
+
+        switch on this.operationType {
             when BEFORE_INSERT {
 
             }
@@ -34,10 +35,10 @@ public with sharing class Opportunity_Trigger_Handler {
 
             }
             when AFTER_INSERT {
-
+                updateParentAccountBiggestOpty(oldOpportunities, newOpportunities, oldMap, newMap);
             }
             when AFTER_UPDATE {
-
+                updateParentAccountBiggestOpty(oldOpportunities, newOpportunities, oldMap, newMap);
             }
             when AFTER_DELETE {
 
@@ -46,5 +47,45 @@ public with sharing class Opportunity_Trigger_Handler {
 
             }
         }
+    }
+
+    private void updateParentAccountBiggestOpty(List<Opportunity> oldOpportunities, List<Opportunity> newOpportunities, Map<Id,Opportunity> oldMap, Map<Id,Opportunity> newMap) {
+
+        Map<Id,Account> accountsMap1 = new Map<Id,Account>([SELECT Id, MaximumExpectedOpportunityRevenue__c
+                                                              FROM Account
+                                                             WHERE Id IN :accountIds(newOpportunities)
+        ]);
+
+        Map<Id,Account> accountsMap2 = new Map<Id,Account>();
+
+        if (newOpportunities != null) {
+            for (Opportunity o : newOpportunities) {
+                if (o.AccountId != null) {
+                    if (accountsMap1.containsKey(o.AccountId)) {
+                        if (o.ExpectedRevenue > accountsMap1.get(o.AccountId).MaximumExpectedOpportunityRevenue__c) {
+                            accountsMap2.put(o.AccountId, new Account(Id=o.AccountId, MaximumExpectedOpportunityRevenue__c=o.ExpectedRevenue));
+                        }
+                    }
+                }
+            }
+        }
+
+        if (!accountsMap2.isEmpty()) {
+            update accountsMap2.values();
+        }
+    }
+
+    private Set<Id> accountIds(List<Opportunity> opportunities) {
+        Set<Id> results = new Set<Id>();
+        if (opportunities != null) {
+            for (Opportunity o : opportunities) {
+                if (o.AccountId != null) {
+                    if (!results.contains(o.AccountId)) {
+                        results.add(o.AccountId);
+                    }
+                }
+            }
+        }
+        return results;
     }
 }
