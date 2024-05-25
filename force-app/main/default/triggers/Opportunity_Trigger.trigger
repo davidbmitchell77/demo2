@@ -1,6 +1,6 @@
 trigger Opportunity_Trigger on Opportunity (before insert, before update, after insert, after update,before delete, after delete, after undelete) {
 
-    TriggerSetting__mdt ts = TriggerSettings.getInstance('Opportunity');
+    private TriggerSetting__mdt ts = TriggerSettings.getInstance('Opportunity');
     private Boolean runTriggerHandler = false;
 
     switch on Trigger.operationType {
