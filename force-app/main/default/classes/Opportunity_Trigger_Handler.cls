@@ -60,10 +60,12 @@ public with sharing class Opportunity_Trigger_Handler {
 
         if (newOpportunities != null) {
             for (Opportunity o : newOpportunities) {
-                if (o.AccountId != null) {
-                    if (accountsMap1.containsKey(o.AccountId)) {
-                        if (o.ExpectedRevenue > accountsMap1.get(o.AccountId).MaximumExpectedOpportunityRevenue__c) {
-                            accountsMap2.put(o.AccountId, new Account(Id=o.AccountId, MaximumExpectedOpportunityRevenue__c=o.ExpectedRevenue));
+                if (newMap.get(o.Id).ExpectedRevenue != ((oldMap != null) ? oldMap.get(o.Id).ExpectedRevenue : null)) {
+                    if (o.AccountId != null) {
+                        if (accountsMap1.containsKey(o.AccountId)) {
+                            if (o.ExpectedRevenue > accountsMap1.get(o.AccountId).MaximumExpectedOpportunityRevenue__c) {
+                                accountsMap2.put(o.AccountId, new Account(Id=o.AccountId, MaximumExpectedOpportunityRevenue__c=o.ExpectedRevenue));
+                            }
                         }
                     }
                 }
