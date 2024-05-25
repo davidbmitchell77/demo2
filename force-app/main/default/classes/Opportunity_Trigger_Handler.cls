@@ -35,10 +35,10 @@ public with sharing class Opportunity_Trigger_Handler {
 
             }
             when AFTER_INSERT {
-                updateParentAccountBiggestOpty(oldOpportunities, newOpportunities, oldMap, newMap);
+                updateParentAccounts(oldOpportunities, newOpportunities, oldMap, newMap);
             }
             when AFTER_UPDATE {
-                updateParentAccountBiggestOpty(oldOpportunities, newOpportunities, oldMap, newMap);
+                updateParentAccounts(oldOpportunities, newOpportunities, oldMap, newMap);
             }
             when AFTER_DELETE {
 
@@ -49,7 +49,7 @@ public with sharing class Opportunity_Trigger_Handler {
         }
     }
 
-    private void updateParentAccountBiggestOpty(List<Opportunity> oldOpportunities, List<Opportunity> newOpportunities, Map<Id,Opportunity> oldMap, Map<Id,Opportunity> newMap) {
+    private void updateParentAccounts(List<Opportunity> oldOpportunities, List<Opportunity> newOpportunities, Map<Id,Opportunity> oldMap, Map<Id,Opportunity> newMap) {
 
         Map<Id,Account> accounts = new Map<Id,Account>();
 
@@ -60,11 +60,13 @@ public with sharing class Opportunity_Trigger_Handler {
 
         if (newOpportunities != null) {
             for (Opportunity o : newOpportunities) {
-                if (newMap.get(o.Id).ExpectedRevenue != ((oldMap != null) ? oldMap.get(o.Id).ExpectedRevenue : null)) {
-                    if (o.AccountId != null) {
-                        if (parentAccounts.containsKey(o.AccountId)) {
-                            if (o.ExpectedRevenue > parentAccounts.get(o.AccountId).MaximumExpectedOpportunityRevenue__c) {
-                                accounts.put(o.AccountId, new Account(Id=o.AccountId, MaximumExpectedOpportunityRevenue__c=o.ExpectedRevenue));
+                if (o.AccountId != null) {
+                    if (parentAccounts.containsKey(o.AccountId)) {
+                        Account a = parentAccounts.get(o.AccountId);
+                        if (newMap.get(o.Id).ExpectedRevenue != ((oldMap != null) ? oldMap.get(o.Id).ExpectedRevenue : null)) {
+                            if (o.ExpectedRevenue > a.MaximumExpectedOpportunityRevenue__c) {
+                                a.MaximumExpectedOpportunityRevenue__c = o.ExpectedRevenue;
+                                accounts.put(o.AccountId, a);
                             }
                         }
                     }
