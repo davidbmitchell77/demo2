@@ -51,20 +51,20 @@ public with sharing class Opportunity_Trigger_Handler {
 
     private void updateParentAccountBiggestOpty(List<Opportunity> oldOpportunities, List<Opportunity> newOpportunities, Map<Id,Opportunity> oldMap, Map<Id,Opportunity> newMap) {
 
-        Map<Id,Account> accountsMap = new Map<Id,Account>();
+        Map<Id,Account> accounts = new Map<Id,Account>();
 
-        Map<Id,Account> parentAccountsMap = new Map<Id,Account>([SELECT Id, MaximumExpectedOpportunityRevenue__c
-                                                                   FROM Account
-                                                                  WHERE Id IN :accountIds(newOpportunities)
+        Map<Id,Account> parentAccounts = new Map<Id,Account>([SELECT Id, MaximumExpectedOpportunityRevenue__c
+                                                                FROM Account
+                                                               WHERE Id IN :accountIds(newOpportunities)
         ]);
 
         if (newOpportunities != null) {
             for (Opportunity o : newOpportunities) {
                 if (newMap.get(o.Id).ExpectedRevenue != ((oldMap != null) ? oldMap.get(o.Id).ExpectedRevenue : null)) {
                     if (o.AccountId != null) {
-                        if (parentAccountsMap.containsKey(o.AccountId)) {
-                            if (o.ExpectedRevenue > parentAccountsMap.get(o.AccountId).MaximumExpectedOpportunityRevenue__c) {
-                                accountsMap.put(o.AccountId, new Account(Id=o.AccountId, MaximumExpectedOpportunityRevenue__c=o.ExpectedRevenue));
+                        if (parentAccounts.containsKey(o.AccountId)) {
+                            if (o.ExpectedRevenue > parentAccounts.get(o.AccountId).MaximumExpectedOpportunityRevenue__c) {
+                                accounts.put(o.AccountId, new Account(Id=o.AccountId, MaximumExpectedOpportunityRevenue__c=o.ExpectedRevenue));
                             }
                         }
                     }
@@ -72,8 +72,8 @@ public with sharing class Opportunity_Trigger_Handler {
             }
         }
 
-        if (!accountsMap.isEmpty()) {
-            update accountsMap.values();
+        if (!accounts.isEmpty()) {
+            update accounts.values();
         }
     }
 
