@@ -63,11 +63,9 @@ public with sharing class Opportunity_Trigger_Handler {
                 if (o.AccountId != null) {
                     if (parentAccounts.containsKey(o.AccountId)) {
                         Account a = parentAccounts.get(o.AccountId);
-                        if (newMap.get(o.Id).ExpectedRevenue != ((oldMap != null) ? oldMap.get(o.Id).ExpectedRevenue : null)) {
-                            if (o.ExpectedRevenue > a.MaximumExpectedOpportunityRevenue__c) {
-                                a.MaximumExpectedOpportunityRevenue__c = o.ExpectedRevenue;
-                                accounts.put(o.AccountId, a);
-                            }
+                        if (o.ExpectedRevenue > a.MaximumExpectedOpportunityRevenue__c) {
+                            a.MaximumExpectedOpportunityRevenue__c = o.ExpectedRevenue;
+                            accounts.put(o.AccountId, a);
                         }
                     }
                 }
