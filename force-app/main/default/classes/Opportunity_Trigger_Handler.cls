@@ -73,7 +73,7 @@ public with sharing class Opportunity_Trigger_Handler {
         }
 
         if (!accounts.isEmpty()) {
-            update accounts.values();
+            updateRecords(accounts.values());
         }
     }
 
@@ -89,5 +89,24 @@ public with sharing class Opportunity_Trigger_Handler {
             }
         }
         return results;
+    }
+
+    public void updateRecords(List<Account> accounts) {
+        if (accounts != null) {
+            Savepoint sp = Database.setSavepoint();
+            try {
+                update accounts;
+            }
+            catch(DmlException e) {
+                Database.rollback(sp);
+                System.debug(LoggingLevel.ERROR, e.getMessage());
+                Logger.error(e.getMessage(), accounts);
+                Logger.saveLog();
+                throw new AuraHandledException(e.getMessage());            
+            }
+            finally {
+                Database.releaseSavepoint(sp);
+            }
+        }
     }
 }

@@ -168,4 +168,22 @@ private class Opportunity_Trigger_Test {
         Test.stopTest();
         System.assertEquals(1, [SELECT Id, Name FROM Opportunity].size());
     }
+
+    @isTest
+    private static void TestMethod07() {
+        Account a1 = new Account( Name='Opportunity_Trigger_Test.TestMethod07().1', Phone='(777) 777-7777 x1');
+        Account a2 = new Account( Name='Opportunity_Trigger_Test.TestMethod07().2', Phone='(777) 777-7777 x2');
+
+        Test.startTest();
+        try {
+            Opportunity_Trigger_Handler handler = new Opportunity_Trigger_Handler(TriggerOperation.AFTER_UPDATE);
+            handler.updateRecords(new List<Account>{ a1, a2 });
+        }
+        catch(Exception e) {
+            System.debug(LoggingLevel.ERROR, e.getMessage());
+        }
+        Test.stopTest();
+
+        System.assertEquals(0, [SELECT Id, Name FROM Opportunity].size());
+    }
 }
