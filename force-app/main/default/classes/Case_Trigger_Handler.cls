@@ -60,7 +60,7 @@ public with sharing class Case_Trigger_Handler {
                                   GROUP BY AccountId
         ]) {
             String accountId = System.JSON.serialize(agr.get('AccountId')).replaceAll('"', '');
-            Integer closedCases = Integer.valueOf(System.JSON.serialize(agr.get('AccountId')));
+            Integer closedCases = Integer.valueOf(System.JSON.serialize(agr.get('closedCases')));
             accountSummary.put(accountId, closedCases);
         }
 
