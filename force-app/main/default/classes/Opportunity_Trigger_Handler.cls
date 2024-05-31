@@ -8,7 +8,7 @@ public with sharing class Opportunity_Trigger_Handler {
 
     public Boolean isValid(List<Opportunity> opportunities) {
 
-        Boolean result = (opportunities != null ? true : false);
+        Boolean result = true;
 
         if (opportunities != null) {
             for (Opportunity o : opportunities)  {

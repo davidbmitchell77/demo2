@@ -1,6 +1,6 @@
 public with sharing class Account_Trigger_Handler {
 
-    TriggerOperation operationType;
+    private TriggerOperation operationType;
 
     public Account_Trigger_Handler(TriggerOperation to) {
         this.operationType = to;
@@ -65,7 +65,7 @@ public with sharing class Account_Trigger_Handler {
         }
 
         if (!contacts.isEmpty()) {
-            update contacts;
+            DML.upd(contacts);
         }
     }
 
