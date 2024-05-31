@@ -1,4 +1,4 @@
-trigger Account_Trigger on Account (before insert, before update, after insert, after update, before delete, after delete, after undelete) {
+trigger Account_Trigger on Account (before insert, before update, before delete, after insert, after update, after delete, after undelete) {
 
     private TriggerSetting__mdt ts = TriggerSettings.getInstance('Account');
     private Boolean runTriggerHandler = false;
