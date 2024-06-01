@@ -7,9 +7,7 @@ public with sharing class Account_Trigger_Handler {
     }
 
     public Boolean isValid(List<Account> accounts) {
-
         Boolean result = true;
-
         if (accounts != null) {
             for (Account a : accounts) {
                 if (a.Name == null) {
@@ -22,12 +20,10 @@ public with sharing class Account_Trigger_Handler {
                 }
             }
         }
-
         return result;
     }
 
     public void run(List<Account> oldAccounts, List<Account> newAccounts, Map<Id,Account> oldMap, Map<Id,Account> newMap) {
-
         switch on this.operationType {
             when BEFORE_INSERT {
 
@@ -63,10 +59,10 @@ public with sharing class Account_Trigger_Handler {
                             FROM Contact
                            WHERE AccountId IN :accountIds(newAccounts)
         ]) {
-            String oldPhone = ((oldMap != null) ? oldMap.get(c.AccountId).Phone : null);
-            String newPhone = ((newMap != null) ? newMap.get(c.AccountId).Phone : null);
-            if (newPhone != oldPhone) {
-                c.Phone = newPhone;
+            Account oldAccount = ((oldMap != null) ? oldMap.get(c.AccountId) : new Account(Id=c.AccountId, Phone=null));
+            Account newAccount = ((newMap != null) ? newMap.get(c.AccountId) : new Account(Id=c.AccountId, Phone=null));
+            if (newAccount.Phone != oldAccount.Phone) {
+                c.Phone = newAccount.Phone;
                 contacts.add(c);
             }
         }
