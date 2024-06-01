@@ -64,8 +64,8 @@ public with sharing class Contact_Trigger_Handler {
                     Contact oldContact = ((oldMap != null) ? oldMap.get(c.Id) : new Contact(Id=c.Id));
                     Contact newContact = ((newMap != null) ? newMap.get(c.Id) : new Contact(Id=c.Id));
                     if (newContact.Description != oldContact.Description) {
-                        if (newContact.Description != null) {
-                            if (newContact.Description != accountsMap.get(c.AccountId).Description) {
+                        if (newContact.Description != accountsMap.get(c.AccountId).Description) {
+                            if (newContact.Description != null) {
                                 accountsMap.put(c.AccountId, new Account(Id=c.AccountId, Description=c.Description));
                             }
                         }
