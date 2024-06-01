@@ -7,9 +7,7 @@ public with sharing class Contact_Trigger_Handler {
     }
 
     public Boolean isValid(List<Contact> contacts) {
-
         Boolean result = true;
-
         if (contacts != null) {
             for (Contact c : contacts) {
                 if (c.LastName == null) {
@@ -22,12 +20,10 @@ public with sharing class Contact_Trigger_Handler {
                 }
             }
         }
-
         return result;
     }
 
     public void run(List<Contact> oldContacts, List<Contact> newContacts, Map<Id,Contact> oldMap, Map<Id,Contact> newMap) {
-
         switch on this.operationType {
             when BEFORE_INSERT {
 
