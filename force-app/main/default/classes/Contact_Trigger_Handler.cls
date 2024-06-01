@@ -64,10 +64,14 @@ public with sharing class Contact_Trigger_Handler {
 
         if (newContacts != null) {
             for (Contact c : newContacts) {
-                if (newMap.get(c.Id).Description != ((oldMap != null) ? oldMap.get(c.Id).Description : null)) {
-                    if (c.AccountId != null) {
-                        if (newMap.get(c.Id).Description != accountsMap.get(c.AccountId).Description) {
-                            accountsMap.put(c.AccountId, new Account(Id=c.AccountId, Description=c.Description));
+                if (c.AccountId != null) {
+                    Contact oldContact = ((oldMap != null) ? oldMap.get(c.Id) : new Contact(Id=c.Id));
+                    Contact newContact = ((newMap != null) ? newMap.get(c.Id) : new Contact(Id=c.Id));
+                    if (newContact.Description != oldContact.Description) {
+                        if (newContact.Description != null) {
+                            if (newContact.Description != accountsMap.get(c.AccountId).Description) {
+                                accountsMap.put(c.AccountId, new Account(Id=c.AccountId, Description=c.Description));
+                            }
                         }
                     }
                 }
@@ -101,9 +105,7 @@ public with sharing class Contact_Trigger_Handler {
     }
 
     private Set<Id> accountIds(List<Contact> contacts) {
-
         Set<Id> results = new Set<Id>();
-
         if (contacts != null) {
             for (Contact c : contacts) {
                 if (c.AccountId != null) {
@@ -113,7 +115,6 @@ public with sharing class Contact_Trigger_Handler {
                 }
             }
         }
-
         return results;
     }
 
