@@ -39,7 +39,7 @@ public with sharing class Account_Trigger_Handler {
 
             }
             when AFTER_INSERT {
-    
+                updateChildContacts(oldAccounts, newAccounts, oldMap, newMap);
             }
             when AFTER_UPDATE {
                 updateChildContacts(oldAccounts, newAccounts, oldMap, newMap);
@@ -57,9 +57,16 @@ public with sharing class Account_Trigger_Handler {
 
         List<Contact> contacts = new List<Contact>();
 
-        for (Contact c : [SELECT Id, AccountId, Phone FROM Contact WHERE AccountId IN :accountIds(newAccounts)]) {
-            if (newMap.get(c.AccountId).Phone != oldMap.get(c.AccountId).Phone) {
-                c.Phone = newMap.get(c.AccountId).Phone;
+        for (Contact c : [SELECT Id,
+                                 AccountId,
+                                 Phone
+                            FROM Contact
+                           WHERE AccountId IN :accountIds(newAccounts)
+        ]) {
+            String oldPhone = ((oldMap != null) ? oldMap.get(c.AccountId).Phone : null);
+            String newPhone = ((newMap != null) ? newMap.get(c.AccountId).Phone : null);
+            if (newPhone != oldPhone) {
+                c.Phone = newPhone;
                 contacts.add(c);
             }
         }
@@ -70,9 +77,7 @@ public with sharing class Account_Trigger_Handler {
     }
 
     private Set<Id> accountIds(List<Account> accounts) {
-
         Set<Id> results = new Set<Id>();
-
         if (accounts != null) {
             for (Account a : accounts) {
                 if (!results.contains(a.Id)) {
@@ -80,7 +85,6 @@ public with sharing class Account_Trigger_Handler {
                 }
             }
         }
-
         return results;
     }
 }
