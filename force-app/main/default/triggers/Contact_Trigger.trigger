@@ -3,6 +3,8 @@ trigger Contact_Trigger on Contact (before insert, before update, after insert, 
     private TriggerSetting__mdt ts = TriggerSettings.getInstance('Contact');
     private Boolean runTriggerHandler = false;
 
+    Contact_Trigger_Recursion.reset(Trigger.old, Trigger.new);
+
     switch on (Trigger.operationType) {
         when BEFORE_INSERT {
             if (!Contact_Trigger_Recursion.BEFORE_INSERT_ALREADY_INVOKED) {
