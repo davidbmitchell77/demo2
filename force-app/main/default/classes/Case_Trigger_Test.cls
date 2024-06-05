@@ -165,5 +165,4 @@ private class Case_Trigger_Test {
 
         System.assertEquals('Silver', [SELECT Id, Rating FROM Account LIMIT 1].Rating);       
     }
-
 }
