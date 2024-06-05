@@ -11,8 +11,8 @@ public class Opportunity_Trigger_Recursion {
 
     private static Integer SAVE_HASH_CODE;
 
-    public static void reset(List<Opportunity> C, List<Opportunity> newOpportunities) {
-        Integer hashCode = (newOpportunities != null ? newOpportunities.hashCode() : (newOpportunities != null ? newOpportunities.hashCode() : null));
+    public static void reset(List<Opportunity> oldOpportunities, List<Opportunity> newOpportunities) {
+        Integer hashCode = (newOpportunities != null ? newOpportunities.hashCode() : (oldOpportunities != null ? oldOpportunities.hashCode() : null));
         if (hashCode != SAVE_HASH_CODE) {
             BEFORE_INSERT_ALREADY_INVOKED  = false;
             BEFORE_UPDATE_ALREADY_INVOKED  = false;
