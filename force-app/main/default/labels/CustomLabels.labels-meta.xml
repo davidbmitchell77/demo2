@@ -15,6 +15,13 @@
         <value>Account phone number is required.</value>
     </labels>
     <labels>
+        <fullName>CASE_SUBJECT_IS_REQUIRED</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>Case subject is required.</shortDescription>
+        <value>Case subject is required.</value>
+    </labels>
+    <labels>
         <fullName>CONTACT_LAST_NAME_IS_REQUIRED</fullName>
         <language>en_US</language>
         <protected>false</protected>
@@ -29,10 +36,24 @@
         <value>Contact phone number is required.</value>
     </labels>
     <labels>
+        <fullName>LEAD_LAST_NAME_IS_REQUIRED</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>Lead last name is required.</shortDescription>
+        <value>Lead last name is required.</value>
+    </labels>
+    <labels>
         <fullName>OPPORTUNITY_NAME_IS_REQUIRED</fullName>
         <language>en_US</language>
         <protected>false</protected>
         <shortDescription>Opportunity name is required.</shortDescription>
         <value>Opportunity name is required.</value>
+    </labels>
+    <labels>
+        <fullName>foobar</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>foobar</shortDescription>
+        <value>foobar</value>
     </labels>
 </CustomLabels>
