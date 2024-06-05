@@ -7,9 +7,7 @@ public with sharing class Opportunity_Trigger_Handler {
     }
 
     public Boolean isValid(List<Opportunity> opportunities) {
-
         Boolean result = true;
-
         if (opportunities != null) {
             for (Opportunity o : opportunities)  {
                 if (o.Name == null) {
@@ -18,12 +16,10 @@ public with sharing class Opportunity_Trigger_Handler {
                 }
             }
         }
-
         return result;
     }
 
     public void run(List<Opportunity> oldOpportunities, List<Opportunity> newOpportunities, Map<Id,Opportunity> oldMap, Map<Id,Opportunity> newMap) {
-
         switch on this.operationType {
             when BEFORE_INSERT {
 
