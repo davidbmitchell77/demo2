@@ -3,6 +3,8 @@ trigger Account_Trigger on Account (before insert, before update, before delete,
     private TriggerSetting__mdt ts = TriggerSettings.getInstance('Account');
     private Boolean runTriggerHandler = false;
 
+    Account_Trigger_Recursion.reset(Trigger.old, Trigger.new);
+
     switch on Trigger.operationType {
         when BEFORE_INSERT {
             if (!Account_Trigger_Recursion.BEFORE_INSERT_ALREADY_INVOKED) {
