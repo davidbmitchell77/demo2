@@ -1,4 +1,4 @@
-trigger Contact_Trigger on Contact (before insert, before update, after insert, after update, before delete, after delete, after undelete) {
+trigger Contact_Trigger on Contact (before insert, before update, before delete, after insert, after update, after delete, after undelete) {
 
     private TriggerSetting__mdt ts = TriggerSettings.getInstance('Contact');
     private Boolean runTriggerHandler = false;
