@@ -1,7 +1,9 @@
-trigger Opportunity_Trigger on Opportunity (before insert, before update, after insert, after update,before delete, after delete, after undelete) {
+trigger Opportunity_Trigger on Opportunity (before insert, before update, after insert, after update, before delete, after delete, after undelete) {
 
     private TriggerSetting__mdt ts = TriggerSettings.getInstance('Opportunity');
     private Boolean runTriggerHandler = false;
+
+    Opportunity_Trigger_Recursion.reset(Trigger.old, Trigger.new);
 
     switch on Trigger.operationType {
         when BEFORE_INSERT {
