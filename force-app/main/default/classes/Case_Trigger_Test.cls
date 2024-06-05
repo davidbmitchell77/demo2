@@ -45,6 +45,7 @@ private class Case_Trigger_Test {
         insert cases;
         Test.stopTest();
 
+        System.assertEquals(1000, [SELECT Id FROM Case WHERE Status LIKE '%Closed%'].size());
         System.assertEquals('Bronze', [SELECT Id, Rating FROM Account LIMIT 1].Rating);       
     }
 
@@ -133,4 +134,36 @@ private class Case_Trigger_Test {
 
         System.assertEquals(0, [SELECT Id FROM Case].size());       
     }
+
+    @isTest
+    private static void TestMethod07() {
+        Account a = new Account(
+            Name = 'Case_Trigger_Test.TestMethod07',
+            Phone = '(777) 777-7777'
+        );
+        insert a;
+
+        List<Case> cases = new List<Case>();
+        for (Integer i=0; i<1000; i++) {
+            Case c = new Case(
+                Subject = ('Case_Trigger_Test.TestMethod07 ' + i),
+                Status = 'Closed',
+                AccountId = a.Id
+            );
+            cases.add(c);
+        }
+
+        Test.startTest(); 
+        insert cases;
+        Case c = new Case(
+            Subject = ('Case_Trigger_Test.TestMethod07 ' + 1001),
+            Status = 'Closed',
+            AccountId = a.Id
+        );
+        insert c;
+        Test.stopTest();
+
+        System.assertEquals('Silver', [SELECT Id, Rating FROM Account LIMIT 1].Rating);       
+    }
+
 }

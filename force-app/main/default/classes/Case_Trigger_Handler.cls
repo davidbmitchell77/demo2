@@ -51,30 +51,15 @@ public with sharing class Case_Trigger_Handler {
         Map<Id,Account> parentAccounts = new Map<Id,Account>();
 
         Map<Id,Integer> accountSummary = new Map<Id,Integer>();
-        for (AggregateResult agr : [SELECT AccountId, COUNT(Id) closedCases
-                                      FROM Case
-                                     WHERE Id IN :accountIds(newCases)
-                                       AND Status IN :picklistValues(Case.Status, 'Closed')
-                                  GROUP BY AccountId
+        for (Case c : [SELECT Id,
+                              AccountId,
+                              Status
+                         FROM Case
+                        WHERE AccountId IN :accountIds(newCases)
         ]) {
-            String accountId = System.JSON.serialize(agr.get('AccountId')).replaceAll('"', '');
-            Integer closedCases = Integer.valueOf(System.JSON.serialize(agr.get('closedCases')));
-            accountSummary.put(accountId, closedCases);
-        }
-
-        if (newCases != null) {
-            for (Case c : newCases) {
-                if (c.AccountId != null) {
-                    Case oldCase = ((oldMap != null) ? oldMap.get(c.Id) : new Case(Status=''));
-                    Case newCase = ((newMap != null) ? newMap.get(c.Id) : new Case(Status=''));
-                    if (oldCase.Status != newCase.Status) {
-                        if (isOpen(oldCase) && isClosed(newCase)) {
-                            accountSummary.put(c.AccountId, nvl(accountSummary.get(c.AccountId), 0) + 1);
-                        }
-                        if (isClosed(oldCase) && isOpen(newCase)) {
-                            accountSummary.put(c.AccountId, nvl(accountSummary.get(c.AccountId), 0) - 1);
-                        }
-                    }
+            if (c.AccountId != null) {
+                if (c.Status.containsIgnoreCase('Closed')) {
+                    accountSummary.put(c.AccountId, nvl(accountSummary.get(c.AccountId), 0) + 1);
                 }
             }
         }
@@ -112,33 +97,7 @@ public with sharing class Case_Trigger_Handler {
         return result;
     }
 
-    private Boolean isClosed(Case c) {
-        return ((c != null) ? c.Status.containsIgnoreCase('Closed') : false);
-    }
-
-    private Boolean isOpen(Case c) {
-        return ((c != null) ? !c.Status.containsIgnoreCase('Closed') : false);
-    }
-
     private Integer nvl(Integer i, Integer defaultValue) {
         return ((i == null) ? defaultValue : i);
-    }
-
-    private String nvl(String s, String defaultValue) {
-        return ((s == null) ? defaultValue : s);
-    }
-
-    private Set<String> picklistValues(Schema.SObjectField field, String s) {
-        Set<String> results = new Set<String>();
-        for (Schema.PicklistEntry ple : field.getDescribe().getPicklistValues()) {
-            if (ple.active) {
-                if (ple.value.containsIgnoreCase(s)) {
-                    if (!results.contains(ple.value)) {
-                        results.add(ple.value);
-                    }
-                }
-            }
-        }
-        return results;
     }
 }

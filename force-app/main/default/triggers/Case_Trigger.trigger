@@ -3,6 +3,8 @@ trigger Case_Trigger on Case (before insert, before update, before delete, after
     private TriggerSetting__mdt ts = TriggerSettings.getInstance('Case');
     private Boolean runTriggerHandler = false;
 
+    Case_Trigger_Recursion.reset(Trigger.old, Trigger.new);
+
     switch on Trigger.operationType {
         when BEFORE_INSERT {
             if (!Case_Trigger_Recursion.BEFORE_INSERT_ALREADY_INVOKED) {
