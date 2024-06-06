@@ -1,4 +1,4 @@
-@isTest(seeAllData = false)
+@isTest
 private class Account_Trigger_Test {
 
     @isTest
