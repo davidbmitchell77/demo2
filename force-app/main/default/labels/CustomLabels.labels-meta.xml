@@ -15,6 +15,20 @@
         <value>Account phone number is required.</value>
     </labels>
     <labels>
+        <fullName>CAMPAIGN_DESCRIPTION_IS_REQUIRED</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>Campaign description is required.</shortDescription>
+        <value>Campaign description is required.</value>
+    </labels>
+    <labels>
+        <fullName>CAMPAIGN_NAME_IS_REQUIRED</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>Campaign name is required.</shortDescription>
+        <value>Campaign name is required.</value>
+    </labels>
+    <labels>
         <fullName>CASE_SUBJECT_IS_REQUIRED</fullName>
         <language>en_US</language>
         <protected>false</protected>
