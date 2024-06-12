@@ -9,10 +9,10 @@ public with sharing class Opportunity_Trigger_Handler {
     public Boolean isValid(List<Opportunity> opportunities) {
         Boolean result = true;
         if (opportunities != null) {
-            for (Opportunity o : opportunities)  {
-                if (o.Name == null) {
-                    o.Name.addError(System.Label.OPPORTUNITY_NAME_IS_REQUIRED);
-                    result = false;
+            for (Opportunity o : opportunities) {
+                if (String.isBlank(o.Name)) {
+                  o.Name.addError(System.Label.OPPORTUNITY_NAME_IS_REQUIRED);
+                  result = false;
                 }
             }
         }
@@ -31,6 +31,7 @@ public with sharing class Opportunity_Trigger_Handler {
 
             }
             when AFTER_INSERT {
+                createChildTasks(oldOpportunities, newOpportunities, oldMap, newMap);
                 updateParentAccounts(oldOpportunities, newOpportunities, oldMap, newMap);
             }
             when AFTER_UPDATE {
@@ -43,6 +44,55 @@ public with sharing class Opportunity_Trigger_Handler {
 
             }
         }
+        updateProcessedRecordIds(((newOpportunities!= null) ? newOpportunities : oldOpportunities));
+    }
+
+    private void createChildTasks(List<Opportunity> oldOpportunities, List<Opportunity> newOpportunities, Map<Id,Opportunity> oldMap, Map<Id,Opportunity> newMap) {
+
+        List<Task> tasks = new List<Task>();
+
+        if (newOpportunities != null) {
+            for (Opportunity o : newOpportunities) {
+                if (o.Id != null) {
+                    if (!alreadyInvoked(this.operationType, o.Id)) {
+                        if (isNewOpportunity(o)) {
+                            tasks.add(newTask(o));
+                        }
+                    }
+                }
+            }
+        }
+
+        if (!tasks.isEmpty()) {
+            insert tasks;
+        }
+    }
+
+    private Boolean alreadyInvoked(TriggerOperation to, Id optyId) {
+        Boolean result = false;
+        if (Opportunity_Trigger_Recursion.PROCESSED_RECORD_IDS.containsKey(to)) {
+            result = Opportunity_Trigger_Recursion.PROCESSED_RECORD_IDS.get(to).contains(optyId);
+        }
+        return result;
+    }
+
+    private Boolean isNewOpportunity(Opportunity o) {
+        Boolean result = false;
+        if (o.StageName == 'Prospecting'      ) { result = true; } else
+        if (o.StageName == 'Qualification'    ) { result = true; } else
+        if (o.StageName == 'Needs Analysis'   ) { result = true; } else
+        if (o.StageName == 'Value Proposition') { result = true; }
+        return result;
+    }
+
+    private Task newTask(Opportunity o) {
+        return new Task(
+            Subject = o.Name,
+            Status = 'Open',
+            Priority = 'Normal',
+            WhatId = o.Id,
+            OwnerId = ((o.Account != null) ? o.Account.OwnerId : o.OwnerId)
+        );
     }
 
     private void updateParentAccounts(List<Opportunity> oldOpportunities, List<Opportunity> newOpportunities, Map<Id,Opportunity> oldMap, Map<Id,Opportunity> newMap) {
@@ -69,7 +119,7 @@ public with sharing class Opportunity_Trigger_Handler {
         }
 
         if (!accounts.isEmpty()) {
-            updateRecords(accounts.values());
+            update accounts.values();
         }
     }
 
@@ -87,22 +137,21 @@ public with sharing class Opportunity_Trigger_Handler {
         return results;
     }
 
-    public void updateRecords(List<Account> accounts) {
-        if (accounts != null) {
-            Savepoint sp = Database.setSavepoint();
-            try {
-                update accounts;
-            }
-            catch(DmlException e) {
-                Database.rollback(sp);
-                System.debug(LoggingLevel.ERROR, e.getMessage());
-                Logger.error(e.getMessage(), accounts);
-                Logger.saveLog();
-                throw new AuraHandledException(e.getMessage());            
-            }
-            finally {
-                Database.releaseSavepoint(sp);
+    private void updateProcessedRecordIds(List<Opportunity> opportunities) {
+        if (opportunities != null) {
+            List<Id> opportunityIds = nvl(Opportunity_Trigger_Recursion.PROCESSED_RECORD_IDS.get(this.operationType));
+            for (Opportunity o : opportunities) {
+                if (o.Id != null) {
+                    if (!opportunityIds.contains(o.Id)) {
+                        opportunityIds.add(o.Id);
+                        Opportunity_Trigger_Recursion.PROCESSED_RECORD_IDS.put(this.operationType, opportunityIds);
+                    }
+                }
             }
         }
+    }
+
+    private List<Id> nvl(List<Id> recordIds) {
+        return ((recordIds != null) ? recordIds : new List<Id>());
     }
 }

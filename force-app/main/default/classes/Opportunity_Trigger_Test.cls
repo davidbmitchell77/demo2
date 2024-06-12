@@ -68,7 +68,7 @@ private class Opportunity_Trigger_Test {
             Amount = 1000000,
             Probability = 50,
             AccountId = a1.Id,
-            StageName = 'Prospecting',
+            StageName = 'Value Proposition',
             CloseDate = (System.today() + 30)
         ));
         opportunities.add(new Opportunity(
@@ -161,29 +161,44 @@ private class Opportunity_Trigger_Test {
         );
         insert o;
         Test.startTest();
+        o.Name = 'Opportunity_Trigger_Test.TestMethod06().update';
+        update o;
         o.Name = null;
         try { update o; } catch(DMLException e) { System.debug(LoggingLevel.ERROR, e.getMessage()); }
         List<Opportunity> opportunities = [SELECT Id, Name FROM Opportunity];
-        System.assertEquals('Opportunity_Trigger_Test.TestMethod06()', opportunities[0].Name);
+        System.assertEquals('Opportunity_Trigger_Test.TestMethod06().update', opportunities[0].Name);
         Test.stopTest();
         System.assertEquals(1, [SELECT Id, Name FROM Opportunity].size());
     }
 
     @isTest
     private static void TestMethod07() {
-        Account a1 = new Account( Name='Opportunity_Trigger_Test.TestMethod07().1', Phone='(777) 777-7777 x1');
-        Account a2 = new Account( Name='Opportunity_Trigger_Test.TestMethod07().2', Phone='(777) 777-7777 x2');
-
+        Account a = new Account(
+            Name = 'Opportunity_Trigger_Test.TestMethod07()',
+            Phone = '(777) 777-7777',
+            MaximumExpectedOpportunityRevenue__c = 100000
+        );
+        insert a;
+        List<Opportunity> opportunities = new List<Opportunity>();
+        for (Integer i=0; i<1301; i++) {
+            Opportunity o = new Opportunity(
+                Name = 'Opportunity_Trigger_Test.TestMethod07(' + i + ')',
+                Amount = 1000000,
+                Probability = 50,
+                AccountId = a.Id,
+                StageName = 'Value Proposition',
+                CloseDate = (System.today() + 30)
+            );
+            opportunities.add(o);
+        }
         Test.startTest();
-        try {
-            Opportunity_Trigger_Handler handler = new Opportunity_Trigger_Handler(TriggerOperation.AFTER_UPDATE);
-            handler.updateRecords(new List<Account>{ a1, a2 });
+        insert opportunities;
+        for (Opportunity o : opportunities) {
+            o.Name = o.Name + '.update';
         }
-        catch(Exception e) {
-            System.debug(LoggingLevel.ERROR, e.getMessage());
-        }
+        update opportunities;
         Test.stopTest();
-
-        System.assertEquals(0, [SELECT Id, Name FROM Opportunity].size());
+        System.assertEquals(1301, [SELECT Id, Subject FROM Task].size());
+        System.assertEquals(1301, [SELECT Id, Name FROM Opportunity].size());
     }
 }
