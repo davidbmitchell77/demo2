@@ -34,10 +34,12 @@ public without sharing class Opportunity_Trigger_Recursion {
     private static Boolean isBatchJob() {
         Boolean result = false;
         switch on Request.getCurrent().getQuiddity() {
-            when BATCH_ACS  { result = true; }
-            when BATCH_APEX { result = true; }
-            when BULK_API   { result = true; }
-            when QUEUEABLE  { result = true; }
+            when BATCH_ACS            { result = true; }
+            when BATCH_APEX           { result = true; }
+            when BATCH_CHUNK_PARALLEL { result = true; }
+            when BATCH_CHUNK_SERIAL   { result = true; }
+            when BULK_API             { result = true; }
+            when QUEUEABLE            { result = true; }
         }
         return result;
     }
