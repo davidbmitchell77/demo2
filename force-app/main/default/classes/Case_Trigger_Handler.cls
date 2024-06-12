@@ -10,7 +10,7 @@ public with sharing class Case_Trigger_Handler {
         Boolean result = true;
         if (cases != null) {
             for (Case c : cases) {
-                if (c.Subject == null) {
+                if (String.isBlank(c.Subject)) {
                     c.Subject.addError(System.Label.CASE_SUBJECT_IS_REQUIRED);
                     result = false;
                 }

@@ -10,11 +10,11 @@ public with sharing class Account_Trigger_Handler {
         Boolean result = true;
         if (accounts != null) {
             for (Account a : accounts) {
-                if (a.Name == null) {
+                if (String.isBlank(a.Name)) {
                     a.Name.addError(System.Label.ACCOUNT_NAME_IS_REQUIRED);
                     result = false;
                 }
-                if (a.Phone == null) {
+                if (String.isBlank(a.Phone)) {
                     a.Phone.addError(System.Label.ACCOUNT_PHONE_NUMBER_IS_REQUIRED);
                     result = false;
                 }

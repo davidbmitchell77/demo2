@@ -10,7 +10,7 @@ public with sharing class Lead_Trigger_Handler {
         Boolean result = true;
         if (leads != null) {
             for (Lead l : leads) {
-                if (l.LastName == null) {
+                if (String.isBlank(l.LastName)) {
                     l.LastName.addError(System.Label.LEAD_LAST_NAME_IS_REQUIRED);
                     result = false;
                 }

@@ -10,11 +10,11 @@ public with sharing class Contact_Trigger_Handler {
         Boolean result = true;
         if (contacts != null) {
             for (Contact c : contacts) {
-                if (c.LastName == null) {
+                if (String.isBlank(c.LastName)) {
                     c.LastName.addError(System.Label.CONTACT_LAST_NAME_IS_REQUIRED);
                     result = false;
                 }
-                if (c.Phone == null) {
+                if (String.isBlank(c.Phone)) {
                     c.Phone.addError(System.Label.CONTACT_PHONE_NUMBER_IS_REQUIRED);
                     result = false;
                 }

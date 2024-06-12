@@ -10,11 +10,11 @@ public with sharing class Campaign_Trigger_Handler {
         Boolean result = true;
         if (campaigns != null) {
             for (Campaign c : campaigns) {
-                if (c.Name == null) {
+                if (String.isBlank(c.Name)) {
                     c.Name.addError(System.Label.CAMPAIGN_NAME_IS_REQUIRED);
                     result = false;
                 }
-                if (c.Description == null) {
+                if (String.isBlank(c.Description)) {
                     c.Description.addError(System.Label.CAMPAIGN_DESCRIPTION_IS_REQUIRED);
                     result = false;
                 }
