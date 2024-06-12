@@ -15,18 +15,35 @@ public without sharing class Opportunity_Trigger_Recursion {
     public static void reset(List<Opportunity> oldOpportunities, List<Opportunity> newOpportunities) {
         Integer hashCode = (newOpportunities != null ? newOpportunities.hashCode() : (oldOpportunities != null ? oldOpportunities.hashCode() : null));
         if (hashCode != SAVE_HASH_CODE) {
-            BEFORE_INSERT_ALREADY_INVOKED  = false;
-            BEFORE_UPDATE_ALREADY_INVOKED  = false;
-            BEFORE_DELETE_ALREADY_INVOKED  = false;
-            AFTER_INSERT_ALREADY_INVOKED   = false;
-            AFTER_UPDATE_ALREADY_INVOKED   = false;
-            AFTER_DELETE_ALREADY_INVOKED   = false;
-            AFTER_UNDELETE_ALREADY_INVOKED = false;
-            SAVE_HASH_CODE = hashCode;
-            for (TriggerOperation to : PROCESSED_RECORD_IDS.keySet()) {
-                PROCESSED_RECORD_IDS.put(to, reduce(PROCESSED_RECORD_IDS.get(to)));
+            if (isBatchJob() || isTest()) {
+                BEFORE_INSERT_ALREADY_INVOKED  = false;
+                BEFORE_UPDATE_ALREADY_INVOKED  = false;
+                BEFORE_DELETE_ALREADY_INVOKED  = false;
+                AFTER_INSERT_ALREADY_INVOKED   = false;
+                AFTER_UPDATE_ALREADY_INVOKED   = false;
+                AFTER_DELETE_ALREADY_INVOKED   = false;
+                AFTER_UNDELETE_ALREADY_INVOKED = false;
+                SAVE_HASH_CODE = hashCode;
+                for (TriggerOperation to : PROCESSED_RECORD_IDS.keySet()) {
+                    PROCESSED_RECORD_IDS.put(to, reduce(PROCESSED_RECORD_IDS.get(to)));
+                }
             }
         }
+    }
+
+    private static Boolean isBatchJob() {
+        Boolean result = false;
+        switch on Request.getCurrent().getQuiddity() {
+            when BATCH_ACS  { result = true; }
+            when BATCH_APEX { result = true; }
+            when BULK_API   { result = true; }
+            when QUEUEABLE  { result = true; }
+        }
+        return result;
+    }
+
+    private static Boolean isTest() {
+        return Test.isRunningTest();
     }
 
     private static List<Id> reduce(List<Id> recordIds) {
