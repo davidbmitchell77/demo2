@@ -30,4 +30,8 @@
         <field>BeforeUpdate__c</field>
         <value xsi:type="xsd:boolean">true</value>
     </values>
+    <values>
+        <field>MaxRecordIds__c</field>
+        <value xsi:type="xsd:double">1200.0</value>
+    </values>
 </CustomMetadata>

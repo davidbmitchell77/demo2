@@ -48,11 +48,15 @@ public without sharing class Opportunity_Trigger_Recursion {
         return Test.isRunningTest();
     }
 
+    private static Integer maxRecordIds() {
+        return Integer.valueOf(TriggerSettings.getInstance('Opportunity').MaxRecordIds__c);
+    }
+
     private static List<Id> reduce(List<Id> recordIds) {
         List<Id> results = new List<Id>();
         if (recordIds != null) {
             results = recordIds.clone();
-            while (results.size() > 1200) {
+            while (results.size() > maxRecordIds()) {
                 results.remove(results.size() - 1);
             }
         }
