@@ -48,26 +48,29 @@ public with sharing class Opportunity_Trigger_Handler {
     }
 
     private void updateParentAccounts(List<Opportunity> oldOpportunities, List<Opportunity> newOpportunities, Map<Id,Opportunity> oldMap, Map<Id,Opportunity> newMap) {
-        Map<Id,Account> accounts = new Map<Id,Account>();
-
-        Map<Id,Account> parentAccounts = new Map<Id,Account>([SELECT Id, MaximumExpectedOpportunityRevenue__c
-                                                                FROM Account
-                                                               WHERE Id IN :accountIds(newOpportunities)
+        Map<Id,Account> accounts = new Map<Id,Account>([SELECT Id, MaximumExpectedOpportunityRevenue__c
+                                                          FROM Account
+                                                         WHERE Id IN :accountIds(newOpportunities)
         ]);
+
+        Set<Id> updatedAccountIds = new Set<Id>();
 
         if (newOpportunities != null) {
             for (Opportunity o : newOpportunities) {
                 if (o.AccountId != null) {
-                    if (parentAccounts.containsKey(o.AccountId)) {
-                        Account a = parentAccounts.get(o.AccountId);
+                    if (accounts.containsKey(o.AccountId)) {
+                        Account a = accounts.get(o.AccountId);
                         if (o.ExpectedRevenue > a.MaximumExpectedOpportunityRevenue__c) {
                             a.MaximumExpectedOpportunityRevenue__c = o.ExpectedRevenue;
-                            accounts.put(o.AccountId, a);
+                            accounts.put(a.Id, a);
+                            updatedAccountIds.add(a.Id);
                         }
                     }
                 }
             }
         }
+
+        accounts = changed(accounts, updatedAccountIds);
 
         if (!accounts.isEmpty()) {
             update accounts.values();
@@ -75,9 +78,7 @@ public with sharing class Opportunity_Trigger_Handler {
     }
 
     private void createChildTasks(List<Opportunity> oldOpportunities, List<Opportunity> newOpportunities, Map<Id,Opportunity> oldMap, Map<Id,Opportunity> newMap) {
-
         List<Task> tasks = new List<Task>();
-
         if (newOpportunities != null) {
             for (Opportunity o : newOpportunities) {
                 if (o.Id != null) {
@@ -89,7 +90,6 @@ public with sharing class Opportunity_Trigger_Handler {
                 }
             }
         }
-
         if (!tasks.isEmpty()) {
             insert tasks;
         }
@@ -115,6 +115,18 @@ public with sharing class Opportunity_Trigger_Handler {
             result = Opportunity_Trigger_Recursion.PROCESSED_RECORD_IDS.get(to).contains(optyId);
         }
         return result;
+    }
+
+    private Map<Id,Account> changed(Map<Id,Account> accounts, Set<Id> accountIds) {
+        Map<Id,Account> results = new Map<Id,Account>();
+        if (accounts != null) {
+            for (Account a : accounts.values()) {
+                if (accountIds.contains(a.Id)) {
+                    results.put(a.Id, a);
+                }
+            }
+        }
+        return results;
     }
 
     private Boolean isNewOpportunity(Opportunity o) {
