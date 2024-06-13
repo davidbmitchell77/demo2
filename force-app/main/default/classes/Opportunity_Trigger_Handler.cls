@@ -119,6 +119,18 @@ public with sharing class Opportunity_Trigger_Handler {
         return result;
     }
 
+    private List<Account> changed(Map<Id,Account> accounts, Set<Id> accountIds) {
+        List<Account> results = new List<Account>();
+        if (accounts != null) {
+            for (Account a : accounts.values()) {
+                if (accountIds.contains(a.Id)) {
+                    results.add(a);
+                }
+            }
+        }
+        return results;
+    }
+
     private Boolean isNewOpportunity(Opportunity o) {
         Boolean result = false;
         if (o.StageName == 'Prospecting'      ) { result = true; } else
@@ -136,18 +148,6 @@ public with sharing class Opportunity_Trigger_Handler {
             WhatId = o.Id,
             OwnerId = ((o.Account != null) ? o.Account.OwnerId : o.OwnerId)
         );
-    }
-
-    private List<Account> changed(Map<Id,Account> accounts, Set<Id> accountIds) {
-        List<Account> results = new List<Account>();
-        if (accounts != null) {
-            for (Account a : accounts.values()) {
-                if (accountIds.contains(a.Id)) {
-                    results.add(a);
-                }
-            }
-        }
-        return results;
     }
 
     private void updateProcessedRecordIds(List<Opportunity> opportunities) {
