@@ -47,6 +47,35 @@ public with sharing class Opportunity_Trigger_Handler {
         updateProcessedRecordIds(((newOpportunities!= null) ? newOpportunities : oldOpportunities));
     }
 
+    private void updateParentAccounts(List<Opportunity> oldOpportunities, List<Opportunity> newOpportunities, Map<Id,Opportunity> oldMap, Map<Id,Opportunity> newMap) {
+
+        Map<Id,Account> accounts = new Map<Id,Account>([SELECT Id, MaximumExpectedOpportunityRevenue__c
+                                                          FROM Account
+                                                         WHERE Id IN :accountIds(newOpportunities)
+        ]);
+
+        Set<Id> updatedAccountIds = new Set<Id>();
+
+        if (newOpportunities != null) {
+            for (Opportunity o : newOpportunities) {
+                if (o.AccountId != null) {
+                    if (accounts.containsKey(o.AccountId)) {
+                        Account a = accounts.get(o.AccountId);
+                        if (o.ExpectedRevenue > a.MaximumExpectedOpportunityRevenue__c) {
+                            a.MaximumExpectedOpportunityRevenue__c = o.ExpectedRevenue;
+                            accounts.put(a.Id, a);
+                            updatedAccountIds.add(a.Id);
+                        }
+                    }
+                }
+            }
+        }
+
+        if (!accounts.isEmpty()) {
+            update changed(accounts, updatedAccountIds);
+        }
+    }
+
     private void createChildTasks(List<Opportunity> oldOpportunities, List<Opportunity> newOpportunities, Map<Id,Opportunity> oldMap, Map<Id,Opportunity> newMap) {
 
         List<Task> tasks = new List<Task>();
@@ -66,6 +95,20 @@ public with sharing class Opportunity_Trigger_Handler {
         if (!tasks.isEmpty()) {
             insert tasks;
         }
+    }
+
+    private Set<Id> accountIds(List<Opportunity> opportunities) {
+        Set<Id> results = new Set<Id>();
+        if (opportunities != null) {
+            for (Opportunity o : opportunities) {
+                if (o.AccountId != null) {
+                    if (!results.contains(o.AccountId)) {
+                        results.add(o.AccountId);
+                    }
+                }
+            }
+        }
+        return results;
     }
 
     private Boolean alreadyInvoked(TriggerOperation to, Id optyId) {
@@ -95,42 +138,12 @@ public with sharing class Opportunity_Trigger_Handler {
         );
     }
 
-    private void updateParentAccounts(List<Opportunity> oldOpportunities, List<Opportunity> newOpportunities, Map<Id,Opportunity> oldMap, Map<Id,Opportunity> newMap) {
-
-        Map<Id,Account> accounts = new Map<Id,Account>();
-
-        Map<Id,Account> parentAccounts = new Map<Id,Account>([SELECT Id, MaximumExpectedOpportunityRevenue__c
-                                                                FROM Account
-                                                               WHERE Id IN :accountIds(newOpportunities)
-        ]);
-
-        if (newOpportunities != null) {
-            for (Opportunity o : newOpportunities) {
-                if (o.AccountId != null) {
-                    if (parentAccounts.containsKey(o.AccountId)) {
-                        Account a = parentAccounts.get(o.AccountId);
-                        if (o.ExpectedRevenue > a.MaximumExpectedOpportunityRevenue__c) {
-                            a.MaximumExpectedOpportunityRevenue__c = o.ExpectedRevenue;
-                            accounts.put(o.AccountId, a);
-                        }
-                    }
-                }
-            }
-        }
-
-        if (!accounts.isEmpty()) {
-            update accounts.values();
-        }
-    }
-
-    private Set<Id> accountIds(List<Opportunity> opportunities) {
-        Set<Id> results = new Set<Id>();
-        if (opportunities != null) {
-            for (Opportunity o : opportunities) {
-                if (o.AccountId != null) {
-                    if (!results.contains(o.AccountId)) {
-                        results.add(o.AccountId);
-                    }
+    private List<Account> changed(Map<Id,Account> accounts, Set<Id> accountIds) {
+        List<Account> results = new List<Account>();
+        if (accounts != null) {
+            for (Account a : accounts.values()) {
+                if (accountIds.contains(a.Id)) {
+                    results.add(a);
                 }
             }
         }
