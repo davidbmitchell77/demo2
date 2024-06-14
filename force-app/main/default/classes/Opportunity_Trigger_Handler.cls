@@ -111,8 +111,10 @@ public with sharing class Opportunity_Trigger_Handler {
 
     private Boolean alreadyInvoked(TriggerOperation to, Id optyId) {
         Boolean result = false;
-        if (Opportunity_Trigger_Recursion.PROCESSED_RECORD_IDS.containsKey(to)) {
-            result = Opportunity_Trigger_Recursion.PROCESSED_RECORD_IDS.get(to).contains(optyId);
+        if (Opportunity_Trigger_Recursion.PROCESSED_RECORD_IDS != null) {
+            if (Opportunity_Trigger_Recursion.PROCESSED_RECORD_IDS.containsKey(to)) {
+                result = Opportunity_Trigger_Recursion.PROCESSED_RECORD_IDS.get(to).contains(optyId);
+            }
         }
         return result;
     }
@@ -131,9 +133,9 @@ public with sharing class Opportunity_Trigger_Handler {
 
     private Boolean isNewOpportunity(Opportunity o) {
         Boolean result = false;
+        if (o.StageName == 'Needs Analysis'   ) { result = true; } else
         if (o.StageName == 'Prospecting'      ) { result = true; } else
         if (o.StageName == 'Qualification'    ) { result = true; } else
-        if (o.StageName == 'Needs Analysis'   ) { result = true; } else
         if (o.StageName == 'Value Proposition') { result = true; }
         return result;
     }
