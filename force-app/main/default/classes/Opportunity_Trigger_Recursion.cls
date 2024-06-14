@@ -11,6 +11,7 @@ public without sharing class Opportunity_Trigger_Recursion {
     public static Map<TriggerOperation,List<Id>> PROCESSED_RECORD_IDS = new Map<TriggerOperation,List<Id>>();
 
     private static Integer SAVE_HASH_CODE;
+    private static Integer MAX_RECORD_IDS = maxRecordIds();
 
     public static void reset(List<Opportunity> oldOpportunities, List<Opportunity> newOpportunities) {
         Integer hashCode = (newOpportunities != null ? newOpportunities.hashCode() : (oldOpportunities != null ? oldOpportunities.hashCode() : null));
@@ -47,9 +48,8 @@ public without sharing class Opportunity_Trigger_Recursion {
     private static Boolean isTest() {
         Boolean result = false;
         switch on Request.getCurrent().getQuiddity() {
-            when RUNTEST_ASYNC  { result = true; }
-            when RUNTEST_DEPLOY { result = true; }
-            when RUNTEST_SYNC   { result = true; }
+            when RUNTEST_DEPLOY               { result = true; }
+            when RUNTEST_SYNC, RUNTEST_ASYNC  { result = true; }
         }
         return result;
     }
@@ -62,7 +62,7 @@ public without sharing class Opportunity_Trigger_Recursion {
         List<Id> results = new List<Id>();
         if (recordIds != null) {
             results = recordIds.clone();
-            while (results.size() > maxRecordIds()) {
+            while (results.size() > MAX_RECORD_IDS) {
                 results.remove(results.size() - 1);
             }
         }
