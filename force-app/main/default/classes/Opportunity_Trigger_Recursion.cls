@@ -45,7 +45,13 @@ public without sharing class Opportunity_Trigger_Recursion {
     }
 
     private static Boolean isTest() {
-        return Test.isRunningTest();
+        Boolean result = false;
+        switch on Request.getCurrent().getQuiddity() {
+            when RUNTEST_ASYNC  { result = true; }
+            when RUNTEST_DEPLOY { result = true; }
+            when RUNTEST_SYNC   { result = true; }
+        }
+        return result;
     }
 
     private static Integer maxRecordIds() {
