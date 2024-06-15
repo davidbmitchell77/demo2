@@ -54,7 +54,6 @@ public without sharing class Opportunity_Trigger_Recursion {
         return result;
     }
 
-
     private static List<Id> reduce(List<Id> recordIds) {
         List<Id> results = new List<Id>();
         if (recordIds != null) {
