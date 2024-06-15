@@ -133,10 +133,12 @@ public with sharing class Opportunity_Trigger_Handler {
 
     private Boolean isNewOpportunity(Opportunity o) {
         Boolean result = false;
-        if (o.StageName == 'Needs Analysis'   ) { result = true; } else
-        if (o.StageName == 'Prospecting'      ) { result = true; } else
-        if (o.StageName == 'Qualification'    ) { result = true; } else
-        if (o.StageName == 'Value Proposition') { result = true; }
+        switch on o.StageName {
+            when 'Needs Analysis'    { result = true; }
+            when 'Prospecting'       { result = true; }
+            when 'Qualification'     { result = true; }
+            when 'Value Proposition' { result = true; }
+        }
         return result;
     }
 
