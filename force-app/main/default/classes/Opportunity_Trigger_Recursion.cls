@@ -10,8 +10,8 @@ public without sharing class Opportunity_Trigger_Recursion {
 
     public static Map<TriggerOperation,List<Id>> PROCESSED_RECORD_IDS = new Map<TriggerOperation,List<Id>>();
 
-    private static Integer SAVE_HASH_CODE;
     private static Integer MAX_RECORD_IDS = (Integer)TriggerSettings.getInstance('Opportunity').MaxRecordIds__c;
+    private static Integer SAVE_HASH_CODE;
 
     public static void reset(List<Opportunity> oldOpportunities, List<Opportunity> newOpportunities) {
         Integer hashCode = (newOpportunities != null ? newOpportunities.hashCode() : (oldOpportunities != null ? oldOpportunities.hashCode() : null));

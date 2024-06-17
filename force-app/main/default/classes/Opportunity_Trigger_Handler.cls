@@ -60,7 +60,7 @@ public with sharing class Opportunity_Trigger_Handler {
                 if (o.AccountId != null) {
                     if (accounts.containsKey(o.AccountId)) {
                         Account a = accounts.get(o.AccountId);
-                        if (o.ExpectedRevenue > a.MaximumExpectedOpportunityRevenue__c) {
+                        if (nvl(a.MaximumExpectedOpportunityRevenue__c, 0) < nvl(o.ExpectedRevenue, 0)) {
                             a.MaximumExpectedOpportunityRevenue__c = o.ExpectedRevenue;
                             accounts.put(a.Id, a);
                             updatedAccountIds.add(a.Id);
@@ -168,5 +168,9 @@ public with sharing class Opportunity_Trigger_Handler {
 
     private List<Id> nvl(List<Id> recordIds) {
         return ((recordIds != null) ? recordIds : new List<Id>());
+    }
+ 
+    private Decimal nvl(Decimal n, Decimal defaultValue) {
+        return ((n != null) ? n : defaultValue);
     }
 }
