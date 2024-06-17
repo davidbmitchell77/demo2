@@ -165,4 +165,33 @@ private class Case_Trigger_Test {
 
         System.assertEquals('Silver', [SELECT Id, Rating FROM Account LIMIT 1].Rating);       
     }
+
+    @isTest
+    private static void TestMethod08() {
+        Integer maxRecordIds = Integer.valueOf(TriggerSettings.getInstance('Case').MaxRecordIds__c + 101);
+        Account a = new Account(
+            Name = 'Case_Trigger_Test.TestMethod08()',
+            Phone = '(888) 888-8888'
+        );
+        insert a;
+        List<Case> cases = new List<Case>();
+        for (Integer i=0; i<maxRecordIds; i++) {
+            Case c = new Case(
+                Subject = 'Case_Trigger_Test.TestMethod08(' + i + ')',
+                Status = 'Closed',
+                AccountId = a.Id
+            );
+            cases.add(c);
+        }
+
+        Test.startTest();
+        insert cases;
+        for (Case c : Cases) {
+            c.Subject = c.Subject + '.update';
+        }
+        update cases;
+        Test.stopTest();
+
+        System.assertEquals(maxRecordIds, [SELECT Id, Subject FROM Case].size());
+    }
 }
