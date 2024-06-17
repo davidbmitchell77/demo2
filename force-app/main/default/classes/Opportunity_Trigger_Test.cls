@@ -173,6 +173,7 @@ private class Opportunity_Trigger_Test {
 
     @isTest
     private static void TestMethod07() {
+        Integer maxRecordIds = Integer.valueOf(TriggerSettings.getInstance('Opportunity').MaxRecordIds__c + 101);
         Account a = new Account(
             Name = 'Opportunity_Trigger_Test.TestMethod07()',
             Phone = '(777) 777-7777',
@@ -180,7 +181,7 @@ private class Opportunity_Trigger_Test {
         );
         insert a;
         List<Opportunity> opportunities = new List<Opportunity>();
-        for (Integer i=0; i<1301; i++) {
+        for (Integer i=0; i<maxRecordIds; i++) {
             Opportunity o = new Opportunity(
                 Name = 'Opportunity_Trigger_Test.TestMethod07(' + i + ')',
                 Amount = 1000000,
@@ -198,7 +199,7 @@ private class Opportunity_Trigger_Test {
         }
         update opportunities;
         Test.stopTest();
-        System.assertEquals(1301, [SELECT Id, Subject FROM Task].size());
-        System.assertEquals(1301, [SELECT Id, Name FROM Opportunity].size());
+        System.assertEquals(maxRecordIds, [SELECT Id, Subject FROM Task].size());
+        System.assertEquals(maxRecordIds, [SELECT Id, Name FROM Opportunity].size());
     }
 }
