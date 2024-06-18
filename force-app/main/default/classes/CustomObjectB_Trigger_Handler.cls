@@ -6,52 +6,114 @@ public with sharing class CustomObjectB_Trigger_Handler {
         this.operationType = operationType;
     }
 
-    public Boolean isValid(List<CustomObjectB__c> cobjbRecs) {
+    public Boolean isValid(List<CustomObjectB__c> bObjects) {
         Boolean result = true;
-        for (CustomObjectB__c cobjb : cobjbRecs) {
+        if (bObjects != null) {
+            for (CustomObjectB__c bObj : bObjects) {
+                if (String.isEmpty(bObj.Name)) {
+                    bObj.addError(System.Label.CUSTOM_OBJECT_B_NAME_IS_REQUIRED);
+                    result = false;
+                }
+            }
         }
         return result;
     }
 
     public void run(List<CustomObjectB__c> oldRecords, List<CustomObjectB__c> newRecords, Map<Id,CustomObjectB__c> oldMap, Map<Id,CustomObjectB__c> newMap) {
-        switch on operationType {
-            when AFTER_INSERT, AFTER_UPDATE {
-                synchronizeFieldsWithCustomObjectA(oldRecords, newRecords, oldMap, newMap);
+        switch on this.operationType {
+            when BEFORE_INSERT {
+
+            }
+            when BEFORE_UPDATE {
+
+            }
+            when BEFORE_DELETE {
+
+            }
+            when AFTER_INSERT {
+                synchronizeFieldsWithCustomObjectB(oldRecords, newRecords, oldMap, newMap);
+            }
+            when AFTER_UPDATE {
+                synchronizeFieldsWithCustomObjectB(oldRecords, newRecords, oldMap, newMap);
+            }
+            when AFTER_DELETE {
+
+            }
+            when AFTER_UNDELETE {
+
             }
         }
     }
 
-    public void synchronizeFieldsWithCustomObjectA(List<CustomObjectB__c> oldRecords, List<CustomObjectB__c> newRecords, Map<Id,CustomObjectB__c> oldMap, Map<Id,CustomObjectB__c> newMap)
+    private void synchronizeFieldsWithCustomObjectB(List<CustomObjectB__c> oldRecords, List<CustomObjectB__c> newRecords, Map<Id,CustomObjectB__c> oldMap, Map<Id,CustomObjectB__c> newMap)
     {
-        List<CustomObjectA__c> cobjaList = new List<CustomObjectA__c>();
+        Map<String,CustomObjectA__c> aObjects = new Map<String,CustomObjectA__c>();
 
-        for (CustomObjectB__c cobjb : newRecords)
-        {
-            Boolean fieldAHasChanged = false;
-            Boolean fieldBHasChanged = false;
-
-            if (operationType == TriggerOperation.AFTER_INSERT) {
-                fieldAHasChanged = true;
-                fieldBHasChanged = true;
-            }
-            else if (cobjb.FieldA__c != oldMap.get(cobjb.Id).FieldA__c) {
-                fieldAHasChanged = true;
-            }
-            else if (cobjb.FieldB__c != oldMap.get(cobjb.Id).FieldB__c) {
-                fieldBHasChanged = true;
-            }
-
-            if (fieldAHasChanged || fieldBHasChanged) {
-                CustomObjectA__c cobja = new CustomObjectA__c();
-                cobja.ExternalId__c = cobjb.Id;
-                cobja.FieldA__c = cobjb.FieldA__c;
-                cobja.FieldB__c = cobjb.FieldB__c;
-                cobjaList.add(cobja);
+        for (CustomObjectA__c aObj : [SELECT Id,
+                                             Name,
+                                             FieldA__c,
+                                             FieldB__c,
+                                             ExternalId__c
+                                        FROM CustomObjectA__c
+                                       WHERE ExternalId__c IN :externalIds(newRecords)
+                                         AND ExternalId__c != null
+        ]) {
+            if (!aObjects.containsKey(aObj.ExternalId__c)) {
+                aObjects.put(aObj.ExternalId__c, aObj);
             }
         }
 
-        if (!cobjaList.isEmpty()) {
-            upsert cobjaList ExternalId__c;
+        Set<id> updatedRecordIds = new Set<Id>();
+
+        if (newRecords != null) {
+            for (CustomObjectB__c bObj : newRecords) {
+                if (aObjects.containsKey(bObj.ExternalId__c)) {
+                    CustomObjectB__c oldRecord = (oldMap != null ? oldMap.get(bObj.Id) : new CustomObjectB__c());
+                    CustomObjectB__c newRecord = (newMap != null ? newMap.get(bObj.Id) : new CustomObjectB__c());
+                    if (aObjects.containsKey(bObj.ExternalId__c)) {
+                        Boolean isChanged = false;
+                        CustomObjectA__c aObj = aObjects.get(bObj.ExternalId__c);
+                        if (aObj.FieldA__c != bObj.FieldA__c) { aObj.FieldA__c = bObj.FieldA__c; isChanged = true; }
+                        if (aObj.FieldB__c != bObj.FieldB__c) { aObj.FieldB__c = bObj.FieldB__c; isChanged = true; }
+                        if (isChanged == true) {
+                            aObjects.put(aObj.Id, aObj);
+                            updatedRecordIds.add(aObj.Id);
+                        }
+                    }
+                }
+            }
+        }
+
+        aObjects = changed(aObjects, updatedRecordIds);
+
+        if (!aObjects.isEmpty()) {
+            update aObjects.values();
         }
     }
+
+    private Map<String,CustomObjectA__c> changed(Map<String,CustomObjectA__c> aObjects, Set<Id> recordIds) {
+        Map<String,CustomObjectA__c> results = new Map<String,CustomObjectA__c>();
+        if (aObjects != null) {
+            for (CustomObjectA__c aObj : aObjects.values()) {
+                if (recordIds.contains(aObj.Id)) {
+                    results.put(aObj.Id, aObj);
+                }
+            }
+        }
+        return results;
+    }
+
+    private Set<String> externalIds(List<CustomObjectB__c> bObjects) {
+        Set<String> results = new Set<String>();
+        if (bObjects != null) {
+            for (CustomObjectB__c bObj : bObjects) {
+                if (bObj.ExternalId__c != null) {
+                    if (!results.contains(bObj.ExternalId__c )) {
+                        results.add(bObj.ExternalId__c );
+                    }
+                }
+            }
+        }
+        return results;
+    }  
 }

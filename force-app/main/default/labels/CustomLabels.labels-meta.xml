@@ -50,6 +50,20 @@
         <value>Contact phone number is required.</value>
     </labels>
     <labels>
+        <fullName>CUSTOM_OBJECT_A_NAME_IS_REQUIRED</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>Custom Object &apos;A&apos; Name is required.</shortDescription>
+        <value>Custom Object &apos;A&apos; Name is required.</value>
+    </labels>
+    <labels>
+        <fullName>CUSTOM_OBJECT_B_NAME_IS_REQUIRED</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>Custom Object &apos;B&apos; Name is required.</shortDescription>
+        <value>Custom Object &apos;B&apos; Name is required.</value>
+    </labels>
+    <labels>
         <fullName>LEAD_LAST_NAME_IS_REQUIRED</fullName>
         <language>en_US</language>
         <protected>false</protected>
