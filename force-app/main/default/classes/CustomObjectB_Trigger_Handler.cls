@@ -63,22 +63,20 @@ public with sharing class CustomObjectB_Trigger_Handler {
             }
         }
 
-        Set<id> updatedRecordIds = new Set<Id>();
+        Set<Id> updatedRecordIds = new Set<Id>();
 
         if (newRecords != null) {
             for (CustomObjectB__c bObj : newRecords) {
                 if (aObjects.containsKey(bObj.ExternalId__c)) {
                     CustomObjectB__c oldRecord = (oldMap != null ? oldMap.get(bObj.Id) : new CustomObjectB__c());
                     CustomObjectB__c newRecord = (newMap != null ? newMap.get(bObj.Id) : new CustomObjectB__c());
-                    if (aObjects.containsKey(bObj.ExternalId__c)) {
-                        Boolean isChanged = false;
-                        CustomObjectA__c aObj = aObjects.get(bObj.ExternalId__c);
-                        if (aObj.FieldA__c != bObj.FieldA__c) { aObj.FieldA__c = bObj.FieldA__c; isChanged = true; }
-                        if (aObj.FieldB__c != bObj.FieldB__c) { aObj.FieldB__c = bObj.FieldB__c; isChanged = true; }
-                        if (isChanged == true) {
-                            aObjects.put(aObj.Id, aObj);
-                            updatedRecordIds.add(aObj.Id);
-                        }
+                    Boolean isChanged = false;
+                    CustomObjectA__c aObj = aObjects.get(bObj.ExternalId__c);
+                    if (aObj.FieldA__c != bObj.FieldA__c) { aObj.FieldA__c = bObj.FieldA__c; isChanged = true; }
+                    if (aObj.FieldB__c != bObj.FieldB__c) { aObj.FieldB__c = bObj.FieldB__c; isChanged = true; }
+                    if (isChanged == true) {
+                        aObjects.put(aObj.Id, aObj);
+                        updatedRecordIds.add(aObj.Id);
                     }
                 }
             }

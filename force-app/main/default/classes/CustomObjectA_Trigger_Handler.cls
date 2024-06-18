@@ -63,7 +63,7 @@ public with sharing class CustomObjectA_Trigger_Handler {
             }
         }
 
-        Set<id> updatedRecordIds = new Set<Id>();
+        Set<Id> updatedRecordIds = new Set<Id>();
 
         if (newRecords != null) {
             for (CustomObjectA__c aObj : newRecords) {
