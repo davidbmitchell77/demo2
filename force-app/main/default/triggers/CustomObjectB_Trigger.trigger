@@ -1,6 +1,6 @@
 trigger CustomObjectB_Trigger on CustomObjectB__c (before insert, before update, before delete, after insert, after update, after delete, after undelete) {
 
-    TriggerSetting__mdt ts = TriggerSettings.getInstance('CustomObjectB');
+    private TriggerSetting__mdt ts = TriggerSettings.getInstance('CustomObjectB');
     private Boolean runTriggerHandler = false;
 
     switch on Trigger.OperationType {
