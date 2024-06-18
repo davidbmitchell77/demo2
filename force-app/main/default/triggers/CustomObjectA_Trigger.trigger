@@ -1,4 +1,4 @@
-trigger CustomObjectA_Trigger on CustomObjectA__c(before insert, before update, before delete, after insert, after update, after delete, after undelete) {
+trigger CustomObjectA_Trigger on CustomObjectA__c (before insert, before update, before delete, after insert, after update, after delete, after undelete) {
 
     TriggerSetting__mdt ts = TriggerSettings.getInstance('CustomObjectA');
     private Boolean runTriggerHandler = false;
