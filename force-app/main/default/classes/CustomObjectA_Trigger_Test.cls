@@ -2,57 +2,71 @@
 private class CustomObjectA_Trigger_Test {
 
     @isTest
-    private static void TestMethod_01() {
-        CustomObjectA__c cobja = new CustomObjectA__c(
-            FieldA__c = 500000,
-            FieldB__c = 1000000
+    private static void TestMethod01() {
+        UUID uuid = UUID.randomUUID();
+        CustomObjectA__c objA = new CustomObjectA__c(
+            Name = 'CustomObjectA_Trigger_Test.TestMethod01',
+            FieldA__c = null,
+            FieldB__c = null,
+            ExternalId__c = String.valueOf(uuid)
         );
+        insert objA;
+        CustomObjectB__c objB = new CustomObjectB__c(
+            Name = 'CustomObjectA_Trigger_Test.TestMethod01',
+            FieldA__c = null,
+            FieldB__c = null,
+            ExternalId__c = String.valueOf(uuid)
+        );
+        insert objB;
+
         Test.startTest();
-        insert cobja;
+        objA.FieldA__c = 1.11;
+        objA.FieldB__c = 1.11;
+        update objA;
         Test.stopTest();
-        List<CustomObjectA__c> cobjaList = [SELECT Id, Name, FieldA__c, FieldB__c, ExternalId__c FROM CustomObjectA__c LIMIT 200];
-        List<CustomObjectB__c> cobjbList = [SELECT Id, Name, FieldA__c, FieldB__c, ExternalId__c FROM CustomObjectB__c LIMIT 200];
-        System.assertEquals(1, cobjaList.size());
-        System.assertEquals(1, cobjbList.size());
-        System.assertEquals(cobjaList[0].FieldA__c, cobjbList[0].FieldA__c);
-        System.assertEquals(cobjaList[0].FieldB__c, cobjbList[0].FieldB__c);
+
+        System.assertEquals(1.11, [SELECT Id, FieldA__c FROM CustomObjectA__c].FieldA__c);
+        System.assertEquals(1.11, [SELECT Id, FieldB__c FROM CustomObjectA__c].FieldB__c);
+        System.assertEquals(1.11, [SELECT Id, FieldA__c FROM CustomObjectB__c].FieldA__c);
+        System.assertEquals(1.11, [SELECT Id, FieldB__c FROM CustomObjectB__c].FieldB__c);
     }
 
     @isTest
-    private static void TestMethod_02() {
-        CustomObjectA__c cobja = new CustomObjectA__c(
-            FieldA__c = 500000,
-            FieldB__c = 1000000
+    private static void TestMethod02() {
+        UUID uuid = UUID.randomUUID();
+        CustomObjectA__c objA = new CustomObjectA__c(
+            Name = 'CustomObjectA_Trigger_Test.TestMethod02',
+            FieldA__c = 2.22,
+            FieldB__c = 2.22,
+            ExternalId__c = String.valueOf(uuid)
         );
+        insert objA;
+
         Test.startTest();
-        insert cobja;
-        cobja.FieldA__c = 75000;
-        update cobja;
+        delete [SELECT Id FROM CustomObjectA__c];
+        System.assertEquals(0, [SELECT Id, FieldA__c FROM CustomObjectA__c].size());
+        undelete [SELECT Id FROM CustomObjectA__c WHERE IsDeleted = true ALL ROWS];
         Test.stopTest();
-        List<CustomObjectA__c> cobjaList = [SELECT Id, Name, FieldA__c, FieldB__c, ExternalId__c FROM CustomObjectA__c LIMIT 200];
-        List<CustomObjectB__c> cobjbList = [SELECT Id, Name, FieldA__c, FieldB__c, ExternalId__c FROM CustomObjectB__c LIMIT 200];
-        System.assertEquals(1, cobjaList.size());
-        System.assertEquals(1, cobjbList.size());
-        System.assertEquals(cobjaList[0].FieldA__c, cobjbList[0].FieldA__c);
-        System.assertEquals(cobjbList[0].FieldA__c, cobja.FieldA__c);
+
+        System.assertEquals(1, [SELECT Id, FieldA__c FROM CustomObjectA__c].size());
     }
 
     @isTest
-    private static void TestMethod_03() {
-        CustomObjectA__c cobja = new CustomObjectA__c(
-            FieldA__c = 500000,
-            FieldB__c = 1000000
+    private static void TestMethod03() {
+        UUID uuid = UUID.randomUUID();
+        CustomObjectA__c objA = new CustomObjectA__c(
+            Name = 'CustomObjectA_Trigger_Test.TestMethod03',
+            FieldA__c = 3.33,
+            FieldB__c = 3.33,
+            ExternalId__c = String.valueOf(uuid)
         );
+        insert objA;
+
         Test.startTest();
-        insert cobja;
-        cobja.FieldB__c = 125000000;
-        update cobja;
+        objA.Name = '';
+        try { update objA; } catch(DmlException e) { System.debug(LoggingLevel.ERROR, e.getMessage()); }
         Test.stopTest();
-        List<CustomObjectA__c> cobjaList = [SELECT Id, Name, FieldA__c, FieldB__c, ExternalId__c FROM CustomObjectA__c LIMIT 200];
-        List<CustomObjectB__c> cobjbList = [SELECT Id, Name, FieldA__c, FieldB__c, ExternalId__c FROM CustomObjectB__c LIMIT 200];
-        System.assertEquals(1, cobjaList.size());
-        System.assertEquals(1, cobjbList.size());
-        System.assertEquals(cobjaList[0].FieldB__c, cobjbList[0].FieldB__c);
-        System.assertEquals(cobjbList[0].FieldB__c, cobja.FieldB__c);
+
+        System.assertEquals('CustomObjectA_Trigger_Test.TestMethod03', [SELECT Id, Name FROM CustomObjectA__c].Name);
     }
 }
