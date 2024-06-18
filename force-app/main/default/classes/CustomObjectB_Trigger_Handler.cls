@@ -70,8 +70,8 @@ public with sharing class CustomObjectB_Trigger_Handler {
                 if (aObjects.containsKey(bObj.ExternalId__c)) {
                     CustomObjectB__c oldRecord = (oldMap != null ? oldMap.get(bObj.Id) : new CustomObjectB__c());
                     CustomObjectB__c newRecord = (newMap != null ? newMap.get(bObj.Id) : new CustomObjectB__c());
-                    Boolean isChanged = false;
                     CustomObjectA__c aObj = aObjects.get(bObj.ExternalId__c);
+                    Boolean isChanged = false;
                     if (aObj.FieldA__c != bObj.FieldA__c) { aObj.FieldA__c = bObj.FieldA__c; isChanged = true; }
                     if (aObj.FieldB__c != bObj.FieldB__c) { aObj.FieldB__c = bObj.FieldB__c; isChanged = true; }
                     if (isChanged == true) {
