@@ -69,4 +69,30 @@ private class CustomObjectA_Trigger_Test {
 
         System.assertEquals('CustomObjectA_Trigger_Test.TestMethod03', [SELECT Id, Name FROM CustomObjectA__c].Name);
     }
+
+    @isTest
+    private static void TestMethod04() {
+        Integer maxRecordIds = Integer.valueOf(TriggerSettings.getInstance('CustomObjectA').MaxRecordIds__c + 101);
+        List<CustomObjectA__c> aRecords = new List<CustomObjectA__c>();
+        for (Integer i=0; i<maxRecordIds; i++) {
+            UUID uuid = UUID.randomUUID();
+            CustomObjectA__c a = new CustomObjectA__c(
+                Name = 'CustomObjectA_Trigger_Test.TestMethod04 ',
+                FieldA__c = 4.44,
+                FieldB__c = 4.44,
+                ExternalId__c = String.valueOf(uuid)
+            );
+            aRecords.add(a);
+        }
+
+        Test.startTest();
+        insert aRecords;
+        for (CustomObjectA__c a : aRecords) {
+            a.Name = a.Name + '.update';
+        }
+        update aRecords;
+        Test.stopTest();
+
+        System.assertEquals(maxRecordIds, [SELECT Id, Name FROM CustomObjectA__c].size());
+    }
 }
