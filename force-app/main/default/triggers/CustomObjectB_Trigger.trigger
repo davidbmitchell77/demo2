@@ -3,6 +3,8 @@ trigger CustomObjectB_Trigger on CustomObjectB__c (before insert, before update,
     private TriggerSetting__mdt ts = TriggerSettings.getInstance('CustomObjectB');
     private Boolean runTriggerHandler = false;
 
+    CustomObjectB_Trigger_Recursion.reset(Trigger.old, Trigger.new);
+
     switch on Trigger.OperationType {
         when BEFORE_INSERT {
             if (!CustomObjectB_Trigger_Recursion.BEFORE_INSERT_ALREADY_INVOKED) {
