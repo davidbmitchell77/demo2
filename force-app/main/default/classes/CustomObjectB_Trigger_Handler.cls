@@ -63,7 +63,7 @@ public with sharing class CustomObjectB_Trigger_Handler {
         }
 
         Set<Id> updatedRecordIds = new Set<Id>();
-                    
+
         if (newRecords != null) {
             for (CustomObjectB__c bObj : newRecords) {
                 CustomObjectB__c oldRecord = (oldMap != null ? oldMap.get(bObj.Id) : new CustomObjectB__c());
