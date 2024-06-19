@@ -63,18 +63,19 @@ public with sharing class CustomObjectB_Trigger_Handler {
         }
 
         Set<Id> updatedRecordIds = new Set<Id>();
-
+                    
         if (newRecords != null) {
             for (CustomObjectB__c bObj : newRecords) {
-                CustomObjectB__c oldRecord = (oldMap != null ? oldMap.get(bObj.Id) : new CustomObjectB__c());
-                CustomObjectB__c newRecord = (newMap != null ? newMap.get(bObj.Id) : new CustomObjectB__c());
-                if (isModified(oldRecord, newRecord)) {
-                    if (aObjects.containsKey(bObj.ExternalId__c)) {
-                        CustomObjectA__c aObj = aObjects.get(bObj.ExternalId__c);
-                        Boolean isChanged = false;
-                        if (aObj.FieldA__c != bObj.FieldA__c) { aObj.FieldA__c = bObj.FieldA__c; isChanged = true; }
-                        if (aObj.FieldB__c != bObj.FieldB__c) { aObj.FieldB__c = bObj.FieldB__c; isChanged = true; }
-                        if (isChanged == true) {
+                if (aObjects.containsKey(bObj.ExternalId__c)) {
+                    CustomObjectA__c aObj = aObjects.get(bObj.ExternalId__c);
+                    CustomObjectB__c oldRecord = (oldMap != null ? oldMap.get(bObj.Id) : new CustomObjectB__c());
+                    CustomObjectB__c newRecord = (newMap != null ? newMap.get(bObj.Id) : new CustomObjectB__c());
+                    if ((oldRecord.FieldA__c != newRecord.FieldA__c)
+                    || ((oldRecord.FieldB__c != newRecord.FieldB__c))) {
+                        Boolean objectAOutOfSync = false;
+                        if (aObj.FieldA__c != bObj.FieldA__c) { aObj.FieldA__c = bObj.FieldA__c; objectAOutOfSync = true; }
+                        if (aObj.FieldB__c != bObj.FieldB__c) { aObj.FieldB__c = bObj.FieldB__c; objectAOutOfSync = true; }
+                        if (objectAOutOfSync) {
                             aObjects.put(aObj.Id, aObj);
                             updatedRecordIds.add(aObj.Id);
                         }
@@ -114,12 +115,5 @@ public with sharing class CustomObjectB_Trigger_Handler {
             }
         }
         return results;
-    } 
-
-    private Boolean isModified(CustomObjectB__c oldRecord, CustomObjectB__c newRecord) {
-        Boolean result = false;
-        if (oldRecord.FieldA__c != newRecord.FieldA__c) { result = true; }
-        if (oldRecord.FieldB__c != newRecord.FieldB__c) { result = true; }
-        return result;
     }
 }
