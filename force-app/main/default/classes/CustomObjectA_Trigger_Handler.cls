@@ -11,7 +11,7 @@ public with sharing class CustomObjectA_Trigger_Handler {
         if (aObjects != null) {
             for (CustomObjectA__c aObj : aObjects) {
                 if (String.isEmpty(aObj.Name)) {
-                    aObj.addError(System.Label.CUSTOM_OBJECT_A_NAME_IS_REQUIRED);
+                    aObj.Name.addError(System.Label.CUSTOM_OBJECT_A_NAME_IS_REQUIRED);
                     result = false;
                 }
             }
@@ -43,6 +43,7 @@ public with sharing class CustomObjectA_Trigger_Handler {
 
             }
         }
+        updateProcessedRecordIds((newRecords!= null ? newRecords : (oldRecords != null ? oldRecords : null)));
     }
 
     private void synchronizeFieldsWithCustomObjectB(List<CustomObjectA__c> oldRecords, List<CustomObjectA__c> newRecords, Map<Id,CustomObjectA__c> oldMap, Map<Id,CustomObjectA__c> newMap)
@@ -113,5 +114,23 @@ public with sharing class CustomObjectA_Trigger_Handler {
             }
         }
         return results;
+    }
+
+    private void updateProcessedRecordIds(List<CustomObjectA__c> aObjects) {
+        if (aObjects != null) {
+            List<Id> aIds = nvl(CustomObjectA_Trigger_Recursion.PROCESSED_RECORD_IDS.get(this.operationType));
+            for (CustomObjectA__c a : aObjects) {
+                if (a.Id != null) {
+                    if (!aIds.contains(a.Id)) {
+                        aIds.add(a.Id);
+                        CustomObjectA_Trigger_Recursion.PROCESSED_RECORD_IDS.put(this.operationType, aIds);
+                    }
+                }
+            }
+        }
+    }
+
+    private List<Id> nvl(List<Id> recordIds) {
+        return ((recordIds != null) ? recordIds : new List<Id>());
     }
 }
