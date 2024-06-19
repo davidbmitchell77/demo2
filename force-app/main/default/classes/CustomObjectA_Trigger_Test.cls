@@ -77,7 +77,7 @@ private class CustomObjectA_Trigger_Test {
         for (Integer i=0; i<maxRecordIds; i++) {
             UUID uuid = UUID.randomUUID();
             CustomObjectA__c a = new CustomObjectA__c(
-                Name = 'CustomObjectA_Trigger_Test.TestMethod04 ',
+                Name = 'CustomObjectA_Trigger_Test.TestMethod04 ' + i,
                 FieldA__c = 4.44,
                 FieldB__c = 4.44,
                 ExternalId__c = String.valueOf(uuid)
