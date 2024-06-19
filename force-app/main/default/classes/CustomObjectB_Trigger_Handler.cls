@@ -66,21 +66,19 @@ public with sharing class CustomObjectB_Trigger_Handler {
                     
         if (newRecords != null) {
             for (CustomObjectB__c bObj : newRecords) {
-                if (aObjects.containsKey(bObj.ExternalId__c)) {
-                    CustomObjectA__c aObj = aObjects.get(bObj.ExternalId__c);
-                    CustomObjectB__c oldRecord = (oldMap != null ? oldMap.get(bObj.Id) : new CustomObjectB__c());
-                    CustomObjectB__c newRecord = (newMap != null ? newMap.get(bObj.Id) : new CustomObjectB__c());
-                    if ((oldRecord.FieldA__c != newRecord.FieldA__c)
-                    || ((oldRecord.FieldB__c != newRecord.FieldB__c))) {
-                        Boolean objectAOutOfSync = false;
-                        if (aObj.FieldA__c != bObj.FieldA__c) { aObj.FieldA__c = bObj.FieldA__c; objectAOutOfSync = true; }
-                        if (aObj.FieldB__c != bObj.FieldB__c) { aObj.FieldB__c = bObj.FieldB__c; objectAOutOfSync = true; }
-                        if (objectAOutOfSync) {
+                CustomObjectB__c oldRecord = (oldMap != null ? oldMap.get(bObj.Id) : new CustomObjectB__c());
+                CustomObjectB__c newRecord = (newMap != null ? newMap.get(bObj.Id) : new CustomObjectB__c());
+                if (oldRecord.FieldA__c != newRecord.FieldA__c || oldRecord.FieldB__c != newRecord.FieldB__c) {
+                    if (aObjects.containsKey(bObj.ExternalId__c)) {
+                        CustomObjectA__c aObj = aObjects.get(bObj.ExternalId__c);
+                        if (bObj.FieldA__c != aObj.FieldA__c || bObj.FieldB__c != aObj.FieldB__c) {
+                            aObj.FieldA__c = bObj.FieldA__c;
+                            aObj.FieldB__c = bObj.FieldB__c;
                             aObjects.put(aObj.Id, aObj);
                             updatedRecordIds.add(aObj.Id);
                         }
                     }
-                }
+                 }
             }
         }
 
