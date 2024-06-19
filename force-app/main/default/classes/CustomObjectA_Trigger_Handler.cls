@@ -66,16 +66,18 @@ public with sharing class CustomObjectA_Trigger_Handler {
 
         if (newRecords != null) {
             for (CustomObjectA__c aObj : newRecords) {
-                if (bObjects.containsKey(aObj.ExternalId__c)) {
-                    CustomObjectA__c oldRecord = (oldMap != null ? oldMap.get(aObj.Id) : new CustomObjectA__c());
-                    CustomObjectA__c newRecord = (newMap != null ? newMap.get(aObj.Id) : new CustomObjectA__c());
-                    CustomObjectB__c bObj = bObjects.get(aObj.ExternalId__c);
-                    Boolean isChanged = false;
-                    if (bObj.FieldA__c != aObj.FieldA__c) { bObj.FieldA__c = aObj.FieldA__c; isChanged = true; }
-                    if (bObj.FieldB__c != aObj.FieldB__c) { bObj.FieldB__c = aObj.FieldB__c; isChanged = true; }
-                    if (isChanged == true) {
-                        bObjects.put(bObj.Id, bObj);
-                        updatedRecordIds.add(bObj.Id);
+                CustomObjectA__c oldRecord = (oldMap != null ? oldMap.get(aObj.Id) : new CustomObjectA__c());
+                CustomObjectA__c newRecord = (newMap != null ? newMap.get(aObj.Id) : new CustomObjectA__c());
+                if (isModified(oldRecord, newRecord)) {
+                    if (bObjects.containsKey(aObj.ExternalId__c)) {
+                        CustomObjectB__c bObj = bObjects.get(aObj.ExternalId__c);
+                        Boolean isChanged = false;
+                        if (bObj.FieldA__c != aObj.FieldA__c) { bObj.FieldA__c = aObj.FieldA__c; isChanged = true; }
+                        if (bObj.FieldB__c != aObj.FieldB__c) { bObj.FieldB__c = aObj.FieldB__c; isChanged = true; }
+                        if (isChanged == true) {
+                            bObjects.put(bObj.Id, bObj);
+                            updatedRecordIds.add(bObj.Id);
+                        }
                     }
                 }
             }
@@ -112,5 +114,12 @@ public with sharing class CustomObjectA_Trigger_Handler {
             }
         }
         return results;
-    }  
+    }
+
+    private Boolean isModified(CustomObjectA__c oldRecord, CustomObjectA__c newRecord) {
+        Boolean result = false;
+        if (oldRecord.FieldA__c != newRecord.FieldA__c) { result = true; }
+        if (oldRecord.FieldB__c != newRecord.FieldB__c) { result = true; }
+        return result;
+    } 
 }
