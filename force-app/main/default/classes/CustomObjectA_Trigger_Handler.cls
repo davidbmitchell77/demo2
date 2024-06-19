@@ -2,8 +2,8 @@ public with sharing class CustomObjectA_Trigger_Handler {
 
     private TriggerOperation operationType;
 
-    public CustomObjectA_Trigger_Handler(TriggerOperation operationType) {
-        this.operationType = operationType;
+    public CustomObjectA_Trigger_Handler(TriggerOperation to) {
+        this.operationType = to;
     }
 
     public Boolean isValid(List<CustomObjectA__c> aObjects) {
@@ -56,7 +56,6 @@ public with sharing class CustomObjectA_Trigger_Handler {
                                              ExternalId__c
                                         FROM CustomObjectB__c
                                        WHERE ExternalId__c IN :externalIds(newRecords)
-                                         AND ExternalId__c != null
         ]) {
             if (!bObjects.containsKey(bObj.ExternalId__c)) {
                 bObjects.put(bObj.ExternalId__c, bObj);
