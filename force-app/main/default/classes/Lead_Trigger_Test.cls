@@ -97,4 +97,23 @@ private class Lead_Trigger_Test {
         Test.stopTest();
         System.assertEquals(0, [SELECT Id, Name FROM Lead].size());
     }
+
+    @isTest
+    private static void TestMethod07() {
+        Lead l = new Lead(
+            FirstName = 'TestMethod07',
+            LastName = 'Lead_Trigger_Test',
+            Phone = '(777) 777-7777',
+            Email = 'TestMethod07@leadtriggertest.com',
+            Company = [SELECT Id, Name FROM Organization LIMIT 1].Name
+        );
+        Test.startTest();
+        insert l;
+        System.assertEquals(1, [SELECT Id, Name FROM Lead].size());
+        delete l;
+        System.assertEquals(0, [SELECT Id, Name FROM Lead].size());
+        undelete [SELECT Id FROM Lead WHERE IsDeleted = true ALL ROWS];
+        Test.stopTest();
+        System.assertEquals(1, [SELECT Id, Name FROM Lead].size());
+    }
 }
