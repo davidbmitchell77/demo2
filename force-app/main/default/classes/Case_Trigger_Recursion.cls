@@ -26,7 +26,7 @@ public without sharing class Case_Trigger_Recursion {
                 AFTER_UNDELETE_ALREADY_INVOKED = false;
                 SAVE_HASH_CODE = hashCode;
                 for (TriggerOperation to : PROCESSED_RECORD_IDS.keySet()) {
-                    PROCESSED_RECORD_IDS.put(to, reduce(PROCESSED_RECORD_IDS.get(to)));
+                    PROCESSED_RECORD_IDS.put(to, reduce(PROCESSED_RECORD_IDS.get(to), MAX_RECORD_IDS));
                 }
             }
         }
@@ -54,11 +54,11 @@ public without sharing class Case_Trigger_Recursion {
         return result;
     }
 
-    private static List<Id> reduce(List<Id> recordIds) {
+    private static List<Id> reduce(List<Id> recordIds, Integer maxSize) {
         List<Id> results = new List<Id>();
         if (recordIds != null) {
             results = recordIds.clone();
-            while (results.size() > MAX_RECORD_IDS) {
+            while (results.size() > maxSize) {
                 results.remove(results.size() - 1);
             }
         }
