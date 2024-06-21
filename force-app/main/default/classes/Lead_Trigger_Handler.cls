@@ -43,5 +43,24 @@ public with sharing class Lead_Trigger_Handler {
 
             }
         }
+        updateProcessedRecordIds((newLeads!= null ? newLeads : (oldLeads != null ? oldLeads : null)));
+    }
+
+    private void updateProcessedRecordIds(List<Lead> leads) {
+        if (leads != null) {
+            List<Id> leadIds = nvl(Lead_Trigger_Recursion.PROCESSED_RECORD_IDS.get(this.operationType));
+            for (Lead l : leads) {
+                if (l.Id != null) {
+                    if (!leadIds.contains(l.Id)) {
+                        leadIds.add(l.Id);
+                        Lead_Trigger_Recursion.PROCESSED_RECORD_IDS.put(this.operationType, leadIds);
+                    }
+                }
+            }
+        }
+    }
+
+    private List<Id> nvl(List<Id> recordIds) {
+        return ((recordIds != null) ? recordIds : new List<Id>());
     }
 }

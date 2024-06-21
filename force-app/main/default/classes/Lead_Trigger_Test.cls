@@ -116,4 +116,30 @@ private class Lead_Trigger_Test {
         Test.stopTest();
         System.assertEquals(1, [SELECT Id, Name FROM Lead].size());
     }
+
+    @isTest
+    private static void TestMethod08() {
+        Integer maxRecordIds = Integer.valueOf(TriggerSettings.getInstance('Lead').MaxRecordIds__c) + 1;
+        List<Lead> leads = new List<Lead>();
+        for (Integer i=0; i<maxRecordIds; i++) {
+            Lead l = new Lead(
+                FirstName = 'TestMethod06' + i,
+                LastName = 'Lead_Trigger_Test',
+                Phone = '(888) 888-8888 x' + i,
+                Email = 'TestMethod06' + i + '@leadtriggertest.com',
+                Company = 'Company ' + 1
+            );
+            leads.add(l);
+        }
+
+        Test.startTest();
+        insert leads;
+        for (Lead l : leads) {
+            l.FirstName = l.FirstName + '.update';
+        }
+        update leads;
+        Test.stopTest();
+
+        System.assertEquals(maxRecordIds, [SELECT Id, Name FROM Lead].size());
+    }
 }
