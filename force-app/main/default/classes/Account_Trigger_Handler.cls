@@ -47,6 +47,7 @@ public with sharing class Account_Trigger_Handler {
 
             }
         }
+        updateProcessedRecordIds((newAccounts != null ? newAccounts : (oldAccounts != null ? oldAccounts : null)));
     }
 
     private void updateChildContacts(List<Account> oldAccounts, List<Account> newAccounts, Map<Id,Account> oldMap, Map<Id,Account> newMap) {
@@ -59,11 +60,13 @@ public with sharing class Account_Trigger_Handler {
                             FROM Contact
                            WHERE AccountId IN :accountIds(newAccounts)
         ]) {
-            Account oldAccount = ((oldMap != null) ? oldMap.get(c.AccountId) : new Account(Id=c.AccountId, Phone=null));
-            Account newAccount = ((newMap != null) ? newMap.get(c.AccountId) : new Account(Id=c.AccountId, Phone=null));
-            if (newAccount.Phone != oldAccount.Phone) {
-                c.Phone = newAccount.Phone;
-                contacts.add(c);
+            if (!alreadyInvoked(this.operationType, c.Id)) {
+                Account oldAccount = ((oldMap != null) ? oldMap.get(c.AccountId) : new Account(Id=c.AccountId, Phone=null));
+                Account newAccount = ((newMap != null) ? newMap.get(c.AccountId) : new Account(Id=c.AccountId, Phone=null));
+                if (newAccount.Phone != oldAccount.Phone) {
+                    c.Phone = newAccount.Phone;
+                    contacts.add(c);
+                }
             }
         }
 
@@ -82,5 +85,33 @@ public with sharing class Account_Trigger_Handler {
             }
         }
         return results;
+    }
+
+    private Boolean alreadyInvoked(TriggerOperation to, Id accountId) {
+        Boolean result = false;
+        if (Account_Trigger_Recursion.PROCESSED_RECORD_IDS != null) {
+            if (Account_Trigger_Recursion.PROCESSED_RECORD_IDS.containsKey(to)) {
+                result = Account_Trigger_Recursion.PROCESSED_RECORD_IDS.get(to).contains(accountId);
+            }
+        }
+        return result;
+    }
+
+    private void updateProcessedRecordIds(List<Account> accounts) {
+        if (accounts != null) {
+            List<Id> accountIds = nvl(Account_Trigger_Recursion.PROCESSED_RECORD_IDS.get(this.operationType));
+            for (Account a : accounts) {
+                if (a.Id != null) {
+                    if (!accountIds.contains(a.Id)) {
+                        accountIds.add(a.Id);
+                        Account_Trigger_Recursion.PROCESSED_RECORD_IDS.put(this.operationType, accountIds);
+                    }
+                }
+            }
+        }
+    }
+
+    private List<Id> nvl(List<Id> recordIds) {
+        return ((recordIds != null) ? recordIds : new List<Id>());
     }
 }

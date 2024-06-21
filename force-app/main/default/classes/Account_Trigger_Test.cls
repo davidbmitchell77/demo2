@@ -74,4 +74,27 @@ private class Account_Trigger_Test {
         System.debug(LoggingLevel.INFO, 'Account_Trigger_Test.TestMethod03: Test.stopTest()');
         System.assertEquals(1, [SELECT Id, Name FROM Account].size());
     }
+
+    @isTest
+    private static void TestMethod04() {
+        Integer maxRecordIds = Integer.valueOf(TriggerSettings.getInstance('Account').MaxRecordIds__c) + 1;
+        List<Account> accounts = new List<Account>();
+        for (Integer i=0; i<maxRecordIds; i++) {
+            Account a = new Account(
+                Name = 'Account_Trigger_Test.TestMethod04 ' + i,
+                Phone = '(444) 444-4444'
+            );
+            accounts.add(a);
+        }
+
+        Test.startTest();
+        insert accounts;
+        for (Account a : accounts) {
+            a.Name = a.Name + '.update';
+        }
+        update accounts;
+        Test.stopTest();
+
+        System.assertEquals(maxRecordIds, [SELECT Id, Name FROM Account].size());
+    }
 }
