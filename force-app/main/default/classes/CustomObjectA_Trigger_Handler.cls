@@ -72,7 +72,7 @@ public with sharing class CustomObjectA_Trigger_Handler {
                     CustomObjectA__c newRecord = (newMap != null ? newMap.get(aObj.Id) : new CustomObjectA__c());
                     if ((oldRecord.FieldA__c != newRecord.FieldA__c) || (oldRecord.FieldB__c != newRecord.FieldB__c)) {
                         if (bObjects.containsKey(aObj.ExternalId__c)) {
-                        CustomObjectB__c bObj = bObjects.get(aObj.ExternalId__c);
+                            CustomObjectB__c bObj = bObjects.get(aObj.ExternalId__c);
                             if (aObj.FieldA__c != bObj.FieldA__c || aObj.FieldB__c != bObj.FieldB__c) {
                                 bObj.FieldA__c = aObj.FieldA__c;
                                 bObj.FieldB__c = aObj.FieldB__c;
