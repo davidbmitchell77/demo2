@@ -58,8 +58,6 @@ public without sharing class Contact_Trigger_Recursion {
         List<Id> results = new List<Id>();
         if (recordIds != null) {
             results = recordIds.clone();
-            System.debug(LoggingLevel.INFO, 'maxSize: ' + maxSize);
-            System.debug(LoggingLevel.INFO, 'results.size(): ' + results.size());
             while (results.size() > maxSize) {
                 results.remove(results.size() - 1);
             }
