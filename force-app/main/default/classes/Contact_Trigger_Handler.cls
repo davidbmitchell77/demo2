@@ -48,6 +48,7 @@ public with sharing class Contact_Trigger_Handler {
                 summarizeParentAccountFields(oldContacts, newContacts, oldMap, newMap);
             }
         }
+        updateProcessedRecordIds((newContacts != null ? newContacts : (oldContacts != null ? oldContacts : null)));
     }
 
     private void updateParentAccountDescriptions(List<Contact> oldContacts, List<Contact> newContacts, Map<Id,Contact> oldMap, Map<Id,Contact> newMap) {
@@ -60,13 +61,15 @@ public with sharing class Contact_Trigger_Handler {
 
         if (newContacts != null) {
             for (Contact c : newContacts) {
-                if (c.AccountId != null) {
-                    Contact oldContact = ((oldMap != null) ? oldMap.get(c.Id) : new Contact(Id=c.Id));
-                    Contact newContact = ((newMap != null) ? newMap.get(c.Id) : new Contact(Id=c.Id));
-                    if (newContact.Description != oldContact.Description) {
-                        if (newContact.Description != accountsMap.get(c.AccountId).Description) {
-                            if (newContact.Description != null) {
-                                accountsMap.put(c.AccountId, new Account(Id=c.AccountId, Description=c.Description));
+                if (!alreadyInvoked(this.operationType, c.Id)) {
+                    if (c.AccountId != null) {
+                        Contact oldContact = ((oldMap != null) ? oldMap.get(c.Id) : new Contact(Id=c.Id));
+                        Contact newContact = ((newMap != null) ? newMap.get(c.Id) : new Contact(Id=c.Id));
+                        if (newContact.Description != oldContact.Description) {
+                            if (newContact.Description != accountsMap.get(c.AccountId).Description) {
+                                if (newContact.Description != null) {
+                                    accountsMap.put(c.AccountId, new Account(Id=c.AccountId, Description=c.Description));
+                                }
                             }
                         }
                     }
@@ -114,6 +117,16 @@ public with sharing class Contact_Trigger_Handler {
         return results;
     }
 
+    private Boolean alreadyInvoked(TriggerOperation to, Id contactId) {
+        Boolean result = false;
+        if (Contact_Trigger_Recursion.PROCESSED_RECORD_IDS != null) {
+            if (Contact_Trigger_Recursion.PROCESSED_RECORD_IDS.containsKey(to)) {
+                result = Contact_Trigger_Recursion.PROCESSED_RECORD_IDS.get(to).contains(contactId);
+            }
+        }
+        return result;
+    }
+
     private Account summarize(Account a) {
         Account result = new Account();
         result.Id = a.Id;
@@ -121,6 +134,24 @@ public with sharing class Contact_Trigger_Handler {
         result.TotalContacts__c += ((this.operationType == TriggerOperation.AFTER_DELETE) ? -1 : 1);
         result.TotalContacts__c = ((result.TotalContacts__c < 0) ? 0 : result.TotalContacts__c);
         return result;
+    }
+
+    private void updateProcessedRecordIds(List<Contact> contacts) {
+        if (contacts != null) {
+            List<Id> contactIds = nvl(Contact_Trigger_Recursion.PROCESSED_RECORD_IDS.get(this.operationType));
+            for (Contact c : contacts) {
+                if (c.Id != null) {
+                    if (!contactIds.contains(c.Id)) {
+                        contactIds.add(c.Id);
+                        Contact_Trigger_Recursion.PROCESSED_RECORD_IDS.put(this.operationType, contactIds);
+                    }
+                }
+            }
+        }
+    }
+
+    private List<Id> nvl(List<Id> recordIds) {
+        return ((recordIds != null) ? recordIds : new List<Id>());
     }
 
     private List<Contact> nvl(List<Contact> newContacts, List<Contact> oldContacts) {

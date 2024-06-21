@@ -164,4 +164,38 @@ private class Contact_Trigger_Test {
 
        System.assertEquals(1, [SELECT Id, TotalContacts__c FROM Account LIMIT 1].TotalContacts__c);
     }
+
+    @isTest
+    private static void TestMethod07() {
+        Integer maxRecordIds = Integer.valueOf(TriggerSetting__mdt.getInstance('Contact').MaxRecordIds__c) + 1;
+        Account a = new Account(
+          Name = 'Contact_Trigger_Test.TestMethod07',
+          Phone = '(777) 777-7777',
+          Description = null
+        );
+        insert a;
+
+        List<Contact> contacts = new List<Contact>();
+        for (Integer i=0; i<maxRecordIds; i++) {
+           Contact c = new Contact(
+               FirstName = 'TestMethod07 ' + i,
+               LastName = 'Contact_Trigger_Test',
+               Phone = '(777) 777-7777 x777' + i,
+               Email = 'TestMethod07@ContactTriggerTest' + i + '.com',
+               Description = 'Hello from Contact_Trigger_Test.TestMethod07! ' + i,
+               AccountId = a.Id
+           );
+           contacts.add(c);
+        }
+
+        Test.startTest();
+        insert contacts;
+        for (Contact c : contacts) {
+            c.FirstName = c.FirstName + ' update';
+        }
+        update contacts;
+        Test.stopTest();
+
+        System.assertEquals(maxRecordIds, [SELECT Id, Name FROM Contact].size());
+    }
 }

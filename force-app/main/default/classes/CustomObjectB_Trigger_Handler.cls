@@ -67,19 +67,21 @@ public with sharing class CustomObjectB_Trigger_Handler {
 
         if (newRecords != null) {
             for (CustomObjectB__c bObj : newRecords) {
-                CustomObjectB__c oldRecord = (oldMap != null ? oldMap.get(bObj.Id) : new CustomObjectB__c());
-                CustomObjectB__c newRecord = (newMap != null ? newMap.get(bObj.Id) : new CustomObjectB__c());
-                if (oldRecord.FieldA__c != newRecord.FieldA__c || oldRecord.FieldB__c != newRecord.FieldB__c) {
-                    if (aObjects.containsKey(bObj.ExternalId__c)) {
-                        CustomObjectA__c aObj = aObjects.get(bObj.ExternalId__c);
-                        if (bObj.FieldA__c != aObj.FieldA__c || bObj.FieldB__c != aObj.FieldB__c) {
-                            aObj.FieldA__c = bObj.FieldA__c;
-                            aObj.FieldB__c = bObj.FieldB__c;
-                            aObjects.put(aObj.Id, aObj);
-                            updatedRecordIds.add(aObj.Id);
+                if (!alreadyInvoked(this.operationType, bObj.Id)) {
+                    CustomObjectB__c oldRecord = (oldMap != null ? oldMap.get(bObj.Id) : new CustomObjectB__c());
+                    CustomObjectB__c newRecord = (newMap != null ? newMap.get(bObj.Id) : new CustomObjectB__c());
+                    if (oldRecord.FieldA__c != newRecord.FieldA__c || oldRecord.FieldB__c != newRecord.FieldB__c) {
+                        if (aObjects.containsKey(bObj.ExternalId__c)) {
+                            CustomObjectA__c aObj = aObjects.get(bObj.ExternalId__c);
+                            if (bObj.FieldA__c != aObj.FieldA__c || bObj.FieldB__c != aObj.FieldB__c) {
+                                aObj.FieldA__c = bObj.FieldA__c;
+                                aObj.FieldB__c = bObj.FieldB__c;
+                                aObjects.put(aObj.Id, aObj);
+                                updatedRecordIds.add(aObj.Id);
+                            }
                         }
                     }
-                 }
+                }
             }
         }
 
@@ -88,6 +90,16 @@ public with sharing class CustomObjectB_Trigger_Handler {
         if (!aObjects.isEmpty()) {
             update aObjects.values();
         }
+    }
+
+    private Boolean alreadyInvoked(TriggerOperation to, Id bObjId) {
+        Boolean result = false;
+        if (CustomObjectB_Trigger_Recursion.PROCESSED_RECORD_IDS != null) {
+            if (CustomObjectB_Trigger_Recursion.PROCESSED_RECORD_IDS.containsKey(to)) {
+                result = CustomObjectB_Trigger_Recursion.PROCESSED_RECORD_IDS.get(to).contains(bObjId);
+            }
+        }
+        return result;
     }
 
     private Map<String,CustomObjectA__c> changed(Map<String,CustomObjectA__c> aObjects, Set<Id> recordIds) {

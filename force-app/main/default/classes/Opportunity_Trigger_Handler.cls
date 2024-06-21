@@ -57,13 +57,15 @@ public with sharing class Opportunity_Trigger_Handler {
 
         if (newOpportunities != null) {
             for (Opportunity o : newOpportunities) {
-                if (o.AccountId != null) {
-                    if (accounts.containsKey(o.AccountId)) {
-                        Account a = accounts.get(o.AccountId);
-                        if (nvl(a.MaximumExpectedOpportunityRevenue__c, 0) < nvl(o.ExpectedRevenue, 0)) {
-                            a.MaximumExpectedOpportunityRevenue__c = o.ExpectedRevenue;
-                            accounts.put(a.Id, a);
-                            updatedAccountIds.add(a.Id);
+                if (!alreadyInvoked(this.operationType, o.Id)) {
+                    if (o.AccountId != null) {
+                        if (accounts.containsKey(o.AccountId)) {
+                            Account a = accounts.get(o.AccountId);
+                            if (nvl(a.MaximumExpectedOpportunityRevenue__c, 0) < nvl(o.ExpectedRevenue, 0)) {
+                                a.MaximumExpectedOpportunityRevenue__c = o.ExpectedRevenue;
+                                accounts.put(a.Id, a);
+                                updatedAccountIds.add(a.Id);
+                            }
                         }
                     }
                 }

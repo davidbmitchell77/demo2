@@ -52,14 +52,26 @@ public with sharing class Case_Trigger_Handler {
         Map<Id,Account> parentAccounts = new Map<Id,Account>();
 
         Map<Id,Integer> accountSummary = new Map<Id,Integer>();
+        for (AggregateResult agr : [SELECT AccountId, COUNT(Id) cases
+                                      FROM Case
+                                     WHERE AccountId IN :accountIds(newCases)
+                                       AND Status LIKE '%Closed%'
+                                  GROUP BY AccountId
+            
+        ]) {
+            Id accountId = String.valueOf(agr.get('AccountId'));
+            Integer cases = Integer.valueOf(agr.get('cases'));
+            accountSummary.put(accountId, cases);
+        }
+
         for (Case c : [SELECT Id,
-                              AccountId,
-                              Status
+                              AccountId
                          FROM Case
                         WHERE AccountId IN :accountIds(newCases)
+                          AND Status LIKE '%Closed%'
         ]) {
-            if (c.AccountId != null) {
-                if (c.Status.containsIgnoreCase('Closed')) {
+            if (!alreadyInvoked(this.operationType, c.Id)) {
+                if (c.AccountId != null) {
                     accountSummary.put(c.AccountId, nvl(accountSummary.get(c.AccountId), 0) + 1);
                 }
             }
@@ -86,6 +98,16 @@ public with sharing class Case_Trigger_Handler {
             }
         }
         return results;
+    }
+
+    private Boolean alreadyInvoked(TriggerOperation to, Id caseId) {
+        Boolean result = false;
+        if (Case_Trigger_Recursion.PROCESSED_RECORD_IDS != null) {
+            if (Case_Trigger_Recursion.PROCESSED_RECORD_IDS.containsKey(to)) {
+                result = Case_Trigger_Recursion.PROCESSED_RECORD_IDS.get(to).contains(caseId);
+            }
+        }
+        return result;
     }
 
     private String accountRating(Integer closedCases) {
