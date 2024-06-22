@@ -145,4 +145,48 @@ private class Campaign_Trigger_Test {
 
         System.assertEquals(0, [SELECT Id FROM Campaign].size());
     }
+
+    @isTest
+    private static void TestMethod06() {
+        Integer maxRecords = Integer.valueOf(TriggerSetting__mdt.getInstance('Campaign').MaxRecordIds__c) + 1;
+        Account a = new Account (
+            Name = 'Acme, Inc.',
+            Phone = '(666) 666-6666'
+        );
+        insert a;
+        List<Campaign> campaigns = new List<Campaign>();
+        for (Integer i=0; i<maxRecords; i++) {
+            Campaign c = new Campaign(
+                Name = 'TestMethod06 ' + i,
+                Description = 'Campaign_Trigger_Test.TestMethod06 ' + i,
+                IsActive = true
+            );
+            campaigns.add(c);
+        }
+        Test.startTest();
+        insert campaigns;
+        List<Opportunity> opportunities = new List<Opportunity>();
+        Integer i = 0;
+        for (Campaign c : campaigns) {
+            Opportunity o = new Opportunity(
+                Name = 'Opportunity_Trigger_Test.TestMethod06' + i++,
+                Amount = 6666666.66,
+                Probability = 50,
+                StageName = 'Prospecting',
+                CloseDate = (System.today() + 30),
+                AccountId = a.Id,
+                CampaignId = c.Id
+            );
+            opportunities.add(o);
+        }
+        insert opportunities;
+        for (Campaign c : campaigns) {
+            c.Name = c.Name + '.updated';
+            c.Description = c.Description + '.updated';
+        }
+        update campaigns;
+        Test.stopTest();
+
+        System.assertEquals(maxRecords, [SELECT Id FROM Campaign].size());
+    }
 }
