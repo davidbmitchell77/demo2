@@ -10,7 +10,7 @@ public without sharing class Contact_Trigger_Recursion {
 
     public static Map<TriggerOperation,List<Id>> PROCESSED_RECORD_IDS = new Map<TriggerOperation,List<Id>>();
 
-    private static Integer MAX_RECORD_IDS = Integer.valueOf(TriggerSetting__mdt.getInstance('Contact').MaxRecordIds__c);
+    private static Integer MAX_RECORD_IDS = Integer.valueOf(TriggerSettings.getInstance('Contact').MaxRecordIds__c);
     private static Integer SAVE_HASH_CODE;
 
     public static void reset(List<Contact> oldContacts, List<Contact> newContacts) {

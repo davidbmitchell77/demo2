@@ -148,7 +148,7 @@ private class Campaign_Trigger_Test {
 
     @isTest
     private static void TestMethod06() {
-        Integer maxRecords = Integer.valueOf(TriggerSetting__mdt.getInstance('Campaign').MaxRecordIds__c) + 1;
+        Integer maxRecords = Integer.valueOf(TriggerSettings.getInstance('Campaign').MaxRecordIds__c) + 1;
         Account a = new Account (
             Name = 'Acme, Inc.',
             Phone = '(666) 666-6666'

@@ -10,7 +10,7 @@ public class Campaign_Trigger_Recursion {
 
     public static Map<TriggerOperation,List<Id>> PROCESSED_RECORD_IDS = new Map<TriggerOperation,List<Id>>();
 
-    private static Integer MAX_RECORD_IDS = (Integer)TriggerSetting__mdt.getInstance('Campaign').MaxRecordIds__c;
+    private static Integer MAX_RECORD_IDS = (Integer)TriggerSettings.getInstance('Campaign').MaxRecordIds__c;
     private static Integer SAVE_HASH_CODE;
 
     public static void reset(List<Campaign> oldCampaigns, List<Campaign> newCampaigns) {

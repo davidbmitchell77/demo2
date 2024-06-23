@@ -167,7 +167,7 @@ private class Contact_Trigger_Test {
 
     @isTest
     private static void TestMethod07() {
-        Integer maxRecordIds = Integer.valueOf(TriggerSetting__mdt.getInstance('Contact').MaxRecordIds__c) + 1;
+        Integer maxRecordIds = Integer.valueOf(TriggerSettings.getInstance('Contact').MaxRecordIds__c) + 1;
         Account a = new Account(
           Name = 'Contact_Trigger_Test.TestMethod07',
           Phone = '(777) 777-7777',
