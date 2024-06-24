@@ -22,6 +22,13 @@
         <value>Campaign description is required.</value>
     </labels>
     <labels>
+        <fullName>CAMPAIGN_MEMBER_STATUS_IS_REQUIRED</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>Campaign Member status is required.</shortDescription>
+        <value>Campaign Member status is required.</value>
+    </labels>
+    <labels>
         <fullName>CAMPAIGN_NAME_IS_REQUIRED</fullName>
         <language>en_US</language>
         <protected>false</protected>
