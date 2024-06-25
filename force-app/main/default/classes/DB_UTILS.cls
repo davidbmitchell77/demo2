@@ -1,8 +1,8 @@
 public with sharing class DB_UTILS {
 
     public static void del(List<sObject> sObjects) {
-        Savepoint sp = Database.setSavepoint();
         if (sObjects != null) {
+            Savepoint sp = Database.setSavepoint();
             try {
                 delete sObjects;
             }
@@ -16,8 +16,8 @@ public with sharing class DB_UTILS {
     }
 
     public static void ins(List<sObject> sObjects) {
-        Savepoint sp = Database.setSavepoint();
         if (sObjects != null) {
+            Savepoint sp = Database.setSavepoint();
             try {
                 insert sObjects;
             }
@@ -85,8 +85,8 @@ public with sharing class DB_UTILS {
     */
 
     public static void ups(List<sObject> sObjects) {
-        Savepoint sp = Database.setSavepoint();
         if (sObjects != null) {
+            Savepoint sp = Database.setSavepoint();
             try {
                 upsert sObjects;
             }
@@ -100,8 +100,8 @@ public with sharing class DB_UTILS {
     }
 
     public static void und(List<sObject> sObjects) {
-        Savepoint sp = Database.setSavepoint();
         if (sObjects != null) {
+            Savepoint sp = Database.setSavepoint();
             try {
                 undelete sObjects;
             }
