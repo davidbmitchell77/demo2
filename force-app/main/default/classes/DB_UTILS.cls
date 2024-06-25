@@ -46,42 +46,40 @@ public with sharing class DB_UTILS {
     }
 
     public static void ups(List<sObject> sObjects, Schema.SObjectField externalIdField) {
-        Set<String> externalIds = new Set<String>();
-
-        for (sObject o : sObjects) {
-            String externalId = String.valueOf(o.get(externalIdField));
-            if (!String.isEmpty(externalId)) {
-                if (!externalIds.contains(externalId)) {
-                    externalIds.add(externalId);
+        if (sObjects != null) {
+            Set<String> externalIds = new Set<String>();
+            for (sObject o : sObjects) {
+                String externalId = String.valueOf(o.get(externalIdField));
+                if (!String.isEmpty(externalId)) {
+                    if (!externalIds.contains(externalId)) {
+                        externalIds.add(externalId);
+                    }
                 }
             }
-        }
-
-        List<sObject> insRecords = new List<sObject>();
-        List<sObject> updRecords = new List<sObject>();
-
-        String q = 'SELECT FIELDS(ALL) FROM ' + String.valueOf(externalIdField.getDescribe().getSObjectType()) + ' WHERE ' + String.valueOf(externalIdField.getDescribe().getName()) + ' IN(' + csv(externalIds) + ')';
-        for (sObject o : (List<sObject>)Database.query(q)) {
-            String externalId = String.valueOf(o.get(externalIdField));
-            if (!String.isEmpty(externalId)) {
-                if (externalIds.contains(externalId)) {
-                    updRecords.add(o);
-                } else {
-                    insRecords.add(o);
+            List<sObject> insRecords = new List<sObject>();
+            List<sObject> updRecords = new List<sObject>();
+            String q = 'SELECT FIELDS(ALL) FROM ' + String.valueOf(externalIdField.getDescribe().getSObjectType()) + ' WHERE ' + String.valueOf(externalIdField.getDescribe().getName()) + ' IN(' + csv(externalIds) + ')';
+            for (sObject o : (List<sObject>)Database.query(q)) {
+                String externalId = String.valueOf(o.get(externalIdField));
+                if (!String.isEmpty(externalId)) {
+                    if (externalIds.contains(externalId)) {
+                        updRecords.add(o);
+                    } else {
+                        insRecords.add(o);
+                    }
                 }
             }
-        }
-
-        Savepoint sp = Database.setSavepoint();
-        try {
-            if (!updRecords.isEmpty()) { update updRecords; }
-            if (!insRecords.isEmpty()) { insert insRecords; }
-        }
-        catch(DmlException e) {
-            rollback(sp, sObjects, e);
-        }
-        finally {
-            Database.releaseSavepoint(sp);
+            Savepoint sp = Database.setSavepoint();
+            try {
+                if (!updRecords.isEmpty()) { update updRecords; }
+                if (!insRecords.isEmpty()) { insert insRecords; }
+            }
+            catch(DmlException e) {
+                rollback(sp, sObjects, e);
+            }
+            finally {
+                Database.releaseSavepoint(sp);
+            }
         }
     }
 
