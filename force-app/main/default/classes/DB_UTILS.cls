@@ -60,7 +60,7 @@ public with sharing class DB_UTILS {
         List<sObject> insRecords = new List<sObject>();
         List<sObject> updRecords = new List<sObject>();
 
-        String q = 'SELECT FIELDS(ALL) FROM ' + String.valueOf(externalIdField.getDescribe().getSObjectType()) + 'WHERE ' + String.valueOf(externalIdField.getDescribe().getName()) + ' IN(' + csv(externalIds) + ')';
+        String q = 'SELECT FIELDS(ALL) FROM ' + String.valueOf(externalIdField.getDescribe().getSObjectType()) + ' WHERE ' + String.valueOf(externalIdField.getDescribe().getName()) + ' IN(' + csv(externalIds) + ')';
         for (sObject o : (List<sObject>)Database.query(q)) {
             String externalId = String.valueOf(o.get(externalIdField));
             if (!String.isEmpty(externalId)) {
