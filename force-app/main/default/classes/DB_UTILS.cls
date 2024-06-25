@@ -6,7 +6,7 @@ public with sharing class DB_UTILS {
             try {
                 delete sObjects;
             }
-            catch(dmlException e) {
+            catch(DmlException e) {
                 rollback(sp, sObjects, e);
             }
             finally {
@@ -21,7 +21,7 @@ public with sharing class DB_UTILS {
             try {
                 insert sObjects;
             }
-            catch(dmlException e) {
+            catch(DmlException e) {
                 rollback(sp, sObjects, e);
             }
             finally {
@@ -36,7 +36,7 @@ public with sharing class DB_UTILS {
             try {
                 update sObjects;
             }
-            catch(dmlException e) {
+            catch(DmlException e) {
                 rollback(sp, sObjects, e);
             }
             finally {
@@ -45,14 +45,14 @@ public with sharing class DB_UTILS {
         }
     }
 
-/*
     public static void ups(List<sObject> sObjects, Schema.SObjectField externalIdField) {
         Set<String> externalIds = new Set<String>();
 
         for (sObject o : sObjects) {
-            if (o.externalIdField != null) {
-                if (!externalIds.contains(o.externalIdField)) {
-                    externalIds.add(o.externalIdField);
+            String externalId = String.valueOf(o.get(externalIdField));
+            if (!String.isEmpty(externalId)) {
+                if (!externalIds.contains(externalId)) {
+                    externalIds.add(externalId);
                 }
             }
         }
@@ -60,9 +60,11 @@ public with sharing class DB_UTILS {
         List<sObject> insRecords = new List<sObject>();
         List<sObject> updRecords = new List<sObject>();
 
-        for (sObject o : (List<sObject>)[SELECT Id, Name FROM Account WHERE Name IN :externalIds]) {
-        if (o.Name != null) {
-                if (externalIds.contains(a.Name)) {
+        String q = 'SELECT FIELDS(ALL) FROM ' + String.valueOf(externalIdField.getDescribe().getSObjectType()) + 'WHERE ' + String.valueOf(externalIdField.getDescribe().getName()) + ' IN(' + csv(externalIds) + ')';
+        for (sObject o : (List<sObject>)Database.query(q)) {
+            String externalId = String.valueOf(o.get(externalIdField));
+            if (!String.isEmpty(externalId)) {
+                if (externalIds.contains(externalId)) {
                     updRecords.add(o);
                 } else {
                     insRecords.add(o);
@@ -76,13 +78,12 @@ public with sharing class DB_UTILS {
             if (!insRecords.isEmpty()) { insert insRecords; }
         }
         catch(DmlException e) {
-            rollback(sp, accounts, e);
+            rollback(sp, sObjects, e);
         }
         finally {
             Database.releaseSavepoint(sp);
         }
     }
-    */
 
     public static void ups(List<sObject> sObjects) {
         if (sObjects != null) {
@@ -90,7 +91,7 @@ public with sharing class DB_UTILS {
             try {
                 upsert sObjects;
             }
-            catch(dmlException e) {
+            catch(DmlException e) {
                 rollback(sp, sObjects, e);
             }
             finally {
@@ -105,13 +106,25 @@ public with sharing class DB_UTILS {
             try {
                 undelete sObjects;
             }
-            catch(dmlException e) {
+            catch(DmlException e) {
                 rollback(sp, sObjects, e);
             }
             finally {
                 Database.releaseSavepoint(sp);
             }
         }
+    }
+
+    private static String csv(Set<String> externalIds) {
+        String result = '';
+        if (externalIds != null) {
+            String comma = '';
+            for (String s : externalIds) {
+                result += comma + '\'' + s + '\'';
+                comma = ',';
+            }
+        }        
+        return result;
     }
 
     private static void rollback(SavePoint sp, List<sObject> sObjects, DmlException e) {
