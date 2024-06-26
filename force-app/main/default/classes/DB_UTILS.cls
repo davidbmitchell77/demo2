@@ -62,27 +62,10 @@ public with sharing class DB_UTILS {
 
     public static void ups(List<sObject> sObjects, Schema.SObjectField externalIdField) {
         if (sObjects != null) {
-            Set<String> newExternalIds = new Set<String>();
-            for (sObject o : sObjects) {
-                String externalId = String.valueOf(o.get(externalIdField));
-                if (!String.isEmpty(externalId)) {
-                    if (!newExternalIds.contains(externalId)) {
-                        newExternalIds.add(externalId);
-                    }
-                }
-            }
             String objectApiName = String.valueOf(externalIdField.getDescribe().getSObjectType());
             String externalIdFieldName = String.valueOf(externalIdField.getDescribe().getName());
-            String q = 'SELECT ' + fieldNames(objectApiName) + ' FROM ' + objectApiName + ' WHERE ' + externalIdFieldName + ' IN(' + csv(newExternalIds) + ')';
-            Set<String> existingExternalIds = new Set<String>();
-            for (sObject o : Database.query(q)) {
-                String externalId = String.valueOf(o.get(externalIdField));
-                if (!String.isEmpty(externalId)) {
-                    if (!existingExternalIds.contains(externalId)) {
-                        existingExternalIds.add(externalId);
-                    }
-                }
-            }
+            String q = 'SELECT ' + externalIdFieldName + ' FROM ' + objectApiName + ' WHERE ' + externalIdFieldName + ' IN(' + csv(externalIds(sObjects, externalIdField)) + ')';
+            Set<String> existingExternalIds = externalIds(Database.query(q), externalIdField);
             List<sObject> insRecords = new List<sObject>();
             List<sObject> updRecords = new List<sObject>();
             for (sObject o : sObjects) {
@@ -134,17 +117,19 @@ public with sharing class DB_UTILS {
         return result;
     }
 
-    private static String fieldNames(String objectApiName) {
-        String result = '';
-        if (!String.isEmpty(objectApiName)) {
-            String comma = '';
-            Map<String,Schema.SObjectField> fieldMap = Schema.getGlobalDescribe().get(objectApiName).getDescribe().fields.getMap();
-            for(String fieldName : fieldMap.keyset()) {
-                result += comma + fieldName;
-                comma = ', ';
+    private static Set<String> externalIds(List<sObject> sObjects, Schema.SObjectField externalIdField) {
+        Set<String> results = new Set<String>();
+        if (sObjects != null) {
+            for (sObject o : sObjects) {
+                String externalId = String.valueOf(o.get(externalIdField));
+                if (!String.isEmpty(externalId)) {
+                    if (!results.contains(externalId)) {
+                        results.add(externalId);
+                    }
+                }
             }
         }
-        return result;
+        return results;
     }
 
     private static void rollback(SavePoint sp, List<sObject> sObjects, DmlException e) {

@@ -71,7 +71,7 @@ public with sharing class Account_Trigger_Handler {
         }
 
         if (!contacts.isEmpty()) {
-            DML.upd(contacts);
+            DB_UTILS.upd(contacts);
         }
     }
 
