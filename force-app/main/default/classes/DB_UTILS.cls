@@ -30,6 +30,21 @@ public with sharing class DB_UTILS {
         }
     }
 
+    public static void und(List<sObject> sObjects) {
+        if (sObjects != null) {
+            Savepoint sp = Database.setSavepoint();
+            try {
+                undelete sObjects;
+            }
+            catch(DmlException e) {
+                rollback(sp, sObjects, e);
+            }
+            finally {
+                Database.releaseSavepoint(sp);
+            }
+        }
+    }
+
     public static void upd(List<sObject> sObjects) {
         Savepoint sp = Database.setSavepoint();
         if (sObjects != null) {
@@ -58,7 +73,9 @@ public with sharing class DB_UTILS {
             }
             List<sObject> insRecords = new List<sObject>();
             List<sObject> updRecords = new List<sObject>();
-            String q = 'SELECT FIELDS(ALL) FROM ' + String.valueOf(externalIdField.getDescribe().getSObjectType()) + ' WHERE ' + String.valueOf(externalIdField.getDescribe().getName()) + ' IN(' + csv(externalIds) + ')';
+            String objectApiName = String.valueOf(externalIdField.getDescribe().getSObjectType());
+            String externalIdFieldName = String.valueOf(externalIdField.getDescribe().getName());
+            String q = 'SELECT ' + fieldNames(objectApiName) + ' FROM ' + objectApiName + ' WHERE ' + externalIdFieldName + ' IN(' + csv(externalIds) + ')';
             for (sObject o : (List<sObject>)Database.query(q)) {
                 String externalId = String.valueOf(o.get(externalIdField));
                 if (!String.isEmpty(externalId)) {
@@ -98,21 +115,6 @@ public with sharing class DB_UTILS {
         }
     }
 
-    public static void und(List<sObject> sObjects) {
-        if (sObjects != null) {
-            Savepoint sp = Database.setSavepoint();
-            try {
-                undelete sObjects;
-            }
-            catch(DmlException e) {
-                rollback(sp, sObjects, e);
-            }
-            finally {
-                Database.releaseSavepoint(sp);
-            }
-        }
-    }
-
     private static String csv(Set<String> externalIds) {
         String result = '';
         if (externalIds != null) {
@@ -122,6 +124,19 @@ public with sharing class DB_UTILS {
                 comma = ',';
             }
         }        
+        return result;
+    }
+
+    private static String fieldNames(String objectApiName) {
+        String result = '';
+        if (!String.isEmpty(objectApiName)) {
+            String comma = '';
+            Map<String,Schema.SObjectField> fieldMap = Schema.getGlobalDescribe().get(objectApiName).getDescribe().fields.getMap();
+            for(String fieldName : fieldMap.keyset()) {
+                result += comma + fieldName;
+                comma = ', ';
+            }
+        }
         return result;
     }
 
