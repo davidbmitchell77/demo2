@@ -113,7 +113,7 @@ public with sharing class DB_UTILS {
                 result += comma + '\'' + s + '\'';
                 comma = ',';
             }
-        }        
+        }
         return result;
     }
 
