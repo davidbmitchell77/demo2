@@ -131,21 +131,37 @@ private class DB_UTILS_Test {
 
     @isTest
     private static void TestMethod07() {
-        CustomObjectA__c objA = new CustomObjectA__c(
-            Name = 'DML_Test.TestMethod07',
+        User u = [SELECT FIELDS(STANDARD) FROM User WHERE Email = 'testdata@dbutils.test.org' LIMIT 1];
+        List<CustomObjectA__c> aRecords = new List<CustomObjectA__c>();
+        CustomObjectA__c objA1 = new CustomObjectA__c(
+            Name = 'DML_Test.TestMethod07.1',
             ExternalId__c = String.valueOf(UUID.randomUUID())
         );
-        insert obja;
+        aRecords.add(objA1);
+        insert obja1;
+        CustomObjectA__c objA2 = new CustomObjectA__c(
+            Name = 'DML_Test.TestMethod07.2',
+            ExternalId__c = String.valueOf(UUID.randomUUID())
+        );
+        aRecords.add(objA2);
+        CustomObjectA__c objA3 = new CustomObjectA__c(
+            Name = null,
+            ExternalId__c = String.valueOf(UUID.randomUUID())
+        );
 
         Test.startTest();
         try {
-            DB_UTILS.ups(new List<CustomObjectA__c>{objA}, CustomObjectA__c.ExternalId__c);
+            DB_UTILS.ups(aRecords, CustomObjectA__c.ExternalId__c);
+            System.runAs(u) {
+                aRecords.add(objA3);
+                DB_UTILS.ups(aRecords, CustomObjectA__c.ExternalId__c);
+            }
         }
         catch(Exception e) {
             System.debug(LoggingLevel.ERROR, e.getMessage());
         }
         Test.stopTest();
 
-        System.assertEquals(0, [SELECT Id, Name FROM Account].size());
+        System.assertEquals(2, [SELECT Id, Name FROM CustomObjectA__c].size());
     }
 }

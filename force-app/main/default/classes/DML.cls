@@ -60,6 +60,11 @@ public with sharing class DML {
         }
     }
 
+    public static void ups(List<sObject> sObjects, Schema.SObjectField externalIdField) {
+        String objType = sObjects[0].getSobjectType().getDescribe().getName();
+        if (objType == 'Account') upsert (List<Account>)sObjects; //externalIdField;
+    }
+
     public static void ups(List<Account> accounts, Schema.SObjectField externalIdField) {
 
         Set<String> externalIds = new Set<String>();

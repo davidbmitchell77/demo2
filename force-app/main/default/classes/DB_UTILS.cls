@@ -62,28 +62,35 @@ public with sharing class DB_UTILS {
 
     public static void ups(List<sObject> sObjects, Schema.SObjectField externalIdField) {
         if (sObjects != null) {
-            Set<String> externalIds = new Set<String>();
+            Set<String> newExternalIds = new Set<String>();
             for (sObject o : sObjects) {
                 String externalId = String.valueOf(o.get(externalIdField));
                 if (!String.isEmpty(externalId)) {
-                    if (!externalIds.contains(externalId)) {
-                        externalIds.add(externalId);
+                    if (!newExternalIds.contains(externalId)) {
+                        newExternalIds.add(externalId);
+                    }
+                }
+            }
+            String objectApiName = String.valueOf(externalIdField.getDescribe().getSObjectType());
+            String externalIdFieldName = String.valueOf(externalIdField.getDescribe().getName());
+            String q = 'SELECT ' + fieldNames(objectApiName) + ' FROM ' + objectApiName + ' WHERE ' + externalIdFieldName + ' IN(' + csv(newExternalIds) + ')';
+            Set<String> existingExternalIds = new Set<String>();
+            for (sObject o : Database.query(q)) {
+                String externalId = String.valueOf(o.get(externalIdField));
+                if (!String.isEmpty(externalId)) {
+                    if (!existingExternalIds.contains(externalId)) {
+                        existingExternalIds.add(externalId);
                     }
                 }
             }
             List<sObject> insRecords = new List<sObject>();
             List<sObject> updRecords = new List<sObject>();
-            String objectApiName = String.valueOf(externalIdField.getDescribe().getSObjectType());
-            String externalIdFieldName = String.valueOf(externalIdField.getDescribe().getName());
-            String q = 'SELECT ' + fieldNames(objectApiName) + ' FROM ' + objectApiName + ' WHERE ' + externalIdFieldName + ' IN(' + csv(externalIds) + ')';
-            for (sObject o : (List<sObject>)Database.query(q)) {
+            for (sObject o : sObjects) {
                 String externalId = String.valueOf(o.get(externalIdField));
-                if (!String.isEmpty(externalId)) {
-                    if (externalIds.contains(externalId)) {
-                        updRecords.add(o);
-                    } else {
-                        insRecords.add(o);
-                    }
+                if (existingExternalIds.contains(externalId)) {
+                    updRecords.add(o);
+                } else {
+                    insRecords.add(o);
                 }
             }
             Savepoint sp = Database.setSavepoint();
