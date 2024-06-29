@@ -16,8 +16,8 @@ export default class LightningDataTableParent extends LightningElement {
 
     @api recordId;
 
-    cols = COLUMNS;
-    data = [];
+    cols  = COLUMNS;
+    data  = [];
 
     @wire(getContactList, { accountId: "$recordId" })
     handle(response) {
@@ -32,6 +32,7 @@ export default class LightningDataTableParent extends LightningElement {
         }
         else {
             console.error(error);
+            this.data = [];
             this.showToast('Error retrieving list of contacts!', 'Your browser encountered an error retrieving the requested records.  Please contact your system administator.', 'error', 'sticky');
         }
     }
