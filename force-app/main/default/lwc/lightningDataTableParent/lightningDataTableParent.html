@@ -1,7 +1,8 @@
 <template>
     <lightning-card title="Contacts" icon-name="standard:contact">
         <div class="slds-var-m-around_medium">
-            <lightning-datatable key-field="Id" columns={cols} data={data} show-row-number-column="true" hide-checkbox-column="true"></lightning-datatable>
+            <!-- lightning-datatable key-field="Id" columns={cols} data={data} show-row-number-column="true" hide-checkbox-column="true"></lightning-datatable -->
+            <c-lightning-data-table-child cols={cols} foobar={data}></c-lightning-data-table-child>
         </div>
     </lightning-card>
 </template>
