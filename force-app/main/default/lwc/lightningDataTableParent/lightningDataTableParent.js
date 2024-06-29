@@ -21,7 +21,6 @@ export default class LightningDataTableParent extends LightningElement {
 
     @wire(getContactList, { accountId: "$recordId" })
     handle(response) {
-        console.clear();
         let { data, error } = response;
         if (data) {
             console.info(data);
