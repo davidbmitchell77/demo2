@@ -20,7 +20,7 @@ export default class LightningDataTableParent extends LightningElement {
     cols  = COLUMNS;
     data  = [];
 
-    @wire(getContactList, { accountId: '77' })
+    @wire(getContactList, { accountId: "$recordId" })
     handle(response) {
         let { data, error } = response;
         if (data) {
