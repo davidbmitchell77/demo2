@@ -2,7 +2,6 @@ import { LightningElement, api, wire } from 'lwc';
 import { ShowToastEvent              } from 'lightning/platformShowToastEvent';
 
 import getContactList from '@salesforce/apex/ContactController.getContactList';
-import UserPreferencesShowFaxToExternalUsers from '@salesforce/schema/User.UserPreferencesShowFaxToExternalUsers';
 
 const COLUMNS = [
     { type: "text",  label: "First Name", fieldName: "FirstName",   editable: false, sortable: true },
