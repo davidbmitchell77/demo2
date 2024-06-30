@@ -20,7 +20,7 @@ export default class LightningDataTableParent extends LightningElement {
     cols  = COLUMNS;
     data  = [];
 
-    @wire(getContactList, { accountId: "$recordId" })
+    @wire(getContactList, { accountId: '77' })
     handle(response) {
         let { data, error } = response;
         if (data) {
@@ -31,9 +31,9 @@ export default class LightningDataTableParent extends LightningElement {
             }
             this.data = [ ...temp ];
         }
-        else {
+        else if (error) {
             console.error(error);
-            this.showToast('Error retrieving list of contacts!', 'Your browser encountered an error retrieving the requested records.  Please contact your system administator.', 'error', 'sticky');
+            this.showToast('Error retrieving list of contacts!', error.body.message, 'error', 'sticky');
         }
     }
 
