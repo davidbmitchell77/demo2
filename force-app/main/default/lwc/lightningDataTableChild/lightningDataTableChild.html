@@ -1,5 +1,5 @@
 <template>
     <div class="slds-var-m-around_medium">
-        <lightning-datatable key-field="Id" columns={cols} data={records} show-row-number-column="true" hide-checkbox-column="true"></lightning-datatable>
+        <lightning-datatable key-field="Id" columns={cols} data={records} show-row-number-column="true" hide-checkbox-column="true" sorted-by={sortBy} sorted-direction={sortDirection} onsort={doSorting}></lightning-datatable>
     </div>
 </template>
