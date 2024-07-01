@@ -1,4 +1,5 @@
 import { LightningElement, api } from 'lwc';
+import { refreshApex           } from '@salesforce/apex';
 
 export default class LightningDataTableChild extends LightningElement {
 
@@ -7,6 +8,14 @@ export default class LightningDataTableChild extends LightningElement {
 
     sortBy;
     sortDirection;
+    draftValues;
+
+    doSave(event) {
+        if (event) {
+            console.clear();
+            console.info(event.detail);
+        }
+    }
 
     doSorting(event) {
         this.sortBy = event.detail.fieldName;
