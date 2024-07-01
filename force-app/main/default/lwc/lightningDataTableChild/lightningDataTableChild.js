@@ -38,15 +38,15 @@ export default class LightningDataTableChild extends LightningElement {
     }
 
     sortData(fieldname, direction) {
-        let parseData = JSON.parse(JSON.stringify(this.records));
-        let keyValue = (a)=>{ return a[fieldname]; };
+        let parseData = [ ...this.records ];
+        let keyValue  = ((a)=>{ return a[fieldname]; });
         let isReverse = ((direction === 'asc') ? 1 : -1);
         parseData.sort((a,b) => {
             a = (keyValue(a) ? keyValue(a) : '');
             b = (keyValue(b) ? keyValue(b) : '');
             return (isReverse * ((a > b) - (b > a)));
         });
-        this.records = parseData;
+        this.records = [ ...parseData ];
     }
 
     showToast(title, message, variant, mode) {
