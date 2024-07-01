@@ -6,9 +6,9 @@ export default class LightningDataTableChild extends LightningElement {
     @api cols;
     @api records;
 
-    sortBy        = '';
-    sortDirection = '';
     draftValues   = [];
+    sortBy        = undefined;
+    sortDirection = undefined;
 
     doSave(event) {
         this.draftValues = [ ...event.detail.draftValues];
