@@ -1,6 +1,7 @@
 import { LightningElement, api } from 'lwc';
 import { updateRecord          } from 'lightning/uiRecordApi';
 import { ShowToastEvent        } from 'lightning/platformShowToastEvent';
+import { updateDataConnector } from 'lightning/analyticsWaveApi';
 
 export default class LightningDataTableChild extends LightningElement {
 
@@ -49,6 +50,6 @@ export default class LightningDataTableChild extends LightningElement {
     }
 
     showToast(title, message, variant, mode) {
-        this.dispatchEvent(new ShowToastEvent({ title: title, message: message, variant: variant, mode: mode }));
+        this.dispatchEvent(new ShowToastEvent({ title: title, message: message, variant: variant, mode: mode || 'pester' }));
     }
 }
