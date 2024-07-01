@@ -2,7 +2,6 @@ import { LightningElement, api } from 'lwc';
 import { updateRecord          } from 'lightning/uiRecordApi';
 import { ShowToastEvent        } from 'lightning/platformShowToastEvent';
 
-
 export default class LightningDataTableChild extends LightningElement {
 
     @api cols;
@@ -12,21 +11,22 @@ export default class LightningDataTableChild extends LightningElement {
     sortBy        = undefined;
     sortDirection = undefined;
 
-    async doSave(event) {
-        this.draftValues = [ ...event.detail.draftValues ];
-        let data = event.detail.draftValues.slice().map((arrayElement) => {
-            let fields = Object.assign({}, arrayElement);
-            return { fields };
+    doSave(event) {
+        let data = event.detail.draftValues.map((draftValue) => {
+            let fields = { ...draftValue };
+            return { fields: fields };
         });
-        this.draftValues = [];
-
-        try {
-            const recordUpdatePromises = data.map((record) => updateRecord(record));
-            await Promise.all(recordUpdatePromises);
-        }
-        catch(error) {
-          this.showToast('Error updating or reloading data!', error.body.message, 'error', 'sticky');
-        }
+        let promises = data.map((record) => {
+            let promise = updateRecord(record);
+            return promise;
+        });
+        Promise.all(promises)
+       .then(() => {
+            this.draftValues = [];
+        })
+       .catch((error) => {
+            this.showToast('Error updating or reloading data!', error.body.message, 'error', 'sticky');
+        });
     }
 
     doSorting(event) {
@@ -37,11 +37,9 @@ export default class LightningDataTableChild extends LightningElement {
 
     sortData(fieldname, direction) {
         let parseData = JSON.parse(JSON.stringify(this.records));
-        let keyValue = (a) => {
-            return a[fieldname];
-        };
+        let keyValue = (a)=>{ return a[fieldname]; };
         let isReverse = ((direction === 'asc') ? 1 : -1);
-        parseData.sort((a, b) => {
+        parseData.sort((a,b) => {
             a = (keyValue(a) ? keyValue(a) : '');
             b = (keyValue(b) ? keyValue(b) : '');
             return (isReverse * ((a > b) - (b > a)));
