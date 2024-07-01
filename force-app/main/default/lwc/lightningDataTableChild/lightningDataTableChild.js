@@ -11,11 +11,12 @@ export default class LightningDataTableChild extends LightningElement {
     sortDirection = undefined;
 
     doSave(event) {
+        console.clear();
         this.draftValues = [ ...event.detail.draftValues];
         console.info(this.draftValues);
-        const records = event.detail.draftValues.slice().map((draftValue) => {
-          const fields = Object.assign({}, draftValue);
-          return { fields };
+        let records = event.detail.draftValues.slice().map((draftValue) => {
+            let fields = Object.assign({}, draftValue);
+            return { fields };
         });
     }
 
