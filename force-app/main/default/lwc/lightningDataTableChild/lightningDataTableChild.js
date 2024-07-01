@@ -1,7 +1,6 @@
 import { LightningElement, api } from 'lwc';
 import { updateRecord          } from 'lightning/uiRecordApi';
 import { ShowToastEvent        } from 'lightning/platformShowToastEvent';
-import { updateDataConnector } from 'lightning/analyticsWaveApi';
 
 export default class LightningDataTableChild extends LightningElement {
 
