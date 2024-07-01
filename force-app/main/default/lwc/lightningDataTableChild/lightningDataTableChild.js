@@ -1,7 +1,6 @@
 import { LightningElement, api } from 'lwc';
 import { updateRecord          } from 'lightning/uiRecordApi';
 import { ShowToastEvent        } from 'lightning/platformShowToastEvent';
-import { refreshApex           } from '@salesforce/apex';
 
 export default class LightningDataTableChild extends LightningElement {
 
@@ -23,7 +22,6 @@ export default class LightningDataTableChild extends LightningElement {
         try {
             const recordUpdatePromises = data.map((record) => updateRecord(record));
             await Promise.all(recordUpdatePromises);
-            await refreshApex(this.records);
         }
         catch(error) {
           this.showToast('Error updating or reloading data!', error.body.message, 'error', 'sticky');
@@ -50,8 +48,8 @@ export default class LightningDataTableChild extends LightningElement {
         this.records = parseData;
     }
 
-    showToast(title, message, type, variant) {
-        this.dispatchEvent(new ShowToastEvent({ title: title, message: message, type: type, variant: variant }));
+    showToast(title, message, variant, mode) {
+        this.dispatchEvent(new ShowToastEvent({ title: title, message: message, variant: variant, mode: mode }));
     }
 }
 
