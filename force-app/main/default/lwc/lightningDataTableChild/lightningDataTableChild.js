@@ -40,10 +40,10 @@ export default class LightningDataTableChild extends LightningElement {
             return a[fieldname];
         };
         let isReverse = ((direction === 'asc') ? 1 : -1);
-        parseData.sort((x, y) => {
-            x = (keyValue(x) ? keyValue(x) : '');
-            y = (keyValue(y) ? keyValue(y) : '')
-            return (isReverse * ((x > y) - (y > x)));
+        parseData.sort((a, b) => {
+            a = (keyValue(a) ? keyValue(a) : '');
+            b = (keyValue(b) ? keyValue(b) : '')
+            return (isReverse * ((a > b) - (b > a)));
         });
         this.records = parseData;
     }
