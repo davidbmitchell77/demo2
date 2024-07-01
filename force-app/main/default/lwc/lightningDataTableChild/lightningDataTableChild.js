@@ -50,6 +50,6 @@ export default class LightningDataTableChild extends LightningElement {
     }
 
     showToast(title, message, variant, mode) {
-        this.dispatchEvent(new ShowToastEvent({ title: title, message: message, variant: variant, mode: (mode || 'pester') }));
+        this.dispatchEvent(new ShowToastEvent({ title: title, message: message, variant: variant, mode: (mode || 'dismissible') }));
     }
 }
