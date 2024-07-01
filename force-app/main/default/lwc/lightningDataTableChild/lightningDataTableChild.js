@@ -24,6 +24,7 @@ export default class LightningDataTableChild extends LightningElement {
         Promise.all(promises)
        .then(() => {
             this.draftValues = [];
+            this.showToast('Success!', 'Record(s) successfully updated!', 'success');
         })
        .catch((error) => {
             console.error(error);
@@ -50,6 +51,6 @@ export default class LightningDataTableChild extends LightningElement {
     }
 
     showToast(title, message, variant, mode) {
-        this.dispatchEvent(new ShowToastEvent({ title: title, message: message, variant: variant, mode: mode || 'pester' }));
+        this.dispatchEvent(new ShowToastEvent({ title: title, message: message, variant: variant, mode: (mode || 'pester') }));
     }
 }
