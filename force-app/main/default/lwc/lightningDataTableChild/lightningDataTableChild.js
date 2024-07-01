@@ -12,7 +12,7 @@ export default class LightningDataTableChild extends LightningElement {
     sortDirection = undefined;
 
     async doSave(event) {
-        this.draftValues = [ ...event.detail.draftValues];
+        this.draftValues = [ ...event.detail.draftValues ];
         let data = event.detail.draftValues.slice().map((arrayElement) => {
             let fields = Object.assign({}, arrayElement);
             return { fields };
@@ -42,7 +42,7 @@ export default class LightningDataTableChild extends LightningElement {
         let isReverse = ((direction === 'asc') ? 1 : -1);
         parseData.sort((a, b) => {
             a = (keyValue(a) ? keyValue(a) : '');
-            b = (keyValue(b) ? keyValue(b) : '')
+            b = (keyValue(b) ? keyValue(b) : '');
             return (isReverse * ((a > b) - (b > a)));
         });
         this.records = parseData;
