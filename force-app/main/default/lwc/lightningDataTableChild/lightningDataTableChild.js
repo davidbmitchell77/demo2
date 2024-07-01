@@ -25,6 +25,7 @@ export default class LightningDataTableChild extends LightningElement {
             this.draftValues = [];
         })
        .catch((error) => {
+            console.error(error);
             this.showToast('Error updating or reloading data!', error.body.message, 'error', 'sticky');
         });
     }
