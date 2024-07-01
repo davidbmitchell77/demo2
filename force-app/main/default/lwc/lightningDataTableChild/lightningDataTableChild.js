@@ -1,4 +1,6 @@
 import { LightningElement, api } from 'lwc';
+import { updateRecord          } from 'lightning/uiRecordApi';
+import { ShowToastEvent        } from 'lightning/platformShowToastEvent';
 import { refreshApex           } from '@salesforce/apex';
 
 export default class LightningDataTableChild extends LightningElement {
@@ -10,14 +12,22 @@ export default class LightningDataTableChild extends LightningElement {
     sortBy        = undefined;
     sortDirection = undefined;
 
-    doSave(event) {
-        console.clear();
+    async doSave(event) {
         this.draftValues = [ ...event.detail.draftValues];
-        console.info(this.draftValues);
-        let records = event.detail.draftValues.slice().map((draftValue) => {
-            let fields = Object.assign({}, draftValue);
+        let data = event.detail.draftValues.slice().map((arrayElement) => {
+            let fields = Object.assign({}, arrayElement);
             return { fields };
         });
+        this.draftValues = [];
+
+        try {
+            const recordUpdatePromises = data.map((record) => updateRecord(record));
+            await Promise.all(recordUpdatePromises);
+            await refreshApex(this.records);
+        }
+        catch(error) {
+          this.showToast('Error updating or reloading data!', error.body.message, 'error', 'sticky');
+        }
     }
 
     doSorting(event) {
@@ -38,6 +48,10 @@ export default class LightningDataTableChild extends LightningElement {
             return (isReverse * ((x > y) - (y > x)));
         });
         this.records = parseData;
+    }
+
+    showToast(title, message, type, variant) {
+        this.dispatchEvent(new ShowToastEvent({ title: title, message: message, type: type, variant: variant }));
     }
 }
 
@@ -104,15 +118,6 @@ export default class DatatableInlineEditWithUiApi extends LightningElement {
       // Update all records in parallel thanks to the UI API
       const recordUpdatePromises = records.map((record) => updateRecord(record));
       await Promise.all(recordUpdatePromises);
-
-      // Report success with a toast
-      this.dispatchEvent(
-        new ShowToastEvent({
-          title: "Success",
-          message: "Contacts updated",
-          variant: "success",
-        }),
-      );
 
       // Display fresh data in the datatable
       await refreshApex(this.contacts);
