@@ -1,6 +1,8 @@
 import { LightningElement, api } from 'lwc';
 import { updateRecord          } from 'lightning/uiRecordApi';
 import { ShowToastEvent        } from 'lightning/platformShowToastEvent';
+import { refreshApex           } from '@salesforce/apex';
+
 
 export default class LightningDataTableChild extends LightningElement {
 
@@ -22,6 +24,7 @@ export default class LightningDataTableChild extends LightningElement {
         try {
             const recordUpdatePromises = data.map((record) => updateRecord(record));
             await Promise.all(recordUpdatePromises);
+            this.dispatchEvent(new CustomEvent('refresh', { detail: { message: 'Save button clicked.'} }));
         }
         catch(error) {
           this.showToast('Error updating or reloading data!', error.body.message, 'error', 'sticky');
