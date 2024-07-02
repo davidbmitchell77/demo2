@@ -7,7 +7,7 @@ const COLUMNS = [
     { type: "text",  label: "First Name", fieldName: "FirstName",   editable: false, sortable: true },
     { type: "text",  label: "Last Name",  fieldName: "LastName",    editable: false, sortable: true },
     { type: "text",  label: "Account",    fieldName: "AccountName", editable: false, sortable: true },
-    { type: "text",  label: "Title",      fieldName: "Title",       editable: false, sortable: true },
+    { type: "text",  label: "Title",      fieldName: "Title",       editable: true,  sortable: true },
     { type: "phone", label: "Phone",      fieldName: "Phone",       editable: true,  sortable: true },
     { type: "email", label: "Email",      fieldName: "Email",       editable: true,  sortable: true },
 ];
