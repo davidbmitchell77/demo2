@@ -6,6 +6,7 @@ export default class LightningDataTableChild extends LightningElement {
 
     @api cols;
     @api height;
+    @api mode;
     @api records;
 
     draftValues   = [];

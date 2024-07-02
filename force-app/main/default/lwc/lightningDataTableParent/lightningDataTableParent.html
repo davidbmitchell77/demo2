@@ -1,7 +1,5 @@
 <template>
     <lightning-card title="Contacts" icon-name="standard:contact">
-        <div class="slds-var-m-around_medium">
-            <c-lightning-data-table-child height={height} cols={cols} records={data}></c-lightning-data-table-child>
-        </div>
+        <c-lightning-data-table-child height={height} cols={cols} records={data} mode={mode}></c-lightning-data-table-child>
     </lightning-card>
 </template>
