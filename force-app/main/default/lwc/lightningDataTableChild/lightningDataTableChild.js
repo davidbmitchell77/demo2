@@ -1,7 +1,6 @@
 import { LightningElement, api } from 'lwc';
 import { updateRecord          } from 'lightning/uiRecordApi';
 import { ShowToastEvent        } from 'lightning/platformShowToastEvent';
-import SystemModstamp from '@salesforce/schema/Account.SystemModstamp';
 
 export default class LightningDataTableChild extends LightningElement {
 
@@ -24,7 +23,7 @@ export default class LightningDataTableChild extends LightningElement {
         Promise.all(promises)
        .then(() => {
             this.draftValues = [];
-            this.syncDataTable(JSON.parse(JSON.stringify(this.records)), updates);
+            this.records = this.syncDataTable(JSON.parse(JSON.stringify(this.records)), updates);
             this.showToast('Success!', 'Record(s) successfully updated!', 'success');
         })
        .catch((error) => {
@@ -52,22 +51,18 @@ export default class LightningDataTableChild extends LightningElement {
     }
 
     syncDataTable(records, updates) {
-        console.clear();
         let results = [];
         let theMap  = new Map();
         for(let i=0; i<updates.length; i++) {
-            theMap.set(updates[i].fields.Id, updates[i]);
+            theMap.set(updates[i].fields.Id, updates[i].fields);
         }
         for (let j=0; j<records.length; j++) {
             let rec = { ...records[j] };
-            console.info('rec: ', rec);
-            if (theMap.has(rec.fields.Id)) {
-                let f = theMap.get(rec.fields);
-                console.info('f: ', f);
-                rec = { ...rec, f};
-                console.info('rec: ', rec);
-                results.push(rec);
+            if (theMap.has(rec.Id)) {
+                let f = theMap.get(rec.Id);
+                rec = { ...rec, ...f };
             }
+            results.push(rec);
         }
         return results;
     }
