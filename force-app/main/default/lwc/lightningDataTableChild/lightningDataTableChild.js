@@ -1,6 +1,7 @@
 import { LightningElement, api } from 'lwc';
 import { updateRecord          } from 'lightning/uiRecordApi';
 import { ShowToastEvent        } from 'lightning/platformShowToastEvent';
+import SystemModstamp from '@salesforce/schema/Account.SystemModstamp';
 
 export default class LightningDataTableChild extends LightningElement {
 
@@ -12,17 +13,18 @@ export default class LightningDataTableChild extends LightningElement {
     sortDirection = undefined;
 
     doSave(event) {
-        let data = event.detail.draftValues.slice().map((draftValue) => {
+        let updates = event.detail.draftValues.slice().map((draftValue) => {
             let fields = { ...draftValue };
             return { fields: fields };
         });
-        let promises = data.map((record) => {
+        let promises = updates.map((record) => {
             let promise = updateRecord(record);
             return promise;
         });
         Promise.all(promises)
        .then(() => {
             this.draftValues = [];
+            this.syncDataTable(JSON.parse(JSON.stringify(this.records)), updates);
             this.showToast('Success!', 'Record(s) successfully updated!', 'success');
         })
        .catch((error) => {
@@ -47,6 +49,27 @@ export default class LightningDataTableChild extends LightningElement {
             return (isReverse * ((a > b) - (b > a)));
         });
         this.records = [ ...parseData ];
+    }
+
+    syncDataTable(records, updates) {
+        console.clear();
+        let results = [];
+        let theMap  = new Map();
+        for(let i=0; i<updates.length; i++) {
+            theMap.set(updates[i].fields.Id, updates[i]);
+        }
+        for (let j=0; j<records.length; j++) {
+            let rec = { ...records[j] };
+            console.info('rec.Id: ', rec.Id);
+            if (theMap.has(rec.Id)) {
+                let f = theMap.get(rec.Id);
+                console.info('f: ', f);
+                rec = { ...rec, f};
+                console.info('rec: ', rec);
+                results.push(rec);
+            }
+        }
+        return results;
     }
 
     showToast(title, message, variant, mode) {
