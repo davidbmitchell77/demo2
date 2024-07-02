@@ -14,7 +14,9 @@ export default class LightningDataTableChild extends LightningElement {
     sortDirection = undefined;
 
     renderedCallback() {
-        this.template.querySelector('.datatable').style.setProperty('height', this.height);
+        if (this.height) {
+            this.template.querySelector('.datatable').style.setProperty('height', this.height);
+        }
     }
 
     doSave(event) {
