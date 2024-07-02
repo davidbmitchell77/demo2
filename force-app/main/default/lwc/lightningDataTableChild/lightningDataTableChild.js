@@ -5,11 +5,16 @@ import { ShowToastEvent        } from 'lightning/platformShowToastEvent';
 export default class LightningDataTableChild extends LightningElement {
 
     @api cols;
+    @api height;
     @api records;
 
     draftValues   = [];
     sortBy        = undefined;
     sortDirection = undefined;
+
+    renderedCallback() {
+        this.template.querySelector('.datatable').style.setProperty('height', this.height);
+    }
 
     doSave(event) {
         let updates = event.detail.draftValues.slice().map((draftValue) => {

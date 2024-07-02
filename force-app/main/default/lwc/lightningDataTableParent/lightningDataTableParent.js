@@ -18,6 +18,7 @@ export default class LightningDataTableParent extends LightningElement {
 
     cols  = COLUMNS;
     data  = [];
+    height = '15rem';
 
     @wire(getContactList, { accountId: "$recordId" })
     handle(response) {
