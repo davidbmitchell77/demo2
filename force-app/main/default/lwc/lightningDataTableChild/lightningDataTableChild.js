@@ -67,8 +67,8 @@ export default class LightningDataTableChild extends LightningElement {
         for (let j=0; j<records.length; j++) {
             let rec = { ...records[j] };
             if (theMap.has(rec.Id)) {
-                let updates = theMap.get(rec.Id);
-                rec = { ...rec, ...updates };
+                let changes = theMap.get(rec.Id);
+                rec = { ...rec, ...changes };
             }
             results.push(rec);
         }
