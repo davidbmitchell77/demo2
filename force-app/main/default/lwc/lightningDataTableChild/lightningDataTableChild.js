@@ -22,8 +22,8 @@ export default class LightningDataTableChild extends LightningElement {
         });
         Promise.all(promises)
        .then(() => {
-            this.draftValues = [];
             this.records = this.syncDataTable(JSON.parse(JSON.stringify(this.records)), updates);
+            this.draftValues = [];
             this.showToast('Success!', 'Record(s) successfully updated!', 'success');
         })
        .catch((error) => {
@@ -53,7 +53,7 @@ export default class LightningDataTableChild extends LightningElement {
     syncDataTable(records, updates) {
         let results = [];
         let theMap  = new Map();
-        for(let i=0; i<updates.length; i++) {
+        for (let i=0; i<updates.length; i++) {
             theMap.set(updates[i].fields.Id, updates[i].fields);
         }
         for (let j=0; j<records.length; j++) {
