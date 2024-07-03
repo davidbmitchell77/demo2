@@ -35,7 +35,6 @@ export default class LightningDataTableChild extends LightningElement {
             this.showToast('Success!', 'Record(s) successfully updated!', 'success');
         })
        .catch((error) => {
-            console.error(error);
             this.nebulaLogger(error);
             this.showToast('Error updating or reloading data!', error.body.message, 'error', 'sticky');
         });
