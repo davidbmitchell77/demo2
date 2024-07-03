@@ -35,7 +35,7 @@ export default class LightningDataTableChild extends LightningElement {
             this.showToast('Success!', 'Record(s) successfully updated!', 'success');
         })
        .catch((error) => {
-            this.nebulaLogger(error);
+            console.error(error);
             this.showToast('Error updating or reloading data!', error.body.message, 'error', 'sticky');
         });
     }
@@ -73,14 +73,6 @@ export default class LightningDataTableChild extends LightningElement {
             results.push(rec);
         }
         return results;
-    }
-
-    nebulaLogger(error) {
-        const logger = this.template.querySelector('c-logger');
-        if (logger) {
-            logger.error(error.body.message).addTag('lightningDataTableChild.js');
-            logger.saveLog();
-        }
     }
 
     showToast(title, message, variant, mode) {
