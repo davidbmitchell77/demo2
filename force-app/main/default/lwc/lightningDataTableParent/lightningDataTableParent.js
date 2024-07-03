@@ -21,7 +21,7 @@ export default class LightningDataTableParent extends LightningElement {
     height = '20.5rem';
     mode   = 'fixed';
 
-    @wire(getContactList, { accountId: "$recordId", lwcName: 'lightningDataTableParent' })
+    @wire(getContactList, { accountId: "24", lwcName: 'lightningDataTableParent' })
     handle(response) {
         let { data, error } = response;
         if (data) {
@@ -33,7 +33,7 @@ export default class LightningDataTableParent extends LightningElement {
             this.data = [ ...temp ];
         }
         else if (error) {
-             console.error();
+             console.error(error);
              this.showToast('Error retrieving list of contacts!', error.body.message, 'error', 'sticky');
         }
     }
