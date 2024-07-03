@@ -21,7 +21,7 @@ export default class LightningDataTableParent extends LightningElement {
     height = '20.5rem';
     mode   = 'fixed';
 
-    @wire(getContactList, { accountId: "$recordId" })
+    @wire(getContactList, { accountId: "33" })
     handle(response) {
         let { data, error } = response;
         if (data) {
@@ -41,7 +41,7 @@ export default class LightningDataTableParent extends LightningElement {
     nebulaLogger(error) {
         const logger = this.template.querySelector('c-logger');
         if (logger) {
-            logger.error(error.body.message).addTag('lightningDataTableParent.js');
+            logger.error(error).addTag('lightningDataTableParent.js');
             logger.saveLog();
         }
     }
