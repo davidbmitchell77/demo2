@@ -21,7 +21,7 @@ export default class LightningDataTableParent extends LightningElement {
     height = '20.5rem';
     mode   = 'fixed';
 
-    @wire(getContactList, { accountId: "$recordId" })
+    @wire(getContactList, { accountId: "24" })
     handle(response) {
         let { data, error } = response;
         if (data) {
@@ -33,8 +33,16 @@ export default class LightningDataTableParent extends LightningElement {
             this.data = [ ...temp ];
         }
         else if (error) {
-            console.error(error);
+            this.nebulaLogger(error);
             this.showToast('Error retrieving list of contacts!', error.body.message, 'error', 'sticky');
+        }
+    }
+
+    nebulaLogger(error) {
+        const logger = this.template.querySelector('c-logger');
+        if (logger) {
+            logger.error(error.body.message).addTag('lightningDataTableParent.js');
+            logger.saveLog();
         }
     }
 
