@@ -1,4 +1,5 @@
 <template>
+    <c-logger></c-logger>
     <div class="slds-var-m-around_medium datatable">
         <lightning-datatable key-field="Id" columns={cols} data={records} draft-values={draftValues} show-row-number-column="true" hide-checkbox-column="true" column-widths-mode={mode} sorted-by={sortBy} sorted-direction={sortDirection} onsort={doSorting} onsave={doSave}></lightning-datatable>
     </div>
