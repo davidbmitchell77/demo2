@@ -1,7 +1,7 @@
 import { LightningElement, api, wire } from 'lwc';
 import { ShowToastEvent              } from 'lightning/platformShowToastEvent';
 
-import getContactList from '@salesforce/apex/ContactController.getContactList';
+import getContacts from '@salesforce/apex/ContactController.getContacts';
 
 const COLUMNS = [
     { type: "text",  label: "First Name", fieldName: "FirstName",   editable: false, sortable: true },
@@ -21,7 +21,7 @@ export default class LightningDataTableParent extends LightningElement {
     height = '20.5rem';
     mode   = 'fixed';
 
-    @wire(getContactList, { accountId: "24", lwcName: 'lightningDataTableParent' })
+    @wire(getContacts, { accountId: "$recordId", lwcName: 'lightningDataTableParent' })
     handle(response) {
         let { data, error } = response;
         if (data) {
