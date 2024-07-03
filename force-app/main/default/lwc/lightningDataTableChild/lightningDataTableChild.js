@@ -78,7 +78,7 @@ export default class LightningDataTableChild extends LightningElement {
     nebulaLogger(error) {
         const logger = this.template.querySelector('c-logger');
         if (logger) {
-            logger.error(error.body.nessage).addTag('lightningDataTableChild.js');
+            logger.error(error.body.message).addTag('lightningDataTableChild.js');
             logger.saveLog();
         }
     }
