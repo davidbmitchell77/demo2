@@ -21,7 +21,7 @@ export default class LightningDataTableParent extends LightningElement {
     height = '20.5rem';
     mode   = 'fixed';
 
-    @wire(getContactList, { accountId: "24" })
+    @wire(getContactList, { accountId: "$recordId" })
     handle(response) {
         let { data, error } = response;
         if (data) {
