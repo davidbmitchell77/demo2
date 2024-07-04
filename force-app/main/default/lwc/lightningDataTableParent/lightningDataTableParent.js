@@ -38,6 +38,20 @@ export default class LightningDataTableParent extends LightningElement {
         }
     }
 
+    handleClick(event) {
+        if (event.target.label === 'Base') {
+            this.log('You clicked the "Base" button!');
+        }
+    }
+
+    log(message) {
+        const logger = this.template.querySelector('c-logger');
+        if (logger) {
+            logger.info(message);
+            logger.saveLog();
+        }
+    }
+
     showToast(title, message, variant, mode) {
         this.dispatchEvent(new ShowToastEvent({ title: title, message: message, variant: variant, mode: mode }));
     }
