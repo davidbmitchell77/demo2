@@ -39,9 +39,30 @@ export default class LightningDataTableParent extends LightningElement {
     }
 
     handleClick(event) {
-        if (event.target.label === 'Base') {
-            this.log('You clicked the "Base" button!');
+        let message = `You clicked the ${event.target.label} button!`;
+        let variant = 'info';
+        switch (event.target.label) {
+            case 'Base':
+                variant = 'info';
+                break;
+            case 'Neutral':
+                variant = 'info';
+                break;
+            case 'Brand':
+                variant = 'info';
+                break;
+            case 'Destructive':
+                variant = 'error';
+                break;
+            case 'Destructive Text':
+                variant = 'warning';
+                break;
+            case 'Success':
+                variant = 'Success';
+                break;
         }
+        this.log(message);
+        this.showToast('Button click detected!', message, variant);
     }
 
     log(message) {
@@ -53,6 +74,6 @@ export default class LightningDataTableParent extends LightningElement {
     }
 
     showToast(title, message, variant, mode) {
-        this.dispatchEvent(new ShowToastEvent({ title: title, message: message, variant: variant, mode: mode }));
+        this.dispatchEvent(new ShowToastEvent({ title: title, message: message, variant: variant, mode: (mode || 'dismissible')}));
     }
 }

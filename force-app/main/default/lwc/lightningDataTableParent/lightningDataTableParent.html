@@ -4,6 +4,11 @@
         <c-lightning-data-table-child cols={cols} records={data} height={height} mode={mode}></c-lightning-data-table-child>
         <div class="slds-var-m-around_medium">
             <lightning-button variant="base" label="Base" title="Looks like a link" onclick={handleClick} class="slds-m-left_x-small"></lightning-button>
+            <lightning-button label="Neutral" title="Non-primary action" onclick={handleClick} class="slds-m-left_x-small"></lightning-button>
+            <lightning-button variant="brand" label="Brand" title="Primary action" onclick={handleClick} class="slds-m-left_x-small"></lightning-button>
+            <lightning-button variant="destructive" label="Destructive" title="Destructive action" onclick={handleClick} class="slds-m-left_x-small"></lightning-button>
+            <lightning-button variant="destructive-text" label="Destructive Text" title="Destructive action with a lighter look" onclick={handleClick} class="slds-m-left_x-small"></lightning-button>
+            <lightning-button variant="success" label="Success" title="Successful action" onclick={handleClick} class="slds-m-left_x-small"></lightning-button>
         </div>
     </lightning-card>
 </template>
