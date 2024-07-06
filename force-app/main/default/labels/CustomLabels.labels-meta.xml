@@ -15,6 +15,13 @@
         <value>Account phone number is required.</value>
     </labels>
     <labels>
+        <fullName>ACCOUNT_RECORD_DATA_IS_NOT_VALID</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>Account record data is not valid.</shortDescription>
+        <value>Account record data is not valid.</value>
+    </labels>
+    <labels>
         <fullName>CAMPAIGN_DESCRIPTION_IS_REQUIRED</fullName>
         <language>en_US</language>
         <protected>false</protected>
@@ -34,6 +41,13 @@
         <protected>false</protected>
         <shortDescription>Campaign name is required.</shortDescription>
         <value>Campaign name is required.</value>
+    </labels>
+    <labels>
+        <fullName>CASE_RECORD_DATA_IS_NOT_VALID</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>Case record data is not valid.</shortDescription>
+        <value>Case record data is not valid.</value>
     </labels>
     <labels>
         <fullName>CASE_SUBJECT_IS_REQUIRED</fullName>

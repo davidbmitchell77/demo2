@@ -22,7 +22,7 @@ public with sharing class Account_Trigger_Handler {
         }
         if (result == false) {
             if (SYS_UTILS.isBatch() || SYS_UTILS.isTest()) {
-                throw new SYS_UTILS.SYS_EXCEPTION(System.Label.ACCOUNT_DATA_IS_NOT_VALID);
+                throw new SYS_UTILS.SYS_EXCEPTION(System.Label.ACCOUNT_RECORD_DATA_IS_NOT_VALID);
             }
         }
         return result;
