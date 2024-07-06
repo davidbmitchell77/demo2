@@ -113,6 +113,13 @@
         <value>Custom Object &apos;B&apos; Name is required.</value>
     </labels>
     <labels>
+        <fullName>CUSTOM_OBJECT_B_RECORD_DATA_IS_NOT_VALID</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>Custom Object B record data is not valid.</shortDescription>
+        <value>Custom Object B record data is not valid.</value>
+    </labels>
+    <labels>
         <fullName>LEAD_LAST_NAME_IS_REQUIRED</fullName>
         <language>en_US</language>
         <protected>false</protected>
