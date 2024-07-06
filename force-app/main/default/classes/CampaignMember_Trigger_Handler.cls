@@ -16,6 +16,11 @@ public with sharing class CampaignMember_Trigger_Handler {
                 }
             }
         }
+        if (result == false) {
+            if (SYS_UTILS.isBatch() || SYS_UTILS.isTest()) {
+                throw new SYS_UTILS.SYS_EXCEPTION(System.Label.CAMPAIGN_MEMBER_RECORD_DATA_IS_NOT_VALID);
+            }
+        }
         return result;
     }
 

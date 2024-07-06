@@ -45,9 +45,16 @@ trigger CampaignMember_Trigger on CampaignMember (before insert, before update, 
     }
 
     if (runTriggerHandler == true) {
-        CampaignMember_Trigger_Handler handler = new CampaignMember_Trigger_Handler(Trigger.operationType);
-        if (handler.isValid(Trigger.new)) {
-            handler.run(Trigger.old, Trigger.new, Trigger.oldMap, Trigger.newMap);
+        try {
+            CampaignMember_Trigger_Handler handler = new CampaignMember_Trigger_Handler(Trigger.operationType);
+            if (handler.isValid(Trigger.new)) {
+                handler.run(Trigger.old, Trigger.new, Trigger.oldMap, Trigger.newMap);
+            }
+        }
+        catch(Exception e) {
+            Logger.error(JSON.serialize(e), ((Trigger.new != null) ? Trigger.new : Trigger.old));
+            Logger.saveLog();
+            throw new SYS_UTILS.SYS_EXCEPTION(e);
         }
     }
 }

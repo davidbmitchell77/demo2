@@ -29,6 +29,13 @@
         <value>Campaign description is required.</value>
     </labels>
     <labels>
+        <fullName>CAMPAIGN_MEMBER_RECORD_DATA_IS_NOT_VALID</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>Campaign Member record data is not valid.</shortDescription>
+        <value>Campaign Member record data is not valid.</value>
+    </labels>
+    <labels>
         <fullName>CAMPAIGN_MEMBER_STATUS_IS_REQUIRED</fullName>
         <language>en_US</language>
         <protected>false</protected>
