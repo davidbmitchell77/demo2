@@ -19,6 +19,11 @@ public with sharing class Campaign_Trigger_Handler {
                     result = false;
                 }
             }
+            if (result == false) {
+                if (SYS_UTILS.isBatch() || SYS_UTILS.isTest()) {
+                    throw new SYS_UTILS.SYS_EXCEPTION(System.Label.CAMPAIGN_RECORD_DATA_IS_NOT_VALID);
+                }
+            }
         }
         return result;
     }
@@ -54,8 +59,8 @@ public with sharing class Campaign_Trigger_Handler {
 
     private void updateParentAccounts(List<Campaign> oldCampaigns, List<Campaign> newCampaigns, Map<Id,Campaign> oldMap, Map<Id,Campaign> newMap) {
         Map<Id,Account> accounts = new Map<Id,Account>([SELECT Id, Name
-                                      FROM Account
-                                      WHERE Id IN :accountIds(newCampaigns)
+                                                          FROM Account
+                                                         WHERE Id IN :accountIds(newCampaigns)
         ]);
 
         List<Opportunity> opportunities = [SELECT Id, AccountId, CampaignId FROM Opportunity WHERE campaignId IN :campaignIds(newCampaigns)];
@@ -83,7 +88,7 @@ public with sharing class Campaign_Trigger_Handler {
         accounts = changed(accounts, updatedAccountIds);
 
         if (!accounts.isEmpty()) {
-            update accounts.values();
+            DB_UTILS.upd(accounts.values());
         }
     }
 
@@ -107,7 +112,7 @@ public with sharing class Campaign_Trigger_Handler {
         }
  
         if (!campaignMembers.isEmpty()) {
-            update campaignMembers;
+            DB_UTILS.upd(campaignMembers);
         }
     }
 
