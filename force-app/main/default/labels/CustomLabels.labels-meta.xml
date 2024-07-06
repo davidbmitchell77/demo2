@@ -127,17 +127,17 @@
         <value>Lead last name is required.</value>
     </labels>
     <labels>
+        <fullName>LEAD_RECORD_DATA_IS_NOT_VALID</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>Lead record data is not valid.</shortDescription>
+        <value>Lead record data is not valid.</value>
+    </labels>
+    <labels>
         <fullName>OPPORTUNITY_NAME_IS_REQUIRED</fullName>
         <language>en_US</language>
         <protected>false</protected>
         <shortDescription>Opportunity name is required.</shortDescription>
         <value>Opportunity name is required.</value>
-    </labels>
-    <labels>
-        <fullName>foobar</fullName>
-        <language>en_US</language>
-        <protected>false</protected>
-        <shortDescription>foobar</shortDescription>
-        <value>foobar</value>
     </labels>
 </CustomLabels>
