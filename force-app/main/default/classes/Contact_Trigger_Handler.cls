@@ -19,6 +19,11 @@ public with sharing class Contact_Trigger_Handler {
                     result = false;
                 }
             }
+            if (result == false) {
+                if (SYS_UTILS.isBatch() || SYS_UTILS.isTest()) {
+                    throw new SYS_UTILS.SYS_EXCEPTION(System.Label.CONTACT_RECORD_DATA_IS_NOT_VALID);
+                }
+            }
         }
         return result;
     }
@@ -78,7 +83,7 @@ public with sharing class Contact_Trigger_Handler {
         }
 
         if (!accountsMap.isEmpty()) {
-            update accountsMap.values();
+            DB_UTILS.upd(accountsMap.values());
         }
     }
 
@@ -99,7 +104,7 @@ public with sharing class Contact_Trigger_Handler {
         }
 
         if (!accountsMap.isEmpty()) {
-            update accountsMap.values();
+            DB_UTILS.upd(accountsMap.values());
         }
     }
 

@@ -85,6 +85,13 @@
         <value>Contact phone number is required.</value>
     </labels>
     <labels>
+        <fullName>CONTACT_RECORD_DATA_IS_NOT_VALID</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>Contact record data is not valid.</shortDescription>
+        <value>Contact record data is not valid.</value>
+    </labels>
+    <labels>
         <fullName>CUSTOM_OBJECT_A_NAME_IS_REQUIRED</fullName>
         <language>en_US</language>
         <protected>false</protected>
