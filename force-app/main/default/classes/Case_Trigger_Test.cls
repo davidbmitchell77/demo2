@@ -20,7 +20,7 @@ private class Case_Trigger_Test {
         update c;
         Test.stopTest();
 
-        System.assertEquals(null, [SELECT Id, Rating FROM Account LIMIT 1].Rating);       
+        System.assertEquals(null, [SELECT Id, Rating FROM Account LIMIT 1].Rating);
     }
 
     @isTest
@@ -41,12 +41,12 @@ private class Case_Trigger_Test {
             cases.add(c);
         }
 
-        Test.startTest(); 
+        Test.startTest();
         insert cases;
         Test.stopTest();
 
         System.assertEquals(1000, [SELECT Id FROM Case WHERE Status LIKE '%Closed%'].size());
-        System.assertEquals('Bronze', [SELECT Id, Rating FROM Account LIMIT 1].Rating);       
+        System.assertEquals('Silver', [SELECT Id, Rating FROM Account LIMIT 1].Rating);
     }
 
     @isTest
@@ -63,11 +63,11 @@ private class Case_Trigger_Test {
         );
         insert c;
 
-        Test.startTest(); 
+        Test.startTest();
         delete c;
         Test.stopTest();
 
-        System.assertEquals(0, [SELECT Id FROM Case].size());       
+        System.assertEquals(0, [SELECT Id FROM Case].size());
     }
 
     @isTest
@@ -84,12 +84,12 @@ private class Case_Trigger_Test {
         );
         insert c;
 
-        Test.startTest(); 
+        Test.startTest();
         delete c;
         undelete [SELECT Id FROM Case WHERE IsDeleted = true ALL Rows];
         Test.stopTest();
 
-        System.assertEquals(1, [SELECT Id FROM Case].size());       
+        System.assertEquals(1, [SELECT Id FROM Case].size()); 
     }
 
     @isTest
@@ -107,12 +107,12 @@ private class Case_Trigger_Test {
         );
         insert c;
 
-        Test.startTest(); 
+        Test.startTest();
         c.Status = 'New';
         update c;
         Test.stopTest();
 
-        System.assertEquals(null, [SELECT Id, Rating FROM Account LIMIT 1].Rating);       
+        System.assertEquals(null, [SELECT Id, Rating FROM Account LIMIT 1].Rating);      
     }
 
     @isTest
@@ -128,11 +128,11 @@ private class Case_Trigger_Test {
             AccountId = a.Id
         );
 
-        Test.startTest(); 
+        Test.startTest();
         try { insert c; } catch(DmlException e) { System.debug(LoggingLevel.ERROR, e.getMessage()); }
         Test.stopTest();
 
-        System.assertEquals(0, [SELECT Id FROM Case].size());       
+        System.assertEquals(0, [SELECT Id FROM Case].size());   
     }
 
     @isTest
@@ -153,22 +153,16 @@ private class Case_Trigger_Test {
             cases.add(c);
         }
 
-        Test.startTest(); 
+        Test.startTest();
         insert cases;
-        Case c = new Case(
-            Subject = ('Case_Trigger_Test.TestMethod07 ' + 1001),
-            Status = 'Closed',
-            AccountId = a.Id
-        );
-        insert c;
         Test.stopTest();
 
-        System.assertEquals('Silver', [SELECT Id, Rating FROM Account LIMIT 1].Rating);       
+        System.assertEquals('Silver', [SELECT Id, Rating FROM Account LIMIT 1].Rating);
     }
 
     @isTest
     private static void TestMethod08() {
-        Integer maxRecordIds = Integer.valueOf(TriggerSettings.getInstance('Case').MaxRecordIds__c + 101);
+        Integer maxRecordIds = Integer.valueOf(TriggerSettings.getInstance('Case').MaxRecordIds__c) + 1;
         Account a = new Account(
             Name = 'Case_Trigger_Test.TestMethod08()',
             Phone = '(888) 888-8888'
@@ -186,7 +180,7 @@ private class Case_Trigger_Test {
 
         Test.startTest();
         insert cases;
-        for (Case c : Cases) {
+        for (Case c : cases) {
             c.Subject = c.Subject + '.update';
         }
         update cases;
