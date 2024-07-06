@@ -16,6 +16,11 @@ public with sharing class Opportunity_Trigger_Handler {
                 }
             }
         }
+        if (result == false) {
+            if (SYS_UTILS.isBatch() || SYS_UTILS.isTest()) {
+                throw new SYS_UTILS.SYS_EXCEPTION(System.Label.OPPORTUNITY_RECORD_DATA_IS_NOT_VALID);
+            }
+        }
         return result;
     }
 
@@ -75,7 +80,7 @@ public with sharing class Opportunity_Trigger_Handler {
         accounts = changed(accounts, updatedAccountIds);
 
         if (!accounts.isEmpty()) {
-            update accounts.values();
+            DB_UTILS.upd(accounts.values());
         }
     }
 
@@ -93,7 +98,7 @@ public with sharing class Opportunity_Trigger_Handler {
             }
         }
         if (!tasks.isEmpty()) {
-            insert tasks;
+            DB_UTILS.ins(tasks);
         }
     }
 
