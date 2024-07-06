@@ -147,4 +147,11 @@
         <shortDescription>Opportunity record data is not valid.</shortDescription>
         <value>Opportunity record data is not valid.</value>
     </labels>
+    <labels>
+        <fullName>foobar</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>foobar</shortDescription>
+        <value>foobar</value>
+    </labels>
 </CustomLabels>
