@@ -43,6 +43,13 @@
         <value>Campaign name is required.</value>
     </labels>
     <labels>
+        <fullName>CAMPAIGN_RECORD_DATA_IS_NOT_VALID</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>Campaign record data is not valid.</shortDescription>
+        <value>Campaign record data is not valid.</value>
+    </labels>
+    <labels>
         <fullName>CASE_RECORD_DATA_IS_NOT_VALID</fullName>
         <language>en_US</language>
         <protected>false</protected>

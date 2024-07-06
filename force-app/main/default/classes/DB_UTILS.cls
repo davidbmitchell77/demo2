@@ -136,6 +136,6 @@ public with sharing class DB_UTILS {
         Database.rollback(sp);
         Logger.error(e.getMessage(), sObjects);
         Logger.saveLog();
-        throw new AuraHandledException(e.getMessage());
+        throw new SYS_UTILS.SYS_EXCEPTION(e.getMessage());
     }
 }
