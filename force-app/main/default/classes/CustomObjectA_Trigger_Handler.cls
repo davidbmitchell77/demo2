@@ -16,6 +16,11 @@ public with sharing class CustomObjectA_Trigger_Handler {
                 }
             }
         }
+        if (result == false) {
+            if (SYS_UTILS.isBatch() || SYS_UTILS.isTest()) {
+                throw new SYS_UTILS.SYS_EXCEPTION(System.Label.CUSTOM_OBJECT_A_RECORD_DATA_IS_NOT_VAILD);
+            }
+        }
         return result;
     }
 
@@ -88,7 +93,7 @@ public with sharing class CustomObjectA_Trigger_Handler {
         bObjects = changed(bObjects, updatedRecordIds);
 
         if (!bObjects.isEmpty()) {
-            update bObjects.values();
+            DB_UTILS.upd(bObjects.values());
         }
     }
 

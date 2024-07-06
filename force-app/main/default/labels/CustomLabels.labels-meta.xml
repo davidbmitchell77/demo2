@@ -99,6 +99,13 @@
         <value>Custom Object &apos;A&apos; Name is required.</value>
     </labels>
     <labels>
+        <fullName>CUSTOM_OBJECT_A_RECORD_DATA_IS_NOT_VAILD</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>Custom Object A record data is not valid.</shortDescription>
+        <value>Custom Object A record data is not valid.</value>
+    </labels>
+    <labels>
         <fullName>CUSTOM_OBJECT_B_NAME_IS_REQUIRED</fullName>
         <language>en_US</language>
         <protected>false</protected>

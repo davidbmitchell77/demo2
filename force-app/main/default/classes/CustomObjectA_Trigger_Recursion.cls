@@ -16,7 +16,7 @@ public without sharing class CustomObjectA_Trigger_Recursion {
     public static void reset(List<CustomObjectA__c> oldRecords, List<CustomObjectA__c> newRecords) {
         Integer hashCode = (newRecords != null ? newRecords.hashCode() : (oldRecords != null ? oldRecords.hashCode() : null));
         if (hashCode != SAVE_HASH_CODE) {
-            if (isBatchJob() || isTest()) {
+            if (SYS_UTILS.isBatch() || SYS_UTILS.isTest()) {
                 BEFORE_INSERT_ALREADY_INVOKED  = false;
                 BEFORE_UPDATE_ALREADY_INVOKED  = false;
                 BEFORE_DELETE_ALREADY_INVOKED  = false;
@@ -30,28 +30,6 @@ public without sharing class CustomObjectA_Trigger_Recursion {
                 }
             }
         }
-    }
-
-    private static Boolean isBatchJob() {
-        Boolean result = false;
-        switch on Request.getCurrent().getQuiddity() {
-            when BATCH_ACS            { result = true; }
-            when BATCH_APEX           { result = true; }
-            when BATCH_CHUNK_PARALLEL { result = true; }
-            when BATCH_CHUNK_SERIAL   { result = true; }
-            when BULK_API             { result = true; }
-            when QUEUEABLE            { result = true; }
-        }
-        return result;
-    }
-
-    private static Boolean isTest() {
-        Boolean result = false;
-        switch on Request.getCurrent().getQuiddity() {
-            when RUNTEST_DEPLOY               { result = true; }
-            when RUNTEST_SYNC, RUNTEST_ASYNC  { result = true; }
-        }
-        return result;
     }
 
     private static List<Id> reduce(List<Id> recordIds, Integer maxSize) {
