@@ -52,38 +52,6 @@ public with sharing class Opportunity_Trigger_Handler {
         updateProcessedRecordIds(((newOpportunities!= null) ? newOpportunities : oldOpportunities));
     }
 
-    private void updateParentAccounts(List<Opportunity> oldOpportunities, List<Opportunity> newOpportunities, Map<Id,Opportunity> oldMap, Map<Id,Opportunity> newMap) {
-        Map<Id,Account> accounts = new Map<Id,Account>([SELECT Id, MaximumExpectedOpportunityRevenue__c
-                                                          FROM Account
-                                                         WHERE Id IN :accountIds(newOpportunities)
-        ]);
-
-        Set<Id> updatedAccountIds = new Set<Id>();
-
-        if (newOpportunities != null) {
-            for (Opportunity o : newOpportunities) {
-                if (!alreadyInvoked(this.operationType, o.Id)) {
-                    if (o.AccountId != null) {
-                        if (accounts.containsKey(o.AccountId)) {
-                            Account a = accounts.get(o.AccountId);
-                            if (nvl(a.MaximumExpectedOpportunityRevenue__c, 0) < nvl(o.ExpectedRevenue, 0)) {
-                                a.MaximumExpectedOpportunityRevenue__c = o.ExpectedRevenue;
-                                accounts.put(a.Id, a);
-                                updatedAccountIds.add(a.Id);
-                            }
-                        }
-                    }
-                }
-            }
-        }
-
-        accounts = changed(accounts, updatedAccountIds);
-
-        if (!accounts.isEmpty()) {
-            DB_UTILS.upd(accounts.values());
-        }
-    }
-
     private void createChildTasks(List<Opportunity> oldOpportunities, List<Opportunity> newOpportunities, Map<Id,Opportunity> oldMap, Map<Id,Opportunity> newMap) {
         List<Task> tasks = new List<Task>();
         if (newOpportunities != null) {
@@ -102,6 +70,50 @@ public with sharing class Opportunity_Trigger_Handler {
         }
     }
 
+    private void updateParentAccounts(List<Opportunity> oldOpportunities, List<Opportunity> newOpportunities, Map<Id,Opportunity> oldMap, Map<Id,Opportunity> newMap) {
+        Map<Id,Account> accountsMap = new Map<Id,Account>([SELECT Id,
+                                                                  AnnualRevenue,
+                                                                  MaximumExpectedOpportunityRevenue__c
+                                                             FROM Account
+                                                            WHERE Id IN :accountIds(newOpportunities)
+        ]);
+
+        Set<Id> updatedAccountIds = new Set<Id>();
+
+        if (newOpportunities != null) {
+            for (Opportunity o : newOpportunities) {
+                if (!alreadyInvoked(this.operationType, o.Id)) {
+                    if (o.AccountId != null) {
+                        if (accountsMap.containsKey(o.AccountId)) {
+                            Account a = accountsMap.get(o.AccountId);
+                            if (nvl(a.MaximumExpectedOpportunityRevenue__c, 0.00) < nvl(o.ExpectedRevenue, 0.00)) {
+                                a.MaximumExpectedOpportunityRevenue__c = o.ExpectedRevenue;
+                                accountsMap.put(a.Id, a);
+                                if (!updatedAccountIds.contains(a.Id)) {
+                                    updatedAccountIds.add(a.Id);
+                                }
+                            }
+                            if (nvl(a.AnnualRevenue, 0.00) < nvl(o.Amount, 0.00)) {
+                                a.AnnualRevenue = o.Amount;
+                                a.Description = o.Name;
+                                accountsMap.put(a.Id, a);
+                                if (!updatedAccountIds.contains(a.Id)) {
+                                    updatedAccountIds.add(a.Id);
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        }
+
+        List<Account> accounts = changed(accountsMap, updatedAccountIds);
+
+        if (!accounts.isEmpty()) {
+            DB_UTILS.upd(accounts);
+        }
+    }
+
     private Set<Id> accountIds(List<Opportunity> opportunities) {
         Set<Id> results = new Set<Id>();
         if (opportunities != null) {
@@ -116,22 +128,22 @@ public with sharing class Opportunity_Trigger_Handler {
         return results;
     }
 
-    private Boolean alreadyInvoked(TriggerOperation to, Id optyId) {
+    private Boolean alreadyInvoked(TriggerOperation to, Id opportunityId) {
         Boolean result = false;
         if (Opportunity_Trigger_Recursion.PROCESSED_RECORD_IDS != null) {
             if (Opportunity_Trigger_Recursion.PROCESSED_RECORD_IDS.containsKey(to)) {
-                result = Opportunity_Trigger_Recursion.PROCESSED_RECORD_IDS.get(to).contains(optyId);
+                result = Opportunity_Trigger_Recursion.PROCESSED_RECORD_IDS.get(to).contains(opportunityId);
             }
         }
         return result;
     }
 
-    private Map<Id,Account> changed(Map<Id,Account> accounts, Set<Id> accountIds) {
-        Map<Id,Account> results = new Map<Id,Account>();
-        if (accounts != null) {
-            for (Account a : accounts.values()) {
+    private List<Account> changed(Map<Id,Account> accountsMap, Set<Id> accountIds) {
+        List<Account> results = new List<Account>();
+        if (accountsMap != null) {
+            for (Account a : accountsMap.values()) {
                 if (accountIds.contains(a.Id)) {
-                    results.put(a.Id, a);
+                    results.add(a);
                 }
             }
         }
