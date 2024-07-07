@@ -52,9 +52,9 @@ trigger CampaignMember_Trigger on CampaignMember (before insert, before update, 
             }
         }
         catch(Exception e) {
-            Logger.error(JSON.serialize(e), ((Trigger.new != null) ? Trigger.new : Trigger.old));
+            Logger.error(e.getMessage(), ((Trigger.new != null) ? Trigger.new : Trigger.old)).addTag('CampaignMember_Trigger_Handler');
             Logger.saveLog();
-            throw new SYS_UTILS.SYS_EXCEPTION(e);
+            throw new SYS_UTILS.SYS_EXCEPTION(e.getMessage());
         }
     }
 }

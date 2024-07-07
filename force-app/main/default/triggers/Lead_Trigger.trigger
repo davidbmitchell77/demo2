@@ -58,9 +58,9 @@ trigger Lead_Trigger on Lead (before insert, before update, before delete, after
             }
         }
         catch(Exception e) {
-            Logger.error(JSON.serialize(e), ((Trigger.new != null) ? Trigger.new : Trigger.old));
+            Logger.error(e.getMessage(), ((Trigger.new != null) ? Trigger.new : Trigger.old)).addTag('Lead_Trigger_Handler');
             Logger.saveLog();
-            throw new SYS_UTILS.SYS_EXCEPTION(e);
+            throw new SYS_UTILS.SYS_EXCEPTION(e.getMessage());
         }
     }
 }
