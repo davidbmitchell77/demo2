@@ -3,12 +3,12 @@ private class CustomObjectB_Trigger_Test {
 
     @isTest
     private static void TestMethod01() {
-        UUID uuid = UUID.randomUUID();
+        String uuid = SYS_UTILS.uuid();
         CustomObjectB__c objB = new CustomObjectB__c(
             Name = 'CustomObjectB_Trigger_Test.TestMethod01',
             FieldA__c = null,
             FieldB__c = null,
-            ExternalId__c = String.valueOf(uuid)
+            ExternalId__c = uuid
         );
         insert objB;
         CustomObjectA__c objA = new CustomObjectA__c(
@@ -33,12 +33,12 @@ private class CustomObjectB_Trigger_Test {
 
     @isTest
     private static void TestMethod02() {
-        UUID uuid = UUID.randomUUID();
+        String uuid = SYS_UTILS.uuid();
         CustomObjectB__c objB = new CustomObjectB__c(
             Name = 'CustomObjectB_Trigger_Test.TestMethod02',
             FieldA__c = 2.22,
             FieldB__c = 2.22,
-            ExternalId__c = String.valueOf(uuid)
+            ExternalId__c = uuid
         );
         insert objB;
 
@@ -53,12 +53,12 @@ private class CustomObjectB_Trigger_Test {
 
     @isTest
     private static void TestMethod03() {
-        UUID uuid = UUID.randomUUID();
+        String uuid = SYS_UTILS.uuid();
         CustomObjectB__c objB = new CustomObjectB__c(
             Name = 'CustomObjectB_Trigger_Test.TestMethod03',
             FieldA__c = 3.33,
             FieldB__c = 3.33,
-            ExternalId__c = String.valueOf(uuid)
+            ExternalId__c = uuid
         );
         insert objB;
 

@@ -48,7 +48,7 @@ public with sharing class CustomObjectB_Trigger_Handler {
 
             }
         }
-        updateProcessedRecordIds((newRecords!= null ? newRecords : (oldRecords != null ? oldRecords : null)));
+        updateProcessedRecordIds(this.operationType, oldRecords, newRecords);
     }
 
     private void synchronizeFieldsWithCustomObjectB(List<CustomObjectB__c> oldRecords, List<CustomObjectB__c> newRecords, Map<Id,CustomObjectB__c> oldMap, Map<Id,CustomObjectB__c> newMap)
@@ -97,14 +97,8 @@ public with sharing class CustomObjectB_Trigger_Handler {
         }
     }
 
-    private Boolean alreadyInvoked(TriggerOperation to, Id bObjId) {
-        Boolean result = false;
-        if (CustomObjectB_Trigger_Recursion.PROCESSED_RECORD_IDS != null) {
-            if (CustomObjectB_Trigger_Recursion.PROCESSED_RECORD_IDS.containsKey(to)) {
-                result = CustomObjectB_Trigger_Recursion.PROCESSED_RECORD_IDS.get(to).contains(bObjId);
-            }
-        }
-        return result;
+    private Boolean alreadyInvoked(TriggerOperation to, Id recordId) {
+        return CustomObjectB_Trigger_Recursion.alreadyInvoked(to, recordId);
     }
 
     private Map<String,CustomObjectA__c> changed(Map<String,CustomObjectA__c> aObjects, Set<Id> recordIds) {
@@ -133,21 +127,7 @@ public with sharing class CustomObjectB_Trigger_Handler {
         return results;
     }
 
-    private void updateProcessedRecordIds(List<CustomObjectB__c> bObjects) {
-        if (bObjects != null) {
-            List<Id> bIds = nvl(CustomObjectB_Trigger_Recursion.PROCESSED_RECORD_IDS.get(this.operationType));
-            for (CustomObjectB__c b : bObjects) {
-                if (b.Id != null) {
-                    if (!bIds.contains(b.Id)) {
-                        bIds.add(b.Id);
-                        CustomObjectB_Trigger_Recursion.PROCESSED_RECORD_IDS.put(this.operationType, bIds);
-                    }
-                }
-            }
-        }
-    }
-
-    private List<Id> nvl(List<Id> recordIds) {
-        return ((recordIds != null) ? recordIds : new List<Id>());
+    private void updateProcessedRecordIds(TriggerOperation to, List<CustomObjectB__c> oldRecords, List<CustomObjectB__c> newRecords) {
+        CustomObjectB_Trigger_Recursion.updateProcessedRecordIds(to, oldRecords, newRecords);
     }
 }

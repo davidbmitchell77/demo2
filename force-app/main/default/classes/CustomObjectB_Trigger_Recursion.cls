@@ -32,6 +32,31 @@ public without sharing class CustomObjectB_Trigger_Recursion {
         }
     }
 
+    public static Boolean alreadyInvoked(TriggerOperation to, Id recordId) {
+        Boolean result = false;
+        if (PROCESSED_RECORD_IDS != null) {
+            if (PROCESSED_RECORD_IDS.containsKey(to)) {
+                result = PROCESSED_RECORD_IDS.get(to).contains(recordId);
+            }
+        }
+        return result;
+    }
+
+    public static void updateProcessedRecordIds(TriggerOperation to, List<CustomObjectB__c> oldRecords, List<CustomObjectB__c> newRecords) {
+        List<CustomObjectB__c> records = ((newRecords != null) ? newRecords : oldRecords);
+        if (records != null) {
+            List<Id> recordIds = nvl(PROCESSED_RECORD_IDS.get(to));
+            for (CustomObjectB__c objb : records) {
+                if (objb.Id != null) {
+                    if (!recordIds.contains(objb.Id)) {
+                        recordIds.add(objb.Id);
+                        PROCESSED_RECORD_IDS.put(to, recordIds);
+                    }
+                }
+            }
+        }
+    }
+
     private static List<Id> reduce(List<Id> recordIds, Integer maxSize) {
         List<Id> results = new List<Id>();
         if (recordIds != null) {
@@ -41,5 +66,9 @@ public without sharing class CustomObjectB_Trigger_Recursion {
             }
         }
         return results;
+    }
+
+    private static List<Id> nvl(List<Id> recordIds) {
+        return ((recordIds != null) ? recordIds : new List<Id>());
     }
 }
