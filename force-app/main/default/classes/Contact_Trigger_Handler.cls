@@ -53,7 +53,7 @@ public with sharing class Contact_Trigger_Handler {
                 summarizeParentAccountFields(oldContacts, newContacts, oldMap, newMap);
             }
         }
-        updateProcessedRecordIds((newContacts != null ? newContacts : (oldContacts != null ? oldContacts : null)));
+        updateProcessedRecordIds(this.operationType, oldContacts, newContacts);
     }
 
     private void updateParentAccountDescriptions(List<Contact> oldContacts, List<Contact> newContacts, Map<Id,Contact> oldMap, Map<Id,Contact> newMap) {
@@ -122,14 +122,8 @@ public with sharing class Contact_Trigger_Handler {
         return results;
     }
 
-    private Boolean alreadyInvoked(TriggerOperation to, Id contactId) {
-        Boolean result = false;
-        if (Contact_Trigger_Recursion.PROCESSED_RECORD_IDS != null) {
-            if (Contact_Trigger_Recursion.PROCESSED_RECORD_IDS.containsKey(to)) {
-                result = Contact_Trigger_Recursion.PROCESSED_RECORD_IDS.get(to).contains(contactId);
-            }
-        }
-        return result;
+    private Boolean alreadyInvoked(TriggerOperation to, Id accountId) {
+        return Contact_Trigger_Recursion.alreadyInvoked(to, accountId);
     }
 
     private Account summarize(Account a) {
@@ -141,22 +135,8 @@ public with sharing class Contact_Trigger_Handler {
         return result;
     }
 
-    private void updateProcessedRecordIds(List<Contact> contacts) {
-        if (contacts != null) {
-            List<Id> contactIds = nvl(Contact_Trigger_Recursion.PROCESSED_RECORD_IDS.get(this.operationType));
-            for (Contact c : contacts) {
-                if (c.Id != null) {
-                    if (!contactIds.contains(c.Id)) {
-                        contactIds.add(c.Id);
-                        Contact_Trigger_Recursion.PROCESSED_RECORD_IDS.put(this.operationType, contactIds);
-                    }
-                }
-            }
-        }
-    }
-
-    private List<Id> nvl(List<Id> recordIds) {
-        return ((recordIds != null) ? recordIds : new List<Id>());
+    private void updateProcessedRecordIds(TriggerOperation to, List<Contact> oldContacts, List<Contact> newContacts) {
+        Contact_Trigger_Recursion.updateProcessedRecordIds(to, oldContacts, newContacts);
     }
 
     private List<Contact> nvl(List<Contact> newContacts, List<Contact> oldContacts) {
