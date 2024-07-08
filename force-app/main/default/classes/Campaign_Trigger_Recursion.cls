@@ -32,6 +32,31 @@ public class Campaign_Trigger_Recursion {
         }
     }
 
+    public static Boolean alreadyInvoked(TriggerOperation to, Id campaignId) {
+        Boolean result = false;
+        if (PROCESSED_RECORD_IDS != null) {
+            if (PROCESSED_RECORD_IDS.containsKey(to)) {
+                result = PROCESSED_RECORD_IDS.get(to).contains(campaignId);
+            }
+        }
+        return result;
+    }
+
+    public static void updateProcessedRecordIds(TriggerOperation to, List<Campaign> oldCampaigns, List<Campaign> newCampaigns) {
+        List<Campaign> campaigns = (newCampaigns != null ? newCampaigns : oldCampaigns);
+        if (campaigns != null) {
+            List<Id> campaignIds = nvl(PROCESSED_RECORD_IDS.get(to));
+            for (Campaign c : campaigns) {
+                if (c.Id != null) {
+                    if (!campaignIds.contains(c.Id)) {
+                        campaignIds.add(c.Id);
+                        PROCESSED_RECORD_IDS.put(to, campaignIds);
+                    }
+                }
+            }
+        }
+    }
+
     private static List<Id> reduce(List<Id> recordIds, Integer maxSize) {
         List<Id> results = new List<Id>();
         if (recordIds != null) {
@@ -41,5 +66,9 @@ public class Campaign_Trigger_Recursion {
             }
         }
         return results;
+    }
+
+    private static List<Id> nvl(List<Id> recordIds) {
+        return ((recordIds != null) ? recordIds : new List<Id>());
     }
 }

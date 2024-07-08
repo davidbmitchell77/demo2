@@ -54,7 +54,7 @@ public with sharing class Campaign_Trigger_Handler {
             }
 
         }
-        updateProcessedRecordIds((newCampaigns!= null ? newCampaigns : (oldCampaigns != null ? oldCampaigns : null)));
+        updateProcessedRecordIds(this.operationType, oldCampaigns, newCampaigns);
     }
 
     private void updateParentAccounts(List<Campaign> oldCampaigns, List<Campaign> newCampaigns, Map<Id,Campaign> oldMap, Map<Id,Campaign> newMap) {
@@ -134,13 +134,7 @@ public with sharing class Campaign_Trigger_Handler {
     }
 
     private Boolean alreadyInvoked(TriggerOperation to, Id campaignId) {
-        Boolean result = false;
-        if (Campaign_Trigger_Recursion.PROCESSED_RECORD_IDS != null) {
-            if (Campaign_Trigger_Recursion.PROCESSED_RECORD_IDS.containsKey(to)) {
-                result = Campaign_Trigger_Recursion.PROCESSED_RECORD_IDS.get(to).contains(campaignId);
-            }
-        }
-        return result;
+        return Campaign_Trigger_Recursion.alreadyInvoked(to, campaignId);
     }
 
     private Set<Id> campaignIds(List<Campaign> campaigns) {
@@ -167,21 +161,7 @@ public with sharing class Campaign_Trigger_Handler {
         return results;
     }
 
-    private void updateProcessedRecordIds(List<Campaign> campaigns) {
-        if (campaigns != null) {
-            List<Id> campaignIds = nvl(Campaign_Trigger_Recursion.PROCESSED_RECORD_IDS.get(this.operationType));
-            for (Campaign c : campaigns) {
-                if (c.Id != null) {
-                    if (!campaignIds.contains(c.Id)) {
-                        campaignIds.add(c.Id);
-                        Campaign_Trigger_Recursion.PROCESSED_RECORD_IDS.put(this.operationType, campaignIds);
-                    }
-                }
-            }
-        }
-    }
-
-    private List<Id> nvl(List<Id> recordIds) {
-        return ((recordIds != null) ? recordIds : new List<Id>());
+    private void updateProcessedRecordIds(TriggerOperation to, List<Campaign> oldCampaigns, List<Campaign> newCampaigns) {
+        Campaign_Trigger_Recursion.updateProcessedRecordIds(to, oldCampaigns, newCampaigns);
     }
 }
