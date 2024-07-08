@@ -87,14 +87,31 @@ private class Account_Trigger_Test {
             accounts.add(a);
         }
 
+        System.debug(LoggingLevel.INFO, 'Account_Trigger_Test.TestMethod04: Test.startTest()');
+
         Test.startTest();
         insert accounts;
+        List<Contact> contacts = new List<Contact>();
+        for (Account a : accounts) {
+            String uuid = String.valueOf(UUID.randomUUID());
+            Contact c = new Contact(
+                FirstName = uuid,
+                LastName = 'Account_Trigger_Test',
+                Phone = '(444) 444-4444',
+                Email = uuid + '@AccountTriggerTest.com',
+                AccountId = a.Id
+            );
+            contacts.add(c);
+        }
+        insert contacts;
         for (Account a : accounts) {
             a.Name = a.Name + '.update';
+            a.Phone = '+44' + a.Phone;
         }
         update accounts;
         Test.stopTest();
 
+        System.debug(LoggingLevel.INFO, 'Account_Trigger_Test.TestMethod04: Test.stopTest()');
         System.assertEquals(maxRecordIds, [SELECT Id, Name FROM Account].size());
     }
 }

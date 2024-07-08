@@ -65,7 +65,7 @@ public with sharing class Account_Trigger_Handler {
                             FROM Contact
                            WHERE AccountId IN :accountIds(newAccounts)
         ]) {
-            if (!alreadyInvoked(this.operationType, c.Id)) {
+            if (!alreadyInvoked(this.operationType, c.AccountId)) {
                 Account oldAccount = ((oldMap != null) ? oldMap.get(c.AccountId) : new Account(Id=c.AccountId, Phone=null));
                 Account newAccount = ((newMap != null) ? newMap.get(c.AccountId) : new Account(Id=c.AccountId, Phone=null));
                 if (newAccount.Phone != oldAccount.Phone) {
