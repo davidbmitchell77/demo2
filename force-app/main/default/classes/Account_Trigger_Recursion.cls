@@ -32,6 +32,31 @@ public class Account_Trigger_Recursion {
         }
     }
 
+    public static Boolean alreadyInvoked(TriggerOperation to, Id accountId) {
+        Boolean result = false;
+        if (PROCESSED_RECORD_IDS != null) {
+            if (PROCESSED_RECORD_IDS.containsKey(to)) {
+                result = PROCESSED_RECORD_IDS.get(to).contains(accountId);
+            }
+        }
+        return result;
+    }
+
+    public static void updateProcessedRecordIds(TriggerOperation to, List<Account> oldAccounts, List<Account> newAccounts) {
+        List<Account> accounts = ((newAccounts != null) ? newAccounts : oldAccounts);
+        if (accounts != null) {
+            List<Id> accountIds = nvl(PROCESSED_RECORD_IDS.get(to));
+            for (Account a : accounts) {
+                if (a.Id != null) {
+                    if (!accountIds.contains(a.Id)) {
+                        accountIds.add(a.Id);
+                        PROCESSED_RECORD_IDS.put(to, accountIds);
+                    }
+                }
+            }
+        }
+    }
+
     private static List<Id> reduce(List<Id> recordIds, Integer maxSize) {
         List<Id> results = new List<Id>();
         if (recordIds != null) {
@@ -41,5 +66,9 @@ public class Account_Trigger_Recursion {
             }
         }
         return results;
+    }
+
+    private static List<Id> nvl(List<Id> recordIds) {
+        return ((recordIds != null) ? recordIds : new List<Id>());
     }
 }
