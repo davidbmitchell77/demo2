@@ -45,24 +45,10 @@ public with sharing class CampaignMember_Trigger_Handler {
 
             }
         }
-        updateProcessedRecordIds((newMembers!= null ? newMembers : (oldMembers != null ? oldMembers : null)));
+        updateProcessedRecordIds(this.operationType, oldMembers, newMembers);
     }
 
-    private void updateProcessedRecordIds(List<CampaignMember> campaignMembers) {
-        if (campaignMembers != null) {
-            List<Id> campaignMemberIds = nvl(CampaignMember_Trigger_Recursion.PROCESSED_RECORD_IDS.get(this.operationType));
-            for (CampaignMember cm : campaignMembers) {
-                if (cm.Id != null) {
-                    if (!campaignMemberIds.contains(cm.Id)) {
-                        campaignMemberIds.add(cm.Id);
-                        CampaignMember_Trigger_Recursion.PROCESSED_RECORD_IDS.put(this.operationType, campaignMemberIds);
-                    }
-                }
-            }
-        }
-    }
-
-    private List<Id> nvl(List<Id> recordIds) {
-        return ((recordIds != null) ? recordIds : new List<Id>());
+    private void updateProcessedRecordIds(TriggerOperation to, List<CampaignMember> oldMembers, List<CampaignMember> newMembers) {
+        CampaignMember_Trigger_Recursion.updateProcessedRecordIds(to, oldMembers, newMembers);
     }
 }

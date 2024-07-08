@@ -32,6 +32,21 @@ public class CampaignMember_Trigger_Recursion {
         }
     }
 
+    public static void updateProcessedRecordIds(TriggerOperation to, List<CampaignMember> oldMembers, List<CampaignMember> newMembers) {
+        List<CampaignMember> members = (newMembers != null ? newMembers : oldMembers);
+        if (members != null) {
+            List<Id> memberIds = nvl(PROCESSED_RECORD_IDS.get(to));
+            for (CampaignMember cm : members) {
+                if (cm.Id != null) {
+                    if (!memberIds.contains(cm.Id)) {
+                        memberIds.add(cm.Id);
+                        PROCESSED_RECORD_IDS.put(to, memberIds);
+                    }
+                }
+            }
+        }
+    }
+
     private static List<Id> reduce(List<Id> recordIds, Integer maxSize) {
         List<Id> results = new List<Id>();
         if (recordIds != null) {
@@ -41,5 +56,9 @@ public class CampaignMember_Trigger_Recursion {
             }
         }
         return results;
+    }
+
+    private static List<Id> nvl(List<Id> recordIds) {
+        return ((recordIds != null) ? recordIds : new List<Id>());
     }
 }
