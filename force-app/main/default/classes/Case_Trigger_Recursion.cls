@@ -32,6 +32,31 @@ public without sharing class Case_Trigger_Recursion {
         }
     }
 
+    public static Boolean alreadyInvoked(TriggerOperation to, Id caseId) {
+        Boolean result = false;
+        if (PROCESSED_RECORD_IDS != null) {
+            if (PROCESSED_RECORD_IDS.containsKey(to)) {
+                result = PROCESSED_RECORD_IDS.get(to).contains(caseId);
+            }
+        }
+        return result;
+    }
+
+    public static void updateProcessedRecordIds(TriggerOperation to, List<Case> oldCases, List<Case> newCases) {
+        List<Case> cases = (newCases != null ? newCases : oldCases);
+        if (cases != null) {
+            List<Id> caseIds = nvl(PROCESSED_RECORD_IDS.get(to));
+            for (Case c : cases) {
+                if (c.Id != null) {
+                    if (!caseIds.contains(c.Id)) {
+                        caseIds.add(c.Id);
+                        PROCESSED_RECORD_IDS.put(to, caseIds);
+                    }
+                }
+            }
+        }
+    }
+
     private static List<Id> reduce(List<Id> recordIds, Integer maxSize) {
         List<Id> results = new List<Id>();
         if (recordIds != null) {
@@ -41,5 +66,9 @@ public without sharing class Case_Trigger_Recursion {
             }
         }
         return results;
+    }
+
+    private static List<Id> nvl(List<Id> recordIds) {
+        return ((recordIds != null) ? recordIds : new List<Id>());
     }
 }

@@ -49,7 +49,7 @@ public with sharing class Case_Trigger_Handler {
 
             }
         }
-        updateProcessedRecordIds((newCases!= null ? newCases : (oldCases != null ? oldCases : null)));
+        updateProcessedRecordIds(this.operationType, oldCases, newCases);
     }
 
     private void updateParentAccounts(List<Case> oldCases, List<Case> newCases, Map<Id,Case> oldMap, Map<Id,Case> newMap) {
@@ -106,13 +106,7 @@ public with sharing class Case_Trigger_Handler {
     }
 
     private Boolean alreadyInvoked(TriggerOperation to, Id caseId) {
-        Boolean result = false;
-        if (Case_Trigger_Recursion.PROCESSED_RECORD_IDS != null) {
-            if (Case_Trigger_Recursion.PROCESSED_RECORD_IDS.containsKey(to)) {
-                result = Case_Trigger_Recursion.PROCESSED_RECORD_IDS.get(to).contains(caseId);
-            }
-        }
-        return result;
+        return Case_Trigger_Recursion.alreadyInvoked(to, caseId);
     }
 
     private String accountRating(Integer closedCases) {
@@ -125,25 +119,11 @@ public with sharing class Case_Trigger_Handler {
         return result;
     }
 
-    private void updateProcessedRecordIds(List<Case> cases) {
-        if (cases != null) {
-            List<Id> caseIds = nvl(Case_Trigger_Recursion.PROCESSED_RECORD_IDS.get(this.operationType));
-            for (Case c : cases) {
-                if (c.Id != null) {
-                    if (!caseIds.contains(c.Id)) {
-                        caseIds.add(c.Id);
-                        Case_Trigger_Recursion.PROCESSED_RECORD_IDS.put(this.operationType, caseIds);
-                    }
-                }
-            }
-        }
-    }
-
-    private List<Id> nvl(List<Id> recordIds) {
-        return ((recordIds != null) ? recordIds : new List<Id>());
+    private void updateProcessedRecordIds(TriggerOperation to, List<Case> oldCases, List<Case> newCases) {
+        Case_Trigger_Recursion.updateProcessedRecordIds(to, oldCases, newCases);
     }
 
     private Integer nvl(Integer i, Integer defaultValue) {
-        return ((i == null) ? defaultValue : i);
+        return ((i != null) ? i : defaultValue);
     }
 }
