@@ -32,6 +32,21 @@ public class Lead_Trigger_Recursion {
         }
     }
 
+    public static void updateProcessedRecordIds(TriggerOperation to, List<Lead> oldLeads, List<Lead> newLeads) {
+        List<Lead> leads = ((newLeads != null) ? newLeads : oldLeads);
+        if (leads != null) {
+            List<Id> leadIds = nvl(PROCESSED_RECORD_IDS.get(to));
+            for (Lead l : leads) {
+                if (l.Id != null) {
+                    if (!leadIds.contains(l.Id)) {
+                        leadIds.add(l.Id);
+                        PROCESSED_RECORD_IDS.put(to, leadIds);
+                    }
+                }
+            }
+        }
+    }
+
     private static List<Id> reduce(List<Id> recordIds, Integer maxSize) {
         List<Id> results = new List<Id>();
         if (recordIds != null) {
@@ -41,5 +56,9 @@ public class Lead_Trigger_Recursion {
             }
         }
         return results;
+    }
+
+    private static List<Id> nvl(List<Id> recordIds) {
+        return ((recordIds != null) ? recordIds : new List<Id>());
     }
 }
