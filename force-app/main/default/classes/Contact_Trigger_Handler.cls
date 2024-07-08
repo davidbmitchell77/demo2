@@ -122,8 +122,8 @@ public with sharing class Contact_Trigger_Handler {
         return results;
     }
 
-    private Boolean alreadyInvoked(TriggerOperation to, Id accountId) {
-        return Contact_Trigger_Recursion.alreadyInvoked(to, accountId);
+    private Boolean alreadyInvoked(TriggerOperation to, Id contactId) {
+        return Contact_Trigger_Recursion.alreadyInvoked(to, contactId);
     }
 
     private Account summarize(Account a) {
