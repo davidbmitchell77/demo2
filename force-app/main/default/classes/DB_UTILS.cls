@@ -134,7 +134,7 @@ public with sharing class DB_UTILS {
 
     private static void rollback(SavePoint sp, List<sObject> sObjects, DmlException e) {
         Database.rollback(sp);
-        Logger.error(e.getMessage(), sObjects);
+        Logger.error(e.getMessage(), sObjects).addTag('DB_UTILS');
         Logger.saveLog();
         throw new SYS_UTILS.SYS_EXCEPTION(e.getMessage());
     }

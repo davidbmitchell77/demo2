@@ -10,7 +10,7 @@ public with sharing class CustomObjectB_Trigger_Handler {
         Boolean result = true;
         if (bObjects != null) {
             for (CustomObjectB__c bObj : bObjects) {
-                if (String.isEmpty(bObj.Name)) {
+                if (String.isBlank(bObj.Name)) {
                     bObj.Name.addError(System.Label.CUSTOM_OBJECT_B_NAME_IS_REQUIRED);
                     result = false;
                 }
