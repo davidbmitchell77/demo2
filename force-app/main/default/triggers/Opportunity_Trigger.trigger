@@ -58,7 +58,7 @@ trigger Opportunity_Trigger on Opportunity (before insert, before update, before
             }
         }
         catch(Exception e) {
-            Logger.error(e.getMessage(), ((Trigger.new != null) ? Trigger.new : Trigger.old)).addTag('Opportunity_Trigger_Handler');
+            Logger.error(e.getMessage(), (Trigger.new != null ? Trigger.new : Trigger.old)).addTag('Opportunity_Trigger_Handler');
             Logger.saveLog();
             throw new SYS_UTILS.SYS_EXCEPTION(e.getMessage());
         }

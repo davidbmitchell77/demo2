@@ -49,7 +49,7 @@ public with sharing class Opportunity_Trigger_Handler {
 
             }
         }
-        updateProcessedRecordIds(((newOpportunities!= null) ? newOpportunities : oldOpportunities));
+        updateProcessedRecordIds(this.operationType, oldOpportunities, newOpportunities);
     }
 
     private void createChildTasks(List<Opportunity> oldOpportunities, List<Opportunity> newOpportunities, Map<Id,Opportunity> oldMap, Map<Id,Opportunity> newMap) {
@@ -129,13 +129,7 @@ public with sharing class Opportunity_Trigger_Handler {
     }
 
     private Boolean alreadyInvoked(TriggerOperation to, Id opportunityId) {
-        Boolean result = false;
-        if (Opportunity_Trigger_Recursion.PROCESSED_RECORD_IDS != null) {
-            if (Opportunity_Trigger_Recursion.PROCESSED_RECORD_IDS.containsKey(to)) {
-                result = Opportunity_Trigger_Recursion.PROCESSED_RECORD_IDS.get(to).contains(opportunityId);
-            }
-        }
-        return result;
+        return Opportunity_Trigger_Recursion.alreadyInvoked(to, opportunityId);
     }
 
     private List<Account> changed(Map<Id,Account> accountsMap, Set<Id> accountIds) {
@@ -171,24 +165,11 @@ public with sharing class Opportunity_Trigger_Handler {
         );
     }
 
-    private void updateProcessedRecordIds(List<Opportunity> opportunities) {
-        if (opportunities != null) {
-            List<Id> opportunityIds = nvl(Opportunity_Trigger_Recursion.PROCESSED_RECORD_IDS.get(this.operationType));
-            for (Opportunity o : opportunities) {
-                if (o.Id != null) {
-                    if (!opportunityIds.contains(o.Id)) {
-                        opportunityIds.add(o.Id);
-                        Opportunity_Trigger_Recursion.PROCESSED_RECORD_IDS.put(this.operationType, opportunityIds);
-                    }
-                }
-            }
-        }
+
+    private void updateProcessedRecordIds(TriggerOperation to, List<Opportunity> oldOpportunities, List<Opportunity> newOpportunities) {
+        Opportunity_Trigger_Recursion.updateProcessedRecordIds(to, oldOpportunities, newOpportunities);
     }
 
-    private List<Id> nvl(List<Id> recordIds) {
-        return ((recordIds != null) ? recordIds : new List<Id>());
-    }
- 
     private Decimal nvl(Decimal n, Decimal defaultValue) {
         return ((n != null) ? n : defaultValue);
     }

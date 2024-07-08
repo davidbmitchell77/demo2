@@ -32,6 +32,31 @@ public without sharing class Opportunity_Trigger_Recursion {
         }
     }
 
+    public static Boolean alreadyInvoked(TriggerOperation to, Id opportunityId) {
+        Boolean result = false;
+        if (PROCESSED_RECORD_IDS != null) {
+            if (PROCESSED_RECORD_IDS.containsKey(to)) {
+                result = PROCESSED_RECORD_IDS.get(to).contains(opportunityId);
+            }
+        }
+        return result;
+    }
+
+    public static void updateProcessedRecordIds(TriggerOperation to, List<Opportunity> oldOpportunities, List<Opportunity> newOpportunities) {
+        List<Opportunity> opportunities = ((newOpportunities != null) ? newOpportunities : oldOpportunities);
+        if (opportunities != null) {
+            List<Id> opportunityIds = nvl(PROCESSED_RECORD_IDS.get(to));
+            for (Opportunity o : opportunities) {
+                if (o.Id != null) {
+                    if (!opportunityIds.contains(o.Id)) {
+                        opportunityIds.add(o.Id);
+                        PROCESSED_RECORD_IDS.put(to, opportunityIds);
+                    }
+                }
+            }
+        }
+    }
+
     private static List<Id> reduce(List<Id> recordIds, Integer maxSize) {
         List<Id> results = new List<Id>();
         if (recordIds != null) {
@@ -41,5 +66,9 @@ public without sharing class Opportunity_Trigger_Recursion {
             }
         }
         return results;
+    }
+
+    private static List<Id> nvl(List<Id> recordIds) {
+        return ((recordIds != null) ? recordIds : new List<Id>());
     }
 }
