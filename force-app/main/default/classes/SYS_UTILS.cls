@@ -22,5 +22,13 @@ public class SYS_UTILS {
         return result;
     }
 
+    public static String guid() {
+        return uuid().toUppercase();
+    }
+
+    public static String uuid() {
+        return String.valueOf(UUID.randomUUID());
+    }
+
     public class SYS_EXCEPTION extends Exception {}
 }

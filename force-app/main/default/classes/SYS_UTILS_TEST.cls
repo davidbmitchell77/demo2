@@ -20,8 +20,18 @@ private class SYS_UTILS_TEST {
     @isTest
     private static void TestMethod03() {
         Test.startTest();
+        String guid = SYS_UTILS.guid();
+        String uuid = SYS_UTILS.uuid();
+        Test.stopTest();
+        System.assertEquals(36, guid.length());
+        System.assertEquals(36, uuid.length());
+    }
+
+    @isTest
+    private static void TestMethod04() {
+        Test.startTest();
         try {
-            throw new SYS_UTILS.SYS_EXCEPTION('SYS_UTILS_TEST.TestMethod03');
+            throw new SYS_UTILS.SYS_EXCEPTION('SYS_UTILS_TEST.TestMethod04');
         }
         catch(Exception e) {
             System.debug(LoggingLevel.ERROR, e.getMessage());
