@@ -4,12 +4,12 @@ import { ShowToastEvent              } from 'lightning/platformShowToastEvent';
 import getContacts from '@salesforce/apex/ContactController.getContacts';
 
 const COLUMNS = [
-    { type: "text",  label: "First Name", fieldName: "FirstName",   editable: false, sortable: true },
-    { type: "text",  label: "Last Name",  fieldName: "LastName",    editable: false, sortable: true },
-    { type: "text",  label: "Account",    fieldName: "AccountName", editable: false, sortable: true },
-    { type: "text",  label: "Title",      fieldName: "Title",       editable: true,  sortable: true },
-    { type: "phone", label: "Phone",      fieldName: "Phone",       editable: true,  sortable: true },
-    { type: "email", label: "Email",      fieldName: "Email",       editable: true,  sortable: true },
+    { type: 'text',  label: 'First Name', fieldName: 'FirstName',   editable: false, sortable: true },
+    { type: 'text',  label: 'Last Name',  fieldName: 'LastName',    editable: false, sortable: true },
+    { type: 'url',   label: 'Account',    fieldName: 'AccountUrl',  editable: false, sortable: true, typeAttributes: { label: { fieldName: 'AccountName'} }, target: '_blank'},
+    { type: 'text',  label: 'Title',      fieldName: 'Title',       editable: true,  sortable: true },
+    { type: 'phone', label: 'Phone',      fieldName: 'Phone',       editable: true,  sortable: true },
+    { type: 'email', label: 'Email',      fieldName: 'Email',       editable: true,  sortable: true },
 ];
 
 export default class LightningDataTableParent extends LightningElement {
@@ -27,10 +27,11 @@ export default class LightningDataTableParent extends LightningElement {
         let { data, error } = response;
         if (data) {
             console.info(data);
-            let temp = [];
-            for (let i=0; i<data.length; i++) {
-                temp.push({ ...data[i], AccountName: data[i].Account.Name });
-            }
+            let temp = data.map(
+                (contact) => {
+                    return { ...contact, AccountName: contact.Account.Name, AccountUrl: 'https://dbmlightning-dev-ed.my.salesforce.com/' + contact.Account.Id };
+                }
+            );
             this.data = [ ...temp ];
         }
         else if (error) {
