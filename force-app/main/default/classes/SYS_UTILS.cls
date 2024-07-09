@@ -13,6 +13,22 @@ public class SYS_UTILS {
         return result;
     }
 
+    public static Boolean isBulkApi() {
+        return (Request.getCurrent().getQuiddity() == Quiddity.BULK_API);
+    }
+
+    public static Boolean isFuture() {
+        return (Request.getCurrent().getQuiddity() == Quiddity.FUTURE);
+    }
+
+    public static Boolean isScheduled() {
+        return (Request.getCurrent().getQuiddity() == Quiddity.SCHEDULED);
+    }
+
+    public static Boolean isQueueable() {
+        return (Request.getCurrent().getQuiddity() == Quiddity.QUEUEABLE);
+    }
+
     public static Boolean isTest() {
         Boolean result = false;
         switch on Request.getCurrent().getQuiddity() {
