@@ -13,7 +13,7 @@ private class DB_UTILS_Test {
             LocaleSidKey = 'en_US',
             ProfileId = [SELECT Id FROM Profile WHERE Name = 'Read Only'].Id,
             TimeZoneSidKey = 'America/Los_Angeles',
-            UserName = ('U' + UUID.randomUUID() + '@dml.test.org')
+            UserName = ('U' + SYS_UTILS.uuid() + '@dml.test.org')
         );
         insert u;
     }
@@ -135,18 +135,18 @@ private class DB_UTILS_Test {
         List<CustomObjectA__c> aRecords = new List<CustomObjectA__c>();
         CustomObjectA__c objA1 = new CustomObjectA__c(
             Name = 'DML_Test.TestMethod07.1',
-            ExternalId__c = String.valueOf(UUID.randomUUID())
+            ExternalId__c = SYS_UTILS.uuid()
         );
         aRecords.add(objA1);
         insert obja1;
         CustomObjectA__c objA2 = new CustomObjectA__c(
             Name = 'DML_Test.TestMethod07.2',
-            ExternalId__c = String.valueOf(UUID.randomUUID())
+            ExternalId__c = SYS_UTILS.uuid()
         );
         aRecords.add(objA2);
         CustomObjectA__c objA3 = new CustomObjectA__c(
             Name = null,
-            ExternalId__c = String.valueOf(UUID.randomUUID())
+            ExternalId__c = SYS_UTILS.uuid()
         );
 
         Test.startTest();

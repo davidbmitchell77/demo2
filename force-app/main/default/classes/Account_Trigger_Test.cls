@@ -93,7 +93,7 @@ private class Account_Trigger_Test {
         insert accounts;
         List<Contact> contacts = new List<Contact>();
         for (Account a : accounts) {
-            String uuid = String.valueOf(UUID.randomUUID());
+            String uuid = SYS_UTILS.uuid();
             Contact c = new Contact(
                 FirstName = uuid,
                 LastName = 'Account_Trigger_Test',

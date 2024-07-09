@@ -15,7 +15,7 @@ private class CustomObjectB_Trigger_Test {
             Name = 'CustomObjectB_Trigger_Test.TestMethod01',
             FieldA__c = null,
             FieldB__c = null,
-            ExternalId__c = String.valueOf(uuid)
+            ExternalId__c = uuid
         );
         insert objA;
 
@@ -75,12 +75,12 @@ private class CustomObjectB_Trigger_Test {
         Integer maxRecordIds = Integer.valueOf(TriggerSettings.getInstance('CustomObjectB').MaxRecordIds__c + 101);
         List<CustomObjectB__c> bRecords = new List<CustomObjectB__c>();
         for (Integer i=0; i<maxRecordIds; i++) {
-            UUID uuid = UUID.randomUUID();
+            String uuid = SYS_UTILS.uuid();
             CustomObjectB__c b = new CustomObjectB__c(
                 Name = 'CustomObjectB_Trigger_Test.TestMethod04 ' + i,
                 FieldA__c = 4.44,
                 FieldB__c = 4.44,
-                ExternalId__c = String.valueOf(uuid)
+                ExternalId__c = uuid
             );
             bRecords.add(b);
         }
