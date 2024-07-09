@@ -15,13 +15,14 @@ const COLUMNS = [
 export default class LightningDataTableParent extends LightningElement {
 
     @api recordId;
+    @api accountName = 'Oil';
 
     cols   = COLUMNS;
     data   = [];
     height = '20.5rem';
     mode   = 'fixed';
 
-    @wire(getContacts, { accountId: "$recordId", lwcName: 'lightningDataTableParent' })
+    @wire(getContacts, { accountName: "$accountName", lwcName: 'lightningDataTableParent' })
     handle(response) {
         let { data, error } = response;
         if (data) {
@@ -66,7 +67,7 @@ export default class LightningDataTableParent extends LightningElement {
     }
 
     handleInput(event) {
-        this.recordId = event.target.value;
+        this.accountName = event.target.value;
     }
 
     log(message) {
