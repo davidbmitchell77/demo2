@@ -33,7 +33,8 @@ export default class LightningDataTableParent extends LightningElement {
                         ...contact,
                         ContactUrl:  (`${window.location.origin}/${contact.Id}`),
                         AccountName: (`${contact.Account.Name}`),
-                        AccountUrl:  (`${window.location.origin}/${contact.Account.Id}`)
+                        AccountUrl:  (`${window.location.origin}/${contact.Account.Id}`),
+                        Title:       (contact.hasOwnProperty('Title') ? contact.Title : '(no title)')
                     };
                 }
             );
