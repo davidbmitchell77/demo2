@@ -65,7 +65,7 @@ export default class LightningDataTableParent extends LightningElement {
                 variant = 'warning';
                 break;
             case 'Success':
-                variant = 'Success';
+                variant = 'success';
                 break;
         }
         this.log(message);
