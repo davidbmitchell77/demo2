@@ -65,6 +65,10 @@ export default class LightningDataTableParent extends LightningElement {
         this.showToast('Button click detected!', message, variant);
     }
 
+    handleInput(event) {
+        this.recordId = event.target.value;
+    }
+
     log(message) {
         const logger = this.template.querySelector('c-logger');
         if (logger) {
