@@ -47,8 +47,19 @@ export default class LightningDataTableChild extends LightningElement {
     }
 
     sortData(fieldname, direction) {
+        let sortfield = '';
+        switch (fieldname) {
+            case 'ContactUrl':
+                sortfield = 'Title'
+                break;
+            case 'AccountUrl':
+                sortfield = 'AccountName'
+                break;
+            default:
+                sortfield = fieldname;
+        }
         let parseData = [ ...this.records ];
-        let keyValue  = ((a)=>{ return a[fieldname]; });
+        let keyValue  = ((a)=>{ return a[sortfield]; });
         let isReverse = ((direction === 'asc') ? 1 : -1);
         parseData.sort((a,b) => {
             a = (keyValue(a) ? keyValue(a) : '');
