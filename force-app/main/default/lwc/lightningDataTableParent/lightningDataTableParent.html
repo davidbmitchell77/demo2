@@ -2,7 +2,7 @@
     <c-logger></c-logger>
     <lightning-card title="Contacts" icon-name="standard:contact">
         <div class="slds-p-around_medium lgc-bg slds-align-right">
-            <lightning-input class="input" type="text" label="Enter Account Name:" placeholder={accountName} onkeyup={handleInput}></lightning-input>
+            <lightning-input class="input" type="text" label="Enter Account Name:" placeholder='Enter account name or account id...' onkeyup={handleInput}></lightning-input>
         </div>
         <c-lightning-data-table-child cols={cols} records={data} height={height} mode={mode}></c-lightning-data-table-child>
         <div class="slds-var-m-around_medium">
