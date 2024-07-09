@@ -46,8 +46,8 @@ public with sharing class DB_UTILS {
     }
 
     public static void upd(List<sObject> sObjects) {
-        Savepoint sp = Database.setSavepoint();
         if (sObjects != null) {
+            Savepoint sp = Database.setSavepoint();
             try {
                 update sObjects;
             }
