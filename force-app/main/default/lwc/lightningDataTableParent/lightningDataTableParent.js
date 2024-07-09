@@ -4,12 +4,12 @@ import { ShowToastEvent              } from 'lightning/platformShowToastEvent';
 import getContacts from '@salesforce/apex/ContactController.getContacts';
 
 const COLUMNS = [
-    { type: 'text',  label: 'First Name', fieldName: 'FirstName',   editable: false, sortable: true },
-    { type: 'text',  label: 'Last Name',  fieldName: 'LastName',    editable: false, sortable: true },
-    { type: 'url',   label: 'Title',      fieldName: 'ContactUrl',  editable: false, sortable: true, typeAttributes: { label: { fieldName: 'Title' } }, target: '_blank' },
-    { type: 'url',   label: 'Account',    fieldName: 'AccountUrl',  editable: false, sortable: true, typeAttributes: { label: { fieldName: 'AccountName'} }, target: '_blank' },
-    { type: 'phone', label: 'Phone',      fieldName: 'Phone',       editable: true,  sortable: true },
-    { type: 'email', label: 'Email',      fieldName: 'Email',       editable: true,  sortable: true },
+    { type: 'text',  label: 'First Name', fieldName: 'FirstName',  editable: false, sortable: true },
+    { type: 'text',  label: 'Last Name',  fieldName: 'LastName',   editable: false, sortable: true },
+    { type: 'url',   label: 'Title',      fieldName: 'ContactUrl', editable: false, sortable: true, typeAttributes: { label: { fieldName: 'Title' } }, target: '_blank' },
+    { type: 'url',   label: 'Account',    fieldName: 'AccountUrl', editable: false, sortable: true, typeAttributes: { label: { fieldName: 'AccountName'} }, target: '_blank' },
+    { type: 'phone', label: 'Phone',      fieldName: 'Phone',      editable: true,  sortable: true },
+    { type: 'email', label: 'Email',      fieldName: 'Email',      editable: true,  sortable: true },
 ];
 
 export default class LightningDataTableParent extends LightningElement {
