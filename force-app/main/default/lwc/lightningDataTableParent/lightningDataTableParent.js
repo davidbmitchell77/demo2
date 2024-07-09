@@ -29,7 +29,7 @@ export default class LightningDataTableParent extends LightningElement {
             console.info(data);
             let temp = data.map(
                 (contact) => {
-                    return { ...contact, AccountName: contact.Account.Name, AccountUrl: 'https://dbmlightning-dev-ed.my.salesforce.com/' + contact.Account.Id };
+                    return { ...contact, AccountName: contact.Account.Name, AccountUrl: (`${window.location.origin}/` + contact.Account.Id) };
                 }
             );
             this.data = [ ...temp ];
