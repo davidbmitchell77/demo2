@@ -1,6 +1,6 @@
 import { LightningElement, api } from 'lwc';
 import { updateRecord          } from 'lightning/uiRecordApi';
-import { ShowToastEvent        } from 'lightning/platformShowToastEvent';
+import { showToast             } from 'c/utils';
 
 export default class LightningDataTableChild extends LightningElement {
 
@@ -20,23 +20,27 @@ export default class LightningDataTableChild extends LightningElement {
     }
 
     doSave(event) {
-        let updates = event.detail.draftValues.slice().map((draftValue) => {
-            let fields = { ...draftValue };
-            return { fields: fields };
-        });
-        let promises = updates.map((record) => {
-            let promise = updateRecord(record);
-            return promise;
-        });
+        let updates = event.detail.draftValues.slice().map(
+            (draftValue) => {
+                let fields = { ...draftValue };
+                return { fields: fields };
+            }
+        );
+        let promises = updates.map(
+            (record) => {
+                let promise = updateRecord(record);
+                return promise;
+            }
+        );
         Promise.all(promises)
        .then(() => {
             this.records = this.syncDataTable(JSON.parse(JSON.stringify(this.records)), updates);
             this.draftValues = [];
-            this.showToast('Success!', 'Record(s) successfully updated!', 'success');
+            showToast(this, 'Success!', 'Record(s) successfully updated!', 'success');
         })
        .catch((error) => {
             console.error(error);
-            this.showToast('Error updating or reloading data!', error.body.message, 'error', 'sticky');
+            showToast(this, 'Error updating or reloading data!', error.body.message, 'error', 'sticky');
         });
     }
 
@@ -84,9 +88,5 @@ export default class LightningDataTableChild extends LightningElement {
             results.push(rec);
         }
         return results;
-    }
-
-    showToast(title, message, variant, mode) {
-        this.dispatchEvent(new ShowToastEvent({ title: title, message: message, variant: variant, mode: (mode || 'dismissible') }));
     }
 }

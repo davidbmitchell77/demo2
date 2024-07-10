@@ -1,4 +1,6 @@
-export function exportCSVFile(headers, totalData, fileTitle) {
+import { ShowToastEvent } from 'lightning/platformShowToastEvent';
+
+const exportCSVFile = (headers, totalData, fileTitle) => {
 
     if (!totalData || !totalData.length) {
         return null;
@@ -38,12 +40,12 @@ export function exportCSVFile(headers, totalData, fileTitle) {
     }
 }
 
-function convertToCSV(objArray, headers) {
+const convertToCSV = (objArray, headers) => {
     const columnDelimiter = ',';
     const lineDelimiter = '\r\n';
     const actualHeaderKey = Object.keys(headers);
     const headerToShow = Object.values(headers);
-    let str = "";
+    let str = '';
     str += headerToShow.join(columnDelimiter);
     str += lineDelimiter;
     const data = ((typeof(objArray) !== 'object') ? JSON.parse(objArray) : objArray);
@@ -64,3 +66,9 @@ function convertToCSV(objArray, headers) {
     )
     return str;
 }
+
+const showToast = (lwc, title, message, variant, mode) => {
+    lwc.dispatchEvent(new ShowToastEvent({ title: title, message: message, variant: variant, mode: (mode || 'dismissible')}));
+}
+
+export { exportCSVFile, showToast };

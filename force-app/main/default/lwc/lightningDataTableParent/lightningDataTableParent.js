@@ -1,5 +1,5 @@
 import { LightningElement, api, wire } from 'lwc';
-import { ShowToastEvent              } from 'lightning/platformShowToastEvent';
+import { showToast                   } from 'c/utils';
 
 import getContacts from '@salesforce/apex/ContactController.getContacts';
 
@@ -47,7 +47,7 @@ export default class LightningDataTableParent extends LightningElement {
         }
         else if (error) {
              console.error(error);
-             this.showToast('Error retrieving list of contacts!', error.body.message, 'error', 'sticky');
+             showToast(this, 'Error retrieving list of contacts!', error.body.message, 'error', 'sticky');
         }
     }
 
@@ -92,9 +92,5 @@ export default class LightningDataTableParent extends LightningElement {
             logger.info(message);
             logger.saveLog();
         }
-    }
-
-    showToast(title, message, variant, mode) {
-        this.dispatchEvent(new ShowToastEvent({ title: title, message: message, variant: variant, mode: (mode || 'dismissible')}));
     }
 }
