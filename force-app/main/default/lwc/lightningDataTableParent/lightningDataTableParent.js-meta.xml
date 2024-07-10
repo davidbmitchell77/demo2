@@ -8,7 +8,7 @@
     </targets>
     <targetConfigs>
         <targetConfig targets="lightning__AppPage">
-            <property name="recordId" type="String" placeholder="Enter account record id here."/>
+            <property name="accountName" type="String" label="Account Name" placeholder="Enter account name or account Id here." default="_"/>
         </targetConfig>
     </targetConfigs>
 </LightningComponentBundle>

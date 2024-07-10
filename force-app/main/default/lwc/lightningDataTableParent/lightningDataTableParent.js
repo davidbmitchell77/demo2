@@ -15,7 +15,7 @@ const COLUMNS = [
 export default class LightningDataTableParent extends LightningElement {
 
     @api recordId;
-    @api accountName = '_';
+    @api accountName;
 
     cols   = COLUMNS;
     data   = [];
