@@ -24,6 +24,7 @@ export default class LightningDataTableParent extends LightningElement {
 
     connectedCallback() {
         this.accountName = (this.recordId ? this.recordId : this.accountName);
+        this.height = (this.recordId ? '8.0rem' : this.height);
     }
 
     @wire(getContacts, { accountName: "$accountName", lwcName: 'lightningDataTableParent' })
