@@ -77,6 +77,10 @@ export default class LightningDataTableParent extends LightningElement {
         this.accountName = event.target.value;
     }
 
+    handlePaste(event) {
+        this.accountName = (event.clipboardData || window.clipboardData).getData('text');
+    }
+
     log(message) {
         const logger = this.template.querySelector('c-logger');
         if (logger) {
