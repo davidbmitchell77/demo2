@@ -1,5 +1,9 @@
 public class SYS_UTILS {
 
+    public static Boolean isAura() {
+        return (Request.getCurrent().getQuiddity() == Quiddity.AURA);
+    }
+
     public static Boolean isBatch() {
         Boolean result = false;
         switch on Request.getCurrent().getQuiddity() {
@@ -21,12 +25,20 @@ public class SYS_UTILS {
         return (Request.getCurrent().getQuiddity() == Quiddity.FUTURE);
     }
 
-    public static Boolean isScheduled() {
-        return (Request.getCurrent().getQuiddity() == Quiddity.SCHEDULED);
-    }
-
     public static Boolean isQueueable() {
         return (Request.getCurrent().getQuiddity() == Quiddity.QUEUEABLE);
+    }
+
+    public static Boolean isRest() {
+        return (Request.getCurrent().getQuiddity() == Quiddity.REST);
+    }
+
+    public static Boolean isSoap() {
+        return (Request.getCurrent().getQuiddity() == Quiddity.SOAP);
+    }
+
+    public static Boolean isScheduled() {
+        return (Request.getCurrent().getQuiddity() == Quiddity.SCHEDULED);
     }
 
     public static Boolean isTest() {
@@ -38,12 +50,16 @@ public class SYS_UTILS {
         return result;
     }
 
+    public static Boolean isVisualforce() {
+        return (Request.getCurrent().getQuiddity() == Quiddity.VF);
+    }
+
     public static String guid() {
-        return uuid().toUppercase();
+        return String.valueOf(UUID.randomUUID()).toUpperCase();
     }
 
     public static String uuid() {
-        return String.valueOf(UUID.randomUUID());
+        return String.valueOf(UUID.randomUUID()).toLowerCase();
     }
 
     public class SYS_EXCEPTION extends Exception {}
