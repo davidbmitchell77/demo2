@@ -21,6 +21,6 @@ describe("Test Suite", () => {
         let n = (5 * 5);
         expect(n).toBeLessThan(250)
         expect(n).toBe(25)
-            expect(n).toBeGreaterThan(2.5);
+        expect(n).toBeGreaterThan(2.5);
     })
 })
