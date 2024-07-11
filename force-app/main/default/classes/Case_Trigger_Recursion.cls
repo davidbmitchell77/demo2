@@ -1,4 +1,4 @@
-public without sharing class Case_Trigger_Recursion {
+public class Case_Trigger_Recursion {
 
     public static Boolean BEFORE_INSERT_ALREADY_INVOKED  = false;
     public static Boolean BEFORE_UPDATE_ALREADY_INVOKED  = false;
@@ -16,7 +16,7 @@ public without sharing class Case_Trigger_Recursion {
     public static void reset(List<Case> oldCases, List<Case> newCases) {
         Integer hashCode = (newCases != null ? newCases.hashCode() : (oldCases != null ? oldCases.hashCode() : null));
         if (hashCode != SAVE_HASH_CODE) {
-            if (SYS_UTILS.isBatch() || SYS_UTIlS.isTest()) {
+            if (SYS_UTILS.isBatch() || SYS_UTILS.isTest()) {
                 BEFORE_INSERT_ALREADY_INVOKED  = false;
                 BEFORE_UPDATE_ALREADY_INVOKED  = false;
                 BEFORE_DELETE_ALREADY_INVOKED  = false;
@@ -24,11 +24,11 @@ public without sharing class Case_Trigger_Recursion {
                 AFTER_UPDATE_ALREADY_INVOKED   = false;
                 AFTER_DELETE_ALREADY_INVOKED   = false;
                 AFTER_UNDELETE_ALREADY_INVOKED = false;
-                SAVE_HASH_CODE = hashCode;
                 for (TriggerOperation to : PROCESSED_RECORD_IDS.keySet()) {
                     PROCESSED_RECORD_IDS.put(to, reduce(PROCESSED_RECORD_IDS.get(to), MAX_RECORD_IDS));
                 }
             }
+            SAVE_HASH_CODE = hashCode;
         }
     }
 

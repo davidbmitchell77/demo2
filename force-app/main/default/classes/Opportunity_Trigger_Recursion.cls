@@ -1,4 +1,4 @@
-public without sharing class Opportunity_Trigger_Recursion {
+public class Opportunity_Trigger_Recursion {
 
     public static Boolean BEFORE_INSERT_ALREADY_INVOKED  = false;
     public static Boolean BEFORE_UPDATE_ALREADY_INVOKED  = false;
@@ -24,11 +24,11 @@ public without sharing class Opportunity_Trigger_Recursion {
                 AFTER_UPDATE_ALREADY_INVOKED   = false;
                 AFTER_DELETE_ALREADY_INVOKED   = false;
                 AFTER_UNDELETE_ALREADY_INVOKED = false;
-                SAVE_HASH_CODE = hashCode;
                 for (TriggerOperation to : PROCESSED_RECORD_IDS.keySet()) {
                     PROCESSED_RECORD_IDS.put(to, reduce(PROCESSED_RECORD_IDS.get(to), MAX_RECORD_IDS));
                 }
             }
+            SAVE_HASH_CODE = hashCode;
         }
     }
 

@@ -24,11 +24,11 @@ public class Lead_Trigger_Recursion {
                 AFTER_UPDATE_ALREADY_INVOKED   = false;
                 AFTER_DELETE_ALREADY_INVOKED   = false;
                 AFTER_UNDELETE_ALREADY_INVOKED = false;
-                SAVE_HASH_CODE = hashCode;
                 for (TriggerOperation to : PROCESSED_RECORD_IDS.keySet()) {
                     PROCESSED_RECORD_IDS.put(to, reduce(PROCESSED_RECORD_IDS.get(to), MAX_RECORD_IDS));
                 }
             }
+            SAVE_HASH_CODE = hashCode;
         }
     }
 
