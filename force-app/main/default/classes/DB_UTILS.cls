@@ -136,6 +136,6 @@ public with sharing class DB_UTILS {
         Database.rollback(sp);
         Logger.error(e.getMessage(), sObjects).addTag('DB_UTILS');
         Logger.saveLog();
-        throw new SYS_UTILS.SYS_EXCEPTION(e.getMessage());
+        throw new SYS_UTILS.DML_EXCEPTION(e.getMessage());
     }
 }

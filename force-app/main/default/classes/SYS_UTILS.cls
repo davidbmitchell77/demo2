@@ -71,5 +71,7 @@ public class SYS_UTILS {
     public class CUSTOM_OBJECT_B_TRIGGER_EXCEPTION  extends Exception {}
     public class LEAD_TRIGGER_EXCEPTION             extends Exception {}
     public class OPPORTUNITY_TRIGGER_EXCEPTION      extends Exception {}
+    public class APEX_EXCEPTION                     extends Exception {}
+    public class DML_EXCEPTION                      extends Exception {}
     public class SYS_EXCEPTION                      extends Exception {}
 }

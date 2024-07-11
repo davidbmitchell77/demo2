@@ -120,6 +120,8 @@ private class SYS_UTILS_TEST {
         try { throw new SYS_UTILS.CUSTOM_OBJECT_B_TRIGGER_EXCEPTION('CUSTOM_OBJECT_B_TRIGGER_EXCEPTION'); } catch(Exception e) { System.debug(LoggingLevel.ERROR, e.getMessage()); }
         try { throw new SYS_UTILS.LEAD_TRIGGER_EXCEPTION('ACCOUNT_TRIGGER_EXCEPTION');                    } catch(Exception e) { System.debug(LoggingLevel.ERROR, e.getMessage()); }
         try { throw new SYS_UTILS.OPPORTUNITY_TRIGGER_EXCEPTION('OPPORTUNITY_TRIGGER_EXCEPTION');         } catch(Exception e) { System.debug(LoggingLevel.ERROR, e.getMessage()); }
+      //try { throw new SYS_UTILS.APEX_EXCEPTION('SYS_UTILS.APEX_EXCEPTION');                             } catch(Exception e) { System.debug(LoggingLevel.ERROR, e.getMessage()); }
+        try { throw new SYS_UTILS.DML_EXCEPTION('SYS_UTILS.DML_EXCEPTION');                               } catch(Exception e) { System.debug(LoggingLevel.ERROR, e.getMessage()); }
         try { throw new SYS_UTILS.SYS_EXCEPTION('SYS_UTILS.SYS_EXCEPTION');                               } catch(Exception e) { System.debug(LoggingLevel.ERROR, e.getMessage()); }
         Test.stopTest();
     }
