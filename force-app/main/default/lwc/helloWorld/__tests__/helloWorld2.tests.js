@@ -6,12 +6,12 @@ describe('c-hello-world', () => {
         while (document.body.firstChild) {
             document.body.removeChild(document.body.firstChild);
         }
-    })
+    });
 
     test('Zero to Hero', () => {
         const element = createElement('c-hello-world', { is: HelloWorld });
         document.body.appendChild(element);
         const div = element.shadowRoot.querySelectorAll('div')[0];
         expect(div.textContent).toBe('"Zero to Hero" is a course of LWC.');
-    })
-})
+    });
+});
