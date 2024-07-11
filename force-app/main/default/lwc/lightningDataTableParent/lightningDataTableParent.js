@@ -73,9 +73,11 @@ export default class LightningDataTableParent extends LightningElement {
             case 'Success':
                 variant = 'success';
                 break;
+            default:
+                variant = 'info';
         }
         this.log(message);
-        this.showToast('Button click detected!', message, variant);
+        showToast(this, 'Button click detected!', message, variant);
     }
 
     handleInput(event) {
