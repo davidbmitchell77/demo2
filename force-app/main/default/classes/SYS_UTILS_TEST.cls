@@ -2,6 +2,15 @@
 private class SYS_UTILS_TEST {
 
     @isTest
+    private static void Test_isAura() {
+        Test.startTest();
+        Boolean result = SYS_UTILS.isAura();
+        Test.stopTest();
+        System.debug(LoggingLevel.INFO, 'SYS_UTILS.isAura(): '+ result);
+        System.assertEquals(false, result);
+    }
+
+    @isTest
     private static void Test_isBatch() {
         Test.startTest();
         Boolean result = SYS_UTILS.isBatch();
@@ -38,6 +47,24 @@ private class SYS_UTILS_TEST {
     }
 
     @isTest
+    private static void Test_isRest() {
+        Test.startTest();
+        Boolean result = SYS_UTILS.isRest();
+        Test.stopTest();
+        System.debug(LoggingLevel.INFO, 'SYS_UTILS.isRest(): '+ result);
+        System.assertEquals(false, result);
+    }
+
+    @isTest
+    private static void Test_isSoap() {
+        Test.startTest();
+        Boolean result = SYS_UTILS.isSoap();
+        Test.stopTest();
+        System.debug(LoggingLevel.INFO, 'SYS_UTILS.isSoap(): '+ result);
+        System.assertEquals(false, result);
+    }
+
+    @isTest
     private static void Test_isScheduled() {
         Test.startTest();
         Boolean result = SYS_UTILS.isScheduled();
@@ -53,6 +80,15 @@ private class SYS_UTILS_TEST {
         Test.stopTest();
         System.debug(LoggingLevel.INFO, 'SYS_UTILS.isTest(): '+ result);
         System.assertEquals(true, result);
+    }
+
+    @isTest
+    private static void Test_isVisualforce() {
+        Test.startTest();
+        Boolean result = SYS_UTILS.isVisualforce();
+        Test.stopTest();
+        System.debug(LoggingLevel.INFO, 'SYS_UTILS.Test_isVisualforce(): '+ result);
+        System.assertEquals(false, result);
     }
 
     @isTest
@@ -74,14 +110,17 @@ private class SYS_UTILS_TEST {
     }
 
     @isTest
-    private static void Test_SYS_EXCEPTION() {
+    private static void Test_exceptions() {
         Test.startTest();
-        try {
-            throw new SYS_UTILS.SYS_EXCEPTION('SYS_UTILS_TEST.SYS_EXCEPTION');
-        }
-        catch(Exception e) {
-            System.debug(LoggingLevel.ERROR, e.getMessage());
-        }
+        try { throw new SYS_UTILS.ACCOUNT_TRIGGER_EXCEPTION('ACCOUNT_TRIGGER_EXCEPTION');                 } catch(Exception e) { System.debug(LoggingLevel.ERROR, e.getMessage()); }
+        try { throw new SYS_UTILS.CASE_TRIGGER_EXCEPTION('CASE_TRIGGER_EXCEPTION');                       } catch(Exception e) { System.debug(LoggingLevel.ERROR, e.getMessage()); }
+        try { throw new SYS_UTILS.CAMPAIGN_TRIGGER_EXCEPTION('CAMAPIGN_TRIGGER_EXCEPTION');               } catch(Exception e) { System.debug(LoggingLevel.ERROR, e.getMessage()); }
+        try { throw new SYS_UTILS.CAMPAIGN_MEMBER_TRIGGER_EXCEPTION('CAMAPIGN_MEMBER_TRIGGER_EXCEPTION'); } catch(Exception e) { System.debug(LoggingLevel.ERROR, e.getMessage()); }
+        try { throw new SYS_UTILS.CUSTOM_OBJECT_A_TRIGGER_EXCEPTION('CUSTOM_OBJECT_A_TRIGGER_EXCEPTION'); } catch(Exception e) { System.debug(LoggingLevel.ERROR, e.getMessage()); }
+        try { throw new SYS_UTILS.CUSTOM_OBJECT_B_TRIGGER_EXCEPTION('CUSTOM_OBJECT_B_TRIGGER_EXCEPTION'); } catch(Exception e) { System.debug(LoggingLevel.ERROR, e.getMessage()); }
+        try { throw new SYS_UTILS.LEAD_TRIGGER_EXCEPTION('ACCOUNT_TRIGGER_EXCEPTION');                    } catch(Exception e) { System.debug(LoggingLevel.ERROR, e.getMessage()); }
+        try { throw new SYS_UTILS.OPPORTUNITY_TRIGGER_EXCEPTION('OPPORTUNITY_TRIGGER_EXCEPTION');         } catch(Exception e) { System.debug(LoggingLevel.ERROR, e.getMessage()); }
+        try { throw new SYS_UTILS.SYS_EXCEPTION('SYS_UTILS.SYS_EXCEPTION');                               } catch(Exception e) { System.debug(LoggingLevel.ERROR, e.getMessage()); }
         Test.stopTest();
     }
 }
