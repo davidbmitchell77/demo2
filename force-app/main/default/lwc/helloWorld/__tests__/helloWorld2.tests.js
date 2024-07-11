@@ -8,7 +8,7 @@ describe('c-hello-world', () => {
         }
     })
 
-    test('foobar', () => {
+    test('Zero to Hero', () => {
         const element = createElement('c-hello-world', { is: HelloWorld });
         document.body.appendChild(element);
         const div = element.shadowRoot.querySelectorAll('div')[0];
