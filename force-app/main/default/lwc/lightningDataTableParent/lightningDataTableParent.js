@@ -79,7 +79,7 @@ export default class LightningDataTableParent extends LightningElement {
     }
 
     handleInput(event) {
-        this.accountName = event.target.value;
+        this.accountName = (event.target.value ? event.target.value : '_');
     }
 
     handlePaste(event) {
