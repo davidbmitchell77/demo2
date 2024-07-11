@@ -20,18 +20,14 @@ export default class LightningDataTableChild extends LightningElement {
     }
 
     doSave(event) {
-        let updates = event.detail.draftValues.slice().map(
-            (draftValue) => {
-                let fields = { ...draftValue };
-                return { fields: fields };
-            }
-        );
-        let promises = updates.map(
-            (record) => {
-                let promise = updateRecord(record);
-                return promise;
-            }
-        );
+        let updates = event.detail.draftValues.slice().map((draftValue) => {
+            let fields = { ...draftValue };
+            return { fields: fields };
+        });
+        let promises = updates.map((record) => {
+            let promise = updateRecord(record);
+            return promise;
+        });
         Promise.all(promises)
        .then(() => {
             this.records = this.syncDataTable(JSON.parse(JSON.stringify(this.records)), updates);
