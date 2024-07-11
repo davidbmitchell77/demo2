@@ -90,7 +90,7 @@ public with sharing class CustomObjectB_Trigger_Handler {
             }
         }
 
-        aObjects = changed(aObjects, updatedRecordIds);
+        aObjects = filter(aObjects, updatedRecordIds);
 
         if (!aObjects.isEmpty()) {
             DB_UTILS.upd(aObjects.values());
@@ -101,18 +101,6 @@ public with sharing class CustomObjectB_Trigger_Handler {
         return CustomObjectB_Trigger_Recursion.alreadyInvoked(to, recordId);
     }
 
-    private Map<String,CustomObjectA__c> changed(Map<String,CustomObjectA__c> aObjects, Set<Id> recordIds) {
-        Map<String,CustomObjectA__c> results = new Map<String,CustomObjectA__c>();
-        if (aObjects != null) {
-            for (CustomObjectA__c aObj : aObjects.values()) {
-                if (recordIds.contains(aObj.Id)) {
-                    results.put(aObj.Id, aObj);
-                }
-            }
-        }
-        return results;
-    }
-
     private Set<String> externalIds(List<CustomObjectB__c> bObjects) {
         Set<String> results = new Set<String>();
         if (bObjects != null) {
@@ -121,6 +109,18 @@ public with sharing class CustomObjectB_Trigger_Handler {
                     if (!results.contains(bObj.ExternalId__c )) {
                         results.add(bObj.ExternalId__c );
                     }
+                }
+            }
+        }
+        return results;
+    }
+
+    private Map<String,CustomObjectA__c> filter(Map<String,CustomObjectA__c> aObjects, Set<Id> recordIds) {
+        Map<String,CustomObjectA__c> results = new Map<String,CustomObjectA__c>();
+        if (aObjects != null) {
+            for (CustomObjectA__c aObj : aObjects.values()) {
+                if (recordIds.contains(aObj.Id)) {
+                    results.put(aObj.Id, aObj);
                 }
             }
         }

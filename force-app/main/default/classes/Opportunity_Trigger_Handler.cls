@@ -107,7 +107,7 @@ public with sharing class Opportunity_Trigger_Handler {
             }
         }
 
-        List<Account> accounts = changed(accountsMap, updatedAccountIds);
+        List<Account> accounts = filter(accountsMap, updatedAccountIds);
 
         if (!accounts.isEmpty()) {
             DB_UTILS.upd(accounts);
@@ -132,7 +132,7 @@ public with sharing class Opportunity_Trigger_Handler {
         return Opportunity_Trigger_Recursion.alreadyInvoked(to, opportunityId);
     }
 
-    private List<Account> changed(Map<Id,Account> accountsMap, Set<Id> accountIds) {
+    private List<Account> filter(Map<Id,Account> accountsMap, Set<Id> accountIds) {
         List<Account> results = new List<Account>();
         if (accountsMap != null) {
             for (Account a : accountsMap.values()) {
