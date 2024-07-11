@@ -63,7 +63,7 @@ public with sharing class Case_Trigger_Handler2 {
                         if (contactsMap.containsKey(c.AccountId)) {
                             Account account = accountsMap.get(c.AccountId);
                             Contact contact = contactsMap.get(c.AccountId);
-                            if (account.PrimaryContact__c != contact.Id) {
+                            if (account.PrimaryContact__c == null) {
                                 account.PrimaryContact__c = contact.Id;
                                 accountsMap.put(account.Id, account);
                                 updatedAccountIds.add(account.Id);
@@ -104,7 +104,9 @@ public with sharing class Case_Trigger_Handler2 {
                     if (accountsMap.containsKey(c.AccountId)) {
                         Event e = new Event(
                             Subject = c.Subject,
-                            WhoId = accountsMap.get(c.AccountId).Id
+                            WhoId = accountsMap.get(c.AccountId).Id,
+                            StartDateTime = Datetime.now().addDays(30),
+                            EndDateTime = Datetime.now().addDays(30).addHours(4)
                         );
                         events.add(e);
                     }
