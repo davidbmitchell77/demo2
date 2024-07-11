@@ -9,12 +9,9 @@ describe('c-hello-world', () => {
     })
 
     test('foobar', () => {
-        const element = createElement('c-hello-world', {
-            is:HelloWorld
-        });
+        const element = createElement('c-hello-world', { is: HelloWorld });
         document.body.appendChild(element);
         const div = element.shadowRoot.querySelectorAll('div')[0];
-        console.log(div.textContent);
         expect(div.textContent).toBe('"Zero to Hero" is a course of LWC.');
     })
 })
