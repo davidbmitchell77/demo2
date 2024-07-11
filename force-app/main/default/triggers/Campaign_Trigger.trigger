@@ -60,7 +60,7 @@ trigger Campaign_Trigger on Campaign (before insert, before update, before delet
         catch(Exception e) {
             Logger.error(e.getMessage(), (Trigger.new != null ? Trigger.new : Trigger.old)).addTag('Campaign_Trigger_Handler');
             Logger.saveLog();
-            throw new SYS_UTILS.SYS_EXCEPTION(e.getMessage());
+            throw new SYS_UTILS.CAMPAIGN_TRIGGER_EXCEPTION(e.getMessage());
         }
     }
 }

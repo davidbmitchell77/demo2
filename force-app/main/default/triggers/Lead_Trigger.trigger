@@ -60,7 +60,7 @@ trigger Lead_Trigger on Lead (before insert, before update, before delete, after
         catch(Exception e) {
             Logger.error(e.getMessage(), (Trigger.new != null ? Trigger.new : Trigger.old)).addTag('Lead_Trigger_Handler');
             Logger.saveLog();
-            throw new SYS_UTILS.SYS_EXCEPTION(e.getMessage());
+            throw new SYS_UTILS.LEAD_TRIGGER_EXCEPTION(e.getMessage());
         }
     }
 }

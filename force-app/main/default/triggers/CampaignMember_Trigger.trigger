@@ -54,7 +54,7 @@ trigger CampaignMember_Trigger on CampaignMember (before insert, before update, 
         catch(Exception e) {
             Logger.error(e.getMessage(), (Trigger.new != null ? Trigger.new : Trigger.old)).addTag('CampaignMember_Trigger_Handler');
             Logger.saveLog();
-            throw new SYS_UTILS.SYS_EXCEPTION(e.getMessage());
+            throw new SYS_UTILS.CAMPAIGN_MEMBER_TRIGGER_EXCEPTION(e.getMessage());
         }
     }
 }

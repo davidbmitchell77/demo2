@@ -60,7 +60,7 @@ trigger Contact_Trigger on Contact (before insert, before update, before delete,
         catch(Exception e) {
             Logger.error(e.getMessage(), (Trigger.new != null ? Trigger.new : Trigger.old)).addTag('Contact_Trigger_Handler');
             Logger.saveLog();
-            throw new SYS_UTILS.SYS_EXCEPTION(e.getMessage());
+            throw new SYS_UTILS.CONTACT_TRIGGER_EXCEPTION(e.getMessage());
         }
     }
 }

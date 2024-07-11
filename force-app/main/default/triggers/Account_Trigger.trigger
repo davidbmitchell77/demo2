@@ -60,7 +60,7 @@ trigger Account_Trigger on Account (before insert, before update, before delete,
         catch(Exception e) {
             Logger.error(e.getMessage(), (Trigger.new != null ? Trigger.new : Trigger.old)).addTag('Account_Trigger_Handler');
             Logger.saveLog();
-            throw new SYS_UTILS.SYS_EXCEPTION(e.getMessage());
+            throw new SYS_UTILS.ACCOUNT_TRIGGER_EXCEPTION(e.getMessage());
         }
     }
 }
