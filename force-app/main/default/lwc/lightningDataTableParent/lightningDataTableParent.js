@@ -32,17 +32,15 @@ export default class LightningDataTableParent extends LightningElement {
         let { data, error } = response;
         if (data) {
             console.info(data);
-            let temp = data.map(
-                (contact) => {
-                    return {
-                        ...contact,
-                        ContactUrl:  (`${window.location.origin}/${contact.Id}`),
-                        AccountName: (`${contact.Account.Name}`),
-                        AccountUrl:  (`${window.location.origin}/${contact.Account.Id}`),
-                        Title:       (contact.hasOwnProperty('Title') ? contact.Title : '(no title)')
-                    };
-                }
-            );
+            let temp = data.map((contact) => {
+                return {
+                    ...contact,
+                    ContactUrl:  (`${window.location.origin}/${contact.Id}`),
+                    AccountName: (`${contact.Account.Name}`),
+                    AccountUrl:  (`${window.location.origin}/${contact.Account.Id}`),
+                    Title:       (contact.hasOwnProperty('Title') ? contact.Title : '(no title)')
+                };
+            });
             this.data = [ ...temp ];
         }
         else if (error) {
