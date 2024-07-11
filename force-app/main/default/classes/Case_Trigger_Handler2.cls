@@ -78,7 +78,7 @@ public with sharing class Case_Trigger_Handler2 {
 
         if (!accountsMap.isEmpty()) {
             DB_UTILS.upd(accountsMap.values());
-            createEvents(accountsMap, newCases);
+            createEvents(contactsMap, newCases);
         }
     }
 
@@ -96,15 +96,15 @@ public with sharing class Case_Trigger_Handler2 {
         return results;
     }
 
-    private void createEvents(Map<Id,Account> accountsMap, List<Case> cases) {
+    private void createEvents(Map<Id,Contact> contactsMap, List<Case> cases) {
         List<Event> events = new List<Event>();
         if (cases != null) {
             for (Case c : cases) {
                 if (c.AccountId != null) {
-                    if (accountsMap.containsKey(c.AccountId)) {
+                    if (contactsMap.containsKey(c.AccountId)) {
                         Event e = new Event(
                             Subject = c.Subject,
-                            WhoId = accountsMap.get(c.AccountId).Id,
+                            WhoId = contactsMap.get(c.AccountId).Id,
                             StartDateTime = Datetime.now().addDays(30),
                             EndDateTime = Datetime.now().addDays(30).addHours(4)
                         );
