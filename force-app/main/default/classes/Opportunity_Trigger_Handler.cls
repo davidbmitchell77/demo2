@@ -165,7 +165,6 @@ public with sharing class Opportunity_Trigger_Handler {
         );
     }
 
-
     private void updateProcessedRecordIds(TriggerOperation to, List<Opportunity> oldOpportunities, List<Opportunity> newOpportunities) {
         Opportunity_Trigger_Recursion.updateProcessedRecordIds(to, oldOpportunities, newOpportunities);
     }

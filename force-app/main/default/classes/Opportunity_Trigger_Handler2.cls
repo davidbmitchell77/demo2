@@ -48,6 +48,7 @@ public with sharing class Opportunity_Trigger_Handler2 {
 
             }
         }
+        updateProcessedRecordIds(this.operationType, oldOpportunities, newOpportunities);
     }
 
     private void updateParentAccounts(List<Opportunity> oldOpportunities, List<Opportunity> newOpportunities, Map<Id,Opportunity> oldMap, Map<Id,Opportunity> newMap) {
@@ -115,6 +116,10 @@ public with sharing class Opportunity_Trigger_Handler2 {
             }
         }
         return results;
+    }
+
+    private void updateProcessedRecordIds(TriggerOperation to, List<Opportunity> oldOpportunities, List<Opportunity> newOpportunities) {
+        Opportunity_Trigger_Recursion.updateProcessedRecordIds(to, oldOpportunities, newOpportunities);
     }
 
     private Decimal nvl(Decimal n, Decimal defaultValue) {
