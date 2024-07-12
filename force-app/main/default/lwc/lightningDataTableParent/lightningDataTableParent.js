@@ -37,7 +37,7 @@ export default class LightningDataTableParent extends LightningElement {
                     ...contact,
                     ContactUrl:  (`${window.location.origin}/${contact.Id}`),
                     AccountName: (`${contact.Account.Name}`),
-                    AccountUrl:  (`${window.location.origin}/${contact.Account.Id}`),
+                    AccountUrl:  (`${window.location.origin}/${contact.AccountId}`),
                     Title:       (contact.hasOwnProperty('Title') ? contact.Title : '(no title)')
                 };
             });
@@ -92,5 +92,11 @@ export default class LightningDataTableParent extends LightningElement {
             logger.info(message);
             logger.saveLog();
         }
+    }
+
+    errorCallback(error, stack) {
+        console.error(JSON.parse(JSON.stringify(error)));
+        console.error(stack);
+        showToast(this, 'Error retrieving list of contacts!', error.message, 'error', 'sticky');
     }
 }
