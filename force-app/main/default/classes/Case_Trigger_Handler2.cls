@@ -84,7 +84,7 @@ public with sharing class Case_Trigger_Handler2 {
 
         if (!accountsMap.isEmpty()) {
             DB_UTILS.upd(accountsMap.values());
-            createEvents(contactsMap, newCases);
+            DB_UTILS.ins(createEvents(contactsMap, newCases));
         }
     }
 
@@ -106,7 +106,7 @@ public with sharing class Case_Trigger_Handler2 {
         return Case_Trigger_Recursion.alreadyInvoked(to, caseId);
     }
 
-    private void createEvents(Map<Id,Contact> contactsMap, List<Case> cases) {
+    private List<Event> createEvents(Map<Id,Contact> contactsMap, List<Case> cases) {
         List<Event> events = new List<Event>();
         if (cases != null) {
             for (Case c : cases) {
@@ -123,9 +123,7 @@ public with sharing class Case_Trigger_Handler2 {
                 }
             }
         }
-        if (!events.isEmpty()) {
-            DB_UTILS.ins(events);
-        }
+        return events;
     }
 
     private Map<Id,sObject> filter(Map<Id,sObject> recordsMap, Set<Id> recordIds) {
