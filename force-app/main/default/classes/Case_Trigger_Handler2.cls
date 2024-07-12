@@ -55,6 +55,7 @@ public with sharing class Case_Trigger_Handler2 {
         }
 
         Set<Id> updatedAccountIds = new Set<Id>();
+        Set<Id> primaryContactIds = new Set<Id>();
 
         if (newCases != null) {
             for (Case c : newCases) {
@@ -67,6 +68,7 @@ public with sharing class Case_Trigger_Handler2 {
                                 account.PrimaryContact__c = contact.Id;
                                 accountsMap.put(account.Id, account);
                                 updatedAccountIds.add(account.Id);
+                                primaryContactIds.add(contact.Id);
                             }
                         }
                     }
@@ -74,7 +76,8 @@ public with sharing class Case_Trigger_Handler2 {
             }
         }
  
-        accountsMap = filter(accountsMap, updatedAccountIds);
+        accountsMap = (Map<Id,Account>)filter(accountsMap, updatedAccountIds);
+        contactsMap = (Map<Id,Contact>)filter(contactsMap, primaryContactIds);
 
         if (!accountsMap.isEmpty()) {
             DB_UTILS.upd(accountsMap.values());
@@ -118,13 +121,13 @@ public with sharing class Case_Trigger_Handler2 {
         }
     }
 
-    private Map<Id,Account> filter(Map<Id,Account> accountsMap, Set<Id> accountIds) {
-        Map<Id,Account> results = new Map<Id,Account>();
-        if (accountsMap != null) {
-            for (Account a : accountsMap.values()) {
-                if (accountIds.contains(a.Id)) {
-                    if (!results.containsKey(a.Id)) {
-                        results.put(a.Id, a);
+    private Map<Id,sObject> filter(Map<Id,sObject> recordsMap, Set<Id> recordIds) {
+        Map<Id,sObject> results = new Map<Id,sObject>();
+        if (recordsMap != null) {
+            for (sObject o : recordsMap.values()) {
+                if (recordIds.contains(o.Id)) {
+                    if (!results.containsKey(o.Id)) {
+                        results.put(o.Id, o);
                     }
                 }
             }
