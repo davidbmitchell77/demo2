@@ -97,6 +97,5 @@ export default class LightningDataTableParent extends LightningElement {
     errorCallback(error, stack) {
         console.error(JSON.parse(JSON.stringify(error)));
         console.error(stack);
-        showToast(this, 'Error retrieving list of contacts!', error.message, 'error', 'sticky');
     }
 }
