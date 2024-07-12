@@ -33,6 +33,7 @@ public with sharing class Case_Trigger_Handler2 {
                 setPrimaryContact(oldCases, newCases, oldMap, newMap);
             }
         }
+        updateProcessedRecordIds(this.operationType, oldCases, newCases);
     }
 
     private void setPrimaryContact(List<Case> oldCases, List<Case> newCases, Map<Id,Case> oldMap, Map<Id,Case> newMap) {
@@ -59,16 +60,18 @@ public with sharing class Case_Trigger_Handler2 {
 
         if (newCases != null) {
             for (Case c : newCases) {
-                if (c.AccountId != null) {
-                    if (accountsMap.containsKey(c.AccountId)) {
-                        if (contactsMap.containsKey(c.AccountId)) {
-                            Account account = accountsMap.get(c.AccountId);
-                            Contact contact = contactsMap.get(c.AccountId);
-                            if (account.PrimaryContact__c == null) {
-                                account.PrimaryContact__c = contact.Id;
-                                accountsMap.put(account.Id, account);
-                                updatedAccountIds.add(account.Id);
-                                primaryContactIds.add(contact.Id);
+                if (!alreadyInvoked(this.operationType, c.Id)) {
+                    if (c.AccountId != null) {
+                        if (accountsMap.containsKey(c.AccountId)) {
+                            if (contactsMap.containsKey(c.AccountId)) {
+                                Account account = accountsMap.get(c.AccountId);
+                                Contact contact = contactsMap.get(c.AccountId);
+                                if (account.PrimaryContact__c == null) {
+                                    account.PrimaryContact__c = contact.Id;
+                                    accountsMap.put(account.Id, account);
+                                    updatedAccountIds.add(account.Id);
+                                    primaryContactIds.add(contact.Id);
+                                }
                             }
                         }
                     }
@@ -97,6 +100,10 @@ public with sharing class Case_Trigger_Handler2 {
             }
         }
         return results;
+    }
+
+    private Boolean alreadyInvoked(TriggerOperation to, Id caseId) {
+        return Case_Trigger_Recursion.alreadyInvoked(to, caseId);
     }
 
     private void createEvents(Map<Id,Contact> contactsMap, List<Case> cases) {
@@ -133,5 +140,9 @@ public with sharing class Case_Trigger_Handler2 {
             }
         }
         return results;
+    }
+
+    private void updateProcessedRecordIds(TriggerOperation to, List<Case> oldCases, List<Case> newCases) {
+        Case_Trigger_Recursion.updateProcessedRecordIds(to, oldCases, newCases);
     }
 }
