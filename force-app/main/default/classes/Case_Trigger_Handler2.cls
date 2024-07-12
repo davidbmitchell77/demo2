@@ -37,8 +37,8 @@ public with sharing class Case_Trigger_Handler2 {
 
     private void setPrimaryContact(List<Case> oldCases, List<Case> newCases, Map<Id,Case> oldMap, Map<Id,Case> newMap) {
         Map<Id,Account> accountsMap = new Map<Id,Account>([SELECT Id, PrimaryContact__c
-                                         FROM Account
-                                        WHERE Id IN :accountIds(newCases)
+                                                             FROM Account
+                                                            WHERE Id IN :accountIds(newCases)
         ]);
 
         Map<Id,Contact> contactsMap = new Map<Id,Contact>();
