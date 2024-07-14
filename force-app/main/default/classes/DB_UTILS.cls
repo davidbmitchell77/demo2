@@ -60,6 +60,21 @@ public with sharing class DB_UTILS {
         }
     }
 
+    public static void ups(List<sObject> sObjects) {
+        if (sObjects != null) {
+            Savepoint sp = Database.setSavepoint();
+            try {
+                upsert sObjects;
+            }
+            catch(DmlException e) {
+                rollback(sp, sObjects, e);
+            }
+            finally {
+                Database.releaseSavepoint(sp);
+            }
+        }
+    }
+
     public static void ups(List<sObject> sObjects, Schema.SObjectField externalIdField) {
         if (sObjects != null) {
             String objectApiName = String.valueOf(externalIdField.getDescribe().getSObjectType());
@@ -80,21 +95,6 @@ public with sharing class DB_UTILS {
             try {
                 if (!updRecords.isEmpty()) { update updRecords; }
                 if (!insRecords.isEmpty()) { insert insRecords; }
-            }
-            catch(DmlException e) {
-                rollback(sp, sObjects, e);
-            }
-            finally {
-                Database.releaseSavepoint(sp);
-            }
-        }
-    }
-
-    public static void ups(List<sObject> sObjects) {
-        if (sObjects != null) {
-            Savepoint sp = Database.setSavepoint();
-            try {
-                upsert sObjects;
             }
             catch(DmlException e) {
                 rollback(sp, sObjects, e);
