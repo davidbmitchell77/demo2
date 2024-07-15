@@ -62,16 +62,17 @@ public class SYS_UTILS {
         return String.valueOf(UUID.randomUUID()).toLowerCase();
     }
 
-    public class ACCOUNT_TRIGGER_EXCEPTION          extends Exception {}
-    public class CAMPAIGN_TRIGGER_EXCEPTION         extends Exception {}
-    public class CAMPAIGN_MEMBER_TRIGGER_EXCEPTION  extends Exception {}
-    public class CASE_TRIGGER_EXCEPTION             extends Exception {}
-    public class CONTACT_TRIGGER_EXCEPTION          extends Exception {}
-    public class CUSTOM_OBJECT_A_TRIGGER_EXCEPTION  extends Exception {}
-    public class CUSTOM_OBJECT_B_TRIGGER_EXCEPTION  extends Exception {}
-    public class LEAD_TRIGGER_EXCEPTION             extends Exception {}
-    public class OPPORTUNITY_TRIGGER_EXCEPTION      extends Exception {}
-    public class APEX_EXCEPTION                     extends Exception {}
-    public class DML_EXCEPTION                      extends Exception {}
-    public class SYS_EXCEPTION                      extends Exception {}
+    public class ACCOUNT_TRIGGER_EXCEPTION                extends Exception {}
+    public class CAMPAIGN_TRIGGER_EXCEPTION               extends Exception {}
+    public class CAMPAIGN_MEMBER_TRIGGER_EXCEPTION        extends Exception {}
+    public class CASE_TRIGGER_EXCEPTION                   extends Exception {}
+    public class CONTACT_TRIGGER_EXCEPTION                extends Exception {}
+    public class CUSTOM_OBJECT_A_TRIGGER_EXCEPTION        extends Exception {}
+    public class CUSTOM_OBJECT_B_TRIGGER_EXCEPTION        extends Exception {}
+    public class LEAD_TRIGGER_EXCEPTION                   extends Exception {}
+    public class OPPORTUNITY_TRIGGER_EXCEPTION            extends Exception {}
+    public class OPPORTUNITY_LINE_ITEM_TRIGGER_EXCEPTION  extends Exception {}
+    public class APEX_EXCEPTION                           extends Exception {}
+    public class DML_EXCEPTION                            extends Exception {}
+    public class SYS_EXCEPTION                            extends Exception {}
 }

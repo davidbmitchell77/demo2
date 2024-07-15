@@ -57,6 +57,13 @@
         <value>Campaign record data is not valid.</value>
     </labels>
     <labels>
+        <fullName>CASE_NUMBER_IS_REQUIRED</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>Case number is required.</shortDescription>
+        <value>Case number is required.</value>
+    </labels>
+    <labels>
         <fullName>CASE_RECORD_DATA_IS_NOT_VALID</fullName>
         <language>en_US</language>
         <protected>false</protected>
@@ -132,6 +139,20 @@
         <protected>false</protected>
         <shortDescription>Lead record data is not valid.</shortDescription>
         <value>Lead record data is not valid.</value>
+    </labels>
+    <labels>
+        <fullName>OPPORTUNITY_LINE_ITEM_QUANTITY_IS_REQUIRED</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>Opportunity line item quantity is required.</shortDescription>
+        <value>Opportunity line item quantity is required.</value>
+    </labels>
+    <labels>
+        <fullName>OPPORTUNITY_LINE_ITEM_RECORD_DATA_IS_NOT_VALID</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>Opportunity line item record data is not valid.</shortDescription>
+        <value>Opportunity line item record data is not valid.</value>
     </labels>
     <labels>
         <fullName>OPPORTUNITY_NAME_IS_REQUIRED</fullName>

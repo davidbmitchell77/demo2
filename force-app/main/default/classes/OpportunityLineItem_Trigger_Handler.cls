@@ -10,8 +10,8 @@ public with sharing class OpportunityLineItem_Trigger_Handler {
         Boolean result = true;
         if (lineItems != null) {
             for (OpportunityLineItem li : lineItems) {
-                if (String.isBlank(li.Name)) {
-                    li.Name.addError(System.Label.OPPORTUNITY_LINE_ITEM_NAME_IS_REQUIRED);
+                if (nvl(li.Quantity, 0.00) == 0.00) {
+                    li.Quantity.addError(System.Label.OPPORTUNITY_LINE_ITEM_QUANTITY_IS_REQUIRED);
                     result = false;
                 }
             }
@@ -44,24 +44,34 @@ public with sharing class OpportunityLineItem_Trigger_Handler {
             when AFTER_DELETE {
 
             }
-            when AFTER_UNDELETE {
-
-            }
         }
+        updateProcessedRecordIds(this.operationType, oldLineItems, newLineItems);
     }
 
     private void updateParentAccounts(List<OpportunityLineItem> oldLineItems, List<OpportunityLineItem> newLineItems, Map<Id,OpportunityLineItem> oldMap, Map<Id,OpportunityLineItem> newMap) {
         Map<Id,Account> accountsMap = new Map<Id,Account>();
 
-        for (AggregateResult agr : [SELECT Opportunity.AccountId, COUNT(Id) TotalLineItems
+        for (AggregateResult agr : [SELECT AccountId, COUNT(Id) TotalLineItems
+                                      FROM Opportunity
+                                     WHERE Id IN :opportunityIds(newLineItems)
+                                  GROUP BY AccountId
+        ]) {
+            Id accountId = (Id)(agr.get('AccountId'));
+            Decimal totalLineItems = (Decimal)(agr.get('totalLineItems'));
+            accountsMap.put(accountId, new Account(Id=accountId, TotalLineItems__c=totalLineItems));
+        }
+
+        for (AggregateResult agr : [SELECT Opportunity.AccountId, COUNT(Quantity) TotalLineItems
                                       FROM OpportunityLineItem
                                      WHERE OpportunityId IN :opportunityIds(newLineItems)
                                   GROUP BY Opportunity.AccountId
         ]) {
-            Id accountId = (Id)(agr.get('Opportunity.AccountId'));
-            Integer totalLineItems = (Integer)(agr.get('TotalLineItems'));
+            System.debug(Logginglevel.INFO, agr);
+            Id accountId = (Id)(agr.get('AccountId'));
+            Decimal totalLineItems = (Decimal)(agr.get('totalLineItems'));
             accountsMap.put(accountId, new Account(Id=accountId, TotalLineItems__c=totalLineItems));
         }
+
 
         if (!accountsMap.isEmpty()) {
             DB_UTILS.upd(accountsMap.values());
@@ -80,5 +90,13 @@ public with sharing class OpportunityLineItem_Trigger_Handler {
             }
         }
         return results;
+    }
+
+    private Decimal nvl(Decimal n, Decimal defaultValue) {
+        return ((n != null) ? n : defaultValue);
+    }
+
+    private void updateProcessedRecordIds(TriggerOperation to, List<OpportunityLineItem> oldLineItems, List<OpportunityLineItem> newLineItems) {
+        OpportunityLineItem_Trigger_Recursion.updateProcessedRecordIds(to, oldLineItems, newLineItems);
     }
 }
