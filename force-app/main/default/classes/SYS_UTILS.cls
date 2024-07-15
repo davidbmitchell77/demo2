@@ -62,6 +62,14 @@ public class SYS_UTILS {
         return String.valueOf(UUID.randomUUID()).toLowerCase();
     }
 
+    public static String base64Encode(String s) {
+        return String.valueOf(EncodingUtil.base64Encode(Blob.valueOf(s)));
+    }
+
+    public static String base64Decode(String s) {
+        return EncodingUtil.base64Decode(s).toString();
+    }
+
     public class ACCOUNT_TRIGGER_EXCEPTION                extends Exception {}
     public class CAMPAIGN_TRIGGER_EXCEPTION               extends Exception {}
     public class CAMPAIGN_MEMBER_TRIGGER_EXCEPTION        extends Exception {}

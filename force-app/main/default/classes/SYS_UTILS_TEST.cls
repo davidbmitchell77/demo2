@@ -110,6 +110,19 @@ private class SYS_UTILS_TEST {
     }
 
     @isTest
+    private static void Test_base64() {
+        String s1 = SYS_UTILS.guid();
+        Test.startTest();
+        String base64 = SYS_UTILS.base64Encode(s1);
+        String s2 = SYS_UTILS.base64DEcode(base64);
+        Test.stopTest();
+        System.debug(LoggingLevel.INFO, 'SYS_UTILS.base64Encode(\'' + s1 + '\'): '+ base64);
+        System.debug(LoggingLevel.INFO, 'SYS_UTILS.base64Decode(\'' + base64 + '\'): '+ s2);
+        System.assertEquals(36, s2.length());
+        System.assertEquals(s1, s2);
+    }
+
+    @isTest
     private static void Test_exceptions() {
         Test.startTest();
         try { throw new SYS_UTILS.ACCOUNT_TRIGGER_EXCEPTION('ACCOUNT_TRIGGER_EXCEPTION');                 } catch(Exception e) { System.debug(LoggingLevel.ERROR, e.getMessage()); }
@@ -120,7 +133,7 @@ private class SYS_UTILS_TEST {
         try { throw new SYS_UTILS.CUSTOM_OBJECT_B_TRIGGER_EXCEPTION('CUSTOM_OBJECT_B_TRIGGER_EXCEPTION'); } catch(Exception e) { System.debug(LoggingLevel.ERROR, e.getMessage()); }
         try { throw new SYS_UTILS.LEAD_TRIGGER_EXCEPTION('ACCOUNT_TRIGGER_EXCEPTION');                    } catch(Exception e) { System.debug(LoggingLevel.ERROR, e.getMessage()); }
         try { throw new SYS_UTILS.OPPORTUNITY_TRIGGER_EXCEPTION('OPPORTUNITY_TRIGGER_EXCEPTION');         } catch(Exception e) { System.debug(LoggingLevel.ERROR, e.getMessage()); }
-      //try { throw new SYS_UTILS.APEX_EXCEPTION('SYS_UTILS.APEX_EXCEPTION');                             } catch(Exception e) { System.debug(LoggingLevel.ERROR, e.getMessage()); }
+        try { throw new SYS_UTILS.APEX_EXCEPTION('SYS_UTILS.APEX_EXCEPTION');                             } catch(Exception e) { System.debug(LoggingLevel.ERROR, e.getMessage()); }
         try { throw new SYS_UTILS.DML_EXCEPTION('SYS_UTILS.DML_EXCEPTION');                               } catch(Exception e) { System.debug(LoggingLevel.ERROR, e.getMessage()); }
         try { throw new SYS_UTILS.SYS_EXCEPTION('SYS_UTILS.SYS_EXCEPTION');                               } catch(Exception e) { System.debug(LoggingLevel.ERROR, e.getMessage()); }
         Test.stopTest();
