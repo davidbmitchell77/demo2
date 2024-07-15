@@ -33,16 +33,24 @@ private class OpportunityLineItem_Trigger_Test {
         Opportunity o = [SELECT Id, Name FROM Opportunity LIMIT 1];
 
         Test.startTest();
-        OpportunityLineItem li = new OpportunityLineItem(
+        OpportunityLineItem li1 = new OpportunityLineItem(
             OpportunityId = o.Id,
             Quantity = 100.00,
             PricebookEntryId = pbe.Id,
             TotalPrice = (100.00 * pbe.UnitPrice)
         );
-        insert li;
+        insert li1;
+        OpportunityLineItem li2 = new OpportunityLineItem(
+            OpportunityId = o.Id,
+            Quantity = 100.00,
+            PricebookEntryId = pbe.Id,
+            TotalPrice = (100.00 * pbe.UnitPrice)
+        );
+        insert li2;
         Test.stopTest();
 
-        System.assertEquals(1, [SELECT Id FROM OpportunityLineItem].size());
+        System.assertEquals(2, [SELECT Id FROM OpportunityLineItem].size());
+        System.assertEquals(2, [SELECT Id, TotalLineItems__c FROM Account].TotalLineItems__c);
     }
 
     @isTest
