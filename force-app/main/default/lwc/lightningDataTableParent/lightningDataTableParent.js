@@ -1,5 +1,5 @@
 import { LightningElement, api, wire } from 'lwc';
-import { showToast                   } from 'c/utils';
+import { guid, uuid, showToast       } from 'c/utils';
 
 import getContacts from '@salesforce/apex/ContactController.getContacts';
 
@@ -25,6 +25,8 @@ export default class LightningDataTableParent extends LightningElement {
     connectedCallback() {
         this.accountName = (this.recordId ? this.recordId : this.accountName);
         this.height = (this.recordId ? '8.0rem' : this.height);
+        console.info(`utils.guid(): ${guid()}`);
+        console.info(`utils.uuid(): ${uuid()}`);
     }
 
     @wire(getContacts, { accountName: "$accountName", lwcName: 'lightningDataTableParent' })
