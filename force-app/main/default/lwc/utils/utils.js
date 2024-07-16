@@ -67,8 +67,16 @@ const convertToCSV = (objArray, headers) => {
     return str;
 }
 
+const guid = () => {
+    return crypto.randomUUID().toUpperCase();
+}
+
+const uuid = () => {
+    return crypto.randomUUID().toLowerCase();
+}
+
 const showToast = (lwc, title, message, variant, mode) => {
     lwc.dispatchEvent(new ShowToastEvent({ title: title, message: message, variant: variant, mode: (mode || 'dismissible')}));
 }
 
-export { exportCSVFile, showToast };
+export { exportCSVFile, guid, uuid, showToast };
