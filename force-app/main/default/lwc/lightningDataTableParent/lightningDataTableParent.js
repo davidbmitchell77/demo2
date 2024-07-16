@@ -87,15 +87,19 @@ export default class LightningDataTableParent extends LightningElement {
     }
 
     log(message) {
-        const logger = this.template.querySelector('c-logger');
-        if (logger) {
-            logger.info(message);
-            logger.saveLog();
-        }
+        const Logger = this.template.querySelector('c-logger');
+        Logger.info(message);
+        Logger.saveLog();
     }
 
     errorCallback(error, stack) {
-        console.error(JSON.parse(JSON.stringify(error)));
-        console.error(stack);
+        let message = JSON.stringify(error);
+        if (error.hasOwnProperty('body.message')) { message = error.body.message; }
+        if (error.hasOwnProperty('message'     )) { message = error.message;      }
+        const Logger = this.template.querySelector('c-logger');
+        Logger.error(message).addTag('lwc').addTag('contactDataTable');
+        Logger.error(stack  ).addTag('lwc').addTag('contactDataTable');
+        Logger.saveLog();
+        showToast('Unexpected error encountered!', message, 'error', 'sticky');
     }
 }
