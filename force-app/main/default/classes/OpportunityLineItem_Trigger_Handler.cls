@@ -51,22 +51,11 @@ public with sharing class OpportunityLineItem_Trigger_Handler {
     private void updateParentAccounts(List<OpportunityLineItem> oldLineItems, List<OpportunityLineItem> newLineItems, Map<Id,OpportunityLineItem> oldMap, Map<Id,OpportunityLineItem> newMap) {
         Map<Id,Account> accountsMap = new Map<Id,Account>();
 
-        for (AggregateResult agr : [SELECT AccountId, COUNT(Id) TotalLineItems
-                                      FROM Opportunity
-                                     WHERE Id IN :opportunityIds(newLineItems)
-                                  GROUP BY AccountId
-        ]) {
-            Id accountId = (Id)(agr.get('AccountId'));
-            Decimal totalLineItems = (Decimal)(agr.get('totalLineItems'));
-            accountsMap.put(accountId, new Account(Id=accountId, TotalLineItems__c=totalLineItems));
-        }
-
-        for (AggregateResult agr : [SELECT Opportunity.AccountId, COUNT(Quantity) TotalLineItems
+        for (AggregateResult agr : [SELECT Opportunity.AccountId, COUNT(Id) TotalLineItems
                                       FROM OpportunityLineItem
                                      WHERE OpportunityId IN :opportunityIds(newLineItems)
                                   GROUP BY Opportunity.AccountId
         ]) {
-            System.debug(Logginglevel.INFO, agr);
             Id accountId = (Id)(agr.get('AccountId'));
             Decimal totalLineItems = (Decimal)(agr.get('totalLineItems'));
             accountsMap.put(accountId, new Account(Id=accountId, TotalLineItems__c=totalLineItems));
