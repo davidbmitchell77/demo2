@@ -63,7 +63,7 @@ public with sharing class Case_Trigger_Handler {
                                      WHERE AccountId IN :accountIds(newCases)
                                        AND Status LIKE '%Closed%'
                                   GROUP BY AccountId
-
+            
         ]) {
             Id accountId = String.valueOf(agr.get('AccountId'));
             Integer cases = Integer.valueOf(agr.get('cases'));
@@ -134,7 +134,7 @@ public with sharing class Case_Trigger_Handler {
                 }
             }
         }
-
+ 
         accountsMap = filterAccounts(accountsMap, updatedAccountIds);
         contactsMap = filterContacts(contactsMap, primaryContactIds);
 
