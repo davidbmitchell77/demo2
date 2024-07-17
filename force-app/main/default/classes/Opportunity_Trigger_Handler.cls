@@ -38,9 +38,11 @@ public with sharing class Opportunity_Trigger_Handler {
             when AFTER_INSERT {
                 createChildTasks(oldOpportunities, newOpportunities, oldMap, newMap);
                 updateParentAccounts(oldOpportunities, newOpportunities, oldMap, newMap);
+                updateAccountsMaxRevenue(oldOpportunities, newOpportunities, oldMap, newMap);
             }
             when AFTER_UPDATE {
                 updateParentAccounts(oldOpportunities, newOpportunities, oldMap, newMap);
+                updateAccountsMaxRevenue(oldOpportunities, newOpportunities, oldMap, newMap);
             }
             when AFTER_DELETE {
 
@@ -111,6 +113,24 @@ public with sharing class Opportunity_Trigger_Handler {
 
         if (!accounts.isEmpty()) {
             DB_UTILS.upd(accounts);
+        }
+    }
+
+    private void updateAccountsMaxRevenue(List<Opportunity> oldOpportunities, List<Opportunity> newOpportunities, Map<Id,Opportunity> oldMap, Map<Id,Opportunity> newMap) {
+        Map<Id,Account> accountsMap = new Map<Id,Account>();
+
+        for (AggregateResult agr : [SELECT AccountId, MAX(ExpectedRevenue) maxExpectedRevenue
+                                      FROM Opportunity
+                                     WHERE AccountId IN :accountIds(newOpportunities)
+                                  GROUP BY AccountId
+        ]) {
+            Id accountId = (Id)agr.get('AccountId');
+            Decimal maxExpectedRevenue = (Decimal)agr.get('maxExpectedRevenue');
+            accountsMap.put(accountId, new Account(Id=accountId, MaximumExpectedOpportunityRevenue__c=maxExpectedRevenue));
+        }
+
+        if (!accountsMap.isEmpty()) {
+            DB_UTILS.ups(accountsMap.values());
         }
     }
 
