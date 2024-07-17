@@ -9,6 +9,15 @@ private class Case_Trigger_Test {
         );
         insert a;
 
+        Contact contact = new Contact(
+            AccountId = a.Id,
+            FirstName = 'TestMethod01',
+            LastName = 'Case_Trigger_Test',
+            Email = 'testmethod01.casetriggertest@test.com',
+            Phone = '(111) 111-1111'
+        );
+        insert contact;
+
         Case c = new Case(
             Subject = a.Name,
             AccountId = a.Id

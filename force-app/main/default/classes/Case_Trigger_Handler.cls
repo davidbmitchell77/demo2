@@ -18,6 +18,7 @@ public with sharing class Case_Trigger_Handler {
         }
         if (result == false) {
             if (SYS_UTILS.isBatch() || SYS_UTILS.isTest()) {
+                logErrors(cases);
                 throw new SYS_UTILS.SYS_EXCEPTION(System.Label.CASE_RECORD_DATA_IS_NOT_VALID);
             }
         }
@@ -63,7 +64,6 @@ public with sharing class Case_Trigger_Handler {
                                      WHERE AccountId IN :accountIds(newCases)
                                        AND Status LIKE '%Closed%'
                                   GROUP BY AccountId
-            
         ]) {
             Id accountId = String.valueOf(agr.get('AccountId'));
             Integer cases = Integer.valueOf(agr.get('cases'));
@@ -112,7 +112,7 @@ public with sharing class Case_Trigger_Handler {
         }
 
         Set<Id> updatedAccountIds = new Set<Id>();
-        Set<Id> primaryContactIds = new Set<Id>();
+        Map<Id,Case> primaryContactsMap = new Map<Id,Case>();
 
         if (newCases != null) {
             for (Case c : newCases) {
@@ -126,7 +126,7 @@ public with sharing class Case_Trigger_Handler {
                                     account.PrimaryContact__c = contact.Id;
                                     accountsMap.put(account.Id, account);
                                     updatedAccountIds.add(account.Id);
-                                    primaryContactIds.add(contact.Id);
+                                    primaryContactsMap.put(contact.Id, c);
                                 }
                             }
                         }
@@ -136,11 +136,12 @@ public with sharing class Case_Trigger_Handler {
         }
  
         accountsMap = filterAccounts(accountsMap, updatedAccountIds);
-        contactsMap = filterContacts(contactsMap, primaryContactIds);
 
         if (!accountsMap.isEmpty()) {
             DB_UTILS.upd(accountsMap.values());
-            DB_UTILS.ins(createEvents(contactsMap, newCases));
+        }
+        if (!primaryContactsMap.isEmpty()) {
+            DB_UTILS.ins(createEvents(primaryContactsMap));
         }
     }
 
@@ -172,21 +173,17 @@ public with sharing class Case_Trigger_Handler {
         return result;
     }
 
-    private List<Event> createEvents(Map<Id,Contact> contactsMap, List<Case> cases) {
+    private List<Event> createEvents(Map<Id,Case> contactsMap) {
         List<Event> events = new List<Event>();
-        if (cases != null) {
-            for (Case c : cases) {
-                if (c.AccountId != null) {
-                    if (contactsMap.containsKey(c.AccountId)) {
-                        Event e = new Event(
-                            Subject = c.Subject,
-                            WhoId = contactsMap.get(c.AccountId).Id,
-                            StartDateTime = Datetime.now().addDays(30),
-                            EndDateTime = Datetime.now().addDays(30).addHours(4)
-                        );
-                        events.add(e);
-                    }
-                }
+        if (contactsMap != null) {
+            for (Id contactId : contactsMap.keySet()) {
+                Event e = new Event(
+                    Subject = contactsMap.get(contactId).Subject,
+                    WhoId = contactId,
+                    StartDateTime = Datetime.now().addDays(30),
+                    EndDateTime = Datetime.now().addDays(30).addHours(4)
+                );
+                events.add(e);
             }
         }
         return events;
@@ -206,25 +203,24 @@ public with sharing class Case_Trigger_Handler {
         return results;
     }
 
-    private Map<Id,Contact> filterContacts(Map<Id,Contact> contactsMap, Set<Id> contactIds) {
-        Map<Id,Contact> results = new Map<Id,Contact>();
-        if (contactsMap != null) {
-            for (Contact c : contactsMap.values()) {
-                if (contactIds.contains(c.Id)) {
-                    if (!results.containsKey(c.Id)) {
-                        results.put(c.Id, c);
-                    }
-                }
-            }
-        }
-        return results;
-    }
-
     private void updateProcessedRecordIds(TriggerOperation to, List<Case> oldCases, List<Case> newCases) {
         Case_Trigger_Recursion.updateProcessedRecordIds(to, oldCases, newCases);
     }
 
     private Integer nvl(Integer i, Integer defaultValue) {
         return ((i != null) ? i : defaultValue);
+    }
+
+    private void logErrors(List<Case> cases) {
+        String s = '';
+        String newLine = '';
+        for (Integer i=0; i<cases.size(); i++) {
+            for (Database.error e : cases[i].getErrors()) {
+                s += ('Case[' + i + ']: ' + e.message);
+                newLine = '\n';
+            }
+        }
+        Logger.error(s, cases).addTag('Case_Trigger_Handler');
+        Logger.saveLog();
     }
 }
