@@ -140,6 +140,7 @@ public with sharing class Case_Trigger_Handler {
         if (!accountsMap.isEmpty()) {
             DB_UTILS.upd(accountsMap.values());
         }
+    
         if (!primaryContactsMap.isEmpty()) {
             DB_UTILS.ins(createEvents(primaryContactsMap));
         }
@@ -203,14 +204,6 @@ public with sharing class Case_Trigger_Handler {
         return results;
     }
 
-    private void updateProcessedRecordIds(TriggerOperation to, List<Case> oldCases, List<Case> newCases) {
-        Case_Trigger_Recursion.updateProcessedRecordIds(to, oldCases, newCases);
-    }
-
-    private Integer nvl(Integer i, Integer defaultValue) {
-        return ((i != null) ? i : defaultValue);
-    }
-
     private void logErrors(List<Case> cases) {
         String s = '';
         String newLine = '';
@@ -222,5 +215,13 @@ public with sharing class Case_Trigger_Handler {
         }
         Logger.error(s, cases).addTag('Case_Trigger_Handler');
         Logger.saveLog();
+    }
+
+    private Integer nvl(Integer i, Integer defaultValue) {
+        return ((i != null) ? i : defaultValue);
+    }
+
+    private void updateProcessedRecordIds(TriggerOperation to, List<Case> oldCases, List<Case> newCases) {
+        Case_Trigger_Recursion.updateProcessedRecordIds(to, oldCases, newCases);
     }
 }
