@@ -111,8 +111,8 @@ public with sharing class Case_Trigger_Handler {
             contactsMap.put(accountId, new Contact(Id=contactId, AccountId=accountId));
         }
 
-        Set<Id> updatedAccountIds = new Set<Id>();
-        Map<Id,Case> primaryContactsMap = new Map<Id,Case>();
+        Set<Id> accountIds = new Set<Id>();
+        Map<Id,Case> casesMap = new Map<Id,Case>();
 
         if (newCases != null) {
             for (Case c : newCases) {
@@ -125,8 +125,10 @@ public with sharing class Case_Trigger_Handler {
                                 if (account.PrimaryContact__c == null) {
                                     account.PrimaryContact__c = contact.Id;
                                     accountsMap.put(account.Id, account);
-                                    updatedAccountIds.add(account.Id);
-                                    primaryContactsMap.put(contact.Id, c);
+                                    if (!accountIds.contains(account.Id)) {
+                                        accountIds.add(account.Id);
+                                    }
+                                    casesMap.put(contact.Id, c);
                                 }
                             }
                         }
@@ -135,14 +137,14 @@ public with sharing class Case_Trigger_Handler {
             }
         }
  
-        accountsMap = filterAccounts(accountsMap, updatedAccountIds);
+        accountsMap = filterAccounts(accountsMap, accountIds);
 
         if (!accountsMap.isEmpty()) {
             DB_UTILS.upd(accountsMap.values());
         }
     
-        if (!primaryContactsMap.isEmpty()) {
-            DB_UTILS.ins(createEvents(primaryContactsMap));
+        if (!casesMap.isEmpty()) {
+            DB_UTILS.ins(createEvents(casesMap));
         }
     }
 
@@ -174,12 +176,12 @@ public with sharing class Case_Trigger_Handler {
         return result;
     }
 
-    private List<Event> createEvents(Map<Id,Case> contactsMap) {
+    private List<Event> createEvents(Map<Id,Case> casesMap) {
         List<Event> events = new List<Event>();
-        if (contactsMap != null) {
-            for (Id contactId : contactsMap.keySet()) {
+        if (casesMap != null) {
+            for (Id contactId : casesMap.keySet()) {
                 Event e = new Event(
-                    Subject = contactsMap.get(contactId).Subject,
+                    Subject = casesMap.get(contactId).Subject,
                     WhoId = contactId,
                     StartDateTime = Datetime.now().addDays(30),
                     EndDateTime = Datetime.now().addDays(30).addHours(4)
