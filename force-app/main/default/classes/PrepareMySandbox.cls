@@ -39,7 +39,7 @@ global class PrepareMySandbox implements SandboxPostCopy {
         }
         if (!accounts.isEmpty()) {
             DB_UTILS.ins(accounts);
-            accountsMap = getAccountsMap();
+            this.accountsMap = getAccountsMap();
         }
     }
 
@@ -55,7 +55,7 @@ global class PrepareMySandbox implements SandboxPostCopy {
             Contact c = new Contact(
                 FirstName = columns[0],
                 LastName  = columns[1],
-                AccountId = this.accountsMap.get(columns[2]).Id,
+                AccountId = (this.accountsMap.containsKey(columns[2]) ? this.accountsMap.get(columns[2]).Id : null),
                 Title     = columns[3],
                 Phone     = columns[4],
                 Email     = columns[5]
