@@ -72,7 +72,7 @@ global class PrepareMySandbox implements SandboxPostCopy {
     private Id getAccountId(String accountName) {
         Id result = null;
         if (!String.isBlank(accountName)) {
-            if (this.accountMap.containsKey(accountName)) {
+            if (this.accountsMap.containsKey(accountName)) {
                 result = this.accountsMap.get(accountName).Id;
             }
         }
