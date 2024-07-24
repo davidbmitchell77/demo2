@@ -40,12 +40,10 @@ export default class PlatformEventDemo extends LightningElement {
     unsub() {
         unsubscribe(this.subscription)
        .then((response) => {
-            if (response) {
-                console.warn(response);
-                success = true;
-                this.toggle();
-                showToast(this, 'Unsubscribed', `You have unsubscribed from the "${this.channelName}" platform event!`, 'warning');
-            }
+            console.warn(response);
+            success = true;
+            this.toggle();
+            showToast(this, 'Unsubscribed', `You have unsubscribed from the "${this.channelName}" platform event!`, 'warning');
         })
        .catch((error) => {
             console.error(error);
