@@ -11,8 +11,10 @@ export default class PlatformEventDemo extends LightningElement {
     subscription  = {};
 
     handleChange(event) {
-        if (event.target.label == 'Channel Name') {
-            this.channelName = event.target.values;
+        switch (event.target.label) {
+            case 'Channel Name':
+                this.channelName = event.target.values;
+                break;
         }
     }
 
@@ -36,7 +38,9 @@ export default class PlatformEventDemo extends LightningElement {
     }
 
     unsub() {
-        unsubscribe(this.subscription, (response) => { console.info({ ...response }); })
+        unsubscribe(this.subscription, (response) => {
+            console.info({ ...response });
+        })
        .then(() => {
             this.toggle();
             showToast(this, 'Unsubscribed', `You have unsubscribed from the "${this.channelName}" platform event!`, 'warning');
@@ -62,6 +66,9 @@ export default class PlatformEventDemo extends LightningElement {
     errorCallback(error, stack) {
         console.error(error);
         console.error(stack);
-        showToast(this, 'Error!', 'Lightning web component error (PlatformEventDemo).', 'error', 'sticky');
+        let message = JSON.stringify({ ...error });
+        if (error.hasOwnProperty('body.message')) { message = error.body.message; }
+        if (error.hasOwnProperty('message'     )) { message = error.message;      }
+        showToast(this, 'Lightning Web Component Error (PlatformEventDemo)', message, 'error', 'sticky');
     }
 }
