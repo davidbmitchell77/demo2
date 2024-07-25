@@ -25,9 +25,8 @@ tasks:
       fi
     command: |
       cd $ssldir
-      sf auth:jwt:grant --jwt-key-file $jwtkeyfile --client-id $devhub_clientid  --username $devhub_username  --alias $devhub_alias  --instance-url=$devhub_url  --set-default-dev-hub
-      sf auth:jwt:grant --jwt-key-file $jwtkeyfile --client-id $scratch_clientid --username $scratch_username --alias $scratch_alias --instance-url=$scratch_url
-      cd ..
+      sf auth:jwt:grant --jwt-key-file $jwtkeyfile --client-id $devhub_clientid --username $devhub_username --alias $devhub_alias --instance-url=$devhub_url --set-default-dev-hub
+      cd $workdir
       echo
       echo sf org list --all
       echo
@@ -35,6 +34,11 @@ tasks:
       echo
       java --version | grep "Runtime"
       sf --version
+      echo
+      echo sf config:set target-dev-hub=\$devhub_alias
+      echo
+      sf config:set target-dev-hub=$devhub_alias
+      sf org:open --url-only
 
 # List the ports to expose. Learn more: https://www.gitpod.io/docs/configure/workspaces/ports
 ports:
