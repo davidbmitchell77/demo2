@@ -64,11 +64,13 @@ export default class PlatformEventDemo extends LightningElement {
     }
 
     errorCallback(error, stack) {
-        console.error(error);
-        console.error(stack);
         let message = JSON.stringify({ ...error });
         if (error.hasOwnProperty('body.message')) { message = error.body.message; }
         if (error.hasOwnProperty('message'     )) { message = error.message;      }
+        const Logger = this.template.querySelector('c-logger');
+        Logger.error(message).addTag('lwc').addTag('platformEventDemo');
+        Logger.error(stack  ).addTag('lwc').addTag('platformEventDemo');
+        Logger.saveLog();
         showToast(this, 'Lightning Web Component Error (PlatformEventDemo)', message, 'error', 'sticky');
     }
 }
