@@ -39,7 +39,7 @@ tasks:
       echo
       sf config:set target-dev-hub=$devhub_alias
       sf config:set target-org=$devhub_alias
-      sf org:open --url-only
+      sf org:open --url-only 2>/dev/null
 
 # List the ports to expose. Learn more: https://www.gitpod.io/docs/configure/workspaces/ports
 ports:
