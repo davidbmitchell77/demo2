@@ -13,7 +13,7 @@ export default class PlatformEventDemo extends LightningElement {
     handleChange(event) {
         switch (event.target.label) {
             case 'Channel Name':
-                this.channelName = event.target.values;
+                this.channelName = event.target.value;
                 break;
         }
     }
