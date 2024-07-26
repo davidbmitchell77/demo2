@@ -9,6 +9,7 @@ export default class PlatformEventDemo extends LightningElement {
     subDisabled   = true;
     unsubDisabled = true;
     subscription  = {};
+    messages      = '';
 
     handleChange(event) {
         switch (event.target.label) {
@@ -24,7 +25,12 @@ export default class PlatformEventDemo extends LightningElement {
     }
 
     sub() {
-        subscribe(this.channelName, -1, null)
+        subscribe(this.channelName, -1, (response) => {
+            let platformEvent = JSON.parse(JSON.stringify(response));
+            console.info(platformEvent);
+            let payload = { ...platformEvent.data.payload };
+            this.messages += (JSON.stringify(payload) + '\n');
+        })
        .then((response) => {
             console.info({ ...response });
             this.subscription = { ...response };
@@ -43,6 +49,7 @@ export default class PlatformEventDemo extends LightningElement {
         })
        .then(() => {
             this.toggle();
+            this.messages = '';
             showToast(this, 'Unsubscribed', `You have unsubscribed from the "${this.channelName}" platform event!`, 'warning');
         })
        .catch((error) => {
@@ -67,10 +74,15 @@ export default class PlatformEventDemo extends LightningElement {
         let message = JSON.stringify({ ...error });
         if (error.hasOwnProperty('body.message')) { message = error.body.message; }
         if (error.hasOwnProperty('message'     )) { message = error.message;      }
-        const Logger = this.template.querySelector('c-logger');
-        Logger.error(message).addTag('lwc').addTag('platformEventDemo');
-        Logger.error(stack  ).addTag('lwc').addTag('platformEventDemo');
-        Logger.saveLog();
+        try {
+            const Logger = this.template.querySelector('c-logger');
+            Logger.error(message).addTag('lwc').addTag('platformEventDemo');
+            Logger.error(stack  ).addTag('lwc').addTag('platformEventDemo');
+            Logger.saveLog();
+        }
+        catch(error) {
+            console.error(error);
+        }
         showToast(this, 'Lightning Web Component Error (PlatformEventDemo)', message, 'error', 'sticky');
     }
 }
