@@ -1,0 +1,4 @@
+lightning-textarea {
+    color: #36454f;
+    --sds-c-textarea-sizing-min-height: 175px;
+}
