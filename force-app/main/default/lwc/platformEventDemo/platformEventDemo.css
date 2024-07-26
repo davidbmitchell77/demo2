@@ -1,4 +1,5 @@
 lightning-textarea {
     color: #36454f;
+    font-family: Calibri,Arial,Helvetica,sans-serif;
     --sds-c-textarea-sizing-min-height: 175px;
 }
