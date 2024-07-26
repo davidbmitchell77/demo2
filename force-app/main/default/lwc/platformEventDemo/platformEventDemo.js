@@ -34,7 +34,7 @@ export default class PlatformEventDemo extends LightningElement {
        .then((response) => {
             console.info({ ...response });
             this.subscription = { ...response };
-            this.toggle();
+            this.toggleButtons();
             showToast(this, 'Success', `You have subscribed to the "${this.channelName}" platform event!`, 'success');
         })
        .catch((error) => {
@@ -48,8 +48,8 @@ export default class PlatformEventDemo extends LightningElement {
             console.info({ ...response });
         })
        .then(() => {
-            this.toggle();
             this.messages = '';
+            this.toggleButtons();
             showToast(this, 'Unsubscribed', `You have unsubscribed from the "${this.channelName}" platform event!`, 'warning');
         })
        .catch((error) => {
@@ -58,7 +58,7 @@ export default class PlatformEventDemo extends LightningElement {
         });
     }
 
-    toggle() {
+    toggleButtons() {
         this.subDisabled   = !this.subDisabled;
         this.unsubDisabled = !this.unsubDisabled;
     }
@@ -71,7 +71,7 @@ export default class PlatformEventDemo extends LightningElement {
     }
 
     errorCallback(error, stack) {
-        let message = JSON.stringify({ ...error });
+        let message = (typeof(error) === 'object' ? JSON.stringify(error) : error);
         if (error.hasOwnProperty('body.message')) { message = error.body.message; }
         if (error.hasOwnProperty('message'     )) { message = error.message;      }
         try {
@@ -80,9 +80,11 @@ export default class PlatformEventDemo extends LightningElement {
             Logger.error(stack  ).addTag('lwc').addTag('platformEventDemo');
             Logger.saveLog();
         }
-        catch(error) {
-            console.error(error);
+        catch(e) {
+            console.warn('Nebula Logger:', e);
+            console.error(message);
+            console.error(stack);
         }
-        showToast(this, 'Lightning Web Component Error (PlatformEventDemo)', message, 'error', 'sticky');
+        showToast(this, 'Web Component Error!', message, 'error', 'sticky');
     }
 }
