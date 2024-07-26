@@ -9,5 +9,10 @@
                 <lightning-button class="slds-var-m-right_x-small" type="text" variant="destructive-text" label="Unsubscribe" title="Unsubscribe" onclick={unsub} disabled={unsubDisabled}></lightning-button>
             </div>
         </div>
+        <template if:true={subDisabled}>
+            <div class="slds-var-m-around_medium row">
+                <lightning-textarea placeholder="Messages will appear here..." value={messages} disabled read-only></lightning-textarea>
+            </div>
+        </template>
     </lightning-card>
 </template>
