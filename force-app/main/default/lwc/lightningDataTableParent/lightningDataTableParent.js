@@ -95,13 +95,20 @@ export default class LightningDataTableParent extends LightningElement {
     }
 
     errorCallback(error, stack) {
-        let message = JSON.stringify(error);
+        let message = (typeof(error) === 'object' ? JSON.stringify(error) : error);
         if (error.hasOwnProperty('body.message')) { message = error.body.message; }
         if (error.hasOwnProperty('message'     )) { message = error.message;      }
-        const Logger = this.template.querySelector('c-logger');
-        Logger.error(message).addTag('lwc').addTag('contactDataTable');
-        Logger.error(stack  ).addTag('lwc').addTag('contactDataTable');
-        Logger.saveLog();
-        showToast('Unexpected error encountered!', message, 'error', 'sticky');
+        try {
+            const Logger = this.template.querySelector('c-logger');
+            Logger.error(message).addTag('lwc').addTag('platformEventDemo');
+            Logger.error(stack  ).addTag('lwc').addTag('platformEventDemo');
+            Logger.saveLog();
+        }
+        catch(e) {
+            console.warn('Nebula Logger:', e);
+            console.error(message);
+            console.error(stack);
+        }
+        showToast(this, 'Child Web Component Error!', message, 'error', 'sticky');
     }
 }
