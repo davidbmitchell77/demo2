@@ -43,7 +43,7 @@ export default class PlatformEventDemo extends LightningElement {
        });
     }
 
-    unsub() {
+    uns() {
         unsubscribe(this.subscription, (response) => {
             console.info({ ...response });
         })
