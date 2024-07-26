@@ -3,6 +3,9 @@ import { subscribe, unsubscribe } from 'lightning/empApi';
 import { onError                } from 'lightning/empApi';
 import { showToast              } from 'c/utils';
 
+import AuraLoggerError from '@salesforce/apex/AuraLogger.error';
+import AuraLoggerInfo  from '@salesforce/apex/AuraLogger.info' ;
+
 export default class PlatformEventDemo extends LightningElement {
 
     channelName   = '/event/LightningWebComponent__e';
@@ -33,12 +36,14 @@ export default class PlatformEventDemo extends LightningElement {
         })
        .then((response) => {
             console.info({ ...response });
+            AuraLoggerInfo({ msg: JSON.stringify(response) });
             this.subscription = { ...response };
             this.toggleButtons();
             showToast(this, 'Success', `You have subscribed to the "${this.channelName}" platform event!`, 'success');
         })
        .catch((error) => {
             console.error({ ...error });
+            AuraLoggerError({ msg: JSON.stringify(response), tags: [ 'lwc', 'plaftformEventDemo', 'subscribe' ] });
             showToast(this, 'Error!', `Error subscribing to "${this.channelName}" platform event!`, 'error', 'sticky');
        });
     }
@@ -68,23 +73,5 @@ export default class PlatformEventDemo extends LightningElement {
             console.error({ ...error });
             showToast(this, 'Error!', 'Lightning web component listener failure (PlatformEventDemo).', 'error', 'pester');
         });
-    }
-
-    errorCallback(error, stack) {
-        let message = (typeof(error) === 'object' ? JSON.stringify(error) : error);
-        if (error.hasOwnProperty('body.message')) { message = error.body.message; }
-        if (error.hasOwnProperty('message'     )) { message = error.message;      }
-        try {
-            const Logger = this.template.querySelector('c-logger');
-            Logger.error(message).addTag('lwc').addTag('platformEventDemo');
-            Logger.error(stack  ).addTag('lwc').addTag('platformEventDemo');
-            Logger.saveLog();
-        }
-        catch(e) {
-            console.warn('Nebula Logger:', e);
-            console.error(message);
-            console.error(stack);
-        }
-        showToast(this, 'Web Component Error!', message, 'error', 'sticky');
     }
 }
