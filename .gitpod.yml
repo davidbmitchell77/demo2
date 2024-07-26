@@ -34,11 +34,8 @@ tasks:
       echo
       java --version | grep "Runtime"
       sf --version
-      echo
-      echo sf config:set target-dev-hub=\$devhub_alias
-      echo
-      sf config:set target-dev-hub=$devhub_alias
-      sf config:set target-org=$devhub_alias
+      sf config:set target-dev-hub=$devhub_alias >/dev/null
+      sf config:set target-org=$devhub_alias >/dev/null
       sf org:open --url-only 2>/dev/null
 
 # List the ports to expose. Learn more: https://www.gitpod.io/docs/configure/workspaces/ports
