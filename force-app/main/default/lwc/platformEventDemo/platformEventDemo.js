@@ -9,6 +9,7 @@ import AuraInfo  from '@salesforce/apex/AuraLogger.info' ;
 export default class PlatformEventDemo extends LightningElement {
 
     channelName   = '/event/LightningWebComponent__e';
+    inpDisabled   = true;
     subDisabled   = true;
     unsDisabled   = true;
     subscription  = {};
@@ -16,6 +17,7 @@ export default class PlatformEventDemo extends LightningElement {
 
     connectedCallback() {
         this.registerErrorListener();
+        this.inpDisabled = false;
         this.subDisabled = false;
     }
 
@@ -29,7 +31,7 @@ export default class PlatformEventDemo extends LightningElement {
        .then((response) => {
             console.info({ ...response });
             this.subscription = { ...response };
-            this.toggleButtons();
+            this.toggle();
             AuraInfo({ msg: JSON.stringify(response) });
             showToast(this, 'Success', `You have subscribed to the "${this.channelName}" platform event!`, 'success');
         })
@@ -46,7 +48,7 @@ export default class PlatformEventDemo extends LightningElement {
         })
        .then(() => {
             this.messages = '';
-            this.toggleButtons();
+            this.toggle();
             showToast(this, 'Unsubscribed', `You have unsubscribed from the "${this.channelName}" platform event!`, 'warning');
         })
        .catch((error) => {
@@ -64,9 +66,18 @@ export default class PlatformEventDemo extends LightningElement {
         }
     }
 
+    toggle() {
+         this.toggleButtons();
+         this.toggleInput();
+    }
+
     toggleButtons() {
         this.subDisabled = !this.subDisabled;
         this.unsDisabled = !this.unsDisabled;
+    }
+
+    toggleInput() {
+        this.inpDisabled = !this.inpDisabled;
     }
 
     validateInput(event) {
