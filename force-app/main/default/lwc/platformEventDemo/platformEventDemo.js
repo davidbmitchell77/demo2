@@ -44,7 +44,7 @@ export default class PlatformEventDemo extends LightningElement {
        .catch((error) => {
             console.error({ ...error });
             AuraError({ msg: JSON.stringify(error), tags: [ 'lwc', 'plaftformEventDemo', 'subscribe' ] });
-            showToast(this, 'Error!', `Error subscribing to "${this.channelName}" platform event!`, 'error', 'sticky');
+            showToast(this, 'Subscribe Error!',  this.message(error), 'error', 'sticky');
        });
     }
 
@@ -60,7 +60,7 @@ export default class PlatformEventDemo extends LightningElement {
        .catch((error) => {
             console.error({ ...error });
             AuraError({ msg: JSON.stringify(error), tags: [ 'lwc', 'plaftformEventDemo', 'unsubscribe' ] });
-            showToast(this, 'Error!', `Error unsubscribing from "${this.channelName}" platform event!`, 'error', 'sticky');
+            showToast(this, 'Unsubscribe Error!', this.message(error), 'error', 'sticky');
         });
     }
 
@@ -69,11 +69,19 @@ export default class PlatformEventDemo extends LightningElement {
         this.unsubDisabled = !this.unsubDisabled;
     }
 
+    message(error) {
+        let message = (typeof(error) === 'object' ? JSON.stringify(error) : error);
+        if (error.hasOwnProperty('body.message')) { message = error.body.message; } else
+        if (error.hasOwnProperty('message'     )) { message = error.message;      } else
+        if (error.hasOwnProperty('error'       )) { message = error.error;        }
+        return message;
+    }
+
     registerErrorListener() {
         onError((error) => {
             console.error({ ...error });
             AuraError({ msg: JSON.stringify(error), tags: [ 'lwc', 'plaftformEventDemo', 'registerErrorListener' ] });
-            showToast(this, 'Error!', 'Lightning web component listener failure (PlatformEventDemo).', 'error', 'pester');
+            showToast(this, 'Error!', this.message(error), 'error', 'pester');
         });
     }
 }
