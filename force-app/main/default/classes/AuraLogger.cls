@@ -20,10 +20,8 @@ public class AuraLogger {
             when 5    { Logger.error(msg).addTag(tags[0]).addTag(tags[1]).addTag(tags[2]).addTag(tags[3]).addTag(tags[4]); }
             when else { Logger.error(msg).addTag(tags[0]).addTag(tags[1]).addTag(tags[2]).addTag(tags[3]).addTag(tags[4]); }
         }
-        if (i > 0) {
-            if (!String.isEmpty(msg)) {
-                Logger.saveLog();
-            }
+        if (!String.isEmpty(msg)) {
+            Logger.saveLog();
         }
     }
     
