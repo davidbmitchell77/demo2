@@ -36,14 +36,14 @@ export default class PlatformEventDemo extends LightningElement {
         })
        .then((response) => {
             console.info({ ...response });
-            AuraInfo({ msg: JSON.stringify(response) });
             this.subscription = { ...response };
             this.toggleButtons();
+            AuraInfo({ msg: JSON.stringify(response) });
             showToast(this, 'Success', `You have subscribed to the "${this.channelName}" platform event!`, 'success');
         })
        .catch((error) => {
             console.error({ ...error });
-            AuraError({ msg: JSON.stringify(response), tags: [ 'lwc', 'plaftformEventDemo', 'subscribe' ] });
+            AuraError({ msg: JSON.stringify(error), tags: [ 'lwc', 'plaftformEventDemo', 'subscribe' ] });
             showToast(this, 'Error!', `Error subscribing to "${this.channelName}" platform event!`, 'error', 'sticky');
        });
     }
@@ -59,6 +59,7 @@ export default class PlatformEventDemo extends LightningElement {
         })
        .catch((error) => {
             console.error({ ...error });
+            AuraError({ msg: JSON.stringify(error), tags: [ 'lwc', 'plaftformEventDemo', 'unsubscribe' ] });
             showToast(this, 'Error!', `Error unsubscribing from "${this.channelName}" platform event!`, 'error', 'sticky');
         });
     }
@@ -71,6 +72,7 @@ export default class PlatformEventDemo extends LightningElement {
     registerErrorListener() {
         onError((error) => {
             console.error({ ...error });
+            AuraError({ msg: JSON.stringify(error), tags: [ 'lwc', 'plaftformEventDemo', 'registerErrorListener' ] });
             showToast(this, 'Error!', 'Lightning web component listener failure (PlatformEventDemo).', 'error', 'pester');
         });
     }
