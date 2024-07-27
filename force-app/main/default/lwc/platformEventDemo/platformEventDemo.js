@@ -10,17 +10,9 @@ export default class PlatformEventDemo extends LightningElement {
 
     channelName   = '/event/LightningWebComponent__e';
     subDisabled   = true;
-    unsubDisabled = true;
+    unsDisabled = true;
     subscription  = {};
     messages      = '';
-
-    handleChange(event) {
-        switch (event.target.label) {
-            case 'Channel Name':
-                this.channelName = event.target.value;
-                break;
-        }
-    }
 
     connectedCallback() {
         this.registerErrorListener();
@@ -44,7 +36,7 @@ export default class PlatformEventDemo extends LightningElement {
        .catch((error) => {
             console.error({ ...error });
             AuraError({ msg: JSON.stringify(error), tags: [ 'lwc', 'plaftformEventDemo', 'subscribe' ] });
-            showToast(this, 'Subscribe Error!',  this.message(error), 'error', 'sticky');
+            showToast(this, 'Subscribe Error!',  this.getMessage(error), 'error', 'sticky');
        });
     }
 
@@ -60,16 +52,28 @@ export default class PlatformEventDemo extends LightningElement {
        .catch((error) => {
             console.error({ ...error });
             AuraError({ msg: JSON.stringify(error), tags: [ 'lwc', 'plaftformEventDemo', 'unsubscribe' ] });
-            showToast(this, 'Unsubscribe Error!', this.message(error), 'error', 'sticky');
+            showToast(this, 'Unsubscribe Error!', this.getMessage(error), 'error', 'sticky');
         });
     }
 
-    toggleButtons() {
-        this.subDisabled   = !this.subDisabled;
-        this.unsubDisabled = !this.unsubDisabled;
+    handleChange(event) {
+        switch (event.target.label) {
+            case 'Channel':
+                this.channelName = event.target.value;
+                break;
+        }
     }
 
-    message(error) {
+    toggleButtons() {
+        this.subDisabled = !this.subDisabled;
+        this.unsDisabled = !this.unsDisabled;
+    }
+
+    validateInput(event) {
+        this.subDisabled = ((event.target.value.length === 0) ? true : !this.unsDisabled);
+    }
+
+    getMessage(error) {
         let message = (typeof(error) === 'object' ? JSON.stringify(error) : error);
         if (error.hasOwnProperty('body.message')) { message = error.body.message; } else
         if (error.hasOwnProperty('message'     )) { message = error.message;      } else
@@ -81,7 +85,7 @@ export default class PlatformEventDemo extends LightningElement {
         onError((error) => {
             console.error({ ...error });
             AuraError({ msg: JSON.stringify(error), tags: [ 'lwc', 'plaftformEventDemo', 'registerErrorListener' ] });
-            showToast(this, 'Error!', this.message(error), 'error', 'pester');
+            showToast(this, 'Error!', this.getMessage(error), 'error', 'pester');
         });
     }
 }
