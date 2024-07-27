@@ -10,7 +10,7 @@ export default class PlatformEventDemo extends LightningElement {
 
     channelName   = '/event/LightningWebComponent__e';
     subDisabled   = true;
-    unsDisabled = true;
+    unsDisabled   = true;
     subscription  = {};
     messages      = '';
 
