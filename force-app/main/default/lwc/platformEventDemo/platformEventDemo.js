@@ -9,6 +9,7 @@ import AuraInfo  from '@salesforce/apex/AuraLogger.info' ;
 export default class PlatformEventDemo extends LightningElement {
 
     channelName   = '/event/LightningWebComponent__e';
+    showMessages  = false;
     inpDisabled   = true;
     subDisabled   = true;
     unsDisabled   = true;
@@ -69,6 +70,7 @@ export default class PlatformEventDemo extends LightningElement {
     toggle() {
          this.toggleButtons();
          this.toggleInput();
+         this.toggleMessages();
     }
 
     toggleButtons() {
@@ -80,8 +82,13 @@ export default class PlatformEventDemo extends LightningElement {
         this.inpDisabled = !this.inpDisabled;
     }
 
+    toggleMessages() {
+        this.showMessages = !this.showMessages;
+    }
+
     validateInput(event) {
-        this.subDisabled = ((event.target.value.length === 0) ? true : !this.unsDisabled);
+        this.subDisabled  = ((event.target.value.length === 0) ? true : !this.unsDisabled);
+        this.showMessages = ((event.target.value.length === 0) ? false : this.showMessages);
     }
 
     getMessage(error) {
@@ -96,7 +103,7 @@ export default class PlatformEventDemo extends LightningElement {
         onError((error) => {
             console.error({ ...error });
             AuraError({ msg: JSON.stringify(error), tags: [ 'lwc', 'plaftformEventDemo', 'registerErrorListener' ] });
-            showToast(this, 'Error!', this.getMessage(error), 'error', 'pester');
+            showToast(this, 'Error!', this.getMessage(error), 'error', 'sticky');
         });
     }
 }
