@@ -2,10 +2,10 @@
     <lightning-card title="Platform Event Demo" icon-name="custom:custom14">
         <div class="slds-var-m-around_medium">
             <p>Use the buttons below to subscribe or unsubscribe to a streaming channel!</p>
-            <lightning-input label="Channel Name" value={channelName} onchange={handleChange} required></lightning-input>
+            <lightning-input label="Channel" value={channelName} onchange={handleChange} onkeyup={validateInput} placeholder="Enter the event channel uri..." disabled={subDisabled}></lightning-input>
             <div class="slds-var-m-top_medium">
-                <lightning-button class="slds-var-m-right_x-small" type="submit"  variant="brand"            label="Subscribe"   title="Subscribe"   onclick={sub} disabled={subDisabled}></lightning-button>
-                <lightning-button class="slds-var-m-right_x-small" type="button"  variant="destructive-text" label="Unsubscribe" title="Unsubscribe" onclick={uns} disabled={unsubDisabled}></lightning-button>
+                <lightning-button class="slds-var-m-right_x-small" type="button" variant="brand"            label="Subscribe"   title="Subscribe"   onclick={sub} disabled={subDisabled}></lightning-button>
+                <lightning-button class="slds-var-m-right_x-small" type="button" variant="destructive-text" label="Unsubscribe" title="Unsubscribe" onclick={uns} disabled={unsDisabled}></lightning-button>
             </div>
         </div>
         <template if:true={subDisabled}>
