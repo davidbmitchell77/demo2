@@ -46,13 +46,13 @@ export default class PlatformEventDemo extends LightningElement {
             this.messages += (JSON.stringify(response.data.payload) + '\n');
         })
        .then((response) => {
-            console.info({ ...response });
-            this.subscription = { ...response };
-            this.toggle();
             this.listener = true;
-            AuraInfo({ msg: JSON.stringify(response) });
             setTimeout(() => {
                 if (this.listener) {
+                    console.info({ ...response });
+                    this.subscription = { ...response };
+                    this.toggle();
+                    AuraInfo({ msg: JSON.stringify(response) });
                     showToast(this, 'Success', `You have subscribed to the "${this.channelName}" platform event!`, 'success');
                 }
             }, 1000);
