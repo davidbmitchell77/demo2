@@ -29,6 +29,7 @@ export default class PlatformEventDemo extends LightningElement {
     inpDisabled   = true;
     subDisabled   = true;
     unsDisabled   = true;
+    listener      = false;
     subscription  = {};
     messages      = '';
 
@@ -48,8 +49,13 @@ export default class PlatformEventDemo extends LightningElement {
             console.info({ ...response });
             this.subscription = { ...response };
             this.toggle();
+            this.listener = true;
             AuraInfo({ msg: JSON.stringify(response) });
-            showToast(this, 'Success', `You have subscribed to the "${this.channelName}" platform event!`, 'success');
+            setTimeout(() => {
+                if (this.listener) {
+                    showToast(this, 'Success', `You have subscribed to the "${this.channelName}" platform event!`, 'success');
+                }
+            }, 1000);
         })
        .catch((error) => {
             console.error({ ...error });
@@ -65,10 +71,12 @@ export default class PlatformEventDemo extends LightningElement {
        .then(() => {
             this.messages = '';
             this.toggle();
+            this.listener = false;
             showToast(this, 'Unsubscribed', `You have unsubscribed from the "${this.channelName}" platform event!`, 'warning');
         })
        .catch((error) => {
             console.error({ ...error });
+            this.listener = false;
             AuraError({ msg: JSON.stringify(error), tags: [ 'lwc', 'plaftformEventDemo', 'unsubscribe' ] });
             showToast(this, 'Unsubscribe Error!', this.getMessage(error), 'error', 'sticky');
         });
@@ -118,6 +126,7 @@ export default class PlatformEventDemo extends LightningElement {
     registerErrorListener() {
         onError((error) => {
             console.error({ ...error });
+            this.listener = false;
             AuraError({ msg: JSON.stringify(error), tags: [ 'lwc', 'plaftformEventDemo', 'registerErrorListener' ] });
             showToast(this, 'Error!', this.getMessage(error), 'error', 'sticky');
         });
