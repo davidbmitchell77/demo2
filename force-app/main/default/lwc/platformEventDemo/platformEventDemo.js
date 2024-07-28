@@ -6,9 +6,25 @@ import { showToast              } from 'c/utils';
 import AuraError from '@salesforce/apex/AuraLogger.error';
 import AuraInfo  from '@salesforce/apex/AuraLogger.info' ;
 
+const PLATFORM_EVENT_CHANNELS = [
+    { label: 'ABC News',                 value: '/event/ABC__e'                   },
+    { label: 'Al Jazeera',               value: '/event/AlJazeera__e'             },
+    { label: 'Associated Press',         value: '/event/AssociatedPress__e'       },
+    { label: 'Breitbart',                value: '/event/Breitbart__e'             },
+    { label: 'CBS News',                 value: '/event/CBSNews__e'               },
+    { label: 'CNN',                      value: '/event/CNN__e'                   },
+    { label: 'Fox News',                 value: '/event/FoxNews__e'               },
+    { label: 'Huffington Post',          value: '/event/HuffingtonPost__e'        },
+    { label: 'Lightning Web Components', value: '/event/LightningWebComponent__e' },
+    { label: 'MSNBC',                    value: '/event/MSNBC__e'                 },
+    { label: 'NBC News',                 value: '/event/NBCNews__e'               },
+    { label: 'Reuters',                  value: '/event/Reuters__e'               },
+    { label: 'Sky News',                 value: '/event/SkyNews__e'               }
+];
+
 export default class PlatformEventDemo extends LightningElement {
 
-    channelName   = '/event/LightningWebComponent__e';
+    channelName   = undefined;
     showMessages  = false;
     inpDisabled   = true;
     subDisabled   = true;
@@ -16,10 +32,11 @@ export default class PlatformEventDemo extends LightningElement {
     subscription  = {};
     messages      = '';
 
+    options = PLATFORM_EVENT_CHANNELS;
+
     connectedCallback() {
         this.registerErrorListener();
         this.inpDisabled = false;
-        this.subDisabled = false;
     }
 
     sub() {
@@ -61,6 +78,7 @@ export default class PlatformEventDemo extends LightningElement {
         switch (event.target.label) {
             case 'Channel':
                 this.channelName = event.target.value;
+                this.subDisabled = false;
                 break;
         }
     }
