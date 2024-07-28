@@ -7,9 +7,10 @@ import AuraError from '@salesforce/apex/AuraLogger.error';
 import AuraInfo  from '@salesforce/apex/AuraLogger.info' ;
 
 const PLATFORM_EVENT_CHANNELS = [
-    { label: 'ABC News',                 value: '/event/ABC__e'                   },
+    { label: 'ABC News',                 value: '/event/ABCNews__e'               },
     { label: 'Al Jazeera',               value: '/event/AlJazeera__e'             },
     { label: 'Associated Press',         value: '/event/AssociatedPress__e'       },
+    { label: 'BBC News',                 value: '/event/BBCNews__e'               },
     { label: 'Breitbart',                value: '/event/Breitbart__e'             },
     { label: 'CBS News',                 value: '/event/CBSNews__e'               },
     { label: 'CNN',                      value: '/event/CNN__e'                   },
@@ -53,7 +54,7 @@ export default class PlatformEventDemo extends LightningElement {
                     this.subscription = { ...response };
                     this.toggle();
                     AuraInfo({ msg: JSON.stringify(response) });
-                    showToast(this, 'Success', `You have subscribed to the "${this.channelName}" platform event!`, 'success');
+                    showToast(this, 'Success', `You have subscribed to the "${this.channelName}" event channel!`, 'success');
                 }
             }, 1000);
         })
@@ -72,7 +73,7 @@ export default class PlatformEventDemo extends LightningElement {
             this.messages = '';
             this.toggle();
             this.listener = false;
-            showToast(this, 'Unsubscribed', `You have unsubscribed from the "${this.channelName}" platform event!`, 'warning');
+            showToast(this, 'Unsubscribed', `You have unsubscribed from the "${this.channelName}" event channel!`, 'warning');
         })
        .catch((error) => {
             console.error({ ...error });
