@@ -24,10 +24,8 @@ export default class PlatformEventDemo extends LightningElement {
 
     sub() {
         subscribe(this.channelName, -1, (response) => {
-            let platformEvent = JSON.parse(JSON.stringify(response));
-            console.info(platformEvent);
-            let payload = { ...platformEvent.data.payload };
-            this.messages += (JSON.stringify(payload) + '\n');
+            console.info({ ...response });
+            this.messages += (JSON.stringify(response.data.payload) + '\n');
         })
        .then((response) => {
             console.info({ ...response });
