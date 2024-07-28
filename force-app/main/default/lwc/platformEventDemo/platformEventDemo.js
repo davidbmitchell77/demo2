@@ -126,6 +126,7 @@ export default class PlatformEventDemo extends LightningElement {
     registerErrorListener() {
         onError((error) => {
             console.error({ ...error });
+            this.subDisabled = true;
             this.listener = false;
             AuraError({ msg: JSON.stringify(error), tags: [ 'lwc', 'plaftformEventDemo', 'registerErrorListener' ] });
             showToast(this, 'Error!', this.getMessage(error), 'error', 'sticky');
