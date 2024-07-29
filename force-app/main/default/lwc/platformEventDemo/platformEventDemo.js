@@ -54,7 +54,7 @@ export default class PlatformEventDemo extends LightningElement {
                     this.subscription = { ...response };
                     this.toggle();
                     AuraInfo({ msg: JSON.stringify(response) });
-                    showToast(this, 'Success', `You have subscribed to the "${this.channelName}" event channel!`, 'success');
+                    showToast(this, 'Success', `You have subscribed to the "${this.channelName}" event channel!`, 'success', 'pester');
                 }
             }, 1000);
         })
@@ -130,7 +130,7 @@ export default class PlatformEventDemo extends LightningElement {
             this.subDisabled = true;
             this.listener = false;
             AuraError({ msg: JSON.stringify(error), tags: [ 'lwc', 'plaftformEventDemo', 'registerErrorListener' ] });
-            showToast(this, 'Error!', this.getMessage(error), 'error', 'sticky');
+            showToast(this, 'Error!', this.getMessage(error), 'error', 'pester');
         });
     }
 }
