@@ -32,7 +32,7 @@ export default class PlatformEventDemo extends LightningElement {
     listener      = false;
     subscription  = {};
     messages      = '';
-    errors        = new Set([]);
+    errors        = new Set();
 
     options = PLATFORM_EVENT_CHANNELS;
 
