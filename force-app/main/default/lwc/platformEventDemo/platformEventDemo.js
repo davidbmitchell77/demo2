@@ -1,8 +1,8 @@
 import { LightningElement           } from 'lwc';
 import { subscribe, unsubscribe     } from 'lightning/empApi';
 import { onError                    } from 'lightning/empApi';
-import { stringify, stringifyPretty } from 'c/utils';
 import { parse                      } from 'c/utils';
+import { stringify, stringifyPretty } from 'c/utils';
 import { logger, showToast          } from 'c/utils';
 
 const PLATFORM_EVENT_CHANNELS = [
