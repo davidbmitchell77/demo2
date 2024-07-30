@@ -1,8 +1,9 @@
-import { LightningElement       } from 'lwc';
-import { subscribe, unsubscribe } from 'lightning/empApi';
-import { onError                } from 'lightning/empApi';
-import { parse, stringify       } from 'c/utils';
-import { logger, showToast      } from 'c/utils';
+import { LightningElement           } from 'lwc';
+import { subscribe, unsubscribe     } from 'lightning/empApi';
+import { onError                    } from 'lightning/empApi';
+import { stringify, stringifyPretty } from 'c/utils';
+import { parse                      } from 'c/utils';
+import { logger, showToast          } from 'c/utils';
 
 const PLATFORM_EVENT_CHANNELS = [
     { label: 'ABC News',                 value: '/event/ABCNews__e'               },
@@ -59,7 +60,7 @@ export default class PlatformEventDemo extends LightningElement {
         })
        .catch((error) => {
             console.error(parse(error));
-            logger.error(stringify(error), [ 'lwc', 'plaftformEventDemo', 'subscribe' ]);
+            logger.error(stringifyPretty(error), [ 'lwc', 'plaftformEventDemo', 'subscribe' ]);
             showToast(this, 'Subscribe Error!',  this.getMessage(error), 'error', 'sticky');
        });
     }
@@ -130,7 +131,7 @@ export default class PlatformEventDemo extends LightningElement {
                 this.errors.add(error.id);
                 this.subDisabled = true;
                 this.listener = false;
-                logger.error(stringify(error), [ 'lwc', 'plaftformEventDemo', 'registerErrorListener' ]);
+                logger.error(stringifyPretty(error), [ 'lwc', 'plaftformEventDemo', 'registerErrorListener' ]);
                 showToast(this, 'Error!', this.getMessage(error), 'error', 'pester');
             }
         });
