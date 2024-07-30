@@ -1,7 +1,13 @@
-import { ShowToastEvent } from 'lightning/platformShowToastEvent';
+import { ShowToastEvent } from 'lightning/platformShowToastEvent'  ;
+
+import debug              from '@salesforce/apex/AuraLogger.debug' ;
+import info               from '@salesforce/apex/AuraLogger.info'  ;
+import error              from '@salesforce/apex/AuraLogger.error' ;
+import fine               from '@salesforce/apex/AuraLogger.fine'  ;
+import finer              from '@salesforce/apex/AuraLogger.finer' ;
+import finest             from '@salesforce/apex/AuraLogger.finest';
 
 const exportCSVFile = (headers, totalData, fileTitle) => {
-
     if (!totalData || !totalData.length) {
         return null;
     }
@@ -75,8 +81,34 @@ const uuid = () => {
     return crypto.randomUUID().toLowerCase();
 }
 
+const parse = (obj) => {
+    return (JSON.parse(JSON.stringifiy(obj)));
+}
+
+const stringify = (obj) => {
+    return JSON.stringify(obj);
+}
+
+const stringifyPretty = (obj) => {
+    return JSON.stringify(obj, null, 4);
+}
+
 const showToast = (lwc, title, message, variant, mode) => {
     lwc.dispatchEvent(new ShowToastEvent({ title: title, message: message, variant: variant, mode: (mode || 'dismissible')}));
 }
 
-export { exportCSVFile, guid, uuid, showToast };
+const logger = {
+    debug: (message) => {  debug(message); },
+     info: (message) => {   info(message); },
+    error: (message) => {  error(message); },
+     fine: (message) => {   fine(message); },
+    finer: (message) => {  finer(message); },
+   finest: (message) => { finest(message); }
+}
+
+export { exportCSVFile              };
+export { logger                     };
+export { guid, uuid                 };
+export { parse                      };
+export { stringify, stringifyPretty };
+export { showToast                  };
