@@ -1,10 +1,7 @@
 import { LightningElement       } from 'lwc';
 import { subscribe, unsubscribe } from 'lightning/empApi';
 import { onError                } from 'lightning/empApi';
-import { showToast              } from 'c/utils';
-
-import AuraError from '@salesforce/apex/AuraLogger.error';
-import AuraInfo  from '@salesforce/apex/AuraLogger.info' ;
+import { logger, showToast      } from 'c/utils';
 
 const PLATFORM_EVENT_CHANNELS = [
     { label: 'ABC News',                 value: '/event/ABCNews__e'               },
@@ -53,14 +50,14 @@ export default class PlatformEventDemo extends LightningElement {
                     console.info({ ...response });
                     this.subscription = { ...response };
                     this.toggle();
-                    AuraInfo({ msg: JSON.stringify(response) });
+                    logger.info(JSON.stringify(response));
                     showToast(this, 'Success', `You have subscribed to the "${this.channelName}" event channel!`, 'success', 'pester');
                 }
             }, 1000);
         })
        .catch((error) => {
             console.error({ ...error });
-            AuraError({ msg: JSON.stringify(error), tags: [ 'lwc', 'plaftformEventDemo', 'subscribe' ] });
+            logger.error(JSON.stringify(error), [ 'lwc', 'plaftformEventDemo', 'subscribe' ]);
             showToast(this, 'Subscribe Error!',  this.getMessage(error), 'error', 'sticky');
        });
     }
@@ -78,7 +75,7 @@ export default class PlatformEventDemo extends LightningElement {
        .catch((error) => {
             console.error({ ...error });
             this.listener = false;
-            AuraError({ msg: JSON.stringify(error), tags: [ 'lwc', 'plaftformEventDemo', 'unsubscribe' ] });
+            logger.error(JSON.stringify(error), [ 'lwc', 'plaftformEventDemo', 'unsubscribe' ]);
             showToast(this, 'Unsubscribe Error!', this.getMessage(error), 'error', 'sticky');
         });
     }
@@ -129,7 +126,7 @@ export default class PlatformEventDemo extends LightningElement {
             console.error({ ...error });
             this.subDisabled = true;
             this.listener = false;
-            AuraError({ msg: JSON.stringify(error), tags: [ 'lwc', 'plaftformEventDemo', 'registerErrorListener' ] });
+            logger.error(JSON.stringify(error), [ 'lwc', 'plaftformEventDemo', 'registerErrorListener' ]);
             showToast(this, 'Error!', this.getMessage(error), 'error', 'pester');
         });
     }
