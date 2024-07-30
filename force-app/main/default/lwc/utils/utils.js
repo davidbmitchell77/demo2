@@ -48,28 +48,24 @@ const exportCSVFile = (headers, totalData, fileTitle) => {
 
 const convertToCSV = (objArray, headers) => {
     const columnDelimiter = ',';
-    const lineDelimiter = '\r\n';
+    const lineDelimiter   = '\r\n';
     const actualHeaderKey = Object.keys(headers);
-    const headerToShow = Object.values(headers);
+    const headerToShow    = Object.values(headers);
     let str = '';
     str += headerToShow.join(columnDelimiter);
     str += lineDelimiter;
     const data = ((typeof(objArray) !== 'object') ? JSON.parse(objArray) : objArray);
-    data.forEach(
-        (obj) => {
-            let line = '';
-            actualHeaderKey.forEach(
-                (key) => {
-                    if (line != '') {
-                        line += columnDelimiter;
-                    }
-                    let strItem = (obj[key] ? (obj[key] + '') : '');
-                    line += ((strItem) ? strItem.replace(/,/g, '') : strItem);
-                }
-            )
-            str += (line + lineDelimiter);
-        }
-    )
+    data.forEach((obj) => {
+        let line = '';
+        actualHeaderKey.forEach((key) => {
+            if (line != '') {
+                line += columnDelimiter;
+            }
+            let strItem = (obj[key] ? (obj[key] + '') : '');
+            line += ((strItem) ? strItem.replace(/,/g, '') : strItem);
+        });
+        str += (line + lineDelimiter);
+    });
     return str;
 }
 
