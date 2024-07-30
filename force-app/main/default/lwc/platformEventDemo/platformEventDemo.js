@@ -1,6 +1,7 @@
 import { LightningElement       } from 'lwc';
 import { subscribe, unsubscribe } from 'lightning/empApi';
 import { onError                } from 'lightning/empApi';
+import { parse, stringify       } from 'c/utils';
 import { logger, showToast      } from 'c/utils';
 
 const PLATFORM_EVENT_CHANNELS = [
@@ -40,31 +41,31 @@ export default class PlatformEventDemo extends LightningElement {
 
     sub() {
         subscribe(this.channelName, -1, (response) => {
-            console.info(JSON.parse(JSON.stringify(response)));
-            this.messages += (JSON.stringify(response.data.payload) + '\n');
+            console.info(parse(response));
+            this.messages += (stringify(response.data.payload) + '\n');
         })
        .then((response) => {
             this.listener = true;
             setTimeout(() => {
                 if (this.listener) {
-                    console.info({ ...response });
-                    this.subscription = { ...response };
+                    console.info(parse(response));
+                    this.subscription = parse(response);
                     this.toggle();
-                    logger.info(JSON.stringify(response));
+                    logger.info(stringify(response));
                     showToast(this, 'Success', `You have subscribed to the "${this.channelName}" event channel!`, 'success', 'pester');
                 }
             }, 1000);
         })
        .catch((error) => {
-            console.error({ ...error });
-            logger.error(JSON.stringify(error), [ 'lwc', 'plaftformEventDemo', 'subscribe' ]);
+            console.error(parse(error));
+            logger.error(stringify(error), [ 'lwc', 'plaftformEventDemo', 'subscribe' ]);
             showToast(this, 'Subscribe Error!',  this.getMessage(error), 'error', 'sticky');
        });
     }
 
     uns() {
         unsubscribe(this.subscription, (response) => {
-            console.info({ ...response });
+            console.info(parse(response));
         })
        .then(() => {
             this.messages = '';
@@ -73,9 +74,9 @@ export default class PlatformEventDemo extends LightningElement {
             showToast(this, 'Unsubscribed', `You have unsubscribed from the "${this.channelName}" event channel!`, 'warning');
         })
        .catch((error) => {
-            console.error({ ...error });
+            console.error(parse(error));
             this.listener = false;
-            logger.error(JSON.stringify(error), [ 'lwc', 'plaftformEventDemo', 'unsubscribe' ]);
+            logger.error(stringify(error), [ 'lwc', 'plaftformEventDemo', 'unsubscribe' ]);
             showToast(this, 'Unsubscribe Error!', this.getMessage(error), 'error', 'sticky');
         });
     }
@@ -114,7 +115,7 @@ export default class PlatformEventDemo extends LightningElement {
     }
 
     getMessage(error) {
-        let message = (typeof(error) === 'object' ? JSON.stringify(error) : error);
+        let message = (typeof(error) === 'object' ? stringify(error) : error.toString());
         if (error.hasOwnProperty('body.message')) { message = error.body.message; } else
         if (error.hasOwnProperty('message'     )) { message = error.message;      } else
         if (error.hasOwnProperty('error'       )) { message = error.error;        }
@@ -123,10 +124,10 @@ export default class PlatformEventDemo extends LightningElement {
 
     registerErrorListener() {
         onError((error) => {
-            console.error({ ...error });
+            console.error(parse(error));
             this.subDisabled = true;
             this.listener = false;
-            logger.error(JSON.stringify(error), [ 'lwc', 'plaftformEventDemo', 'registerErrorListener' ]);
+            logger.error(stringify(error), [ 'lwc', 'plaftformEventDemo', 'registerErrorListener' ]);
             showToast(this, 'Error!', this.getMessage(error), 'error', 'pester');
         });
     }
