@@ -31,6 +31,7 @@ export default class PlatformEventDemo extends LightningElement {
     listener      = false;
     subscription  = {};
     messages      = '';
+    errors        = new Set([]);
 
     options = PLATFORM_EVENT_CHANNELS;
 
@@ -124,11 +125,14 @@ export default class PlatformEventDemo extends LightningElement {
 
     registerErrorListener() {
         onError((error) => {
-            console.error(parse(error));
-            this.subDisabled = true;
-            this.listener = false;
-            logger.error(stringify(error), [ 'lwc', 'plaftformEventDemo', 'registerErrorListener' ]);
-            showToast(this, 'Error!', this.getMessage(error), 'error', 'pester');
+            if (!this.errors.has(error.id)) {
+                console.error(parse(error));
+                this.errors.add(error.id);
+                this.subDisabled = true;
+                this.listener = false;
+                logger.error(stringify(error), [ 'lwc', 'plaftformEventDemo', 'registerErrorListener' ]);
+                showToast(this, 'Error!', this.getMessage(error), 'error', 'pester');
+            }
         });
     }
 }
