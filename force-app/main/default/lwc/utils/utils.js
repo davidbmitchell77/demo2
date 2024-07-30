@@ -98,12 +98,12 @@ const showToast = (lwc, title, message, variant, mode) => {
 }
 
 const logger = {
-    debug: (message) => {  debug(message); },
-     info: (message) => {   info(message); },
-    error: (message) => {  error(message); },
-     fine: (message) => {   fine(message); },
-    finer: (message) => {  finer(message); },
-   finest: (message) => { finest(message); }
+    debug: (messages      ) => {  debug({ messages: messages }); },
+    error: (messages, tags) => {  error({ messages: messages, tags: tags }); },
+     fine: (messages      ) => {   fine({ messages: messages }); },
+    finer: (messages      ) => {  finer({ messages: messages }); },
+   finest: (messages      ) => { finest({ messages: messages }); },
+     info: (messages      ) => {   info({ messages: messages }); }
 }
 
 export { exportCSVFile              };
