@@ -82,7 +82,7 @@ const uuid = () => {
 }
 
 const parse = (obj) => {
-    return (JSON.parse(JSON.stringifiy(obj)));
+    return (JSON.parse(JSON.stringify(obj)));
 }
 
 const stringify = (obj) => {
