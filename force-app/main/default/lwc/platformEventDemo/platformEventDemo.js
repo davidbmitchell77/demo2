@@ -42,6 +42,8 @@ export default class PlatformEventDemo extends LightningElement {
     }
 
     sub() {
+        this.subDisabled = true;
+        this.inpDisabled = true;
         subscribe(this.channelName, -1, (response) => {
             console.info(parse(response));
             this.messages += (stringify(response.data.payload) + '\n');
@@ -52,6 +54,8 @@ export default class PlatformEventDemo extends LightningElement {
                 if (this.listener) {
                     console.info(parse(response));
                     this.subscription = parse(response);
+                    this.inpDisabled = false;
+                    this.subDisabled = false;
                     this.toggle();
                     logger.info(stringify(response));
                     showToast(this, 'Success', `You have subscribed to the "${this.channelName}" event channel!`, 'success', 'pester');
@@ -59,6 +63,7 @@ export default class PlatformEventDemo extends LightningElement {
             }, 1000);
         })
        .catch((error) => {
+            this.subDisabled = false;
             console.error(parse(error));
             logger.error(stringifyPretty(error), [ 'lwc', 'plaftformEventDemo', 'subscribe' ]);
             showToast(this, 'Subscribe Error!',  this.getMessage(error), 'error', 'sticky');
@@ -100,7 +105,10 @@ export default class PlatformEventDemo extends LightningElement {
 
     toggleButtons() {
         this.subDisabled = !this.subDisabled;
-        this.unsDisabled = !this.unsDisabled;
+        window.setTimeout(() => {
+            this.unsDisabled = !this.unsDisabled;
+            }, 3000
+        );
     }
 
     toggleInput() {
@@ -133,6 +141,10 @@ export default class PlatformEventDemo extends LightningElement {
                 this.listener = false;
                 logger.error(stringifyPretty(error), [ 'lwc', 'plaftformEventDemo', 'registerErrorListener' ]);
                 showToast(this, 'Error!', this.getMessage(error), 'error', 'pester');
+                window.setTimeout(() => {
+                    this.inpDisabled = false;
+                    }, 4500
+                );
             }
         });
     }
