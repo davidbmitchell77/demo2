@@ -33,7 +33,10 @@ export default class PlatformEventDemo extends LightningElement {
     subscription  = {};
     messages      = '';
     errors        = new Set();
-    timer         = undefined;
+    subTimer      = undefined;
+    unsTimer      = undefined;
+    errTimer      = undefined;
+
 
     options = PLATFORM_EVENT_CHANNELS;
 
@@ -51,7 +54,7 @@ export default class PlatformEventDemo extends LightningElement {
         })
        .then((response) => {
             this.listener = true;
-            this.timer = setTimeout(() => {
+            this.subTimer = setTimeout(() => {
                 if (this.listener) {
                     console.info(parse(response));
                     this.subscription = parse(response);
@@ -80,7 +83,7 @@ export default class PlatformEventDemo extends LightningElement {
        .then(() => {
             this.messages = '';
             this.listener    = false;
-            this.timer = window.setTimeout(() => { this.subDisabled = false; }, 3500);
+            this.unsTimer = window.setTimeout(() => { this.subDisabled = false; }, 3500);
             this.unsDisabled = true;
             showToast(this, 'Unsubscribed', `You have unsubscribed from the "${this.channelName}" event channel!`, 'warning');
         })
@@ -110,7 +113,7 @@ export default class PlatformEventDemo extends LightningElement {
 
     toggleButtons() {
         this.subDisabled = !this.subDisabled;
-        this.timer = this.unsDisabled = !this.unsDisabled;
+        this.unsDisabled = !this.unsDisabled;
     }
 
     toggleInput() {
@@ -143,14 +146,14 @@ export default class PlatformEventDemo extends LightningElement {
                 this.listener = false;
                 logger.error(stringifyPretty(error), [ 'lwc', 'plaftformEventDemo', 'registerErrorListener' ]);
                 showToast(this, 'Error!', this.getMessage(error), 'error', 'pester');
-                this.timer = window.setTimeout(() => { this.inpDisabled = false; }, 4500);
+                this.errTimer = window.setTimeout(() => { this.inpDisabled = false; }, 4500);
             }
         });
     }
 
     disconnectedCallback() {
-        if (this.timer) {
-            this.timer = null;
-        }
+        if (this.subTimer) { this.subTimer = null; }
+        if (this.unsTimer) { this.unsTimer = null; }
+        if (this.errTimer) { thiserr.Timer = null; }
     }
 }
