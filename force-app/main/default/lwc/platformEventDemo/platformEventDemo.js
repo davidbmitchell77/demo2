@@ -61,8 +61,8 @@ export default class PlatformEventDemo extends LightningElement {
                     logger.info(stringify(response));
                     showToast(this, 'Success', `You have subscribed to the "${this.channelName}" event channel!`, 'success', 'pester');
                 }
-            }, 1000);
-        })
+            }, 1250);
+       })
        .catch((error) => {
             this.subDisabled = false;
             console.error(parse(error));
@@ -73,17 +73,21 @@ export default class PlatformEventDemo extends LightningElement {
 
     uns() {
         this.toggle();
+        this.subDisabled = true;
         unsubscribe(this.subscription, (response) => {
             console.info(parse(response));
         })
        .then(() => {
             this.messages = '';
-            this.listener = false;
+            this.listener    = false;
+            this.timer = window.setTimeout(() => { this.subDisabled = false; }, 3500);
+            this.unsDisabled = true;
             showToast(this, 'Unsubscribed', `You have unsubscribed from the "${this.channelName}" event channel!`, 'warning');
         })
        .catch((error) => {
             console.error(parse(error));
-            this.listener = false;
+            this.listener    = false;
+            this.unsDisabled = false;
             logger.error(stringify(error), [ 'lwc', 'plaftformEventDemo', 'unsubscribe' ]);
             showToast(this, 'Unsubscribe Error!', this.getMessage(error), 'error', 'sticky');
         });
@@ -106,7 +110,7 @@ export default class PlatformEventDemo extends LightningElement {
 
     toggleButtons() {
         this.subDisabled = !this.subDisabled;
-        this.unsDisabled = !this.unsDisabled;
+        this.timer = this.unsDisabled = !this.unsDisabled;
     }
 
     toggleInput() {
@@ -139,10 +143,7 @@ export default class PlatformEventDemo extends LightningElement {
                 this.listener = false;
                 logger.error(stringifyPretty(error), [ 'lwc', 'plaftformEventDemo', 'registerErrorListener' ]);
                 showToast(this, 'Error!', this.getMessage(error), 'error', 'pester');
-                this.timer = window.setTimeout(() => {
-                    this.inpDisabled = false;
-                    }, 4500
-                );
+                this.timer = window.setTimeout(() => { this.inpDisabled = false; }, 4500);
             }
         });
     }
