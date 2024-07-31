@@ -1,139 +1,118 @@
-import { LightningElement           } from 'lwc';
-import { subscribe, unsubscribe     } from 'lightning/empApi';
-import { onError                    } from 'lightning/empApi';
-import { hash, parse                } from 'c/utils';
-import { stringify, stringifyPretty } from 'c/utils';
-import { logger, showToast          } from 'c/utils';
+import { ShowToastEvent } from 'lightning/platformShowToastEvent'  ;
 
-const PLATFORM_EVENT_CHANNELS = [
-    { label: 'ABC News',                 value: '/event/ABCNews__e'               },
-    { label: 'Al Jazeera',               value: '/event/AlJazeera__e'             },
-    { label: 'Associated Press',         value: '/event/AssociatedPress__e'       },
-    { label: 'BBC News',                 value: '/event/BBCNews__e'               },
-    { label: 'Breitbart',                value: '/event/Breitbart__e'             },
-    { label: 'CBS News',                 value: '/event/CBSNews__e'               },
-    { label: 'CNN',                      value: '/event/CNN__e'                   },
-    { label: 'Fox News',                 value: '/event/FoxNews__e'               },
-    { label: 'Huffington Post',          value: '/event/HuffingtonPost__e'        },
-    { label: 'Lightning Web Components', value: '/event/LightningWebComponent__e' },
-    { label: 'MSNBC',                    value: '/event/MSNBC__e'                 },
-    { label: 'NBC News',                 value: '/event/NBCNews__e'               },
-    { label: 'Reuters',                  value: '/event/Reuters__e'               },
-    { label: 'Sky News',                 value: '/event/SkyNews__e'               }
-];
+import debug              from '@salesforce/apex/AuraLogger.debug' ;
+import info               from '@salesforce/apex/AuraLogger.info'  ;
+import error              from '@salesforce/apex/AuraLogger.error' ;
+import fine               from '@salesforce/apex/AuraLogger.fine'  ;
+import finer              from '@salesforce/apex/AuraLogger.finer' ;
+import finest             from '@salesforce/apex/AuraLogger.finest';
 
-export default class PlatformEventDemo extends LightningElement {
-
-    channelName   = undefined;
-    showMessages  = false;
-    inpDisabled   = true;
-    subDisabled   = true;
-    unsDisabled   = true;
-    listener      = false;
-    subscription  = {};
-    messages      = '';
-    errors        = new Set();
-
-    options = PLATFORM_EVENT_CHANNELS;
-
-    connectedCallback() {
-        this.registerErrorListener();
-        this.inpDisabled = false;
+const exportCSVFile = (headers, totalData, fileTitle) => {
+    if (!totalData || !totalData.length) {
+        return null;
     }
 
-    sub() {
-        subscribe(this.channelName, -1, (response) => {
-            console.info(parse(response));
-            this.messages += (stringify(response.data.payload) + '\n');
-        })
-       .then((response) => {
-            this.listener = true;
-            setTimeout(() => {
-                if (this.listener) {
-                    console.info(parse(response));
-                    this.subscription = parse(response);
-                    this.toggle();
-                    logger.info(stringify(response));
-                    showToast(this, 'Success', `You have subscribed to the "${this.channelName}" event channel!`, 'success', 'pester');
-                }
-            }, 1000);
-        })
-       .catch((error) => {
-            console.error(parse(error));
-            logger.error(stringifyPretty(error), [ 'lwc', 'plaftformEventDemo', 'subscribe' ]);
-            showToast(this, 'Subscribe Error!',  this.getMessage(error), 'error', 'sticky');
-       });
+    const jsonObject = JSON.stringify(totalData);
+    const result = convertToCSV(jsonObject, headers);
+
+    if (!result) {
+        return null;
     }
 
-    uns() {
-        unsubscribe(this.subscription, (response) => {
-            console.info(parse(response));
-        })
-       .then(() => {
-            this.messages = '';
-            this.toggle();
-            this.listener = false;
-            showToast(this, 'Unsubscribed', `You have unsubscribed from the "${this.channelName}" event channel!`, 'warning');
-        })
-       .catch((error) => {
-            console.error(parse(error));
-            this.listener = false;
-            logger.error(stringify(error), [ 'lwc', 'plaftformEventDemo', 'unsubscribe' ]);
-            showToast(this, 'Unsubscribe Error!', this.getMessage(error), 'error', 'sticky');
-        });
-    }
+    const blob = new Blob([ result ]);
+    const exportedFileName = (fileTitle ? (fileTitle + '.csv') : 'export.csv');
 
-    handleChange(event) {
-        switch (event.target.label) {
-            case 'Channel':
-                this.channelName = event.target.value;
-                this.subDisabled = false;
-                break;
+    if (navigator.msSaveBlob) {
+        navigator.msSaveBlob(blob, exportedFileName);  // IE
+    }
+    else if (navigator.userAgent.match(/iPhone|iPad|iPod/i)) {
+        const link = window.document.createElement('a');
+        link.href = 'data:text/csv;charset=utf-8,' + encodeURI(result);
+        link.target = '_blank';
+        link.download = exportedFileName;
+        link.click();
+    }
+    else {
+        const link = window.document.createElement('a');
+        if (link.download !== undefined) {
+            const url = URL.createObjectURL(blob);
+            link.setAttribute('href', url);
+            link.setAttribute('download', exportedFileName);
+            link.style.visibility = 'hidden';
+            document.body.appendChild(link);
+            link.click();
+            document.body.removeChild(link);
         }
     }
-
-    toggle() {
-         this.toggleButtons();
-         this.toggleInput();
-         this.toggleMessages();
-    }
-
-    toggleButtons() {
-        this.subDisabled = !this.subDisabled;
-        this.unsDisabled = !this.unsDisabled;
-    }
-
-    toggleInput() {
-        this.inpDisabled = !this.inpDisabled;
-    }
-
-    toggleMessages() {
-        this.showMessages = !this.showMessages;
-    }
-
-    validateInput(event) {
-        this.subDisabled  = ((event.target.value.length === 0) ? true : !this.unsDisabled);
-        this.showMessages = ((event.target.value.length === 0) ? false : this.showMessages);
-    }
-
-    getMessage(error) {
-        let message = (typeof(error) === 'object' ? stringify(error) : error.toString());
-        if (error.hasOwnProperty('body.message')) { message = error.body.message; } else
-        if (error.hasOwnProperty('message'     )) { message = error.message;      } else
-        if (error.hasOwnProperty('error'       )) { message = error.error;        }
-        return message;
-    }
-
-    registerErrorListener() {
-        onError((error) => {
-            if (!this.errors.has(hash(error))) {
-                console.error(parse(error));
-                this.errors.add(hash(error));
-                this.subDisabled = true;
-                this.listener = false;
-                logger.error(stringifyPretty(error), [ 'lwc', 'plaftformEventDemo', 'registerErrorListener' ]);
-                showToast(this, 'Error!', this.getMessage(error), 'error', 'pester');
-            }
-        });
-    }
 }
+
+const convertToCSV = (objArray, headers) => {
+    const columnDelimiter = ',';
+    const lineDelimiter   = '\r\n';
+    const actualHeaderKey = Object.keys(headers);
+    const headerToShow    = Object.values(headers);
+    let str = '';
+    str += headerToShow.join(columnDelimiter);
+    str += lineDelimiter;
+    const data = ((typeof(objArray) !== 'object') ? JSON.parse(objArray) : objArray);
+    data.forEach((obj) => {
+        let line = '';
+        actualHeaderKey.forEach((key) => {
+            if (line != '') {
+                line += columnDelimiter;
+            }
+            let strItem = (obj[key] ? (obj[key] + '') : '');
+            line += ((strItem) ? strItem.replace(/,/g, '') : strItem);
+        });
+        str += (line + lineDelimiter);
+    });
+    return str;
+}
+
+const guid = () => {
+    return crypto.randomUUID().toUpperCase();
+}
+
+const hash = (obj) => {
+    return (
+        JSON.stringify(obj).split('').reduce((hash, char) => {
+            return (char.charCodeAt(0) + (hash << 6) + (hash << 16) - hash);
+        }, 0)
+    );
+}
+
+const logger = {
+    debug: (messages      ) => {  debug({ messages: messages }); },
+     info: (messages      ) => {   info({ messages: messages }); },
+    error: (messages, tags) => {  error({ messages: messages, tags: tags }); },
+     fine: (messages      ) => {   fine({ messages: messages }); },
+    finer: (messages      ) => {  finer({ messages: messages }); },
+   finest: (messages      ) => { finest({ messages: messages }); }
+}
+
+const parse = (obj) => {
+    return (JSON.parse(JSON.stringify(obj)));
+}
+
+const showToast = (lwc, title, message, variant, mode) => {
+    lwc.dispatchEvent(new ShowToastEvent({ title: title, message: message, variant: variant, mode: (mode || 'dismissible')}));
+}
+
+const stringify = (obj) => {
+    return JSON.stringify(obj);
+}
+
+const stringifyPretty = (obj) => {
+    return JSON.stringify(obj, null, 4);
+}
+
+const uuid = () => {
+    return crypto.randomUUID().toLowerCase();
+}
+
+export { exportCSVFile              };
+export { logger                     };
+export { guid, uuid                 };
+export { hash, parse                };
+export { stringify, stringifyPretty };
+export { showToast                  };
