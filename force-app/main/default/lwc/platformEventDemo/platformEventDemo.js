@@ -33,6 +33,7 @@ export default class PlatformEventDemo extends LightningElement {
     subscription  = {};
     messages      = '';
     errors        = new Set();
+    timer         = undefined;
 
     options = PLATFORM_EVENT_CHANNELS;
 
@@ -50,7 +51,7 @@ export default class PlatformEventDemo extends LightningElement {
         })
        .then((response) => {
             this.listener = true;
-            setTimeout(() => {
+            this.timer = setTimeout(() => {
                 if (this.listener) {
                     console.info(parse(response));
                     this.subscription = parse(response);
@@ -71,12 +72,12 @@ export default class PlatformEventDemo extends LightningElement {
     }
 
     uns() {
+        this.toggle();
         unsubscribe(this.subscription, (response) => {
             console.info(parse(response));
         })
        .then(() => {
             this.messages = '';
-            this.toggle();
             this.listener = false;
             showToast(this, 'Unsubscribed', `You have unsubscribed from the "${this.channelName}" event channel!`, 'warning');
         })
@@ -105,10 +106,7 @@ export default class PlatformEventDemo extends LightningElement {
 
     toggleButtons() {
         this.subDisabled = !this.subDisabled;
-        window.setTimeout(() => {
-            this.unsDisabled = !this.unsDisabled;
-            }, 3000
-        );
+        this.unsDisabled = !this.unsDisabled;
     }
 
     toggleInput() {
@@ -141,11 +139,17 @@ export default class PlatformEventDemo extends LightningElement {
                 this.listener = false;
                 logger.error(stringifyPretty(error), [ 'lwc', 'plaftformEventDemo', 'registerErrorListener' ]);
                 showToast(this, 'Error!', this.getMessage(error), 'error', 'pester');
-                window.setTimeout(() => {
+                this.timer = window.setTimeout(() => {
                     this.inpDisabled = false;
                     }, 4500
                 );
             }
         });
+    }
+
+    disconnectedCallback() {
+        if (this.timer) {
+            this.timer = null;
+        }
     }
 }
