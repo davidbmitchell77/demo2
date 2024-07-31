@@ -76,6 +76,7 @@ export default class PlatformEventDemo extends LightningElement {
 
     uns() {
         this.toggle();
+        this.inpDisabled = true;
         this.subDisabled = true;
         unsubscribe(this.subscription, (response) => {
             console.info(parse(response));
@@ -83,7 +84,11 @@ export default class PlatformEventDemo extends LightningElement {
        .then(() => {
             this.messages = '';
             this.listener    = false;
-            this.unsTimer = window.setTimeout(() => { this.subDisabled = false; }, 3500);
+            this.unsTimer = window.setTimeout(() => {
+                    this.inpDisabled = false;
+                    this.subDisabled = false;
+                }, 3500
+            );
             this.unsDisabled = true;
             showToast(this, 'Unsubscribed', `You have unsubscribed from the "${this.channelName}" event channel!`, 'warning');
         })
@@ -154,6 +159,6 @@ export default class PlatformEventDemo extends LightningElement {
     disconnectedCallback() {
         if (this.subTimer) { this.subTimer = null; }
         if (this.unsTimer) { this.unsTimer = null; }
-        if (this.errTimer) { thiserr.Timer = null; }
+        if (this.errTimer) { this.errTimer = null; }
     }
 }
