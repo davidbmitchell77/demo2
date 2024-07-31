@@ -1,7 +1,7 @@
 import { LightningElement           } from 'lwc';
 import { subscribe, unsubscribe     } from 'lightning/empApi';
 import { onError                    } from 'lightning/empApi';
-import { parse                      } from 'c/utils';
+import { hash, parse                } from 'c/utils';
 import { stringify, stringifyPretty } from 'c/utils';
 import { logger, showToast          } from 'c/utils';
 
@@ -126,9 +126,9 @@ export default class PlatformEventDemo extends LightningElement {
 
     registerErrorListener() {
         onError((error) => {
-            if (!this.errors.has(error.id)) {
+            if (!this.errors.has(hash(error))) {
                 console.error(parse(error));
-                this.errors.add(error.id);
+                this.errors.add(hash(error));
                 this.subDisabled = true;
                 this.listener = false;
                 logger.error(stringifyPretty(error), [ 'lwc', 'plaftformEventDemo', 'registerErrorListener' ]);
