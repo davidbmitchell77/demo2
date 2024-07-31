@@ -81,7 +81,7 @@ const hash = (obj) => {
     );
 }
 
-const logger = {
+const log = {
     debug: (messages      ) => {  debug({ messages: messages }); },
      info: (messages      ) => {   info({ messages: messages }); },
     error: (messages, tags) => {  error({ messages: messages, tags: tags }); },
@@ -111,8 +111,7 @@ const uuid = () => {
 }
 
 export { exportCSVFile              };
-export { logger                     };
 export { guid, uuid                 };
 export { hash, parse                };
 export { stringify, stringifyPretty };
-export { showToast                  };
+export { log, showToast             };
