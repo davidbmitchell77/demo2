@@ -81,12 +81,21 @@ const hash = (obj) => {
     );
 }
 
-const uuid = () => {
-    return crypto.randomUUID().toLowerCase();
+const logger = {
+    debug: (messages      ) => {  debug({ messages: messages }); },
+     info: (messages      ) => {   info({ messages: messages }); },
+    error: (messages, tags) => {  error({ messages: messages, tags: tags }); },
+     fine: (messages      ) => {   fine({ messages: messages }); },
+    finer: (messages      ) => {  finer({ messages: messages }); },
+   finest: (messages      ) => { finest({ messages: messages }); }
 }
 
 const parse = (obj) => {
     return (JSON.parse(JSON.stringify(obj)));
+}
+
+const showToast = (lwc, title, message, variant, mode) => {
+    lwc.dispatchEvent(new ShowToastEvent({ title: title, message: message, variant: variant, mode: (mode || 'dismissible')}));
 }
 
 const stringify = (obj) => {
@@ -97,22 +106,13 @@ const stringifyPretty = (obj) => {
     return JSON.stringify(obj, null, 4);
 }
 
-const showToast = (lwc, title, message, variant, mode) => {
-    lwc.dispatchEvent(new ShowToastEvent({ title: title, message: message, variant: variant, mode: (mode || 'dismissible')}));
-}
-
-const logger = {
-    debug: (messages      ) => {  debug({ messages: messages }); },
-     info: (messages      ) => {   info({ messages: messages }); },
-    error: (messages, tags) => {  error({ messages: messages, tags: tags }); },
-     fine: (messages      ) => {   fine({ messages: messages }); },
-    finer: (messages      ) => {  finer({ messages: messages }); },
-   finest: (messages      ) => { finest({ messages: messages }); }
+const uuid = () => {
+    return crypto.randomUUID().toLowerCase();
 }
 
 export { exportCSVFile              };
 export { logger                     };
 export { guid, uuid                 };
-export { parse                      };
+export { hash, parse                };
 export { stringify, stringifyPretty };
 export { showToast                  };
