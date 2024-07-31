@@ -73,6 +73,14 @@ const guid = () => {
     return crypto.randomUUID().toUpperCase();
 }
 
+const hash = (obj) => {
+    return (
+        JSON.stringify(obj).split('').reduce((hash, char) => {
+            return (char.charCodeAt(0) + (hash << 6) + (hash << 16) - hash);
+        }, 0)
+    );
+}
+
 const uuid = () => {
     return crypto.randomUUID().toLowerCase();
 }
