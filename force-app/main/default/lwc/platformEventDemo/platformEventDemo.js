@@ -3,7 +3,7 @@ import { subscribe, unsubscribe     } from 'lightning/empApi';
 import { onError                    } from 'lightning/empApi';
 import { hash, parse                } from 'c/utils';
 import { stringify, stringifyPretty } from 'c/utils';
-import { logger, showToast          } from 'c/utils';
+import { log, showToast             } from 'c/utils';
 
 const PLATFORM_EVENT_CHANNELS = [
     { label: 'ABC News',                 value: '/event/ABCNews__e'               },
@@ -61,7 +61,7 @@ export default class PlatformEventDemo extends LightningElement {
                     this.inpDisabled = false;
                     this.subDisabled = false;
                     this.toggle();
-                    logger.info(stringify(response));
+                    log.info(stringify(response));
                     showToast(this, 'Success', `You have subscribed to the "${this.channelName}" event channel!`, 'success', 'pester');
                 }
             }, 1250);
@@ -69,7 +69,7 @@ export default class PlatformEventDemo extends LightningElement {
        .catch((error) => {
             this.subDisabled = false;
             console.error(parse(error));
-            logger.error(stringifyPretty(error), [ 'lwc', 'plaftformEventDemo', 'subscribe' ]);
+            log.error(stringifyPretty(error), [ 'lwc', 'plaftformEventDemo', 'subscribe' ]);
             showToast(this, 'Subscribe Error!',  this.getMessage(error), 'error', 'sticky');
        });
     }
@@ -96,7 +96,7 @@ export default class PlatformEventDemo extends LightningElement {
             console.error(parse(error));
             this.listener    = false;
             this.unsDisabled = false;
-            logger.error(stringify(error), [ 'lwc', 'plaftformEventDemo', 'unsubscribe' ]);
+            log.error(stringify(error), [ 'lwc', 'plaftformEventDemo', 'unsubscribe' ]);
             showToast(this, 'Unsubscribe Error!', this.getMessage(error), 'error', 'sticky');
         });
     }
@@ -149,7 +149,7 @@ export default class PlatformEventDemo extends LightningElement {
                 this.errors.add(hash(error));
                 this.subDisabled = true;
                 this.listener = false;
-                logger.error(stringifyPretty(error), [ 'lwc', 'plaftformEventDemo', 'registerErrorListener' ]);
+                log.error(stringifyPretty(error), [ 'lwc', 'plaftformEventDemo', 'registerErrorListener' ]);
                 showToast(this, 'Error!', this.getMessage(error), 'error', 'pester');
                 this.errTimer = window.setTimeout(() => { this.inpDisabled = false; }, 4500);
             }
