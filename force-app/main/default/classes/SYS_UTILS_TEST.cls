@@ -127,8 +127,9 @@ private class SYS_UTILS_TEST {
         Test.startTest();
         try { throw new SYS_UTILS.ACCOUNT_TRIGGER_EXCEPTION('ACCOUNT_TRIGGER_EXCEPTION');                 } catch(Exception e) { System.debug(LoggingLevel.ERROR, e.getMessage()); }
         try { throw new SYS_UTILS.CASE_TRIGGER_EXCEPTION('CASE_TRIGGER_EXCEPTION');                       } catch(Exception e) { System.debug(LoggingLevel.ERROR, e.getMessage()); }
-        try { throw new SYS_UTILS.CAMPAIGN_TRIGGER_EXCEPTION('CAMAPIGN_TRIGGER_EXCEPTION');               } catch(Exception e) { System.debug(LoggingLevel.ERROR, e.getMessage()); }
-        try { throw new SYS_UTILS.CAMPAIGN_MEMBER_TRIGGER_EXCEPTION('CAMAPIGN_MEMBER_TRIGGER_EXCEPTION'); } catch(Exception e) { System.debug(LoggingLevel.ERROR, e.getMessage()); }
+        try { throw new SYS_UTILS.CAMPAIGN_TRIGGER_EXCEPTION('CAMPAIGN_TRIGGER_EXCEPTION');               } catch(Exception e) { System.debug(LoggingLevel.ERROR, e.getMessage()); }
+        try { throw new SYS_UTILS.CAMPAIGN_MEMBER_TRIGGER_EXCEPTION('CAMPAIGN_MEMBER_TRIGGER_EXCEPTION'); } catch(Exception e) { System.debug(LoggingLevel.ERROR, e.getMessage()); }
+        try { throw new SYS_UTILS.CAMPAIGN_MEMBER_TRIGGER_EXCEPTION('CONTACT_TRIGGER_EXCEPTION');         } catch(Exception e) { System.debug(LoggingLevel.ERROR, e.getMessage()); }
         try { throw new SYS_UTILS.CUSTOM_OBJECT_A_TRIGGER_EXCEPTION('CUSTOM_OBJECT_A_TRIGGER_EXCEPTION'); } catch(Exception e) { System.debug(LoggingLevel.ERROR, e.getMessage()); }
         try { throw new SYS_UTILS.CUSTOM_OBJECT_B_TRIGGER_EXCEPTION('CUSTOM_OBJECT_B_TRIGGER_EXCEPTION'); } catch(Exception e) { System.debug(LoggingLevel.ERROR, e.getMessage()); }
         try { throw new SYS_UTILS.LEAD_TRIGGER_EXCEPTION('ACCOUNT_TRIGGER_EXCEPTION');                    } catch(Exception e) { System.debug(LoggingLevel.ERROR, e.getMessage()); }
