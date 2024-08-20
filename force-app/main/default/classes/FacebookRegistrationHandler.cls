@@ -5,8 +5,7 @@ global class FacebookRegistrationHandler implements Auth.RegistrationHandler {
         if (String.isBlank(data.email)) {
             result = false;
         }
-        UserLicense ul = [SELECT TotalLicenses,
-                                 UsedLicenses
+        UserLicense ul = [SELECT TotalLicenses, UsedLicenses
                             FROM UserLicense
                            WHERE Name = 'Customer Community'
         ];
