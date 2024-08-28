@@ -1,0 +1,23 @@
+<template>
+    <lightning-card title ="Account & Related Contacts" icon-name="standard:account">
+        <div class="slds-var-m-around_medium">
+            <template if:true={account}>
+                <p>{account.Name.value}</p>
+                <p>{account.BillingCity.value}, {account.BillingState.value}&nbsp;&nbsp;{account.BillingCountry.value}</p>
+                <p>{account.Phone.value}</p>
+                <p>{account.Website.value}</p>
+                <p>{account.AnnualRevenue.displayValue}</p>
+                <p>{account.DunsNumber.value}</p>
+            </template>
+        </div>
+    </lightning-card>
+</template>
+
+
+<!--
+<template if:true={contacts}>
+    <template for:each={contacts} for:item="c">
+        <p key={c.Id}>{c.Name}</p>
+    </template>
+</template>
+-->
