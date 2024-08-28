@@ -9,15 +9,13 @@
                 <p>{account.AnnualRevenue.displayValue}</p>
                 <p>{account.DunsNumber.value}</p>
             </template>
+            <template if:true={contacts}>
+                <ul class="slds-m-around_medium">
+                    <template for:each={contacts} for:item="c">
+                        <li key={c.Id}>{c.Name}</li>
+                    </template>
+                </ul>
+            </template>
         </div>
     </lightning-card>
 </template>
-
-
-<!--
-<template if:true={contacts}>
-    <template for:each={contacts} for:item="c">
-        <p key={c.Id}>{c.Name}</p>
-    </template>
-</template>
--->

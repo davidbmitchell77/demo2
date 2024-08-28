@@ -1,5 +1,6 @@
-import { LightningElement, api, wire } from 'lwc';
-import { getRecord                   } from 'lightning/uiRecordApi';
+import { LightningElement, api, wire         } from 'lwc';
+import { getRecord                           } from 'lightning/uiRecordApi';
+import { getFieldValue, getFieldDisplayValue } from 'lightning/uiRecordApi';
 import { ShowToastEvent              } from 'lightning/platformShowToastEvent';
 
 import getContacts    from '@salesforce/apex/AccountController.getContacts';
@@ -34,7 +35,7 @@ export default class MyLwc extends LightningElement {
     @api objectApiName;
 
     account;
-    contacts;
+    contacts = [];
 
     @wire(getRecord, { recordId: "$recordId", fields: FIELDS, optionalFields: OPTIONAL_FIELDS })
     handle({ data, error }) {
@@ -42,7 +43,7 @@ export default class MyLwc extends LightningElement {
             console.clear();
             console.info(data.fields);
             this.account = data.fields;
-            this.contacts = this.relatedContacts(this.recordId);
+            this.relatedContacts(this.recordId).then((response) => { console.warn(response); this.contacts = [ ...response ]; });
         }
         if (error) {
             console.error(error);
@@ -54,7 +55,6 @@ export default class MyLwc extends LightningElement {
     async relatedContacts(accountId) {
         try {
             const response = await getContacts({ accountId: accountId });
-            console.info(response);
             return response;
         }
         catch(error) {
