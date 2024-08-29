@@ -2,6 +2,7 @@ import { LightningElement, api, wire         } from 'lwc';
 import { getRecord                           } from 'lightning/uiRecordApi';
 import { getFieldValue, getFieldDisplayValue } from 'lightning/uiRecordApi';
 import { ShowToastEvent                      } from 'lightning/platformShowToastEvent';
+import { deepCopy                            } from 'c/utils';
 
 import getContacts    from '@salesforce/apex/AccountController.getContacts';
 
@@ -44,7 +45,7 @@ export default class MyLwc extends LightningElement {
     @api recordId;
     @api objectApiName;
 
-    account;
+    account  = {};
     contacts = [];
     cols = COLUMNS;
 
@@ -53,9 +54,9 @@ export default class MyLwc extends LightningElement {
         if (data) {
             console.clear();
             console.info(data);
-            this.account = data;
-            this.relatedContacts(this.recordId).then((contacts) => {
-                this.contacts = [ ...contacts ];
+            this.account = deepCopy(data);
+            this.relatedContacts(data.id).then((response) => {
+                this.contacts = [ ...response ];
             });
         }
         if (error) {

@@ -69,6 +69,10 @@ const convertToCSV = (objArray, headers) => {
     return str;
 }
 
+const deepCopy = (obj) => {
+    return JSON.parse(JSON.stringify(obj));
+}
+
 const guid = () => {
     return crypto.randomUUID().toUpperCase();
 }
@@ -110,6 +114,7 @@ const uuid = () => {
     return crypto.randomUUID().toLowerCase();
 }
 
+export { deepCopy };
 export { exportCSVFile              };
 export { guid, uuid                 };
 export { hash, parse                };
