@@ -78,45 +78,15 @@ export default class MyLwc extends LightningElement {
         }
     }
 
-    get accountName() {
-        return getFieldValue(this.account, NAME);
-    }
-
-    get accountStreet() {
-        return getFieldValue(this.account, STREET);
-    }
-
-    get accountCity() {
-        return getFieldValue(this.account, CITY);
-    }
-
-    get accountState() {
-        return getFieldValue(this.account, STATE);
-    }
-
-    get accountPostalCode() {
-        return getFieldValue(this.account, POSTAL_CODE);
-    }
-
-    get accountCountry() {
-        return getFieldValue(this.account, COUNTRY);
-    }
-
-    get accountPhone() {
-        return getFieldValue(this.account, PHONE);
-    }
-
-    get accountWebsite() {
-        return getFieldValue(this.account, WEBSITE);
-    }
-
-    get accountAnnualRevenue() {
-        return getFieldDisplayValue(this.account, ANNUAL_REVENUE);
-    }
-
-    get accountDunsNumber() {
-        return getFieldValue(this.account, DUNS_NUMBER);
-    }
+    get name()          { return getFieldDisplayValue(this.account, NAME           ) ?? getFieldValue(this.account, NAME           ); }
+    get street()        { return getFieldDisplayValue(this.account, STREET         ) ?? getFieldValue(this.account, STREET         ); }
+    get city()          { return getFieldDisplayValue(this.account, CITY           ) ?? getFieldValue(this.account, CITY           ); }
+    get state()         { return getFieldDisplayValue(this.account, STATE          ) ?? getFieldValue(this.account, STATE          ); }
+    get postalCode()    { return getFieldDisplayValue(this.account, POSTAL_CODE    ) ?? getFieldValue(this.account, POSTAL_CODE    ); }
+    get phone()         { return getFieldDisplayValue(this.account, PHONE          ) ?? getFieldValue(this.account, PHONE          ); }
+    get website()       { return getFieldDisplayValue(this.account, WEBSITE        ) ?? getFieldValue(this.account, WEBSITE        ); }
+    get annualRevenue() { return getFieldDisplayValue(this.account, ANNUAL_REVENUE ) ?? getFieldValue(this.account, ANNUAL_REVENUE ); }
+    get dunsNumber()    { return getFieldDisplayValue(this.account, DUNS_NUMBER    ) ?? getFieldValue(this.account, DUNS_NUMBER    ); }
 
     showToast(title, message, variant, mode) {
         this.dispatchEvent(new ShowToastEvent({ title: title, message: message, variant: variant, mode: (mode || 'dismissible') }));

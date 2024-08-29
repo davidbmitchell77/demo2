@@ -2,12 +2,12 @@
     <lightning-card title ="Account & Related Contacts" icon-name="standard:account">
         <div class="slds-var-m-around_medium">
             <template if:true={account}>
-                <p>{accountName}</p>
-                <p>{accountStreet},&nbsp;{accountCity},&nbsp;{accountState}&nbsp;&nbsp;{accountCountry}&nbsp;{accountPostalCode}</p>
-                <p>{accountPhone}</p>
-                <p>{accountWebsite}</p>
-                <p>Annual Revenue: {accountAnnualRevenue}</p>
-                <p>DUNS Number: {accountDunsNumber}</p>
+                <p>{name}</p>
+                <p>{street},&nbsp;{city},&nbsp;{state}&nbsp;&nbsp;{country}&nbsp;{postalCode}</p>
+                <p>{phone}</p>
+                <p>{website}</p>
+                <p>Annual Revenue: {annualRevenue}</p>
+                <p>DUNS Number: {dunsNumber}</p>
             </template>
             <template if:true={contacts}>
                 <div class="slds-var-m-top_medium">
