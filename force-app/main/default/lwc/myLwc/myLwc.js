@@ -1,8 +1,7 @@
 import { LightningElement, api, wire         } from 'lwc';
 import { getRecord                           } from 'lightning/uiRecordApi';
 import { getFieldValue, getFieldDisplayValue } from 'lightning/uiRecordApi';
-import { ShowToastEvent                      } from 'lightning/platformShowToastEvent';
-import { deepCopy                            } from 'c/utils';
+import { deepCopy, showToast                 } from 'c/utils';
 
 import getContacts    from '@salesforce/apex/AccountController.getContacts';
 
@@ -75,7 +74,7 @@ export default class MyLwc extends LightningElement {
         catch(error) {
             console.error;
             this.contacts = [];
-            this.showToast('Error!', error.body.message, 'error', 'sticky');
+            showToast(this, 'Error!', error.body.message, 'error', 'sticky');
         }
     }
 
@@ -88,8 +87,4 @@ export default class MyLwc extends LightningElement {
     get website()       { return getFieldDisplayValue(this.account, WEBSITE        ) ?? getFieldValue(this.account, WEBSITE        ); }
     get annualRevenue() { return getFieldDisplayValue(this.account, ANNUAL_REVENUE ) ?? getFieldValue(this.account, ANNUAL_REVENUE ); }
     get dunsNumber()    { return getFieldDisplayValue(this.account, DUNS_NUMBER    ) ?? getFieldValue(this.account, DUNS_NUMBER    ); }
-
-    showToast(title, message, variant, mode) {
-        this.dispatchEvent(new ShowToastEvent({ title: title, message: message, variant: variant, mode: (mode || 'dismissible') }));
-    }
 }
