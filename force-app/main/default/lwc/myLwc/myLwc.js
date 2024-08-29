@@ -51,7 +51,6 @@ export default class MyLwc extends LightningElement {
     @wire(getRecord, { recordId: "$recordId", fields: FIELDS, optionalFields: OPTIONAL_FIELDS })
     handle({ data, error }) {
         if (data) {
-            console.clear();
             console.info(data);
             this.account = deepCopy(data);
             this.relatedContacts(data.id).then((response) => {
