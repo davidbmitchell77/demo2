@@ -47,7 +47,7 @@ export default class MyLwc extends LightningElement {
 
     account  = {};
     contacts = [];
-    cols = COLUMNS;
+    cols     = [ ...COLUMNS ];
 
     @wire(getRecord, { recordId: "$recordId", fields: FIELDS, optionalFields: OPTIONAL_FIELDS })
     handle({ data, error }) {
