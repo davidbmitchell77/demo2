@@ -1,0 +1,136 @@
+public without sharing class QuoteLineItem_Trigger_Handler {
+
+    private TriggerOperation operationType;
+    private Map<String,PriceThreshold__mdt> priceThresholds;
+
+    public QuoteLineItem_Trigger_Handler(TriggerOperation to) {
+        this.operationType = to;
+        this.priceThresholds = PriceThreshold__mdt.getAll();
+    }
+
+    public Boolean isValid(List<QuoteLineItem> lineItems) {
+        Boolean result = true;
+        if (lineItems != null) {
+            for (QuoteLineItem li : quoteLineItems) {
+                if (String.isBlank(li.Name)) {
+                    li.Name.addError(System.Label.QUOTE_LINE_ITEM_NAME_IS_REQUIRED);
+                    result = false;
+                }
+                if (li.ListPrice) {
+                    li.ListPrice.addError(System.Label.QUOTE_LINE_ITEM_UNIT_PRICE_IS_REQUIRED);
+                    result = false;
+                }
+            }
+        }
+        return result;
+    }
+
+    public void run(List<QuoteLineItem> oldItems, List<QuoteLineItem> newItems, Map<Id,QuoteLineItem> oldMap, Map<Id,QuoteLineItem> newMap) {
+        switch on this.operationType {
+            when BEFORE_INSERT {
+                checkPrices(oldItems, newItems, oldMap, newMap);
+            }
+            when BEFORE_UPDATE {
+                checkPrices(oldItems, newItems, oldMap, newMap);
+            }
+            when BEFORE_DELETE {
+
+            }
+            when AFTER_INSERT {
+
+            }
+            when AFTER_UPDATE {
+
+            }
+            when AFTER_DELETE {
+
+            }
+            when AFTER_UNDELETE {
+
+            }
+        }
+    }
+
+    private void checkPrices(List<QuoteLineItem> oldItems, List<QuoteLineItem> newItems, Map<Id,QuoteLineItem> oldMap, Map<Id,QuoteLineItem> newMap) {
+        List<Approval.ProcessSubmitRequest> reqs = new List<Approval.ProcessSubmitRequest>();
+
+        Map<String,User> submitters = new Map<String,User>();
+        for (User u : [SELECT Id, Name FROM User WHERE Username IN :usernames('submitter', priceThresholds)]) {
+            if (!submitters.containsKey(u.Username)) {
+                submitters.put(u.Username, u);
+            }
+        }
+        
+        Map<String,User> approvers = new Map<String,User>();
+        for (User u : [SELECT Id, Name FROM User WHERE Username IN :usernames('approver', priceThresholds)]) {
+            if (!approvers.containsKey(u.Username)) {
+                approvers.put(u.Username, u);
+            }
+        }
+
+        if (newItems != null) {
+            for (QuoteLineItem li : newItems) {
+                if (this.priceThresholds.containsKey(li.Product2.Name)) {
+                    PriceThreshold__mdt pt = this.priceThresholds.get(li.Product2.Name);
+                    if (nvl(li.ListPrice, 0.00) < nvl(pt.ThresholdPrice__c, 0.00)) {
+                        Id objectId  = li.Id;
+                        Id submitterId = ((submitters.get(pt.Submitter__c) != null) ? submitters.get(pt.Submitter__c).Id : UserInfo.getUserId());
+                        Id approverId  = ((approvers.get(pt.Submitter__c ) != null) ? approvers.get(pt.Submitter__c).Id  : UserInfo.getManagerId());
+                        String process = pt.ProcessNameOrId__c;
+                        String comment = pt.Comment__c;
+                        Boolean skipEntryCritera = pt.skipEntryCritera__c;
+                        reqs.add(approvalRequest(process, objectId, submitterId, approverId, comment, skipEntryCriteria);
+                    }
+                }
+            }
+        }
+        
+        if (!reqs.isEmpty()) {
+            Approval.process(reqs);
+        }
+    }
+
+    private Set<Id> usernames(String submitterOrApprover, Map<String,PriceThresholds__mdt> priceThresholds) {
+        results = new Set<Id>();
+        if (!priceThresholds.isEmpty()) {
+            for (PriceThreshold__mdt pr : priceThresholds.values()) {
+                if (submitterOrApprover == 'submitter') {
+                    if (!String.isBlank(pr.Submitter__c)) {
+                        if (!results.contains(pr.Submitter__c)) {
+                            results.add(pr.Submitter__c);
+                        }
+                    }
+                }
+                if (submitterOrApprover == 'approver') {
+                    if (!String.isBlank(pr.Approver__c)) {
+                        if (!results.contains(pr.Approver__c)) {
+                            results.add(pr.Approver__c);
+                        }
+                    }
+                }
+            }
+        }
+        return results;
+    }
+
+    private nvl(Decimal value, Decimal defaultValue) {
+        return ((value == null) ? defaultValue : decimalValue);
+    }
+
+    private Approval.ProcessSubmitRequest approvalRequest(String processNameOrId, Id objectId, Id submitterId, Id approverId, String comment, Boolean skipEntryCriteria) {
+        Approval.ProcessSubmitRequest req = new Approval.ProcessSubmitRequest();
+        req.setProcessDefinitionNameOrId(approvalProcessNameOrId);
+        req.setObjectId(objectId);
+        req.setSubmitterId(submitterId);
+        req.setApproverId(approverId);
+        req.setComments(comment);
+        req.setSkipEntryCriteria(skipEntryCriteria);
+        return req;
+        /*
+        Approval.ProcessResult apr = Approval.process(req);
+        System.assertEquals(true, apr.isSuccess());
+        System.assertEquals('Pending', apr.getInstanceStatus());
+        return apr.getNewWorkitemIds();
+        */
+    }
+}
