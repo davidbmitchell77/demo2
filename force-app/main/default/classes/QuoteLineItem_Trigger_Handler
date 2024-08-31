@@ -126,11 +126,5 @@ public without sharing class QuoteLineItem_Trigger_Handler {
         req.setComments(comment);
         req.setSkipEntryCriteria(skipEntryCriteria);
         return req;
-        /*
-        Approval.ProcessResult apr = Approval.process(req);
-        System.assertEquals(true, apr.isSuccess());
-        System.assertEquals('Pending', apr.getInstanceStatus());
-        return apr.getNewWorkitemIds();
-        */
     }
 }
