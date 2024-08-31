@@ -116,7 +116,7 @@ public without sharing class QuoteLineItem_Trigger_Handler {
     }
 
     private Id userOrManagerId() {
-        return ((this.managerId != null) ? this.ManagerId : UserInfo.getUserId());
+        return ((this.managerId != null) ? this.managerId : UserInfo.getUserId());
     }
 
     private nvl(Decimal value, Decimal defaultValue) {
