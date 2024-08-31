@@ -78,8 +78,8 @@ public without sharing class QuoteLineItem_Trigger_Handler {
                     PriceThreshold__mdt pt = this.priceThresholds.get(li.Product2.Name);
                     if (nvl(li.ListPrice, 0.00) < nvl(pt.ThresholdPrice__c, 0.00)) {
                         Id objectId  = li.Id;
-                        Id submitterId = ((submitters.get(pt.Submitter__c) != null) ? submitters.get(pt.Submitter__c).Id : UserInfo.getUserId());
-                        Id approverId  = ((approvers.get(pt.Approver__c  ) != null) ? approvers.get(pt.Approver__c).Id   : userOrManagerId()   );
+                        Id submitterId = ((submitters.get(pt.Submitter__c) != null) ? submitters.get(pt.Submitter__c).Id : this.userId);
+                        Id approverId  = ((approvers.get(pt.Approver__c  ) != null) ? approvers.get(pt.Approver__c).Id   : this.managerId);
                         String process = pt.ProcessNameOrId__c;
                         String comment = pt.Comment__c;
                         Boolean skipEntryCritera = pt.skipEntryCritera__c;
@@ -115,10 +115,6 @@ public without sharing class QuoteLineItem_Trigger_Handler {
             }
         }
         return results;
-    }
-
-    private Id userOrManagerId() {
-        return ((this.managerId != null) ? this.managerId : UserInfo.getUserId());
     }
 
     private nvl(Decimal value, Decimal defaultValue) {
