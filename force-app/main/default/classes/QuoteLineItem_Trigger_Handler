@@ -16,7 +16,7 @@ public without sharing class QuoteLineItem_Trigger_Handler {
                     li.Name.addError(System.Label.QUOTE_LINE_ITEM_NAME_IS_REQUIRED);
                     result = false;
                 }
-                if (li.ListPrice) {
+                if (li.ListPrice == null) {
                     li.ListPrice.addError(System.Label.QUOTE_LINE_ITEM_UNIT_PRICE_IS_REQUIRED);
                     result = false;
                 }
