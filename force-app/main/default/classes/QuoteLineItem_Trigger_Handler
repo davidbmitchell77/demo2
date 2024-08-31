@@ -2,7 +2,7 @@ public without sharing class QuoteLineItem_Trigger_Handler {
 
     private TriggerOperation operationType;
     private Map<String,PriceThreshold__mdt> priceThresholds;
-    private Id userOrManagerId;
+    private Id managerId;
 
     public QuoteLineItem_Trigger_Handler(TriggerOperation to) {
         this.operationType = to;
