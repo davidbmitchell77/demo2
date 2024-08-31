@@ -75,7 +75,7 @@ public without sharing class QuoteLineItem_Trigger_Handler {
                     if (nvl(li.ListPrice, 0.00) < nvl(pt.ThresholdPrice__c, 0.00)) {
                         Id objectId  = li.Id;
                         Id submitterId = ((submitters.get(pt.Submitter__c) != null) ? submitters.get(pt.Submitter__c).Id : UserInfo.getUserId());
-                        Id approverId  = ((approvers.get(pt.Submitter__c ) != null) ? approvers.get(pt.Submitter__c).Id  : UserInfo.getManagerId());
+                        Id approverId  = ((approvers.get(pt.Submitter__c ) != null) ? approvers.get(pt.Submitter__c).Id  : getUserOrManagerId());
                         String process = pt.ProcessNameOrId__c;
                         String comment = pt.Comment__c;
                         Boolean skipEntryCritera = pt.skipEntryCritera__c;
