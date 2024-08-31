@@ -28,19 +28,19 @@ public without sharing class QuoteLineItem_Trigger_Handler {
     public void run(List<QuoteLineItem> oldItems, List<QuoteLineItem> newItems, Map<Id,QuoteLineItem> oldMap, Map<Id,QuoteLineItem> newMap) {
         switch on this.operationType {
             when BEFORE_INSERT {
-                checkPrices(oldItems, newItems, oldMap, newMap);
+
             }
             when BEFORE_UPDATE {
-                checkPrices(oldItems, newItems, oldMap, newMap);
+
             }
             when BEFORE_DELETE {
 
             }
             when AFTER_INSERT {
-
+                checkPrices(oldItems, newItems, oldMap, newMap);
             }
             when AFTER_UPDATE {
-
+                checkPrices(oldItems, newItems, oldMap, newMap);
             }
             when AFTER_DELETE {
 
