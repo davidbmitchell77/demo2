@@ -111,18 +111,18 @@ public without sharing class QuoteLineItem_Trigger_Handler {
     private Set<Id> usernames(String submitterOrApprover, Map<String,PriceThresholds__mdt> priceThresholds) {
         results = new Set<Id>();
         if (!priceThresholds.isEmpty()) {
-            for (PriceThreshold__mdt pr : priceThresholds.values()) {
+            for (PriceThreshold__mdt pt : priceThresholds.values()) {
                 if (submitterOrApprover == 'submitter') {
-                    if (!String.isBlank(pr.Submitter__c)) {
-                        if (!results.contains(pr.Submitter__c)) {
-                            results.add(pr.Submitter__c);
+                    if (!String.isBlank(pt.Submitter__c)) {
+                        if (!results.contains(pt.Submitter__c)) {
+                            results.add(pt.Submitter__c);
                         }
                     }
                 }
                 if (submitterOrApprover == 'approver') {
-                    if (!String.isBlank(pr.Approver__c)) {
-                        if (!results.contains(pr.Approver__c)) {
-                            results.add(pr.Approver__c);
+                    if (!String.isBlank(pt.Approver__c)) {
+                        if (!results.contains(pt.Approver__c)) {
+                            results.add(pt.Approver__c);
                         }
                     }
                 }
