@@ -58,8 +58,8 @@ public without sharing class QuoteLineItem_Trigger_Handler {
     private void checkPrices(List<QuoteLineItem> oldItems, List<QuoteLineItem> newItems, Map<Id,QuoteLineItem> oldMap, Map<Id,QuoteLineItem> newMap) {
         List<Approval.ProcessSubmitRequest> reqs = new List<Approval.ProcessSubmitRequest>();
 
-        Map<String,User> submitters = getSubmitters();
-        Map<String,User> approvers  = getApprovers();
+        Map<String,User> submitters = submitters();
+        Map<String,User> approvers  = approvers();
 
         if (newItems != null) {
             for (QuoteLineItem li : newItems) {
@@ -88,7 +88,7 @@ public without sharing class QuoteLineItem_Trigger_Handler {
         return req;
     }
 
-    private Map<String,User> getSubmitters() {
+    private Map<String,User> submitters() {
         Map<String,Username> theMap = new Map<String,User>();
         for (User u : [SELECT Id, Name FROM User WHERE Username IN :usernames('submitter', priceThresholds)]) {
             if (!theMap.containsKey(u.Username)) {
@@ -98,7 +98,7 @@ public without sharing class QuoteLineItem_Trigger_Handler {
         return theMap;
     }
 
-    private Map<String,User> getApprovers() {
+    private Map<String,User> approvers() {
         Map<String,User> approvers = new Map<String,User>();
         for (User u : [SELECT Id, Name FROM User WHERE Username IN :usernames('approver', priceThresholds)]) {
             if (!theMap.containsKey(u.Username)) {
