@@ -15,7 +15,7 @@ public without sharing class QuoteLineItem_Trigger_Handler {
     public Boolean isValid(List<QuoteLineItem> lineItems) {
         Boolean result = true;
         if (lineItems != null) {
-            for (QuoteLineItem li : quoteLineItems) {
+            for (QuoteLineItem li : lineItems) {
                 if (String.isBlank(li.Name)) {
                     li.Name.addError(System.Label.QUOTE_LINE_ITEM_NAME_IS_REQUIRED);
                     result = false;
