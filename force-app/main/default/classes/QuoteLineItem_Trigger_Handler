@@ -7,7 +7,7 @@ public without sharing class QuoteLineItem_Trigger_Handler {
     public QuoteLineItem_Trigger_Handler(TriggerOperation to) {
         this.operationType = to;
         this.userId = UserInfo.getUserId();
-        this.managerId = [SELECT ManagerId FROM User WHERE Id = UserInfo.getUserId()].ManagerId;
+        this.managerId = [SELECT ManagerId FROM User WHERE Id = :UserInfo.getUserId()].ManagerId;
     }
 
     public Boolean isValid(List<QuoteLineItem> lineItems) {
