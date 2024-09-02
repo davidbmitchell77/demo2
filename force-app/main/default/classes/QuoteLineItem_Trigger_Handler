@@ -19,7 +19,7 @@ public without sharing class QuoteLineItem_Trigger_Handler {
                     result = false;
                 }
                 if (li.ListPrice == null) {
-                    li.ListPrice.addError(System.Label.QUOTE_LINE_ITEM_UNIT_PRICE_IS_REQUIRED);
+                    li.ListPrice.addError(System.Label.QUOTE_LINE_ITEM_PRICE_IS_REQUIRED);
                     result = false;
                 }
             }
@@ -79,11 +79,11 @@ public without sharing class QuoteLineItem_Trigger_Handler {
     private Approval.ProcessSubmitRequest approvalRequest(QuoteLinetem li, PriceThreshold__mdt  pt, Map<String,User> submitters, Map<String,User> approvers) {
         Approval.ProcessSubmitRequest req = new Approval.ProcessSubmitRequest();
         req.setProcessDefinitionNameOrId(pt.ApprovalProcessNameOrId__c);
+        req.setSkipEntryCriteria(pt.SkipEntryCritera__c);
         req.setObjectId(li.Id);
         req.setSubmitterId(nvl(submitters.get(pt.Submitter__c), this.userId));
         req.setNextApproverIds(new List<Id>{ nvl(approvers.get(pt.Approver__c), this.managerId) });
         req.setComments(pt.Comment__c);
-        req.setSkipEntryCriteria(pt.SkipEntryCritera__c);
         return req;
     }
 
