@@ -160,7 +160,7 @@ public without sharing class QuoteLineItem_Trigger_Handler {
     }
 
     private nvl(Decimal value, Decimal defaultValue) {
-        return (value == null ? defaultValue : value);
+        return ((value == null) ? defaultValue : value);
     }
 
     private nvl(String value, String defaultValue) {
