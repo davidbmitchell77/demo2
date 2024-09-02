@@ -165,11 +165,11 @@ public without sharing class QuoteLineItem_Trigger_Handler {
         QuoteLineItem_Trigger_Recursion.updateProcessedRecordIds(to, oldItems, newItems);
     }
 
-    private nvl(Decimal value, Decimal defaultValue) {
-        return ((value == null) ? defaultValue : value);
+    private nvl(Decimal n, Decimal defaultValue) {
+        return ((n == null) ? defaultValue : value);
     }
 
-    private nvl(String value, String defaultValue) {
-        return (String.isBlank(value) ? defaultValue : value);
+    private nvl(String s, String defaultValue) {
+        return (String.isBlank(s) ? defaultValue : value);
     }
 }
