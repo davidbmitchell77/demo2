@@ -79,8 +79,8 @@ public without sharing class QuoteLineItem_Trigger_Handler {
     private Approval.ProcessSubmitRequest approvalRequest(QuoteLinetem li, PriceThreshold__mdt  pt, Id submitterId, Id approverId) {
         Approval.ProcessSubmitRequest req = new Approval.ProcessSubmitRequest();
         req.setProcessDefinitionNameOrId(pt.ApprovalProcessNameOrId__c);
-        req.setSkipEntryCriteria(pt.SkipEntryCritera__c);
         req.setObjectId(li.Id);
+        req.setSkipEntryCriteria(pt.SkipEntryCritera__c);
         req.setSubmitterId(nvl(submitterId, this.userId));
         req.setNextApproverIds(new List<Id>{ nvl(approverId, this.managerId) });
         req.setComments(pt.Comment__c);
