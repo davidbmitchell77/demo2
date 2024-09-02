@@ -92,6 +92,7 @@ public without sharing class QuoteLineItem_Trigger_Handler {
         for (PriceThreshold__mdt pt : [SELECT FIELDS(ALL)
                                          FROM PriceThreshold__mdt
                                         WHERE Name IN :productNames(newItems)
+                                        LIMIT 200
         ]) {
             if (!String.isBlank(pt.Name)) {
                 if (!theMap.containskey(pt.Name)) {
