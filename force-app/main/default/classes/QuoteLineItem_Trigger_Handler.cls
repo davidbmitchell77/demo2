@@ -51,6 +51,7 @@ public without sharing class QuoteLineItem_Trigger_Handler {
 
             }
         }
+        updateProcessedRecordIds(this.operationType, oldItems, newItems);
     }
 
     private void checkPrices(List<QuoteLineItem> oldItems, List<QuoteLineItem> newItems, Map<Id,QuoteLineItem> oldMap, Map<Id,QuoteLineItem> newMap) {
@@ -158,6 +159,10 @@ public without sharing class QuoteLineItem_Trigger_Handler {
             }
         }
         return results;
+    }
+
+    private void updateProcessedRecordIds(TriggerOperation to, List<QuoteLineItem> oldItems, List<QuoteLineItem> newItems) {
+        QuoteLineItem_Trigger_Recursion.updateProcessedRecordIds(to, oldItems, newItems);
     }
 
     private nvl(Decimal value, Decimal defaultValue) {
