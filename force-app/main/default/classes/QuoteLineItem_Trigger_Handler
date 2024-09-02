@@ -1,13 +1,11 @@
 public without sharing class QuoteLineItem_Trigger_Handler {
 
     private TriggerOperation operationType;
-    private Map<String,PriceThreshold__mdt> priceThresholds;
     private Id userId;
     private Id managerId;
 
     public QuoteLineItem_Trigger_Handler(TriggerOperation to) {
         this.operationType = to;
-        this.priceThresholds = PriceThreshold__mdt.getAll();
         this.userId = UserInfo.getUserId();
         this.managerId = [SELECT ManagerId FROM User WHERE Id = UserInfo.getUserId()].ManagerId;
     }
@@ -58,13 +56,14 @@ public without sharing class QuoteLineItem_Trigger_Handler {
     private void checkPrices(List<QuoteLineItem> oldItems, List<QuoteLineItem> newItems, Map<Id,QuoteLineItem> oldMap, Map<Id,QuoteLineItem> newMap) {
         List<Approval.ProcessSubmitRequest> reqs = new List<Approval.ProcessSubmitRequest>();
 
+        Map<String,PriceThreshold__mdt> priceThresholds = priceThresholds();
         Map<String,User> submitters = submitters();
         Map<String,User> approvers  = approvers();
 
         if (newItems != null) {
             for (QuoteLineItem li : newItems) {
-                if (this.priceThresholds.containsKey(li.Product2.Name)) {
-                    PriceThreshold__mdt pt = this.priceThresholds.get(li.Product2.Name);
+                if (priceThresholds.containsKey(li.Product2.Name)) {
+                    PriceThreshold__mdt pt = priceThresholds.get(li.Product2.Name);
                     if (nvl(li.ListPrice, 0.00) < nvl(pt.ThresholdPrice__c, 0.00)) {
                         reqs.add(approvalRequest(li, pt, submitters, approvers));
                     }
@@ -84,8 +83,37 @@ public without sharing class QuoteLineItem_Trigger_Handler {
         req.setSubmitterId(nvl(submitters.get(pt.Submitter__c), this.userId));
         req.setNextApproverIds(new List<Id>{ nvl(approvers.get(pt.Approver__c), this.managerId) });
         req.setComments(pt.Comment__c);
-        req.setSkipEntryCriteria(pt.skipEntryCritera__c);
+        req.setSkipEntryCriteria(pt.SkipEntryCritera__c);
         return req;
+    }
+
+    private Map<String,PriceThreshold__mdt> priceThresholds() {
+        Map<String,PriceThreshold__mdt> theMap = new Map<String,PriceThreshold__mdt>();
+        for (PriceThreshold__mdt pt : [SELECT FIELDS(ALL)
+                                         FROM PriceThreshold__mdt
+                                        WHERE Name IN :productNames(newItems)
+        ]) {
+            if (!String.isBlank(pt.Name)) {
+                if (!theMap.containskey(pt.Name)) {
+                    theMap.put(pt.Name, pt);
+                }
+            }
+        }
+        return theMap;
+    }
+
+    private Set<String> productNames(List<QuoteLineItem> lineItems) {
+        Set<String> results = new Set<String>();
+        if (!lineItems.isEmpty()) {
+            for (QuoteLineItem li : lineItems) {
+                if (!String.isBlank(li.Name)) {
+                    if (!results.contains(li.Name)) {
+                        results.add(li.Name);
+                    }
+                }
+            }
+        }
+        return results;
     }
 
     private Map<String,User> submitters() {
