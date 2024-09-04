@@ -61,7 +61,7 @@ public without sharing class QuoteLineItem_Trigger_Handler {
     private void checkPrices(List<QuoteLineItem> oldItems, List<QuoteLineItem> newItems, Map<Id,QuoteLineItem> oldMap, Map<Id,QuoteLineItem> newMap) {
         List<Approval.ProcessSubmitRequest> reqs = new List<Approval.ProcessSubmitRequest>();
 
-        Map<String,PriceThreshold__mdt> priceThresholds = priceThresholds();
+        Map<String,PriceThreshold__mdt> priceThresholds = priceThresholds(newItems);
         Map<String,Id> submitters = submitters(priceThresholds);
         Map<String,Id> approvers  = approvers(priceThresholds);
 
@@ -82,18 +82,18 @@ public without sharing class QuoteLineItem_Trigger_Handler {
         }
     }
 
-    private Approval.ProcessSubmitRequest approvalRequest(QuoteLinetem li, PriceThreshold__mdt  pt, Id submitterId, Id approverId) {
-        Approval.ProcessSubmitRequest req = new Approval.ProcessSubmitRequest(); n
-        req.setProcessDefinitionNameOrId(pt.ApprovalProcess__c);
+    private Approval.ProcessSubmitRequest approvalRequest(QuoteLineItem li, PriceThreshold__mdt  pt, Id submitterId, Id approverId) {
+        Approval.ProcessSubmitRequest req = new Approval.ProcessSubmitRequest();
+        req.setProcessDefinitionNameOrId(pt.ApprovalProcessNameOrId__c);
         req.setObjectId(li.Id);
         req.setSubmitterId(nvl(submitterId, this.userId));
         req.setNextApproverIds(new List<Id>{ nvl(approverId, this.managerId) });
-        req.setSkipEntryCriteria(pt.SkipEntryCritera__c);
+        req.setSkipEntryCriteria(pt.SkipEntryCriteria__c);
         req.setComments(pt.Comment__c);
         return req;
     }
 
-    private Map<String,PriceThreshold__mdt> priceThresholds() {
+    private Map<String,PriceThreshold__mdt> priceThresholds(List<QuoteLineItem> lineItems) {
         Map<String,PriceThreshold__mdt> theMap = new Map<String,PriceThreshold__mdt>();
         for (PriceThreshold__mdt pt : [SELECT DeveloperName,
                                               ApprovalProcessNameOrId__c,
@@ -104,7 +104,7 @@ public without sharing class QuoteLineItem_Trigger_Handler {
                                               SkipEntryCriteria__c,
                                               Comment__c
                                          FROM PriceThreshold__mdt
-                                        WHERE Name IN :productNames(newItems)
+                                        WHERE DeveloperName IN :productNames(lineItems)
         ]) {
             if (!String.isBlank(pt.DeveloperName)) {
                 if (!theMap.containskey(pt.DeveloperName)) {
@@ -119,9 +119,9 @@ public without sharing class QuoteLineItem_Trigger_Handler {
         Set<String> results = new Set<String>();
         if (!lineItems.isEmpty()) {
             for (QuoteLineItem li : lineItems) {
-                if (!String.isBlank(li.Name)) {
-                    if (!results.contains(li.Name)) {
-                        results.add(li.Name);
+                if (!String.isBlank(li.Product2.Name)) {
+                    if (!results.contains(li.Product2.Name)) {
+                        results.add(li.Product2.Name);
                     }
                 }
             }
@@ -129,7 +129,7 @@ public without sharing class QuoteLineItem_Trigger_Handler {
         return results;
     }
 
-    private Map<String,Id> submitters(Map<String,PriceThresholds__mdt> priceThresholds) {
+    private Map<String,Id> submitters(Map<String,PriceThreshold__mdt> priceThresholds) {
         Map<String,Id> theMap = new Map<String,Id>();
         for (User u : [SELECT Id, Name FROM User WHERE Username IN :usernames('submitter', priceThresholds)]) {
             if (!theMap.containsKey(u.Username)) {
@@ -139,8 +139,8 @@ public without sharing class QuoteLineItem_Trigger_Handler {
         return theMap;
     }
 
-    private Map<String,Id> approvers(Map<String,PriceThresholds__mdt> priceThresholds) {
-        Map<String,Id> approvers = new Map<String,Id>();
+    private Map<String,Id> approvers(Map<String,PriceThreshold__mdt> priceThresholds) {
+        Map<String,Id> theMap = new Map<String,Id>();
         for (User u : [SELECT Id, Name FROM User WHERE Username IN :usernames('approver', priceThresholds)]) {
             if (!theMap.containsKey(u.Username)) {
                 theMap.put(u.Username, u.Id);
@@ -149,8 +149,8 @@ public without sharing class QuoteLineItem_Trigger_Handler {
         return theMap;
     }
 
-    private Set<Id> usernames(String submitterOrApprover, Map<String,PriceThresholds__mdt> priceThresholds) {
-        results = new Set<Id>();
+    private Set<Id> usernames(String submitterOrApprover, Map<String,PriceThreshold__mdt> priceThresholds) {
+        Set<Id> results = new Set<Id>();
         if (!priceThresholds.isEmpty()) {
             for (PriceThreshold__mdt pt : priceThresholds.values()) {
                 if (submitterOrApprover == 'submitter') {
@@ -176,11 +176,11 @@ public without sharing class QuoteLineItem_Trigger_Handler {
         QuoteLineItem_Trigger_Recursion.updateProcessedRecordIds(to, oldItems, newItems);
     }
 
-    private nvl(Decimal n, Decimal defaultValue) {
-        return ((n == null) ? defaultValue : value);
+    private decimal nvl(Decimal n, Decimal defaultValue) {
+        return ((n == null) ? defaultValue : n);
     }
 
-    private nvl(String s, String defaultValue) {
-        return (String.isBlank(s) ? defaultValue : value);
+    private String nvl(String s, String defaultValue) {
+        return (String.isBlank(s) ? defaultValue : s);
     }
 }
