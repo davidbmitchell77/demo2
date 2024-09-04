@@ -3,23 +3,25 @@ public without sharing class QuoteLineItem_Trigger_Handler {
     private TriggerOperation operationType;
     private Id userId;
     private Id managerId;
+    private Decimal maxValue;
 
     public QuoteLineItem_Trigger_Handler(TriggerOperation to) {
         this.operationType = to;
         this.userId = UserInfo.getUserId();
         this.managerId = [SELECT ManagerId FROM User WHERE Id = :UserInfo.getUserId()].ManagerId;
+        this.maxValue = Math.pow(10,6);
     }
 
     public Boolean isValid(List<QuoteLineItem> lineItems) {
         Boolean result = true;
         if (lineItems != null) {
             for (QuoteLineItem li : lineItems) {
-                if (String.isBlank(li.Name)) {
-                    li.Name.addError(System.Label.QUOTE_LINE_ITEM_NAME_IS_REQUIRED);
+                if (String.isBlank(li.Product2Id)) {
+                    li.Product2Id.addError(System.Label.QUOTE_ITEM_PRODUCT_ID_IS_REQUIRED);
                     result = false;
                 }
-                if (li.ListPrice == null) {
-                    li.ListPrice.addError(System.Label.QUOTE_LINE_ITEM_PRICE_IS_REQUIRED);
+                if (li.UnitPrice == null) {
+                    li.UnitPrice.addError(System.Label.QUOTE_ITEM_UNIT_PRICE_IS_REQUIRED);
                     result = false;
                 }
             }
@@ -65,7 +67,10 @@ public without sharing class QuoteLineItem_Trigger_Handler {
             for (QuoteLineItem li : newItems) {
                 if (priceThresholds.containsKey(li.Product2.Name)) {
                     PriceThreshold__mdt pt = priceThresholds.get(li.Product2.Name);
-                    if (nvl(li.ListPrice, 0.00) < nvl(pt.ThresholdPrice__c, 0.00)) {
+                    if (nvl(li.ListPrice, 0.00) < nvl(pt.MinimumPrice__c, 0.00)) {
+                        reqs.add(approvalRequest(li, pt, submitters.get(pt.Submitter__c), approvers.get(pt.Approver__c)));
+                    }
+                    if (nvl(li.ListPrice, 0.00) > nvl(pt.MaximumPrice__c, this.maxValue)) {
                         reqs.add(approvalRequest(li, pt, submitters.get(pt.Submitter__c), approvers.get(pt.Approver__c)));
                     }
                 }
@@ -79,25 +84,31 @@ public without sharing class QuoteLineItem_Trigger_Handler {
 
     private Approval.ProcessSubmitRequest approvalRequest(QuoteLinetem li, PriceThreshold__mdt  pt, Id submitterId, Id approverId) {
         Approval.ProcessSubmitRequest req = new Approval.ProcessSubmitRequest();
-        req.setProcessDefinitionNameOrId(pt.ApprovalProcessNameOrId__c);
+        req.setProcessDefinitionNameOrId(pt.ApprovalProcess__c);
         req.setObjectId(li.Id);
-        req.setSkipEntryCriteria(pt.SkipEntryCritera__c);
         req.setSubmitterId(nvl(submitterId, this.userId));
         req.setNextApproverIds(new List<Id>{ nvl(approverId, this.managerId) });
+        req.setSkipEntryCriteria(pt.SkipEntryCritera__c);
         req.setComments(pt.Comment__c);
         return req;
     }
 
     private Map<String,PriceThreshold__mdt> priceThresholds() {
         Map<String,PriceThreshold__mdt> theMap = new Map<String,PriceThreshold__mdt>();
-        for (PriceThreshold__mdt pt : [SELECT FIELDS(ALL)
+        for (PriceThreshold__mdt pt : [SELECT DeveloperName,
+                                              ApprovalProcessNameOrId__c,
+                                              MinimumPrice__c,
+                                              MaximumPrice__c,
+                                              Submitter__c,
+                                              Approver__c,
+                                              SkipEntryCriteria__c,
+                                              Comment__c
                                          FROM PriceThreshold__mdt
                                         WHERE Name IN :productNames(newItems)
-                                        LIMIT 200
         ]) {
-            if (!String.isBlank(pt.Name)) {
-                if (!theMap.containskey(pt.Name)) {
-                    theMap.put(pt.Name, pt);
+            if (!String.isBlank(pt.DeveloperName)) {
+                if (!theMap.containskey(pt.DeveloperName)) {
+                    theMap.put(pt.DeveloperName, pt);
                 }
             }
         }
