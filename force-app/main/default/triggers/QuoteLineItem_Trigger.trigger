@@ -1,4 +1,4 @@
-trigger QuoteLineItem_Trigger on QuoteLineItem (before insert, before update, before delete, after insert, after update, after delete) {
+trigger QuoteLineItem_Trigger on QuoteLineItem (before insert, before update, before delete, after insert, after update, after delete, after undelete) {
 
     TriggerSetting__mdt ts = TriggerSettings.getInstance('QuoteLineItem');
     private Boolean runTriggerHandler = false;
@@ -39,6 +39,12 @@ trigger QuoteLineItem_Trigger on QuoteLineItem (before insert, before update, be
         when AFTER_DELETE {
             if (!QuoteLineItem_Trigger_Recursion.AFTER_DELETE_ALREADY_INVOKED) {
                 QuoteLineItem_Trigger_Recursion.AFTER_DELETE_ALREADY_INVOKED = true;
+                runTriggerHandler = ts.AfterDelete__c;
+            }
+        }
+        when AFTER_UNDELETE {
+            if (!QuoteLineItem_Trigger_Recursion.AFTER_UNDELETE_ALREADY_INVOKED) {
+                QuoteLineItem_Trigger_Recursion.AFTER_UNDELETE_ALREADY_INVOKED = true;
                 runTriggerHandler = ts.AfterDelete__c;
             }
         }
