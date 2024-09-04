@@ -10,7 +10,7 @@ public without sharing class QuoteLineItem_Trigger_Handler {
         this.operationType = to;
         this.userId = UserInfo.getUserId();
         this.managerId = [SELECT ManagerId FROM User WHERE Id = :UserInfo.getUserId()].ManagerId;
-        this.minPrice  0.00;
+        this.minPrice = 0.00;
         this.maxPrice = Math.pow(10,6);
     }
 
