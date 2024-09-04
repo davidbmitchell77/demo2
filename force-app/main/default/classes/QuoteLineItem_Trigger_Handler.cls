@@ -3,13 +3,15 @@ public without sharing class QuoteLineItem_Trigger_Handler {
     private TriggerOperation operationType;
     private Id userId;
     private Id managerId;
-    private Decimal maxValue;
+    private Decimal minPrice;
+    private Decimal maxPrice;
 
     public QuoteLineItem_Trigger_Handler(TriggerOperation to) {
         this.operationType = to;
         this.userId = UserInfo.getUserId();
         this.managerId = [SELECT ManagerId FROM User WHERE Id = :UserInfo.getUserId()].ManagerId;
-        this.maxValue = Math.pow(10,6);
+        this.minPrice  0.00;
+        this.maxPrice = Math.pow(10,6);
     }
 
     public Boolean isValid(List<QuoteLineItem> lineItems) {
@@ -67,10 +69,8 @@ public without sharing class QuoteLineItem_Trigger_Handler {
             for (QuoteLineItem li : newItems) {
                 if (priceThresholds.containsKey(li.Product2.Name)) {
                     PriceThreshold__mdt pt = priceThresholds.get(li.Product2.Name);
-                    if (nvl(li.ListPrice, 0.00) < nvl(pt.MinimumPrice__c, 0.00)) {
-                        reqs.add(approvalRequest(li, pt, submitters.get(pt.Submitter__c), approvers.get(pt.Approver__c)));
-                    }
-                    if (nvl(li.ListPrice, 0.00) > nvl(pt.MaximumPrice__c, this.maxValue)) {
+                    if ((nvl(li.ListPrice, 0.00) < nvl(pt.MinimumPrice__c, this.minPrice))
+                    || ((nvl(li.ListPrice, 0.00) > nvl(pt.MaximumPrice__c, this.maxPrice)))) {
                         reqs.add(approvalRequest(li, pt, submitters.get(pt.Submitter__c), approvers.get(pt.Approver__c)));
                     }
                 }
