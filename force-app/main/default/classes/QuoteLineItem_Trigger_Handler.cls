@@ -69,8 +69,8 @@ public without sharing class QuoteLineItem_Trigger_Handler {
             for (QuoteLineItem li : newItems) {
                 if (priceThresholds.containsKey(li.Product2.Name)) {
                     PriceThreshold__mdt pt = priceThresholds.get(li.Product2.Name);
-                    if (nvl(li.UnitPrice, 0.00) < nvl(pt.MinimumPrice__c, this.minPrice)
-                    || (nvl(li.UnitPrice, 0.00) > nvl(pt.MaximumPrice__c, this.maxPrice))) {
+                    if (nvl(li.TotalPrice, 0.00) < nvl(pt.MinimumPrice__c, this.minPrice)
+                    || (nvl(li.TotalPrice, 0.00) > nvl(pt.MaximumPrice__c, this.maxPrice))) {
                         reqs.add(approvalRequest(li, pt, submitters.get(pt.Submitter__c), approvers.get(pt.Approver__c)));
                     }
                 }
@@ -85,7 +85,7 @@ public without sharing class QuoteLineItem_Trigger_Handler {
     private Approval.ProcessSubmitRequest approvalRequest(QuoteLineItem li, PriceThreshold__mdt  pt, Id submitterId, Id approverId) {
         Approval.ProcessSubmitRequest req = new Approval.ProcessSubmitRequest();
         req.setProcessDefinitionNameOrId(pt.ApprovalProcessNameOrId__c);
-        req.setObjectId(li.Id);
+        req.setObjectId(li.QuoteId);
         req.setSubmitterId(nvl(submitterId, this.userId));
         req.setNextApproverIds(new List<Id>{ nvl(approverId, this.managerId) });
         req.setSkipEntryCriteria(pt.SkipEntryCriteria__c);
