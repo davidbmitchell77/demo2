@@ -169,6 +169,20 @@
         <value>Opportunity record data is not valid.</value>
     </labels>
     <labels>
+        <fullName>QUOTE_ITEM_PRODUCT_ID_IS_REQUIRED</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>Quote item product Id is required.</shortDescription>
+        <value>Quote item product Id is required.</value>
+    </labels>
+    <labels>
+        <fullName>QUOTE_ITEM_UNIT_PRICE_IS_REQUIRED</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>Quote item unit price is required.</shortDescription>
+        <value>Quote item unit price is required.</value>
+    </labels>
+    <labels>
         <fullName>foobar</fullName>
         <language>en_US</language>
         <protected>false</protected>
