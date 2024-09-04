@@ -45,7 +45,7 @@ trigger QuoteLineItem_Trigger on QuoteLineItem (before insert, before update, be
         when AFTER_UNDELETE {
             if (!QuoteLineItem_Trigger_Recursion.AFTER_UNDELETE_ALREADY_INVOKED) {
                 QuoteLineItem_Trigger_Recursion.AFTER_UNDELETE_ALREADY_INVOKED = true;
-                runTriggerHandler = ts.AfterDelete__c;
+                runTriggerHandler = ts.AfterUndelete__c;
             }
         }
     }
