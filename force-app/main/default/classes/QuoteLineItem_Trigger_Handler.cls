@@ -62,13 +62,15 @@ public without sharing class QuoteLineItem_Trigger_Handler {
         List<Approval.ProcessSubmitRequest> reqs = new List<Approval.ProcessSubmitRequest>();
 
         Map<String,PriceThreshold__mdt> priceThresholds = priceThresholds(newItems);
+        Map<Id,Product2> products = products(newItems);
         Map<String,Id> submitters = submitters(priceThresholds);
         Map<String,Id> approvers  = approvers(priceThresholds);
 
         if (newItems != null) {
             for (QuoteLineItem li : newItems) {
-                if (priceThresholds.containsKey(li.Product2.Name)) {
-                    PriceThreshold__mdt pt = priceThresholds.get(li.Product2.Name);
+                String productCode = products.get(li.Product2Id).ProductCode;
+                if (priceThresholds.containsKey(productCode)) {
+                    PriceThreshold__mdt pt = priceThresholds.get(productCode);
                     if (nvl(li.TotalPrice, 0.00) < nvl(pt.MinimumPrice__c, this.minPrice)
                     || (nvl(li.TotalPrice, 0.00) > nvl(pt.MaximumPrice__c, this.maxPrice))) {
                         reqs.add(approvalRequest(li, pt, submitters.get(pt.Submitter__c), approvers.get(pt.Approver__c)));
@@ -104,7 +106,7 @@ public without sharing class QuoteLineItem_Trigger_Handler {
                                               SkipEntryCriteria__c,
                                               Comment__c
                                          FROM PriceThreshold__mdt
-                                        WHERE DeveloperName IN :productNames(lineItems)
+                                        WHERE DeveloperName IN :productCodes(lineItems)
         ]) {
             if (!String.isBlank(pt.DeveloperName)) {
                 if (!theMap.containskey(pt.DeveloperName)) {
@@ -115,13 +117,36 @@ public without sharing class QuoteLineItem_Trigger_Handler {
         return theMap;
     }
 
-    private Set<String> productNames(List<QuoteLineItem> lineItems) {
+    private Map<Id,Product2> products(List<QuoteLineItem> lineItems) {
+        return new Map<Id,Product2>([SELECT Id,
+                                            Name,
+                                            ProductCode
+                                       FROM Product2
+                                      WHERE ProductCode IN :productCodes(lineItems)
+        ]);
+    }
+
+    private Set<String> productCodes(List<QuoteLineItem> lineItems) {
         Set<String> results = new Set<String>();
         if (!lineItems.isEmpty()) {
+            for (Product2 p : [SELECT Name, ProductCode FROM Product2 WHERE Id IN :productIds(lineItems)]) {
+                if (!String.isBlank(p.ProductCode)) {
+                    if (!results.contains(p.ProductCode)) {
+                        results.add(p.ProductCode);
+                    }
+                }
+            }
+        }
+        return results;
+    }
+
+    private Set<Id> productIds(List<QuoteLineItem> lineItems) {
+        Set<Id> results = new Set<Id>();
+        if (!lineItems.isEmpty()) {
             for (QuoteLineItem li : lineItems) {
-                if (!String.isBlank(li.Product2.Name)) {
-                    if (!results.contains(li.Product2.Name)) {
-                        results.add(li.Product2.Name);
+                if (!String.isBlank(li.Product2Id)) {
+                    if (!results.contains(li.Product2Id)) {
+                        results.add(li.Product2Id);
                     }
                 }
             }
@@ -141,7 +166,7 @@ public without sharing class QuoteLineItem_Trigger_Handler {
 
     private Map<String,Id> approvers(Map<String,PriceThreshold__mdt> priceThresholds) {
         Map<String,Id> theMap = new Map<String,Id>();
-        for (User u : [SELECT Id, Name FROM User WHERE Username IN :usernames('approver', priceThresholds)]) {
+        for (User u : [SELECT Id, Name, Username FROM User WHERE Username IN :usernames('approver', priceThresholds)]) {
             if (!theMap.containsKey(u.Username)) {
                 theMap.put(u.Username, u.Id);
             }
@@ -149,8 +174,8 @@ public without sharing class QuoteLineItem_Trigger_Handler {
         return theMap;
     }
 
-    private Set<Id> usernames(String submitterOrApprover, Map<String,PriceThreshold__mdt> priceThresholds) {
-        Set<Id> results = new Set<Id>();
+    private Set<String> usernames(String submitterOrApprover, Map<String,PriceThreshold__mdt> priceThresholds) {
+        Set<String> results = new Set<String>();
         if (!priceThresholds.isEmpty()) {
             for (PriceThreshold__mdt pt : priceThresholds.values()) {
                 if (submitterOrApprover == 'submitter') {

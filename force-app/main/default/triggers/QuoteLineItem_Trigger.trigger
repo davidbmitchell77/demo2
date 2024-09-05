@@ -59,6 +59,7 @@ trigger QuoteLineItem_Trigger on QuoteLineItem (before insert, before update, be
         }
         catch(Exception e) {
             Logger.error(e.getMessage()).addTag('QuoteLineItem_Trigger');
+            Logger.error(e.getStackTraceString()).addTag('QuoteLineItem_Trigger');
             Logger.saveLog();
             throw new SYS_UTILS.QUOTE_LINE_ITEM_TRIGGER_EXCEPTION(e.getMessage());
         }
