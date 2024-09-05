@@ -4,7 +4,7 @@
     <protected>false</protected>
     <values>
         <field>ApprovalProcessNameOrId__c</field>
-        <value xsi:type="xsd:string">Quote Approval Process</value>
+        <value xsi:type="xsd:string">Quote_Approval_Process</value>
     </values>
     <values>
         <field>Approver__c</field>
