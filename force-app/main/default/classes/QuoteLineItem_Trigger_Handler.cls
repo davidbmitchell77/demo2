@@ -61,7 +61,6 @@ public without sharing class QuoteLineItem_Trigger_Handler {
     private void checkPrices(List<QuoteLineItem> oldItems, List<QuoteLineItem> newItems, Map<Id,QuoteLineItem> oldMap, Map<Id,QuoteLineItem> newMap) {
         List<Approval.ProcessSubmitRequest> reqs = new List<Approval.ProcessSubmitRequest>();
 
-        Map<Id,Quote> quotes = new Map<Id,Quote>();
         Map<String,PriceThreshold__mdt> priceThresholds = priceThresholds(newItems);
         Map<Id,Product2> products = products(newItems);
         Map<String,Id> submitters = submitters(priceThresholds);
@@ -75,7 +74,6 @@ public without sharing class QuoteLineItem_Trigger_Handler {
                     if (nvl(li.TotalPrice, 0.00) < nvl(pt.MinimumPrice__c, this.minPrice)
                     || (nvl(li.TotalPrice, 0.00) > nvl(pt.MaximumPrice__c, this.maxPrice))) {
                         reqs.add(approvalRequest(li, pt, submitters.get(pt.Submitter__c), approvers.get(pt.Approver__c)));
-                        quotes.put(li.QuoteId, new Quote(Id=li.QuoteId, Status='Needs Review'));
                     }
                 }
             }
@@ -83,7 +81,6 @@ public without sharing class QuoteLineItem_Trigger_Handler {
 
         if (!reqs.isEmpty()) {
             Approval.process(reqs);
-            update quotes.values();
         }
     }
 
