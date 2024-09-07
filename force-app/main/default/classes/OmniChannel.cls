@@ -20,7 +20,7 @@ public class OmniChannel {
                              WHERE Id IN :caseIds
                          ORDER BY CaseNumber ASC
         ];
-    
+
         Map<String,PendingServiceRouting> psrMap = new Map<String,PendingServiceRouting>();
 
         for (Case c : cases) {
@@ -31,7 +31,7 @@ public class OmniChannel {
             psr.RoutingModel = routingModel;
             psr.CapacityWeight = capacityWeight;
             psr.RoutingPriority = routingPriority;
-            psr.IsReadyForRouting = false;            
+            psr.IsReadyForRouting = false;
             psrMap.put(c.Id, psr);
         }
 
@@ -43,9 +43,9 @@ public class OmniChannel {
                 psrMap.put(psr.WorkItemId, psr);
             }
         }
-    
+
         List<Skill> skills = [SELECT Id, MasterLabel FROM Skill LIMIT :maximumSkills];
-        
+
         for (Case c : cases) {
             Set<String> matchingSkillIds = new Set<String>();
             for (Skill s : skills) {
