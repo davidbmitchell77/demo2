@@ -4,8 +4,8 @@ import { subscribe, unsubscribe            } from 'lightning/messageService';
 
 import SAMPLEMC from '@salesforce/messageChannel/SampleMessageChannel__c';
 
-export default class LmsComponentX extends LightningElement
-{
+export default class LmsComponentX extends LightningElement {
+
     @wire(MessageContext)
     context;
 
