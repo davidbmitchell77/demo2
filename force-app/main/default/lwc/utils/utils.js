@@ -131,8 +131,8 @@ export {
     exportCSVFile,
     guid, uuid,
     hash, parse,
-    stringify, stringifyPretty,
     left, mid, right,
     log,
-    showToast
+    showToast,
+    stringify, stringifyPretty
 };
