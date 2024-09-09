@@ -126,10 +126,13 @@ const right = (s, chars) => {
     return s.substr((s.length - chars), chars);
 }
 
-export { deepCopy };
-export { exportCSVFile              };
-export { guid, uuid                 };
-export { hash, parse                };
-export { stringify, stringifyPretty };
-export { log, showToast             };
-export { left, mid, right           };
+export {
+    deepCopy,
+    exportCSVFile,
+    guid, uuid,
+    hash, parse,
+    stringify, stringifyPretty,
+    left, mid, right,
+    log,
+    showToast
+};
