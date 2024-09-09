@@ -1,11 +1,11 @@
 import { ShowToastEvent } from 'lightning/platformShowToastEvent'  ;
 
-import debug              from '@salesforce/apex/AuraLogger.debug' ;
-import info               from '@salesforce/apex/AuraLogger.info'  ;
-import error              from '@salesforce/apex/AuraLogger.error' ;
-import fine               from '@salesforce/apex/AuraLogger.fine'  ;
-import finer              from '@salesforce/apex/AuraLogger.finer' ;
-import finest             from '@salesforce/apex/AuraLogger.finest';
+import debug  from '@salesforce/apex/AuraLogger.debug' ;
+import info   from '@salesforce/apex/AuraLogger.info'  ;
+import error  from '@salesforce/apex/AuraLogger.error' ;
+import fine   from '@salesforce/apex/AuraLogger.fine'  ;
+import finer  from '@salesforce/apex/AuraLogger.finer' ;
+import finest from '@salesforce/apex/AuraLogger.finest';
 
 const exportCSVFile = (headers, totalData, fileTitle) => {
     if (!totalData || !totalData.length) {
@@ -118,6 +118,10 @@ const left = (s, chars) => {
     return s.substr(0, chars);
 }
 
+const mid = (s, start, chars) => {
+    return s.substr(start, chars);
+}
+
 const right = (s, chars) => {
     return s.substr((s.length - chars), chars);
 }
@@ -128,4 +132,4 @@ export { guid, uuid                 };
 export { hash, parse                };
 export { stringify, stringifyPretty };
 export { log, showToast             };
-export { left, right                };
+export { left, mid, right           };
