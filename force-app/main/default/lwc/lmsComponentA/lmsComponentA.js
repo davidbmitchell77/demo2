@@ -1,6 +1,6 @@
 import { LightningElement, wire  } from 'lwc';
 import { MessageContext, publish } from 'lightning/messageService';
-import { left, right             } from 'c/utils';
+import { left, mid, right        } from 'c/utils';
 
 import SAMPLEMC from '@salesforce/messageChannel/SampleMessageChannel__c';
 

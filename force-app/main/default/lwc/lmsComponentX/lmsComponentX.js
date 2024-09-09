@@ -1,7 +1,7 @@
 import { LightningElement, wire            } from 'lwc';
 import { APPLICATION_SCOPE, MessageContext } from 'lightning/messageService';
 import { subscribe, unsubscribe            } from 'lightning/messageService';
-import { left, right                       } from 'c/utils';
+import { left, mid, right                  } from 'c/utils';
 
 import SAMPLEMC from '@salesforce/messageChannel/SampleMessageChannel__c';
 
