@@ -1,6 +1,7 @@
 import { LightningElement, wire            } from 'lwc';
 import { APPLICATION_SCOPE, MessageContext } from 'lightning/messageService';
 import { subscribe, unsubscribe            } from 'lightning/messageService';
+import { left, right                       } from 'c/utils';
 
 import SAMPLEMC from '@salesforce/messageChannel/SampleMessageChannel__c';
 
@@ -72,10 +73,10 @@ export default class LmsComponentX extends LightningElement {
             let day = this.days.get(today.getDay());
             let dd = today.getDate();
             let yyyy = today.getFullYear();
-            let hr = this.right('0' + today.getHours(), 2);
-            let mi = this.right('0' + today.getMinutes(), 2);
-            let ss = this.right('0' + today.getSeconds(), 2);
-            let offset = this.right('0' + (today.getTimezoneOffset() / -60), 2);
+            let hr = right('0' + today.getHours(), 2);
+            let mi = right('0' + today.getMinutes(), 2);
+            let ss = right('0' + today.getSeconds(), 2);
+            let offset = right('0' + (today.getTimezoneOffset() / -60), 2);
 
             this.receivedMessage = (message.lmsData.value ? message.lmsData.value : 'Message is empty.');
             this.status = `Message received on ${day}, ${mm} ${dd}, ${yyyy} at ${hr}:${mi}:${ss} (UTC ${offset}:00).`;
@@ -96,10 +97,6 @@ export default class LmsComponentX extends LightningElement {
         let date = today.getDate();
         let year = today.getFullYear();
         this.status = `Today is ${day}, ${month} ${date}, ${year}.`;
-    }
-
-    right(s, chars) {
-        return s.substr((s.length - chars), chars);
     }
 
     get isActive() {
