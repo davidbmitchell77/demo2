@@ -1,5 +1,6 @@
 import { LightningElement, wire  } from 'lwc';
 import { MessageContext, publish } from 'lightning/messageService';
+import { left, right             } from 'c/utils';
 
 import SAMPLEMC from '@salesforce/messageChannel/SampleMessageChannel__c';
 
@@ -72,17 +73,13 @@ export default class LmsComponentA extends LightningElement {
         let day = this.days.get(today.getDay());
         let dd = today.getDate();
         let yyyy = today.getFullYear();
-        let hr = this.right('0' + today.getHours(), 2);
-        let mi = this.right('0' + today.getMinutes(), 2);
-        let ss = this.right('0' + today.getSeconds(), 2);
-        let offset = this.right('0' + (today.getTimezoneOffset() / -60), 2);
+        let hr = right('0' + today.getHours(), 2);
+        let mi = right('0' + today.getMinutes(), 2);
+        let ss = right('0' + today.getSeconds(), 2);
+        let offset = right('0' + (today.getTimezoneOffset() / -60), 2);
 
         this.template.querySelector('lightning-input').value = null;
         this.noInput = true;
         this.status = `Message published on ${day}, ${mm} ${dd}, ${yyyy} at ${hr}:${mi}:${ss} (UTC ${offset}:00).`;
-    }
-
-    right(s, chars) {
-        return s.substr((s.length - chars), chars);
     }
 }

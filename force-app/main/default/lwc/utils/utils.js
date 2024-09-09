@@ -114,9 +114,18 @@ const uuid = () => {
     return crypto.randomUUID().toLowerCase();
 }
 
+const left = (s, chars) => {
+    return s.substr(0, chars);
+}
+
+const right = (s, chars) => {
+    return s.substr((s.length - chars), chars);
+}
+
 export { deepCopy };
 export { exportCSVFile              };
 export { guid, uuid                 };
 export { hash, parse                };
 export { stringify, stringifyPretty };
 export { log, showToast             };
+export { left, right                };
