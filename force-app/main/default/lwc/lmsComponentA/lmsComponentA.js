@@ -3,8 +3,7 @@ import { MessageContext, publish } from 'lightning/messageService';
 
 import SAMPLEMC from '@salesforce/messageChannel/SampleMessageChannel__c';
 
-export default class LmsComponentA extends LightningElement
-{
+export default class LmsComponentA extends LightningElement {
     @wire(MessageContext)
     context;
 
