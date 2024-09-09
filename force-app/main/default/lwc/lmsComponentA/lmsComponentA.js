@@ -1,5 +1,6 @@
-import { LightningElement, wire } from 'lwc';
+import { LightningElement, wire  } from 'lwc';
 import { MessageContext, publish } from 'lightning/messageService';
+
 import SAMPLEMC from '@salesforce/messageChannel/SampleMessageChannel__c';
 
 export default class LmsComponentA extends LightningElement
@@ -11,8 +12,7 @@ export default class LmsComponentA extends LightningElement
     noInput = true;
     status;
 
-    months = new Map
-    ([
+    months = new Map([
         [0,  "January"   ],
         [1,  "February"  ],
         [2,  "March"     ],
@@ -27,8 +27,7 @@ export default class LmsComponentA extends LightningElement
         [11, "December"  ]
     ]);
 
-    days = new Map
-    ([
+    days = new Map([
         [0, "Sunday"    ],
         [1, "Monday"    ],
         [2, "Tuesday"   ],
@@ -38,8 +37,7 @@ export default class LmsComponentA extends LightningElement
         [6, "Saturday"  ]
     ]);
 
-    connectedCallback()
-    {
+    connectedCallback() {
         let today = new Date();
         let mm = this.months.get(today.getMonth());
         let day = this.days.get(today.getDay());
@@ -48,8 +46,7 @@ export default class LmsComponentA extends LightningElement
         this.status = `Today is ${day}, ${mm} ${dd}, ${yyyy}.`;
     }
 
-    inputHandler(event)
-    {
+    inputHandler(event){
         this.inputValue = event.target.value.trim();
         this.noInput = ((this.inputValue > "") ? false : true);
 
@@ -61,10 +58,8 @@ export default class LmsComponentA extends LightningElement
         this.status = `Today is ${day}, ${mm} ${dd}, ${yyyy}.`;
     }
 
-    publishMessage()
-    {
-        const message =
-        {
+    publishMessage() {
+        const message = {
             lmsData: {
                 value: this.inputValue
             }
