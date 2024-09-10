@@ -60,9 +60,9 @@ public class OmniChannel {
                 }
             }
             List<SkillRequirement> skillReqs = new List<SkillRequirement>();
-            for (String sId : matchingSkillIds) {
+            for (String msId : matchingSkillIds) {
                 SkillRequirement sr = new SkillRequirement();
-                sr.SkillId = sId;
+                sr.SkillId = msId;
                 sr.SkillLevel = skillLevel;
                 sr.RelatedRecordId = psrMap.get(c.Id).WorkItemId;
                 skillReqs.add(sr);
