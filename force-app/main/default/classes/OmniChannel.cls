@@ -55,10 +55,11 @@ public class OmniChannel {
                 if (c.Comments.containsIgnoreCase(s.MasterLabel   )) { skillMatch = true; }
                 if (skillMatch) {
                     if (!matchingSkillIds.contains(s.Id)) {
-                        if (matchingSkillIds.size() < maxSkills) {
-                            matchingSkillIds.add(s.Id);
-                        }
+                        matchingSkillIds.add(s.Id);
                     }
+                }
+                if (matchingSkillIds.size() >= maxSkills) {
+                    break;
                 }
             }
             List<SkillRequirement> skillReqs = new List<SkillRequirement>();
