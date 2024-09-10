@@ -18,7 +18,7 @@ public class OmniChannel {
                                    Comments
                               FROM Case
                              WHERE Id IN :caseIds
-                         ORDER BY CaseNumber ASC
+                          ORDER BY CaseNumber ASC
         ];
 
         Map<String,PendingServiceRouting> psrMap = new Map<String,PendingServiceRouting>();
