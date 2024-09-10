@@ -7,7 +7,7 @@ public class OmniChannel {
     private static final Integer capacityWeight = 1;
     private static final Integer routingPriority = 1;
     private static final Integer skillLevel = 5;
-    private static final Integer maximumSkills = 2000;
+    private static final Integer maxSkills = 200;
 
     @InvocableMethod(category='Case' label='Omni-Channel Routing' description='route cases to agents via Omni-Channel')
     public static void routeCases(List<String> caseIds) {
@@ -44,7 +44,7 @@ public class OmniChannel {
             }
         }
 
-        List<Skill> skills = [SELECT Id, MasterLabel FROM Skill LIMIT :maximumSkills];
+        List<Skill> skills = [SELECT Id, MasterLabel FROM Skill LIMIT :maxSkills];
 
         for (Case c : cases) {
             Set<String> matchingSkillIds = new Set<String>();
