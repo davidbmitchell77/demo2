@@ -1,9 +1,8 @@
 public class OmniChannel {
-    private static final String serviceChannel = 'Case';
-    private static final String routingType = 'SkillsBased';
-    private static final String routingModel = 'MostAvailable';
-    private static final String serviceChannelId = [SELECT Id FROM ServiceChannel WHERE DeveloperName = :serviceChannel].Id;
-
+    private static final String  serviceChannel = 'Case';
+    private static final String  routingType = 'SkillsBased';
+    private static final String  routingModel = 'MostAvailable';
+    private static final String  serviceChannelId = [SELECT Id FROM ServiceChannel WHERE DeveloperName = :serviceChannel].Id;
     private static final Integer capacityWeight = 1;
     private static final Integer routingPriority = 1;
     private static final Integer skillLevel = 5;
