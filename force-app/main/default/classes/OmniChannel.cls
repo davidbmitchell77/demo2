@@ -50,24 +50,22 @@ public class OmniChannel {
             Set<String> matchingSkillIds = new Set<String>();
             for (Skill s : skills) {
                 Boolean skillMatch = false;
-                if (c.Subject.containsIgnoreCase(s.MasterLabel    )) { skillMatch = true; } else
-                if (c.Description.containsIgnoreCase(s.MasterLabel)) { skillMatch = true; } else
-                if (c.Comments.containsIgnoreCase(s.MasterLabel   )) { skillMatch = true; }
+                if (nvl(c.Subject, '').containsIgnoreCase(s.MasterLabel    )) { skillMatch = true; } else
+                if (nvl(c.Description, '').containsIgnoreCase(s.MasterLabel)) { skillMatch = true; } else
+                if (nvl(c.Comments, '').containsIgnoreCase(s.MasterLabel   )) { skillMatch = true; }
                 if (skillMatch) {
                     if (!matchingSkillIds.contains(s.Id)) {
                         matchingSkillIds.add(s.Id);
                     }
                 }
-                if (matchingSkillIds.size() >= maxSkills) {
-                    break;
-                }
+                if (matchingSkillIds.size() >= maxSkills) { break; }
             }
             List<SkillRequirement> skillReqs = new List<SkillRequirement>();
             for (String msId : matchingSkillIds) {
                 SkillRequirement sr = new SkillRequirement();
                 sr.SkillId = msId;
                 sr.SkillLevel = skillLevel;
-                sr.RelatedRecordId = psrMap.get(c.Id).WorkItemId;
+                sr.RelatedRecordId = psrMap.get(c.Id).Id;
                 skillReqs.add(sr);
             }
             if (!skillReqs.isEmpty()) {
@@ -83,5 +81,9 @@ public class OmniChannel {
         if (!psrMap.isEmpty()) {
             update psrMap.values();
         }
+    }
+
+    private static String nvl(String s, String defaultValue) {
+        return ((s != null) ? s : defaultValue);
     }
 }
