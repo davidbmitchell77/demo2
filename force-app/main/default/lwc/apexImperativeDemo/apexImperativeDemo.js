@@ -7,7 +7,7 @@ export default class ApexImperativeDemo extends LightningElement {
 
     clickHandler() {
         getAccountList().then ((result) => {
-            this.accounts = result;
+            this.accounts = [ ...result ];
             console.info(this.accounts);
         }).catch((error) => {
             console.error(error);
