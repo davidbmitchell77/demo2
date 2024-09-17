@@ -1,20 +1,16 @@
-import { LightningElement, wire } from "lwc";
+import { LightningElement, wire } from 'lwc';
 
-import getOpportunities from "@salesforce/apex/OpportunityController.getOpportunities";
+import getOpportunities from '@salesforce/apex/OpportunityController.getOpportunities';
 
-export default class ChartsDemo extends LightningElement
-{
+export default class ChartsDemo extends LightningElement {
     pieChartLabels = [];
     pieChartData = [];
 
     @wire(getOpportunities)
-    opportunityHandler({ data, error })
-    {
-        if (data)
-        {
-            const result = data.reduce((json, val)=>({...json, [val.StageName]:(json[val.StageName]|0)+1}), {});
-            if (Object.keys(result).length)
-            {
+    opportunityHandler({ data, error }) {
+        if (data) {
+            const result = data.reduce((json, val) => ({...json, [val.StageName]:(json[val.StageName]|0)+1}), {});
+            if (Object.keys(result).length) {
                 this.pieChartLabels = Object.keys(result);
                 this.pieChartData = Object.values(result);
             }
