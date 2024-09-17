@@ -1,19 +1,17 @@
 import { LightningElement } from 'lwc';
 
-export default class C2pParentComponent extends LightningElement
-{
-    msg = "";
+export default class C2pParentComponent extends LightningElement {
+    msg = '';
     showModal = false;
 
     clickHandler() {
         this.showModal = true;
-        this.msg = "";
+        this.msg = '';
     }
 
-    closeHandler(event)
-    {
+    closeHandler(event) {
         this.msg = event.detail.msg;
         this.showModal = false;
-        console.log("Parent closeHandler() called.");
+        console.log('Parent closeHandler() called.');
     }
 }
