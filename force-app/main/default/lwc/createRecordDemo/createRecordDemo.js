@@ -1,64 +1,41 @@
-import { LightningElement } from "lwc";
-import { ShowToastEvent   } from "lightning/platformShowToastEvent";
-import { createRecord     } from "lightning/uiRecordApi";
+import { LightningElement } from 'lwc';
+import { ShowToastEvent   } from 'lightning/platformShowToastEvent';
+import { createRecord     } from 'lightning/uiRecordApi';
 
-import Contact from "@salesforce/schema/Contact";
+import Contact from '@salesforce/schema/Contact';
 
-export default class CreateRecordDemo extends LightningElement
-{
+export default class CreateRecordDemo extends LightningElement {
     formFields = {};
 
-    changeHandler(event)
-    {
+    changeHandler(event) {
         let { name, value } = event.target;
         this.formFields[name] = value;
     }
 
-    reset()
-    {
-        let theForm = this.template.querySelector("form");
+    reset() {
+        let theForm = this.template.querySelector('form');
         theForm.reset();
 
-        let inputs = this.template.querySelectorAll("lightning-input");
-        inputs.forEach
-        (
-            input => {
-                input.value = null;
-            }
-        );
+        let inputs = this.template.querySelectorAll('lightning-input');
+        inputs.forEach((input) => {
+            input.value = null;
+        });
     }
 
-    createContact()
-    {
+    createContact() {
         const recordInput = { apiName: Contact.objectApiName, fields: this.formFields };
-        createRecord(recordInput).then
-        (
-            result =>
-            {
-                this.showMsg("Success", `Contact created with Id ${result.id}.`, "success");
-                this.template.querySelector("form.createForm").reset();
-                this.formFields = {};
-            }
-        ).catch
-        (
-            error => {
-                this.showMsg("Error Creating record", error.body.message, "error");
-            }
-        );
+        createRecord(recordInput)
+       .then((result) => {
+            this.showToast('Success', `Contact created with Id ${result.id}.`, 'success');
+            this.template.querySelector('form.createForm').reset();
+            this.formFields = {};
+        })
+       .catch((error) => {
+            this.showToast('Error Creating record', error.body.message, 'error');
+        });
     }
 
-    showMsg(title, message, variant)
-    {
-        this.dispatchEvent
-        (
-            new ShowToastEvent
-            (
-                {
-                    title,
-                    message,
-                    variant: (variant || "info")
-                }
-            )
-        );
+    showToast(title, message, variant) {
+        this.dispatchEvent(new ShowToastEvent({ title: title , message: message, variant: (variant || 'info') }));
     }
 }
