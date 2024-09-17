@@ -1,19 +1,16 @@
-import { LightningElement } from "lwc";
+import { LightningElement } from 'lwc';
 
 import getAccountListBySearchKey from "@salesforce/apex/AccountController.getAccountListBySearchKey";
 
-export default class ApexImperativeWithParamsDemo extends LightningElement
-{
-    searchKey = "";
+export default class ApexImperativeWithParamsDemo extends LightningElement {
+    searchKey = '';
     timer;
     accounts = [];
 
-    changeHandler(event)
-    {
+    changeHandler(event) {
         window.clearTimeout(this.timer);
         this.searchKey = event.target.value;
-        this.timer = setTimeout
-        (
+        this.timer = setTimeout(
             () => {
                 this.callApex();
             },
@@ -21,24 +18,17 @@ export default class ApexImperativeWithParamsDemo extends LightningElement
         );
     }
 
-    callApex()
-    {
-        getAccountListBySearchKey({ searchKey: this.searchKey }).then
-        (
-            results => {
-                this.accounts = results;
-            }
-        ).
-        catch
-        (
-            error => {
-                console.error(error);
-            }
-        )
+    callApex() {
+        getAccountListBySearchKey({ searchKey: this.searchKey })
+       .then((results) => {
+            this.accounts = [ ...results ];
+        })
+       .catch((error) => {
+            console.error(error);
+        });
     }
 
-    disconnectedCallback()
-    {
+    disconnectedCallback() {
         if (this.timer) {
             this.timer = null;
         }
