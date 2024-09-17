@@ -1,12 +1,11 @@
 import { LightningElement } from 'lwc';
 
-export default class C2pModalComponent extends LightningElement
-{
+export default class C2pModalComponent extends LightningElement {
     closeHandler() {
-        this.dispatchEvent(new CustomEvent("close", { bubbles: true, detail: { msg: "Modal closed successfully!" } }));
+        this.dispatchEvent(new CustomEvent('close', { bubbles: true, detail: { msg: 'Modal closed successfully!' } }));
     }
 
     footerHandler() {
-        console.log("Child footerHandler() called.");
+        console.info('Child footerHandler() called.');
     }
 }
