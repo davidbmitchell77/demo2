@@ -12,7 +12,7 @@ const HTTP_STATUS = {
   500: 'Internal Server Error',
   503: 'Service Unavailable',
   504: 'Gateway Timeout'
-}
+};
 
 export default class Fetch extends LightningElement {
     users;
