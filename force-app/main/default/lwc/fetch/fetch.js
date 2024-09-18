@@ -1,11 +1,10 @@
-import { LightningElement } from 'lwc';
-import { showToast        } from 'c/utils'
-import { httpStatusText   } from 'c/utils';
+import { LightningElement          } from 'lwc';
+import { httpStatusText, showToast } from 'c/utils';
 
 export default class Fetch extends LightningElement {
     users;
 
-    url = 'https://jsonplaceholder.typicode.com/users';  // YOU MUST ADD THIS URL TO: Setup > Security > Trusted URLs
+    url = 'https://jsonplaceholder.typicode.com/users_xxxx';  // YOU MUST ADD THIS URL TO: Setup > Security > Trusted URLs
 
     connectedCallback() {
         fetch(this.url)
@@ -13,7 +12,7 @@ export default class Fetch extends LightningElement {
             console.clear();
             console.info(response);
             if (!response.ok) {
-              showToast(this, `${response.status}`, `${httpStatusText[response.status]} (${response.url})`, 'error', 'pester');
+              showToast(this, `${response.status}: ${httpStatusText[response.status]}`, `(${response.url})`, 'error', 'pester');
             }
             return response.json();
         })
