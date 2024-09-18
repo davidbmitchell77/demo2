@@ -59,10 +59,12 @@ const HTTP_STATUS = {
   498: 'Invalid Token',
   499: 'Client Closed Request',
   500: 'Internal Server Error',
+  501: 'Not Implemented',
   502: 'Bad Gateway',
   503: 'Service Unavailable',
-  504: 'Gateway Timeout'
-};
+  504: 'Gateway Timeout',
+  505: 'HTTP Version Not Supported',
+  507: 'Insufficient Storage',
 
 export default class Fetch extends LightningElement {
     users;
