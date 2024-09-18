@@ -14,7 +14,7 @@ export default class Fetch extends LightningElement {
 
     connectedCallback() {
         fetch(this.url)
-          .then((response) => {
+       .then((response) => {
             console.clear();
             console.info(response);
             if (!response.ok) {
@@ -22,11 +22,11 @@ export default class Fetch extends LightningElement {
             }
             return response.json();
           })
-          .then((data) => {
+       .then((data) => {
             console.info(data);
             this.users = data;
           })
-          .catch((error) => {
+       .catch((error) => {
             showToast(this, 'Error!', `${error.message} (${this.url})`, 'error', 'pester');
           });
     }
