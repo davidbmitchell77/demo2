@@ -1,6 +1,8 @@
 import { LightningElement } from 'lwc';
 import { showToast        } from 'c/utils'
+import { httpStatusText   } from 'c/utils';
 
+/*
 const HTTP_STATUS = {
   200: 'OK',
   201: 'Created',
@@ -81,6 +83,7 @@ const HTTP_STATUS = {
   530: 'Origin DNS Error',
   598: 'Network Read Timeout Error'
 }
+*/
 
 export default class Fetch extends LightningElement {
     users;
@@ -93,7 +96,7 @@ export default class Fetch extends LightningElement {
             console.clear();
             console.info(response);
             if (!response.ok) {
-              showToast(this, `${response.status}`, `${HTTP_STATUS[response.status]} (${response.url})`, 'error', 'pester');
+              showToast(this, `${response.status}`, `${httpStatusText[response.status]} (${response.url})`, 'error', 'pester');
             }
             return response.json();
         })

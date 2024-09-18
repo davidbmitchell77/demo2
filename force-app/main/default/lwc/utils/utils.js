@@ -85,7 +85,7 @@ const hash = (obj) => {
     );
 }
 
-const httpStatus = () => {
+const httpStatusText = () => {
     return {
         200: 'OK',
         201: 'Created',
@@ -213,7 +213,7 @@ export {
     deepCopy,
     exportCSVFile,
     guid, uuid,
-    hash, httpStatus, parse,
+    hash, httpStatusText, parse,
     left, mid, right,
     log,
     showToast,
