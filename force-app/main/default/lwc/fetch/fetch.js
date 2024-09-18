@@ -10,7 +10,7 @@ const HTTP_STATUS = {
 export default class Fetch extends LightningElement {
     users;
 
-    url = 'https://jsonplaceholder.typicode.com/userssssssss/';  // YOU MUST ADD THIS URL TO: Setup > Security > Trusted URLs
+    url = 'https://jsonplaceholder.typicode.com/users';  // YOU MUST ADD THIS URL TO: Setup > Security > Trusted URLs
 
     connectedCallback() {
         fetch(this.url)
