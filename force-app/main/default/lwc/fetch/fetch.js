@@ -4,7 +4,10 @@ import { showToast        } from 'c/utils'
 const HTTP_STATUS = {
   200: 'OK',
   404: 'Page not found.',
-  500: 'Internal server error.'
+  429: 'Too many requests.',
+  500: 'Internal server error.',
+  503: 'Service unavailable.',
+  504: 'Gateway timeout.'
 }
 
 export default class Fetch extends LightningElement {
