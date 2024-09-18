@@ -2,7 +2,7 @@ import { LightningElement } from 'lwc';
 
 export default class Fetch extends LightningElement {
 
-    url = 'https://jsonplaceholder.typicode.com/users/';
+    url = 'https://jsonplaceholder.typicode.com/users/';  // YOU MUST ADD THIS URL TO: Setup > Security > Trusted URLs
 
     connectedCallback() {
         fetch(this.url)
