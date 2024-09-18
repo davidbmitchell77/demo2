@@ -73,7 +73,13 @@ const HTTP_STATUS = {
   520: 'Unkown Error',
   521: 'Web Server Is Down',
   522: 'Connection Timed Out',
-  523: 'Origin Is Unreachable'
+  523: 'Origin Is Unreachable',
+  524: 'A Timeout Occurred',
+  525: 'SSL Handshake Failed',
+  526: 'Invalid SSL Certificate',
+  527: 'Railgun Listener to Origin Error',
+  530: 'Origin DNS Error',
+  598: 'Network Read Timeout Error'
 }
 
 export default class Fetch extends LightningElement {
