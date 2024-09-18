@@ -1,8 +1,9 @@
 import { LightningElement } from 'lwc';
+import { showToast        } from 'c/utils'
 
 export default class Fetch extends LightningElement {
     users;
-    
+
     url = 'https://jsonplaceholder.typicode.com/users/';  // YOU MUST ADD THIS URL TO: Setup > Security > Trusted URLs
 
     connectedCallback() {
@@ -16,7 +17,8 @@ export default class Fetch extends LightningElement {
             this.users = [ ...data ];
           })
           .catch((error) => {
-            console.error(error);
+            console.clear();
+            showToast(this, `Error!`, error.message, 'error', 'pester');
           });
     }
 }
