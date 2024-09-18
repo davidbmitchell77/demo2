@@ -1,4 +1,4 @@
-import { ShowToastEvent } from 'lightning/platformShowToastEvent'  ;
+import { ShowToastEvent } from 'lightning/platformShowToastEvent';
 
 import debug  from '@salesforce/apex/AuraLogger.debug' ;
 import info   from '@salesforce/apex/AuraLogger.info'  ;
