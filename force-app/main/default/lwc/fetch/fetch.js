@@ -61,10 +61,20 @@ const HTTP_STATUS = {
   500: 'Internal Server Error',
   501: 'Not Implemented',
   502: 'Bad Gateway',
+  506: 'Variant Also Negotiates',
   503: 'Service Unavailable',
   504: 'Gateway Timeout',
   505: 'HTTP Version Not Supported',
   507: 'Insufficient Storage',
+  508: 'Loop Detected',
+  509: 'Bandwidth Limit Exceeded',
+  510: 'Not Extended',
+  511: 'Network Authentication Required',
+  520: 'Unkown Error',
+  521: 'Web Server Is Down',
+  522: 'Connection Timed Out',
+  523: 'Origin Is Unreachable'
+}
 
 export default class Fetch extends LightningElement {
     users;
