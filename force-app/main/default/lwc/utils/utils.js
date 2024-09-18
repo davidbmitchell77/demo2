@@ -84,6 +84,7 @@ const hash = (obj) => {
         }, 0)
     );
 }
+
 const httpStatus = () => {
     return {
         200: 'OK',
