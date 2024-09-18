@@ -21,13 +21,13 @@ export default class Fetch extends LightningElement {
               showToast(this, `${response.status}`, `${HTTP_STATUS[response.status]} (${response.url})`, 'error', 'pester');
             }
             return response.json();
-          })
+        })
        .then((data) => {
             console.info(data);
             this.users = data;
-          })
+        })
        .catch((error) => {
             showToast(this, 'Error!', `${error.message} (${this.url})`, 'error', 'pester');
-          });
+        });
     }
 }
