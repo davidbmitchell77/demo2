@@ -1,7 +1,7 @@
 import { LightningElement, wire            } from 'lwc';
 import { APPLICATION_SCOPE, MessageContext } from 'lightning/messageService';
 import { subscribe, unsubscribe            } from 'lightning/messageService';
-import { days, months, right               } from 'c/utils';
+import { currentDate, currentTime          } from 'c/utils';
 
 import MESSAGE_CHANNEL from '@salesforce/messageChannel/SampleMessageChannel__c';
 
@@ -18,7 +18,7 @@ export default class LmsComponentX extends LightningElement {
 
     connectedCallback() {
         this.subscribeMessage();
-        this.status = `Today is ${this.currentDate()}.`;
+        this.status = `Today is ${currentDate()}.`;
         this.from = 'Message:';
     }
 
@@ -34,7 +34,7 @@ export default class LmsComponentX extends LightningElement {
     unsubscribeButtonHandler() {
         this.isListening = false;
         this.receivedMessage = '';
-        this.status = `Today is ${this.currentDate()}.`;
+        this.status = `Today is ${currentDate()}.`;
     }
 
     unSubscribeMessage() {
@@ -46,27 +46,8 @@ export default class LmsComponentX extends LightningElement {
             console.info(message);
             this.receivedMessage = (message.lmsData.value ? message.lmsData.value : 'Message is empty.');
             this.from = 'Message received from: ' + message.senderUsername.value;
-            this.status = `Message received on ${this.currentDate()} at ${this.currentTime()}).`;
+            this.status = `Message received on ${currentDate()} at ${currentTime()}).`;
         }
-    }
-
-    currentDate() {
-        let today = new Date();
-        let mm = months.get(today.getMonth());
-        let day = days.get(today.getDay());
-        let dd = today.getDate();
-        let yyyy = today.getFullYear();
-        return (`${day}, ${mm} ${dd}, ${yyyy}`);
-    }
-
-    currentTime() {
-        let today = new Date();
-        let hr = right('0' + today.getHours(), 2);
-        let mi = right('0' + today.getMinutes(), 2);
-        let ss = right('0' + today.getSeconds(), 2);
-        let ms = right('00' + today.getMilliseconds(), 3);
-        let offset = right('0' + (today.getTimezoneOffset() / -60), 2);
-        return (`${hr}:${mi}:${ss}.${ms} (UTC ${offset}:00`);
     }
 
     disconnectedCallback() {

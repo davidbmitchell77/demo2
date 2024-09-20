@@ -1,7 +1,7 @@
-import { LightningElement, wire  } from 'lwc';
-import { MessageContext, publish } from 'lightning/messageService';
-import { getRecord               } from 'lightning/uiRecordApi';
-import { days, months, right     } from 'c/utils';
+import { LightningElement, wire   } from 'lwc';
+import { MessageContext, publish  } from 'lightning/messageService';
+import { getRecord                } from 'lightning/uiRecordApi';
+import { currentDate, currentTime } from 'c/utils';
 
 import MESSAGE_CHANNEL from '@salesforce/messageChannel/SampleMessageChannel__c';
 
@@ -23,13 +23,13 @@ export default class LmsComponentA extends LightningElement {
     status;
 
     connectedCallback() {
-        this.status = `Today is ${this.currentDate()}.`;
+        this.status = `Today is ${currentDate()}.`;
     }
 
     inputHandler(event){
         this.inputValue = event.target.value.trim();
         this.noInput = (this.inputValue ? false : true);
-        this.status = (`Today is ${this.currentDate()}.`);
+        this.status = (`Today is ${currentDate()}.`);
     }
 
     message() {
@@ -43,28 +43,9 @@ export default class LmsComponentA extends LightningElement {
     }
 
     publishMessage() {
-        this.status = (`Message published on ${this.currentDate()} at ${this.currentTime()}.`);
+        this.status = (`Message published on ${currentDate()} at ${currentTime()}.`);
         publish(this.messageContext, MESSAGE_CHANNEL, this.message());
         this.template.querySelector('lightning-input').value = null;
         this.noInput = true;
-    }
-
-    currentDate() {
-        let today = new Date();
-        let mm = months.get(today.getMonth());
-        let day = days.get(today.getDay());
-        let dd = today.getDate();
-        let yyyy = today.getFullYear();
-        return (`${day}, ${mm} ${dd}, ${yyyy}`);
-    }
-
-    currentTime() {
-        let today = new Date();
-        let hr = right('0' + today.getHours(), 2);
-        let mi = right('0' + today.getMinutes(), 2);
-        let ss = right('0' + today.getSeconds(), 2);
-        let ms = right('00' + today.getMilliseconds(), 3);
-        let offset = right('0' + (today.getTimezoneOffset() / -60), 2);
-        return (`${hr}:${mi}:${ss}.${ms} (UTC ${offset}:00)`);
     }
 }
