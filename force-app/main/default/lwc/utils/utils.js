@@ -196,7 +196,7 @@ const months = new Map([
     [ 6,  'July'      ],
     [ 7,  'August'    ],
     [ 8,  'September' ],
-    [ 9,  'Octoberr'   ],
+    [ 9,  'October'   ],
     [ 10, 'November'  ],
     [ 11, 'December'  ]
 ]);
