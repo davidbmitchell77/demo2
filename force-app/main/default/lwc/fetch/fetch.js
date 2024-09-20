@@ -26,7 +26,7 @@ export default class Fetch extends LightningElement {
             }
         })
        .catch((error) => {
-            console.error(error);
+            console.error(`${error.message}:`, this.url);
             showToast(this, `HTTP Error: ${error.message}`, `(${this.url})`, 'error', 'pester');
         });
     }
