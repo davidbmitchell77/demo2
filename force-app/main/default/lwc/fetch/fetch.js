@@ -10,23 +10,24 @@ export default class Fetch extends LightningElement {
     }
 
     fetchData() {
-        fetch(this.url)
-       .then((response) => {
-            console.info(response);
+        fetch(this.url).then((response) => {
             if (response.ok) {
-              showToast(this, `${response.status}: ${httpStatusText[response.status]}`, `(${response.url})`, 'success');
-            } else {
-              showToast(this, `${response.status}: ${httpStatusText[response.status]}`, `(${response.url})`, 'error', 'pester');
+                return response.json();
             }
-            return response.json();
+            else {
+                console.error(response);
+                showToast(this, `${response.status}: ${httpStatusText[response.status]}`, `(${response.url})`, 'error', 'pester');
+            }
         })
        .then((data) => {
-            console.info(data);
-            this.users = data;
+            if (data) {
+                console.info(data);
+                this.users = data;
+            }
         })
        .catch((error) => {
             console.error(error);
-            showToast(this, 'Error!', `${error.message} (${this.url})`, 'error', 'pester');
+            showToast(this, `HTTP Error: ${error.message}`, `(${this.url})`, 'error', 'pester');
         });
     }
 }
