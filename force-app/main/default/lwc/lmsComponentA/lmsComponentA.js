@@ -21,7 +21,7 @@ export default class LmsComponentA extends LightningElement {
     inputHandler(event){
         this.inputValue = event.target.value.trim();
         this.noInput = (this.inputValue ? false : true);
-        this.status = `Today is ${this.currentDate()}.`;
+        this.status = (`Today is ${this.currentDate()}.`);
     }
 
     publishMessage() {
