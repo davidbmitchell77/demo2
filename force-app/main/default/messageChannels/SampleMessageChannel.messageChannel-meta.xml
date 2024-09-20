@@ -23,4 +23,8 @@
         <fieldName>senderUsername</fieldName>
         <description>This is the field to pass sender username</description>
     </lightningMessageFields>
+    <lightningMessageFields>
+        <fieldName>timestamp</fieldName>
+        <description>date/time the message was published</description>
+    </lightningMessageFields>
 </LightningMessageChannel>
