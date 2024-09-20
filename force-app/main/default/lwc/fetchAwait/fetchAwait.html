@@ -1,0 +1,11 @@
+<template>
+    <lightning-card title="fetch from async connectedCallback()" icon-name="standard:case">
+        <div class="slds-var-m-around_medium">
+            <ul class="slds-list_dotted">
+            <template for:each={users} for:item="u">
+                <li key={u.id}>{u.name}</li>
+            </template>
+            </ul>
+        </div>
+    </lightning-card>
+</template>

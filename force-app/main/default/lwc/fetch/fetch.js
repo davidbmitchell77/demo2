@@ -6,6 +6,10 @@ export default class Fetch extends LightningElement {
     url = 'https://jsonplaceholder.typicode.com/users';  // YOU MUST ADD THIS URL TO: Setup > Security > Trusted URLs
 
     connectedCallback() {
+        this.fetchData();
+    }
+
+    fetchData() {
         fetch(this.url)
        .then((response) => {
             console.info(response);
