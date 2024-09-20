@@ -45,7 +45,7 @@ export default class LmsComponentX extends LightningElement {
         if (this.isListening) {
             console.info(message);
             this.receivedMessage = (message.lmsData.value ? message.lmsData.value : 'Message is empty.');
-            this.from = 'Message received from: ' + message.senderUsername.value;
+            this.from = `Message received from: ${message.senderAlias.value} (${message.senderUsername.value})`;
             this.status = `Message received on ${currentDate()} at ${currentTime()}).`;
         }
     }
