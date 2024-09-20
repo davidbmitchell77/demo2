@@ -16,5 +16,5 @@
         <members>*</members>
         <name>LightningMessageChannel</name>
     </types>
-    <version>52.0</version>
+    <version>60.0</version>
 </Package>
