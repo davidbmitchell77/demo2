@@ -26,7 +26,6 @@ export default class LmsComponentA extends LightningElement {
     inputHandler(event){
         this.inputValue = event.target.value.trim();
         this.noInput = ((this.inputValue > '') ? false : true);
-
         let today = new Date();
         let mm = months.get(today.getMonth());
         let day = days.get(today.getDay());
@@ -36,17 +35,8 @@ export default class LmsComponentA extends LightningElement {
     }
 
     publishMessage() {
-        const message = {
-            lmsData: {
-                value: this.inputValue
-            },
-            recordId: {
-                value: USER_ID
-            }
-        }
-
+        const message = { lmsData: { value: this.inputValue }, recordId: { value: USER_ID } };
         publish(this.messageContext, MESSAGE_CHANNEL, message);
-
         let today = new Date();
         let mm = this.months.get(today.getMonth());
         let day = this.days.get(today.getDay());
@@ -56,7 +46,6 @@ export default class LmsComponentA extends LightningElement {
         let mi = right('0' + today.getMinutes(), 2);
         let ss = right('0' + today.getSeconds(), 2);
         let offset = right('0' + (today.getTimezoneOffset() / -60), 2);
-
         this.template.querySelector('lightning-input').value = null;
         this.noInput = true;
         this.status = `Message published on ${day}, ${mm} ${dd}, ${yyyy} at ${hr}:${mi}:${ss} (UTC ${offset}:00).`;
