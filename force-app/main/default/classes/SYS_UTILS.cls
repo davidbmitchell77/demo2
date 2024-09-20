@@ -12,7 +12,6 @@ public class SYS_UTILS {
             when BATCH_CHUNK_PARALLEL { result = true; }
             when BATCH_CHUNK_SERIAL   { result = true; }
             when BULK_API             { result = true; }
-            when QUEUEABLE            { result = true; }
         }
         return result;
     }
