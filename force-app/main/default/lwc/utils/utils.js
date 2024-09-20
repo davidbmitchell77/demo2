@@ -79,7 +79,6 @@ const days = new Map([
     [ 6, 'Saturday'  ]
 ]);
 
-
 const deepCopy = (obj) => {
     return JSON.parse(JSON.stringify(obj));
 }
