@@ -1,7 +1,7 @@
 <template>
     <lightning-card title="Subscriber (LWC)" icon-name="utility:user">
         <div class="slds-var-m-around_medium">
-            <lightning-input type="text" label="Message received:" value={receivedMessage} disabled="true"></lightning-input>
+            <lightning-input type="text" label={from} value={receivedMessage} disabled="true"></lightning-input>
         </div>
         <div class="slds-clearfix">
             <lightning-button class="slds-var-m-left_medium slds-float_none" variant="brand" label="Subscribe" title="Subscribe to Lightning Messaging Service." onclick={subscribeButtonHandler} disabled={isActive}></lightning-button>

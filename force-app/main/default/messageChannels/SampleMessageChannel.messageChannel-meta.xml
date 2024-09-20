@@ -5,10 +5,22 @@
     <isExposed>true</isExposed>
     <lightningMessageFields>
         <fieldName>lmsData</fieldName>
-        <description>This is the field to pass data</description>
+        <description>This is the field to pass message data</description>
     </lightningMessageFields>
     <lightningMessageFields>
-        <fieldName>recordId</fieldName>
-        <description>This is the field to pass record id</description>
+        <fieldName>senderId</fieldName>
+        <description>This is the field to pass sender id</description>
+    </lightningMessageFields>
+    <lightningMessageFields>
+        <fieldName>senderAlias</fieldName>
+        <description>This is the field to pass sender alias</description>
+    </lightningMessageFields>
+    <lightningMessageFields>
+        <fieldName>senderEmail</fieldName>
+        <description>This is the field to pass sender email adress</description>
+    </lightningMessageFields>
+    <lightningMessageFields>
+        <fieldName>senderUsername</fieldName>
+        <description>This is the field to pass sender username</description>
     </lightningMessageFields>
 </LightningMessageChannel>

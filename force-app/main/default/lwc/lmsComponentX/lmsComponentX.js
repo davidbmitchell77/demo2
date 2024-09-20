@@ -14,10 +14,12 @@ export default class LmsComponentX extends LightningElement {
     subscription;
     today;
     isListening;
+    from;
 
     connectedCallback() {
         this.subscribeMessage();
         this.status = `Today is ${this.currentDate()}.`;
+        this.from = 'Message:';
     }
 
     subscribeButtonHandler() {
@@ -41,9 +43,9 @@ export default class LmsComponentX extends LightningElement {
 
     handleMessage(message) {
         if (this.isListening) {
-            console.clear();
             console.info(message);
             this.receivedMessage = (message.lmsData.value ? message.lmsData.value : 'Message is empty.');
+            this.from = 'Message received from: ' + message.senderUsername.value;
             this.status = `Message received on ${this.currentDate()} at ${this.currentTime()}).`;
         }
     }
