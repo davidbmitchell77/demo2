@@ -38,7 +38,8 @@ export default class LmsComponentA extends LightningElement {
                   senderId: { value: USER_ID                              },
                senderAlias: { value: this.user.data.fields.Alias.value    },
                senderEmail: { value: this.user.data.fields.Email.value    },
-            senderUsername: { value: this.user.data.fields.Username.value }
+            senderUsername: { value: this.user.data.fields.Username.value },
+                 timestamp: { value: new Date()                           }
         };
     }
 

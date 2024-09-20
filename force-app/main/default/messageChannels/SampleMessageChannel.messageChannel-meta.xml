@@ -25,6 +25,6 @@
     </lightningMessageFields>
     <lightningMessageFields>
         <fieldName>timestamp</fieldName>
-        <description>date/time the message was published</description>
+        <description>date/time the message was publishedd</description>
     </lightningMessageFields>
 </LightningMessageChannel>
