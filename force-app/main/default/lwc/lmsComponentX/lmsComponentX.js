@@ -26,14 +26,7 @@ export default class LmsComponentX extends LightningElement {
     }
 
     subscribeMessage() {
-        this.subscripion = subscribe(
-            this.messageContext,
-            MESSAGE_CHANNEL,
-            (message) => {
-                this.handleMessage(message);
-            },
-            { scope: APPLICATION_SCOPE }
-        );
+        this.subscripion = subscribe(this.messageContext, MESSAGE_CHANNEL, (message) => { this.handleMessage(message); }, { scope: APPLICATION_SCOPE });
         this.isListening = true;
     }
 
