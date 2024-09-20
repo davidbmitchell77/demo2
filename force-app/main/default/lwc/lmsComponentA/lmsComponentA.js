@@ -1,47 +1,23 @@
 import { LightningElement, wire  } from 'lwc';
 import { MessageContext, publish } from 'lightning/messageService';
-import { left, mid, right        } from 'c/utils';
+import { days, months, right     } from 'c/utils';
 
-import SAMPLEMC from '@salesforce/messageChannel/SampleMessageChannel__c';
+import MESSAGE_CHANNEL from '@salesforce/messageChannel/SampleMessageChannel__c';
+import USER_ID         from '@salesforce/user/Id';
 
 export default class LmsComponentA extends LightningElement {
 
     @wire(MessageContext)
-    context;
+    messageContext;
 
     inputValue;
     noInput = true;
     status;
 
-    months = new Map([
-        [ 0,  'January'   ],
-        [ 1,  'February'  ],
-        [ 2,  'March'     ],
-        [ 3,  'April'     ],
-        [ 4,  'May'       ],
-        [ 5,  'June'      ],
-        [ 6,  'July'      ],
-        [ 7,  'August'    ],
-        [ 8,  'September' ],
-        [ 9,  'October'   ],
-        [ 10, 'November'  ],
-        [ 11, 'December'  ]
-    ]);
-
-    days = new Map([
-        [ 0, 'Sunday'    ],
-        [ 1, 'Monday'    ],
-        [ 2, 'Tuesday'   ],
-        [ 3, 'Wednesday' ],
-        [ 4, 'Thursday'  ],
-        [ 5, 'Friday'    ],
-        [ 6, 'Saturday'  ]
-    ]);
-
     connectedCallback() {
         let today = new Date();
-        let mm = this.months.get(today.getMonth());
-        let day = this.days.get(today.getDay());
+        let mm = months.get(today.getMonth());
+        let day = days.get(today.getDay());
         let dd = today.getDate();
         let yyyy = today.getFullYear();
         this.status = `Today is ${day}, ${mm} ${dd}, ${yyyy}.`;
@@ -52,8 +28,8 @@ export default class LmsComponentA extends LightningElement {
         this.noInput = ((this.inputValue > '') ? false : true);
 
         let today = new Date();
-        let mm = this.months.get(today.getMonth());
-        let day = this.days.get(today.getDay());
+        let mm = months.get(today.getMonth());
+        let day = days.get(today.getDay());
         let dd = today.getDate();
         let yyyy = today.getFullYear();
         this.status = `Today is ${day}, ${mm} ${dd}, ${yyyy}.`;
@@ -63,10 +39,13 @@ export default class LmsComponentA extends LightningElement {
         const message = {
             lmsData: {
                 value: this.inputValue
+            },
+            recordId: {
+                value: USER_ID
             }
         }
 
-        publish(this.context, SAMPLEMC, message);
+        publish(this.messageContext, MESSAGE_CHANNEL, message);
 
         let today = new Date();
         let mm = this.months.get(today.getMonth());
