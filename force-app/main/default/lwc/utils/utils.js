@@ -7,6 +7,25 @@ import fine   from '@salesforce/apex/AuraLogger.fine'  ;
 import finer  from '@salesforce/apex/AuraLogger.finer' ;
 import finest from '@salesforce/apex/AuraLogger.finest';
 
+const currentDate = () => {
+    let today = new Date();
+    let mm = months.get(today.getMonth());
+    let day = days.get(today.getDay());
+    let dd = today.getDate();
+    let yyyy = today.getFullYear();
+    return (`${day}, ${mm} ${dd}, ${yyyy}`);
+}
+
+const currentTime = () => {
+    let today = new Date();
+    let hr = right('0' + today.getHours(), 2);
+    let mi = right('0' + today.getMinutes(), 2);
+    let ss = right('0' + today.getSeconds(), 2);
+    let ms = right('00' + today.getMilliseconds(), 3);
+    let offset = right('0' + (today.getTimezoneOffset() / -60), 2);
+    return (`${hr}:${mi}:${ss}.${ms} (UTC ${offset}:00)`);
+}
+
 const exportCSVFile = (headers, totalData, fileTitle) => {
     if (!totalData || !totalData.length) {
         return null;
@@ -233,6 +252,7 @@ const right = (s, chars) => {
 }
 
 export {
+    currentDate, currentTime,
     deepCopy,
     exportCSVFile,
     guid, uuid,
