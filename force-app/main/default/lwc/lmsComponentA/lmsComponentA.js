@@ -47,6 +47,6 @@ export default class LmsComponentA extends LightningElement {
         let mi = right('0' + today.getMinutes(), 2);
         let ss = right('0' + today.getSeconds(), 2);
         let offset = right('0' + (today.getTimezoneOffset() / -60), 2);
-        return (`${hr}:${mi}:${ss} (UTC ${offset}:00`);
+        return (`${hr}:${mi}:${ss} (UTC ${offset}:00)`);
     }
 }
