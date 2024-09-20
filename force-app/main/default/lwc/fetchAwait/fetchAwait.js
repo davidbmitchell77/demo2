@@ -12,9 +12,14 @@ export default class FetchAwait extends LightningElement {
     async fetchData() {
         try {
             const response = await fetch(this.url);
-            const data = await response.json();
-            console.info(data);
-            this.users = data;
+            if (response.ok) {
+                const data = await response.json();
+                console.info(data);
+                this.users = data;
+            }
+            else {
+                showToast(this, `${response.status}: ${httpStatusText[response.status]}`, `(${response.url})`, 'error', 'pester');
+            }
         }
         catch(error) {
             console.error(error);
