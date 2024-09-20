@@ -50,18 +50,18 @@ export default class LmsComponentX extends LightningElement {
         }
     }
 
-    disconnectedCallback() {
-        if (this.subscription) {
-            unsubscribe(this.subscription);
-        }
-        this.subscription = null;
-    }
-
     get isActive() {
         return (this.isListening);
     }
 
     get isNotActive() {
         return !(this.isListening);
+    }
+
+    disconnectedCallback() {
+        if (this.subscription) {
+            unsubscribe(this.subscription);
+        }
+        this.subscription = null;
     }
 }
