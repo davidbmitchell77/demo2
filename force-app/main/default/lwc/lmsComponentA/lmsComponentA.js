@@ -34,7 +34,7 @@ export default class LmsComponentA extends LightningElement {
 
     message() {
         return {
-                   lmsData: { value: this.inputValue                      },
+                   message: { value: this.inputValue                      },
                   senderId: { value: USER_ID                              },
                senderAlias: { value: this.user.data.fields.Alias.value    },
                senderEmail: { value: this.user.data.fields.Email.value    },
