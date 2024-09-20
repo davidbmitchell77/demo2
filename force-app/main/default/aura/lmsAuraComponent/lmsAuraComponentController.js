@@ -18,16 +18,16 @@
                 value: msg
             },
             senderId: {
-                value: 'dddd'
+                value: $A.get('$SObjectType.CurrentUser.Id')
             },
             senderAlias: {
-                value: 'dmitc'
+                value: ''
             },
             senderEmail: {
-                value: 'davidbmitchel77@outlook.com'
+                value: $A.get('$SObjectType.CurrentUser.Email')
             },
             senderUsername: {
-                value: 'davidbmitchel77@outlook.com.lightning'
+                value: ''
             },
             timestamp: {
                  value: new Date()
