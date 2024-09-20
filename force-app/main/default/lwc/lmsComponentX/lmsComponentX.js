@@ -17,12 +17,7 @@ export default class LmsComponentX extends LightningElement {
 
     connectedCallback() {
         this.subscribeMessage();
-        let today = new Date();
-        let month = months.get(today.getMonth());
-        let day = days.get(today.getDay());
-        let date = today.getDate();
-        let year = today.getFullYear();
-        this.status = `Today is ${day}, ${month} ${date}, ${year}.`;
+        this.status = `Today is ${this.currentDate()}.`;
     }
 
     subscribeMessage() {
@@ -37,17 +32,8 @@ export default class LmsComponentX extends LightningElement {
     handleMessage(message) {
         if (this.isListening) {
             console.info(message);
-            let today = new Date();
-            let mm = months.get(today.getMonth());
-            let day = days.get(today.getDay());
-            let dd = today.getDate();
-            let yyyy = today.getFullYear();
-            let hr = right('0' + today.getHours(), 2);
-            let mi = right('0' + today.getMinutes(), 2);
-            let ss = right('0' + today.getSeconds(), 2);
-            let offset = right('0' + (today.getTimezoneOffset() / -60), 2);
             this.receivedMessage = (message.lmsData.value ? message.lmsData.value : 'Message is empty.');
-            this.status = `Message received on ${day}, ${mm} ${dd}, ${yyyy} at ${hr}:${mi}:${ss} (UTC ${offset}:00).`;
+            this.status = `Message received on ${this.currentDate()} at ${this.currentTime()}).`;
         }
     }
 
@@ -58,12 +44,25 @@ export default class LmsComponentX extends LightningElement {
     unsubscribeButtonHandler() {
         this.isListening = false;
         this.receivedMessage = '';
+        this.status = `Today is ${this.currentDate()}.`;
+    }
+
+    currentDate() {
         let today = new Date();
-        let month = this.months.get(today.getMonth());
-        let day = this.days.get(today.getDay());
-        let date = today.getDate();
-        let year = today.getFullYear();
-        this.status = `Today is ${day}, ${month} ${date}, ${year}.`;
+        let mm = months.get(today.getMonth());
+        let day = days.get(today.getDay());
+        let dd = today.getDate();
+        let yyyy = today.getFullYear();
+        return (`${day}, ${mm} ${dd}, ${yyyy}`);
+    }
+
+    currentTime() {
+        let today = new Date();
+        let hr = right('0' + today.getHours(), 2);
+        let mi = right('0' + today.getMinutes(), 2);
+        let ss = right('0' + today.getSeconds(), 2);
+        let offset = right('0' + (today.getTimezoneOffset() / -60), 2);
+        return (`${hr}:${mi}:${ss} (UTC ${offset}:00`);
     }
 
     disconnectedCallback() {
