@@ -43,10 +43,10 @@ export default class LmsComponentA extends LightningElement {
     }
 
     publishMessage() {
+        this.status = (`Message published on ${this.currentDate()} at ${this.currentTime()}.`);
         publish(this.messageContext, MESSAGE_CHANNEL, this.message());
         this.template.querySelector('lightning-input').value = null;
         this.noInput = true;
-        this.status = (`Message published on ${this.currentDate()} at ${this.currentTime()}.`);
     }
 
     currentDate() {
