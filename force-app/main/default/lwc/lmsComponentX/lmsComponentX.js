@@ -20,9 +20,19 @@ export default class LmsComponentX extends LightningElement {
         this.status = `Today is ${this.currentDate()}.`;
     }
 
+    subscribeButtonHandler() {
+        this.subscribeMessage();
+    }
+
     subscribeMessage() {
         this.subscripion = subscribe(this.messageContext, MESSAGE_CHANNEL, (message) => { this.handleMessage(message); }, { scope: APPLICATION_SCOPE });
         this.isListening = true;
+    }
+
+    unsubscribeButtonHandler() {
+        this.isListening = false;
+        this.receivedMessage = '';
+        this.status = `Today is ${this.currentDate()}.`;
     }
 
     unSubscribeMessage() {
@@ -35,16 +45,6 @@ export default class LmsComponentX extends LightningElement {
             this.receivedMessage = (message.lmsData.value ? message.lmsData.value : 'Message is empty.');
             this.status = `Message received on ${this.currentDate()} at ${this.currentTime()}).`;
         }
-    }
-
-    subscribeButtonHandler() {
-        this.subscribeMessage();
-    }
-
-    unsubscribeButtonHandler() {
-        this.isListening = false;
-        this.receivedMessage = '';
-        this.status = `Today is ${this.currentDate()}.`;
     }
 
     currentDate() {
