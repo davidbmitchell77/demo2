@@ -11,16 +11,15 @@ import USER_EMAIL      from '@salesforce/schema/User.Email';
 import USER_USERNAME   from '@salesforce/schema/User.Username';
 
 export default class LmsComponentA extends LightningElement {
+    inputValue;
+    noInput = true;
+    status;
 
     @wire(MessageContext)
     messageContext;
 
     @wire(getRecord, { recordId: USER_ID, fields: [ USER_EMAIL, USER_ALIAS, USER_USERNAME ]})
     user
-
-    inputValue;
-    noInput = true;
-    status;
 
     connectedCallback() {
         this.status = `Today is ${currentDate()}.`;
