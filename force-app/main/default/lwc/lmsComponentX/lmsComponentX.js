@@ -6,15 +6,14 @@ import { currentDate, currentTime          } from 'c/utils';
 import MESSAGE_CHANNEL from '@salesforce/messageChannel/SampleMessageChannel__c';
 
 export default class LmsComponentX extends LightningElement {
-
-    @wire(MessageContext)
-    messageContext;
-
     receivedMessage;
     subscription;
     today;
     isListening;
     from;
+
+    @wire(MessageContext)
+    messageContext;
 
     connectedCallback() {
         this.subscribeMessage();
