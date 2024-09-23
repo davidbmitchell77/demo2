@@ -18,7 +18,7 @@ export default class LmsComponentA extends LightningElement {
     @wire(MessageContext)
     messageContext;
 
-    @wire(getRecord, { recordId: USER_ID, fields: [ USER_EMAIL, USER_ALIAS, USER_USERNAME ]})
+    @wire(getRecord, { recordId: USER_ID, fields: [ USER_EMAIL, USER_ALIAS, USER_USERNAME ] })
     user
 
     connectedCallback() {
