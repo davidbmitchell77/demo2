@@ -195,6 +195,10 @@ const httpStatusText = {
     598: 'Network Read Timeout Error'
 };
 
+const isLeap = (year) => {
+    return ((year % 4 == 0) && (year % 100 != 0)) || (year % 400 == 0);
+}
+
 const log = {
     debug: (messages      ) => {  debug({ messages: messages }); },
      info: (messages      ) => {   info({ messages: messages }); },
@@ -258,7 +262,7 @@ export {
     guid, uuid,
     hash, httpStatusText, parse,
     left, mid, right,
-    days, months,
+    days, months, isLeap,
     log,
     showToast,
     stringify, stringifyPretty
