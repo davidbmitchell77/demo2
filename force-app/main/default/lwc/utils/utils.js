@@ -195,7 +195,8 @@ const httpStatusText = {
     598: 'Network Read Timeout Error'
 };
 
-const isLeap = (year) => {
+const isLeap = (n) => {
+    let year = ((n instanceof Date) ? n.getYear() : n);
     return ((year % 4 == 0) && (year % 100 != 0)) || (year % 400 == 0);
 }
 
