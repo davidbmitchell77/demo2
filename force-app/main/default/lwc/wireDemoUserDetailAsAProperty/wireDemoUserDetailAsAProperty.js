@@ -7,10 +7,9 @@ import Title from '@salesforce/schema/User.Title';
 import Email from '@salesforce/schema/User.Email';
 import Phone from '@salesforce/schema/User.Phone';
 
-const fields = [Name, Title, Email, Phone];
+const fields = [ Name, Title, Email, Phone ];
 
-export default class WireDemoUserDetail extends LightningElement
-{
+export default class WireDemoUserDetail extends LightningElement {
     userId = Id;
 
     @wire(getRecord, { recordId: "$userId", fields })
