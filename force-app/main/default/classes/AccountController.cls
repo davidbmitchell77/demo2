@@ -1,6 +1,6 @@
 public with sharing class AccountController {
 
-    private final Integer maxRecords = 5;
+    private static final Integer maxRecords = 5;
 
     @AuraEnabled(cacheable=true)
     public static List<Account> getAccountList() {
