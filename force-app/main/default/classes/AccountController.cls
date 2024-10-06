@@ -1,5 +1,7 @@
 public with sharing class AccountController {
 
+    private final Integer maxRecords = 5;
+
     @AuraEnabled(cacheable=true)
     public static List<Account> getAccountList() {
         List<Account> results = new List<Account>();
@@ -10,7 +12,7 @@ public with sharing class AccountController {
                               Industry
                          FROM Account
                      ORDER BY Name ASC
-                        LIMIT 5
+                        LIMIT :maxRecords
             ];
         }
         catch(Exception e) {
@@ -29,7 +31,7 @@ public with sharing class AccountController {
                               Industry
                          FROM Account
                         WHERE Type = :type
-                        LIMIT 5
+                        LIMIT :maxRecords
             ];
         }
         catch(Exception e) {
@@ -48,7 +50,7 @@ public with sharing class AccountController {
                               Industry
                          FROM Account
                         WHERE Name LIKE :('%' + searchKey + '%')
-                        LIMIT 5
+                        LIMIT :maxRecords
             ];
         }
         catch(Exception e) {
