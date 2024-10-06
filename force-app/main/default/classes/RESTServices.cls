@@ -40,7 +40,7 @@ global with sharing class RESTServices {
     private static String extractQuery(String uri) {
         String result = '';
         String query = (uri.substring(uri.lastIndexOf('accounts/') + 9).replaceAll('\\+', ' ').replaceAll('\\&amp;', '&'));
-        result = ((isAccountId(query)) ? query : ('%' + query + '%'));
+        result = (isAccountId(query) ? query : ('%' + query + '%'));
         return result;
     }
 
