@@ -1,10 +1,8 @@
-public with sharing class CsvController
-{
+public with sharing class CsvController {
     private static final Integer cacheSize = 20;
 
     @AuraEnabled(cacheable=true)
-    public static List<Account> getAccounts()
-    {
+    public static List<Account> getAccounts() {
         return [SELECT Id,
                        Name,
                        Phone,
