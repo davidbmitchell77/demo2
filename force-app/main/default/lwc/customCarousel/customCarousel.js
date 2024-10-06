@@ -15,8 +15,7 @@ const dot_hidden_classes   = "dot";
 const default_slider_timer = 3000;
 const default_slider_width = 700;
 
-export default class CustomCarousel extends LightningElement
-{
+export default class CustomCarousel extends LightningElement {
     @api slideTimer       = default_slider_timer;
     @api customWidth      = default_slider_width;
     @api enableAutoScroll = false;
@@ -35,22 +34,17 @@ export default class CustomCarousel extends LightningElement
         return ((this.showFull) ? `width:100%` : `width:${Number(this.customWidth)}px`);
     }
 
-    set slidesData(data)
-    {
-        this.slides = data.map
-        (
+    set slidesData(data) {
+        this.slides = data.map(
             (item, index) => {
                 return ((index === 0) ? { ...item, slideIndex: (index + 1), cardClasses: card_visible_classes, dotClases: dot_visible_classes } : { ...item, slideIndex: (index + 1), cardClasses: card_hidden_classes, dotClases: dot_hidden_classes });
             }
         );
     }
 
-    connectedCallback()
-    {
-        if (this.enableAutoScroll)
-        {
-            this.timer = window.setInterval
-            (
+    connectedCallback() {
+        if (this.enableAutoScroll) {
+            this.timer = window.setInterval(
                 () => {
                     this.slideSelectionHandler(this.slideIndex + 1);
                 },
@@ -59,8 +53,7 @@ export default class CustomCarousel extends LightningElement
         }
     }
 
-    disconnectedCallback()
-    {
+    disconnectedCallback() {
         if (this.enableAutoScroll || this.timer) {
             window.clearInterval(this.timer);
         }
@@ -81,8 +74,7 @@ export default class CustomCarousel extends LightningElement
        this.slideSelectionHandler(slideIndex);
     }
 
-    slideSelectionHandler(id)
-    {
+    slideSelectionHandler(id) {
         if (id > this.slides.length) {
             this.slideIndex = 1;
         }
@@ -93,8 +85,7 @@ export default class CustomCarousel extends LightningElement
             this.slideIndex = id;
         }
 
-        this.slides = this.slides.map
-        (
+        this.slides = this.slides.map(
             (item) => {
                 return ((this.slideIndex === item.slideIndex) ? { ...item, cardClasses: card_visible_classes, dotClases: dot_visible_classes } : { ...item, cardClasses: card_hidden_classes, dotClases: dot_hidden_classes });
             }
