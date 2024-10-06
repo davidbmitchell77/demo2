@@ -56,7 +56,6 @@ global with sharing class RESTServices {
                 }
             }
         }
-
         return result;
     }
 }
