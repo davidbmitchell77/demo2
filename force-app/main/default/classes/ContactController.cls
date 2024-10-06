@@ -1,5 +1,5 @@
 public with sharing class ContactController {
-    private static Integer cacheSize = 50;
+    private static final Integer cacheSize = 50;
 
     @AuraEnabled(cacheable=true)
     public static List<Contact> getContactList() {
@@ -8,6 +8,7 @@ public with sharing class ContactController {
                        Title,
                        Email
                   FROM Contact
+                  WITH SECURITY_ENFORCED
                  LIMIT :cacheSize
         ];
     }
