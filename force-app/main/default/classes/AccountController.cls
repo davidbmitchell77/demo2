@@ -10,6 +10,7 @@ public with sharing class AccountController {
                               Type,
                               Industry
                          FROM Account
+                         WITH SECURITY_ENFORCED
                      ORDER BY Name ASC
                         LIMIT :maxRecords
             ];
@@ -30,6 +31,7 @@ public with sharing class AccountController {
                               Industry
                          FROM Account
                         WHERE Type = :type
+                         WITH SECURITY_ENFORCED
                         LIMIT :maxRecords
             ];
         }
@@ -49,6 +51,7 @@ public with sharing class AccountController {
                               Industry
                          FROM Account
                         WHERE Name LIKE :('%' + searchKey + '%')
+                         WITH SECURITY_ENFORCED
                         LIMIT :maxRecords
             ];
         }
