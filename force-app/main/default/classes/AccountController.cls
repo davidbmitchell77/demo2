@@ -1,5 +1,4 @@
 public with sharing class AccountController {
-
     private static final Integer maxRecords = 5;
 
     @AuraEnabled(cacheable=true)
