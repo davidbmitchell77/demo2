@@ -5,7 +5,7 @@ global with sharing class RESTServices {
     @HttpGet
     global static List<Account> doGet() {
         String searchExpr = extractQuery(RestContext.request.requestURI);
-        return ((isAccountId(searchExpr)) ? searchByAccountId(searchExpr) : searchByAccountName(searchExpr));
+        return (isAccountId(searchExpr) ? searchByAccountId(searchExpr) : searchByAccountName(searchExpr));
     }
 
     private static List<Account> searchByAccountId(String accountId) {
