@@ -47,7 +47,6 @@ global with sharing class RESTServices {
     private static Boolean isAccountId(String s1) {
         Boolean result = false;
         String s2 = String.escapeSingleQuotes(s1).replaceAll('\\+', ' ');
-
         if (s2.length() == 15 || s2.length() == 18) {
             if (s2.substring(0,3) == '001') {
                 if (!s2.contains(' ')) {
@@ -56,7 +55,6 @@ global with sharing class RESTServices {
                     }
                 }
             }
-        }
 
         return result;
     }
